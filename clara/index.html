@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clara — hamz.ai</title>
+<meta name="description" content="Clara: a prototype that reads hard mail, classifies it, and explains it back in plain language with audio and deadline reminders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0F0F; --bg-raised:#161616; --ink:#F2F2F0; --ink-body:rgba(242,242,240,0.64);
+    --ink-dim:rgba(242,242,240,0.40); --accent:#2BD7AF; --line:rgba(255,255,255,0.10);
+    --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --sans:"Inter",system-ui,-apple-system,sans-serif; --max:1000px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink-body);font-family:var(--sans);font-size:16px;line-height:1.6;letter-spacing:-0.2px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:var(--accent);color:#0F0F0F;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+  h1,h2{font-family:var(--sans);color:var(--ink);font-weight:600;letter-spacing:-0.02em;}
+  h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;}
+  h2{font-size:1.05rem;font-weight:600;}
+  .label{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);}
+  .label.dim{color:var(--ink-dim);}
+  nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,15,15,0.86);backdrop-filter:blur(10px);z-index:10;}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;}
+  nav .brand{font-family:var(--mono);color:var(--ink);font-size:14px;letter-spacing:0.02em;}
+  nav .back{font-family:var(--mono);font-size:13px;color:var(--ink-dim);}
+  nav .back:hover{color:var(--accent);}
+  header{padding:clamp(56px,10vw,110px) 0 clamp(32px,5vw,54px);}
+  header .label{display:block;margin-bottom:22px;}
+  header h1{max-width:16ch;margin-bottom:24px;}
+  .lede{font-size:clamp(1.05rem,2vw,1.28rem);color:var(--ink-body);max-width:64ch;line-height:1.55;}
+  .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;}
+  .pill{font-family:var(--mono);font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-dim);border:1px solid var(--line);border-radius:2px;padding:6px 11px;}
+  section{padding:clamp(20px,4vw,40px) 0 clamp(48px,7vw,80px);}
+  .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg-raised);margin-top:14px;}
+  .shot img{display:block;width:100%;height:auto;}
+  .caption{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:34px;}
+  .caption p{color:var(--ink-body);max-width:52ch;font-size:0.98rem;margin-top:6px;}
+  .note{border-top:1px solid var(--line);margin-top:20px;padding-top:26px;color:var(--ink-body);font-size:0.98rem;max-width:64ch;}
+  .note strong{color:var(--ink);font-weight:600;}
+  footer{border-top:1px solid var(--line);padding:34px 0 60px;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);letter-spacing:0.04em;}
+  footer a:hover{color:var(--accent);}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><span class="brand">Clara</span><a class="back" href="https://www.hamz.ai/">← hamz.ai</a></div></nav>
+
+<header><div class="wrap">
+  <span class="label">Prototype / Document understanding</span>
+  <h1>Clara reads the hard mail, and explains it back.</h1>
+  <p class="lede">Clara is a prototype I built to make dense official mail readable. Government, health, and financial letters go in as a photo; Claude classifies each one, rewrites it in plain language, reads it aloud, and pulls out the deadlines and the exact steps to take. It is built for caregivers handling mail for someone else, so every screen stays calm, large, and in the reader's own language.</p>
+  <div class="meta">
+    <span class="pill">Claude classification</span>
+    <span class="pill">Plain-language rewrite</span>
+    <span class="pill">Audio playback</span>
+    <span class="pill">Deadline reminders</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <div class="caption">
+    <div><span class="label dim">01 / The letter view</span><p>The core screen: a scanned notice becomes a spoken summary, a plain-language explanation, and a numbered list of what to do next.</p></div>
+  </div>
+  <div class="shot"><img src="clara-letter.png" alt="Clara letter view: a Medicaid Renewal Notice with an audio player, a plain-language summary, and a numbered list of steps"></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="caption">
+    <div><span class="label dim">02 / Eight screens, one shared state</span><p>Profile picker, setup, upload, the letter, a filing cabinet of past mail, reminders, and account. The layout, accent, and language switches follow you across every page.</p></div>
+  </div>
+  <div class="shot"><img src="clara-overview.png" alt="Clara screen overview: profile picker, setup, upload, letter view, my letters, account, and reminders"></div>
+  <p class="note"><strong>Under the hood.</strong> A React prototype with Claude doing the classification and plain-language rewriting, browser text-to-speech for the read-aloud, and a small local store behind it. Reduced-motion and large-type friendly throughout.</p>
+</div></section>
+
+<footer><div class="wrap"><span>Clara · a hamz.ai prototype</span><a href="https://www.hamz.ai/">www.hamz.ai →</a></div></footer>
+</body>
+</html>
