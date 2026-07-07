@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designing agentic systems - hamz.ai</title>
+<meta name="description" content="A field guide to the shapes agentic systems take. When to reach for a model, when to use plain code, and how the topology of the work decides everything. Worked end to end on one call-center billing dispute.">
+<meta property="og:title" content="Designing agentic systems">
+<meta property="og:description" content="Not everything should be an LLM. A field guide to the shapes agentic systems take, worked end to end on one call.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ================================================================
+     hamz.ai - Designing agentic systems (deep dive)
+     Tokens: bg #0F0F0F, raised #161616/#1C1C1C, hairline #262626,
+     ink #F2F2F0 / #9A9A94 / #7C7C76, teal #2BD7AF.
+     Space Grotesk display, Inter body, JetBrains Mono metadata.
+     Radius 0, no shadows, depth via fill steps. Vanilla JS, no deps.
+     ================================================================ */
+  :root{
+    --bg:#0F0F0F; --raised:#161616; --hover:#1C1C1C;
+    --line:#262626; --line-strong:#333333;
+    --ink:#F2F2F0; --dim:#9A9A94; --faint:#7C7C76;
+    --teal:#2BD7AF; --teal-dim:#1A6B58; --teal-tint:rgba(43,215,175,0.08);
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:"Inter", system-ui, -apple-system, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --max:1080px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  body{
+    background:var(--bg); color:var(--dim);
+    font-family:var(--sans); font-size:17px; line-height:1.6;
+    letter-spacing:-0.01em; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--teal); color:#0F0F0F; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+  .mono{ font-family:var(--mono); }
+
+  /* ---- nav ---- */
+  nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px;
+       padding:15px 28px; background:rgba(15,15,15,0.82); backdrop-filter:blur(12px);
+       border-bottom:1px solid var(--line); }
+  nav .brand{ font-family:var(--mono); font-size:13px; color:var(--ink); }
+  nav .brand b{ color:var(--teal); font-weight:500; }
+  nav .back{ margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--dim); }
+  nav .back:hover{ color:var(--teal); }
+
+  /* ---- reading progress ---- */
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
+
+  /* ---- hero ---- */
+  .hero{ padding:96px 0 64px; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  .hero h1{ font-size:clamp(38px,7vw,76px); line-height:1.0; margin-bottom:26px; font-weight:600; }
+  .hero .lede{ font-size:clamp(19px,2.4vw,23px); color:var(--dim); max-width:44ch; line-height:1.5; }
+  .hero .meta{ margin-top:40px; font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; flex-wrap:wrap; gap:8px 20px; }
+  .hero .meta span::before{ content:"› "; color:var(--teal); }
+
+  /* ---- section scaffolding ---- */
+  section{ padding:80px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  section h2{ font-size:clamp(28px,4.4vw,44px); margin-bottom:24px; max-width:20ch; }
+  section h3{ font-size:22px; margin:0 0 12px; }
+  section p{ max-width:66ch; margin-bottom:20px; color:var(--dim); }
+  section p:last-child{ margin-bottom:0; }
+  .lead{ font-size:20px; color:var(--ink); max-width:60ch; }
+
+  /* ---- pull quote ---- */
+  .pull{ margin:44px 0; padding:4px 0 4px 28px; border-left:2px solid var(--teal);
+         font-family:var(--display); font-size:clamp(24px,3.4vw,34px); line-height:1.25;
+         color:var(--ink); font-weight:500; max-width:24ch; letter-spacing:-0.02em; }
+  .pull.wide{ max-width:32ch; }
+  .attrib{ display:block; margin-top:16px; font-family:var(--mono); font-size:12px; color:var(--faint);
+           letter-spacing:0.02em; font-weight:400; }
+
+  /* ---- reframe two-col ---- */
+  .reframe{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px; }
+  .reframe > div{ background:var(--raised); padding:28px; }
+  .reframe .tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; }
+  .reframe .a .tag{ color:var(--faint); }
+  .reframe .b .tag{ color:var(--teal); }
+  .reframe h4{ font-size:18px; margin-bottom:8px; }
+  .reframe p{ font-size:15px; margin:0; }
+  @media (max-width:720px){ .reframe{ grid-template-columns:1fr; } }
+
+  /* ================= STEPPER (billing dispute) ================= */
+  .stepper{ margin-top:36px; border:1px solid var(--line); background:var(--raised); }
+  .stepper-head{ padding:20px 24px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--faint); letter-spacing:0.04em; }
+  .stepper-head b{ color:var(--ink); font-weight:500; }
+  .steps{ display:flex; border-bottom:1px solid var(--line); }
+  .step{ flex:1; padding:18px 14px; background:none; border:none; border-right:1px solid var(--line); cursor:pointer;
+         text-align:left; color:var(--dim); font-family:inherit; transition:background .18s, color .18s; position:relative; }
+  .step:last-child{ border-right:none; }
+  .step:hover{ background:var(--hover); }
+  .step .sn{ font-family:var(--mono); font-size:11px; color:var(--faint); display:block; margin-bottom:8px; }
+  .step .st{ font-size:14px; color:var(--ink); font-weight:500; font-family:var(--display); line-height:1.15; }
+  .step .flag{ display:none; margin-top:8px; font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); }
+  .step.judgment .flag{ display:block; }
+  .step[aria-selected="true"]{ background:var(--hover); }
+  .step[aria-selected="true"]::after{ content:""; position:absolute; left:0; bottom:-1px; height:2px; width:100%; background:var(--teal); }
+  .step[aria-selected="true"] .sn{ color:var(--teal); }
+  .step-detail{ padding:26px 24px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); }
+  .step-detail > div{ background:var(--raised); padding:18px 20px; }
+  .step-detail .k{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); margin-bottom:10px; }
+  .step-detail .v{ font-size:15px; color:var(--dim); }
+  .step-note{ padding:0 24px 22px; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .step-note.on{ color:var(--teal); }
+  @media (max-width:720px){
+    .steps{ flex-wrap:wrap; }
+    .step{ flex:1 1 40%; border-bottom:1px solid var(--line); }
+    .step-detail{ grid-template-columns:1fr; }
+  }
+
+  /* ================= VOICE STACK ================= */
+  .vstack{ margin-top:36px; display:grid; grid-template-columns:1fr 260px; gap:28px; align-items:start; }
+  .vlayers{ border:1px solid var(--line); }
+  .vlayer{ display:flex; align-items:center; gap:16px; padding:18px 20px; border-bottom:1px solid var(--line);
+           background:var(--raised); cursor:default; transition:background .18s; position:relative; }
+  .vlayer:last-child{ border-bottom:none; }
+  .vlayer:hover{ background:var(--hover); }
+  .vlayer .kind{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint);
+                 width:96px; flex-shrink:0; }
+  .vlayer .name{ font-size:15px; color:var(--ink); font-weight:500; font-family:var(--display); }
+  .vlayer.code .kind{ color:var(--dim); }
+  .vlayer.model .kind{ color:var(--dim); }
+  .vlayer.llm{ background:var(--teal-tint); }
+  .vlayer.llm .kind{ color:var(--teal); }
+  .vlayer.llm .name{ color:var(--teal); }
+  .vlayer.llm::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--teal); }
+  .vlayer.dim{ opacity:0.35; }
+  .vlayer .desc{ margin-left:auto; font-size:12px; color:var(--faint); font-family:var(--mono); text-align:right; max-width:40%; }
+  .vaside{ position:sticky; top:80px; font-size:15px; }
+  .vaside .cap{ font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:0.04em; margin-bottom:14px; }
+  .vaside p{ font-size:14px; color:var(--dim); margin-bottom:14px; }
+  @media (max-width:820px){ .vstack{ grid-template-columns:1fr; } .vaside{ position:static; } }
+
+  /* ================= TOPOLOGY CARDS ================= */
+  .topo-grid{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .topo{ background:var(--raised); padding:24px; transition:background .18s; scroll-margin-top:80px; }
+  .topo:hover{ background:var(--hover); }
+  .topo.hot{ background:var(--hover); box-shadow:inset 0 0 0 1px var(--teal); }
+  .topo .tname{ font-size:19px; margin-bottom:4px; }
+  .topo .tsub{ font-family:var(--mono); font-size:11px; color:var(--faint); margin-bottom:16px; letter-spacing:0.02em; }
+  .topo .svg-wrap{ height:74px; margin-bottom:18px; display:flex; align-items:center; }
+  .topo svg{ overflow:visible; }
+  .gauges{ display:grid; grid-template-columns:1fr 1fr; gap:10px 18px; margin-bottom:16px; }
+  .gauge .gl{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); margin-bottom:5px; }
+  .gauge .gbar{ height:4px; background:#0D0D0D; border:1px solid var(--line); position:relative; }
+  .gauge .gfill{ position:absolute; left:0; top:0; bottom:0; background:var(--teal); }
+  .topo .pro,.topo .con{ font-size:13px; color:var(--dim); margin-bottom:6px; }
+  .topo .pro b{ color:var(--teal); font-weight:500; }
+  .topo .con b{ color:var(--faint); font-weight:500; }
+  .topo .inst{ margin-top:14px; padding-top:14px; border-top:1px solid var(--line); font-size:13px; color:var(--faint); }
+  .topo .inst b{ color:var(--dim); font-weight:500; }
+
+  /* ---- decision widget ---- */
+  .decider{ margin-top:32px; border:1px solid var(--line); background:var(--raised); padding:24px; }
+  .decider .dh{ font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal); margin-bottom:18px; }
+  .drow{ display:flex; flex-wrap:wrap; gap:24px; align-items:flex-end; }
+  .dfield{ display:flex; flex-direction:column; gap:8px; }
+  .dfield label{ font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:0.04em; text-transform:uppercase; }
+  .dtoggle{ display:flex; border:1px solid var(--line); }
+  .dtoggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--dim); font-family:var(--mono);
+                   font-size:12px; padding:8px 14px; cursor:pointer; transition:background .15s, color .15s; }
+  .dtoggle button:last-child{ border-right:none; }
+  .dtoggle button[aria-pressed="true"]{ background:var(--teal); color:#0F0F0F; }
+  .dresult{ margin-top:22px; padding-top:20px; border-top:1px solid var(--line); font-size:15px; color:var(--dim); }
+  .dresult b{ color:var(--teal); font-weight:500; }
+  @media (max-width:600px){ .drow{ gap:16px; } }
+
+  /* ================= CACHE TOGGLE ================= */
+  .cache{ margin-top:36px; }
+  .cache-cols{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .cache-cols > div{ background:var(--raised); padding:24px; }
+  .cache-cols .ch{ font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px; }
+  .cache-cols .cached .ch{ color:var(--teal); }
+  .cache-cols .fresh .ch{ color:var(--dim); }
+  .cache-cols ul{ list-style:none; }
+  .cache-cols li{ padding:9px 0 9px 20px; position:relative; font-size:14px; color:var(--dim); border-bottom:1px solid var(--line); }
+  .cache-cols li:last-child{ border-bottom:none; }
+  .cache-cols .cached li::before{ content:"↻"; position:absolute; left:0; color:var(--teal); font-family:var(--mono); }
+  .cache-cols .fresh li::before{ content:"•"; position:absolute; left:2px; color:var(--faint); }
+  @media (max-width:640px){ .cache-cols{ grid-template-columns:1fr; } }
+
+  /* ================= PRIVACY WALL ================= */
+  .wall{ margin-top:36px; border:1px solid var(--line); background:var(--raised); padding:32px 24px; }
+  .wall-diagram{ display:flex; align-items:stretch; gap:0; min-height:150px; }
+  .wall-zone{ flex:1; padding:20px; display:flex; flex-direction:column; gap:12px; justify-content:center; transition:background .2s; }
+  .wall-zone .zh{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); }
+  .wall-node{ border:1px solid var(--line-strong); padding:12px 14px; font-size:14px; color:var(--ink); background:#0D0D0D; }
+  .wall-gate{ width:2px; background:var(--teal); position:relative; flex-shrink:0; margin:0 24px; }
+  .wall-gate::after{ content:"GATE"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-90deg);
+                     font-family:var(--mono); font-size:10px; letter-spacing:0.2em; color:var(--teal); white-space:nowrap; background:var(--raised); padding:6px 0; }
+  .wall-zone.outside:hover{ background:rgba(255,255,255,0.02); }
+  .wall-zone.inside{ background:var(--teal-tint); }
+  .wall-cap{ margin-top:24px; font-family:var(--mono); font-size:13px; color:var(--faint); text-align:center; transition:color .2s; }
+  .wall.reveal .wall-cap{ color:var(--teal); }
+  @media (max-width:640px){ .wall-diagram{ flex-direction:column; } .wall-gate{ width:auto; height:2px; margin:20px 0; }
+    .wall-gate::after{ transform:translate(-50%,-50%) rotate(0); } }
+
+  /* ---- generic two-col diagram row ---- */
+  .duo{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:32px; }
+  .duo > div{ background:var(--raised); padding:26px; }
+  .duo .dt{ font-family:var(--display); font-size:18px; color:var(--ink); margin-bottom:10px; font-weight:500; }
+  .duo p{ font-size:14px; margin:0; }
+  @media (max-width:640px){ .duo{ grid-template-columns:1fr; } }
+
+  /* ---- stat cards ---- */
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:32px; }
+  .stat{ background:var(--raised); padding:24px 20px; }
+  .stat .sv{ font-family:var(--display); font-size:34px; color:var(--teal); font-weight:600; line-height:1; margin-bottom:10px; letter-spacing:-0.03em; }
+  .stat .sl{ font-family:var(--mono); font-size:11px; color:var(--faint); line-height:1.5; letter-spacing:0.02em; }
+
+  /* ---- callout / honesty note ---- */
+  .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--teal); background:var(--raised); padding:24px 26px; }
+  .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+  .callout p{ font-size:15px; margin-bottom:14px; }
+
+  /* ---- constraints grid ---- */
+  .constraints{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:32px; }
+  .constraint{ background:var(--raised); padding:24px; }
+  .constraint .cn{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-bottom:10px; }
+  .constraint h4{ font-size:17px; margin-bottom:8px; }
+  .constraint p{ font-size:14px; margin:0; }
+  @media (max-width:640px){ .constraints{ grid-template-columns:1fr; } }
+
+  /* ---- composition closer ---- */
+  .compose{ margin-top:36px; border:1px solid var(--line); background:var(--raised); padding:28px 26px; }
+  .compose ol{ list-style:none; counter-reset:c; }
+  .compose li{ counter-increment:c; padding:14px 0 14px 44px; position:relative; border-bottom:1px solid var(--line); font-size:15px; color:var(--dim); }
+  .compose li:last-child{ border-bottom:none; }
+  .compose li::before{ content:counter(c,decimal-leading-zero); position:absolute; left:0; top:15px; font-family:var(--mono); font-size:12px; color:var(--teal); }
+  .compose li b{ color:var(--ink); font-weight:500; }
+
+  /* ---- final CTA ---- */
+  .final{ padding:96px 0; text-align:center; border-bottom:none; }
+  .final h2{ font-size:clamp(28px,5vw,52px); max-width:18ch; margin:0 auto 16px; }
+  .final .fq{ font-family:var(--display); font-size:clamp(22px,3vw,30px); color:var(--teal); font-weight:500; max-width:24ch; margin:0 auto 40px; line-height:1.2; }
+  .cta{ display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:14px; color:#0F0F0F;
+        background:var(--teal); padding:14px 24px; transition:opacity .15s; }
+  .cta:hover{ opacity:0.88; }
+  footer{ padding:40px 0 64px; text-align:center; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  footer a{ color:var(--dim); }
+  footer a:hover{ color:var(--teal); }
+
+  /* reveal on scroll */
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){ .rv{ opacity:1; transform:none; transition:none; } }
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<div id="progress"></div>
+<nav>
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="back" href="https://www.hamz.ai">← back to hamz.ai</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow">A field guide / agentic systems</div>
+    <h1>Designing<br>agentic systems</h1>
+    <p class="lede">Most teams meet agentic AI as something to bolt onto the process they already run. The bigger move is to redesign the shape of the work around what agents are good at. That is where the gains compound.</p>
+    <div class="meta">
+      <span>Worked end to end on one call</span>
+      <span>Adapted from a course I co-developed at MIT</span>
+      <span>By Hamza Malik</span>
+    </div>
+  </header>
+
+  <!-- 1. THESIS -->
+  <section id="thesis">
+    <div class="sec-eyebrow"><span class="num">01</span>The reframe</div>
+    <h2>Not everything should be an LLM</h2>
+    <p class="lead">A leader owns a call center and knows it cold. He goes to a summit on agentic AI and comes home looking at his operation with new eyes. The reflex is to automate the workflow he already has, a faster version of today. That is the smaller prize.</p>
+    <p>The larger move is to redesign how the work is structured. Before any of that, one thing has to be true: you have to know which parts of the work actually need a model, and which parts are plain code wearing a costume.</p>
+    <div class="reframe rv">
+      <div class="a">
+        <div class="tag">The reflex</div>
+        <h4>Automate what he already has</h4>
+        <p>Point a model at the current process. Faster, cheaper, familiar. The wins are real but they cap out fast, because the shape of the work never changed.</p>
+      </div>
+      <div class="b">
+        <div class="tag">The reframe</div>
+        <h4>Redesign the shape of the work</h4>
+        <p>Ask what agents are actually good at, then restructure around it. Harder, and where the compounding gains live. The rest of this guide is how you make that call.</p>
+      </div>
+    </div>
+    <div class="pull wide rv">Put the model exactly where judgment is needed, and use plain code everywhere else.</div>
+  </section>
+
+  <!-- 2. THE CALL (stepper) -->
+  <section id="call">
+    <div class="sec-eyebrow"><span class="num">02</span>The running example</div>
+    <h2>One call, five steps</h2>
+    <p>Every idea in this guide acts on a single inbound call. A customer says they were charged twice and wants it back. Break that one dispute into the steps it really takes, and the design questions mostly answer themselves. The steps and their order tell you how many agents you need and what blocks what.</p>
+    <p>Tap a step. Two of them run on judgment instead of a rule. Those are the ones a person keeps a hand on.</p>
+
+    <div class="stepper rv" id="stepper">
+      <div class="stepper-head">CASE <b>&ldquo;I was charged twice and I want it back&rdquo;</b> · billing dispute</div>
+      <div class="steps" role="tablist" aria-label="Billing dispute steps">
+        <button class="step" role="tab" aria-selected="true" data-step="0">
+          <span class="sn">STEP 01</span><span class="st">Verify the caller</span><span class="flag">Judgment</span>
+        </button>
+        <button class="step" role="tab" aria-selected="false" data-step="1">
+          <span class="sn">STEP 02</span><span class="st">Pull the charges</span><span class="flag">Judgment</span>
+        </button>
+        <button class="step judgment" role="tab" aria-selected="false" data-step="2">
+          <span class="sn">STEP 03</span><span class="st">Judge the dispute</span><span class="flag">Judgment</span>
+        </button>
+        <button class="step judgment" role="tab" aria-selected="false" data-step="3">
+          <span class="sn">STEP 04</span><span class="st">Size the refund</span><span class="flag">Judgment</span>
+        </button>
+        <button class="step" role="tab" aria-selected="false" data-step="4">
+          <span class="sn">STEP 05</span><span class="st">Execute and confirm</span><span class="flag">Judgment</span>
+        </button>
+      </div>
+      <div class="step-detail">
+        <div><div class="k">What it must know</div><div class="v" id="sd-know"></div></div>
+        <div><div class="k">What it touches</div><div class="v" id="sd-touch"></div></div>
+      </div>
+      <div class="step-note" id="sd-note"></div>
+    </div>
+    <div class="pull rv">The two steps that run on reasoning instead of a rule are the ones a person keeps a hand on.</div>
+  </section>
+
+  <!-- 3. LLM vs code vs a call -->
+  <section id="stack">
+    <div class="sec-eyebrow"><span class="num">03</span>What is actually a model</div>
+    <h2>A call is a stack, and most of it is not an LLM</h2>
+    <p>A call is a stack of different parts, and only some of them are the reasoning model. The caller's voice becomes text through a speech-to-text model. The reply becomes voice through a text-to-speech model. Neither of those is the LLM. Verifying the caller is a database lookup. Posting the refund is an API call. None of that is an LLM either.</p>
+    <p>Hover each layer. Only one of them reasons.</p>
+
+    <div class="vstack rv">
+      <div class="vlayers" id="vlayers">
+        <div class="vlayer model" data-v="0"><span class="kind">Input</span><span class="name">Caller audio</span><span class="desc">the raw voice</span></div>
+        <div class="vlayer model" data-v="1"><span class="kind">Model</span><span class="name">Speech to text</span><span class="desc">specialized model, not an LLM</span></div>
+        <div class="vlayer code" data-v="2"><span class="kind">Code</span><span class="name">Lookups and actions</span><span class="desc">verify, read balance, post refund</span></div>
+        <div class="vlayer llm" data-v="3"><span class="kind">LLM</span><span class="name">The reasoning: triage, judge, decide</span><span class="desc">this is the model</span></div>
+        <div class="vlayer model" data-v="4"><span class="kind">Model</span><span class="name">Text to speech</span><span class="desc">a model, or a person</span></div>
+      </div>
+      <aside class="vaside" id="vaside">
+        <div class="cap">Only the teal box is an LLM.</div>
+        <p>Reaching for an LLM to look up a balance or play a hold message is the same mistake as spawning fifty agents for a one-line question.</p>
+        <p>Everything in the rest of this guide lives inside that one teal box.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 4. TOPOLOGIES -->
+  <section id="topologies">
+    <div class="sec-eyebrow"><span class="num">04</span>The shapes</div>
+    <h2>Five common shapes, and what each one costs</h2>
+    <p>There is no settled vocabulary here. Microsoft ships five orchestration patterns, OpenAI splits the work into a manager pattern and handoffs, LangChain renamed its own set between 2024 and 2026. So this guide uses plain words on purpose. These are five common shapes from a much larger set. Each one is scored on the same four gauges: how long the caller waits, how many tokens a run burns, how much gets checked before anything commits, and how contained the data stays.</p>
+
+    <div class="topo-grid rv" id="topoGrid">
+      <!-- cards injected/annotated; static content below -->
+      <div class="topo" id="topo-hub" data-topo="hub">
+        <div class="tname">Hub and spoke</div>
+        <div class="tsub">orchestrator + narrow workers</div>
+        <div class="svg-wrap" data-svg="hub"></div>
+        <div class="gauges" data-gauges="4,3,1,2"></div>
+        <div class="pro"><b>+</b> Fast, parallel dispatch.</div>
+        <div class="con"><b>−</b> Nothing checks the workers, so one wrong answer can pass straight through.</div>
+        <div class="inst"><b>On the call:</b> a coordinator fires the balance lookup, the account agent, and the knowledge agent at once. The shape Anthropic used for its research product.</div>
+      </div>
+      <div class="topo" id="topo-pyramid" data-topo="pyramid">
+        <div class="tname">Pyramid</div>
+        <div class="tsub">hierarchical, with review</div>
+        <div class="svg-wrap" data-svg="pyramid"></div>
+        <div class="gauges" data-gauges="1,1,4,3"></div>
+        <div class="pro"><b>+</b> Catches mistakes before they commit.</div>
+        <div class="con"><b>−</b> Slow and costly. A reviewer sits above the base and a final agent signs off.</div>
+        <div class="inst"><b>On the call:</b> base agents pull amount, policy, and history, a reviewer checks, a final agent signs off before money moves.</div>
+      </div>
+      <div class="topo" id="topo-pipeline" data-topo="pipeline">
+        <div class="tname">Pipeline</div>
+        <div class="tsub">sequential assembly line</div>
+        <div class="svg-wrap" data-svg="pipeline"></div>
+        <div class="gauges" data-gauges="2,2,3,3"></div>
+        <div class="pro"><b>+</b> Predictable and the easiest shape to audit. Every handoff is a clean gate.</div>
+        <div class="con"><b>−</b> Slow, and the whole chain stalls if any one step jams.</div>
+        <div class="inst"><b>On the call:</b> the after-call wrap-up. Transcript to summary to disposition code to follow-up task.</div>
+      </div>
+      <div class="topo" id="topo-parallel" data-topo="parallel">
+        <div class="tname">Parallel</div>
+        <div class="tsub">concurrent, independent</div>
+        <div class="svg-wrap" data-svg="parallel"></div>
+        <div class="gauges" data-gauges="4,3,1,2"></div>
+        <div class="pro"><b>+</b> The fastest shape. The whole bet is independence.</div>
+        <div class="con"><b>−</b> Turns dangerous when the branches secretly do depend, and you reconcile mismatched results.</div>
+        <div class="inst"><b>On the call:</b> identity lookup, sentiment, and intent classification the instant a call lands.</div>
+      </div>
+      <div class="topo" id="topo-mesh" data-topo="mesh">
+        <div class="tname">Mesh</div>
+        <div class="tsub">peer to peer, no boss</div>
+        <div class="svg-wrap" data-svg="mesh"></div>
+        <div class="gauges" data-gauges="3,4,2,1"></div>
+        <div class="pro"><b>+</b> Flexible. Bounded, it is a capped group chat of about three agents.</div>
+        <div class="con"><b>−</b> Hard to govern, which is why you keep a supervisor watching. Use rarely.</div>
+        <div class="inst"><b>On the call:</b> a fraud agent and a save-the-customer agent negotiating a retention offer.</div>
+      </div>
+    </div>
+
+    <div class="decider rv" id="decider">
+      <div class="dh">Which shape fits this call?</div>
+      <div class="drow">
+        <div class="dfield">
+          <label>Stakes</label>
+          <div class="dtoggle" data-group="stakes">
+            <button data-val="low" aria-pressed="true">Low</button>
+            <button data-val="high" aria-pressed="false">Money or trust</button>
+          </div>
+        </div>
+        <div class="dfield">
+          <label>Latency</label>
+          <div class="dtoggle" data-group="latency">
+            <button data-val="realtime" aria-pressed="true">Live call</button>
+            <button data-val="async" aria-pressed="false">Async</button>
+          </div>
+        </div>
+        <div class="dfield">
+          <label>Dependency</label>
+          <div class="dtoggle" data-group="dependency">
+            <button data-val="independent" aria-pressed="true">Independent</button>
+            <button data-val="sequential" aria-pressed="false">Sequential</button>
+          </div>
+        </div>
+      </div>
+      <div class="dresult" id="dresult"></div>
+    </div>
+  </section>
+
+  <!-- 5. COST / CACHE -->
+  <section id="cost">
+    <div class="sec-eyebrow"><span class="num">05</span>Cost, speed, rigor</div>
+    <h2>The reviewer is cheaper than it looks</h2>
+    <p>A lot of what an agent reads is identical on every single call. The refund policy does not change between callers. The product catalog is the same at 9am and 9pm. Caching means you process that stable context once and reuse it, instead of paying to reread it every time.</p>
+    <p>A rep does not relearn the refund policy on every call. It is in the binder on the desk. Caching is that binder. Toggle below to see what stays in the binder and what has to be read fresh for each caller.</p>
+
+    <div class="cache rv">
+      <div class="cache-cols">
+        <div class="cached">
+          <div class="ch">↻ Cached · the binder</div>
+          <ul>
+            <li>Refund and billing policy</li>
+            <li>Product catalog</li>
+            <li>Knowledge base articles</li>
+            <li>System instructions and tools</li>
+          </ul>
+        </div>
+        <div class="fresh">
+          <div class="ch">• Fresh · per caller</div>
+          <ul>
+            <li>This caller's account</li>
+            <li>The live conversation</li>
+            <li>Today's order status</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:28px">The pyramid looks expensive until you remember the policy its reviewer checks against is cached. Caching does not change which shape you pick, only what it costs to run.</p>
+  </section>
+
+  <!-- 6. CONTAINMENT -->
+  <section id="containment">
+    <div class="sec-eyebrow"><span class="num">06</span>Containment</div>
+    <h2>A privacy wall, not a third org chart</h2>
+    <p>One agent is the only thing that ever speaks to the customer, and it is deliberately starved of sensitive context. A second agent holds the full picture inside and passes outward only what is safe to say. The external agent cannot leak what it never held. If you handle data-residency rules or health records, this is the feature you want.</p>
+
+    <div class="wall rv" id="wall">
+      <div class="wall-diagram">
+        <div class="wall-zone outside">
+          <div class="zh">Outside the wall</div>
+          <div class="wall-node">Customer</div>
+          <div class="wall-node">External agent · starved of context</div>
+        </div>
+        <div class="wall-gate"></div>
+        <div class="wall-zone inside">
+          <div class="zh">Inside the wall</div>
+          <div class="wall-node">Internal agent · holds the full picture</div>
+          <div class="wall-node">Systems of record</div>
+        </div>
+      </div>
+      <div class="wall-cap">Requests cross in. Only cleared answers cross out.</div>
+    </div>
+  </section>
+
+  <!-- 7. ESCALATION + APPROVAL -->
+  <section id="escalation">
+    <div class="sec-eyebrow"><span class="num">07</span>Escalation and approval</div>
+    <h2>Gate only the writes that matter</h2>
+    <p>A human sits at a checkpoint. Before a high-stakes action commits, a refund over a limit, an account closed, it pauses for a person to approve, edit, or reject. It is the cheapest insurance on the actions that sit on the far side of the read/write line. Reading an account is low risk. Changing it is not. Risk piles up the moment an agent can write to a system of record.</p>
+
+    <div class="duo rv">
+      <div>
+        <div class="dt">Human in the loop</div>
+        <p>The person is the orchestrator, the way a head chef calls the line. Nothing moves without them. Best when a mistake is costly and each decision needs a human hand.</p>
+      </div>
+      <div>
+        <div class="dt">Human on the loop</div>
+        <p>The person supervises an autonomous orchestrator, keeping control of objectives and oversight rather than of each step. More reach, but you carry the accountability harder.</p>
+      </div>
+    </div>
+
+    <div class="callout rv">
+      <div class="ct">The rule</div>
+      <p>A refund over $500 pauses for a rep. A refund under the limit posts on its own. The escalation specialist is the only agent that holds the authority to offer a refund or a retention credit, so the routine agents never default to giving money away.</p>
+      <p style="margin-bottom:0"><strong>Nobody approves a balance lookup.</strong></p>
+    </div>
+  </section>
+
+  <!-- 8. ADVERSARIAL REVIEW -->
+  <section id="review">
+    <div class="sec-eyebrow"><span class="num">08</span>Adversarial review</div>
+    <h2>A checker you can bolt onto any shape</h2>
+    <p>One agent does the work and a second agent checks it. The checker has no job except to find what is wrong. It is often the same model run again with fresh instructions and no memory of the first draft, so it has nothing to defend. It catches mistakes the first agent talked itself into.</p>
+    <p>Reach for it when you need to trust what the agent did, anything that moves money or goes out under your name. Skip it on a password reset.</p>
+    <div class="callout rv">
+      <div class="ct">In the field</div>
+      <p style="margin-bottom:0">At Casper, Sierra runs supervisors that review each response in parallel and escalate to a human when needed. The deployment resolved 74% of inquiries and lifted CSAT by 20 points. The checker is the mechanism, not the marketing.</p>
+    </div>
+  </section>
+
+  <!-- 9. WHY MORE AGENTS (evidence) -->
+  <section id="evidence">
+    <div class="sec-eyebrow"><span class="num">09</span>The evidence, and its edges</div>
+    <h2>More agents win, until they do not</h2>
+    <p>When Anthropic rebuilt its research product as a lead agent coordinating several specialists in parallel, it scored far higher than a single agent, and paid for that gain with far more tokens. The pattern is real, and so is the boundary.</p>
+    <div class="stats rv">
+      <div class="stat"><div class="sv">90.2%</div><div class="sl">higher score than a single agent on Anthropic's research eval</div></div>
+      <div class="stat"><div class="sv">~15×</div><div class="sl">the tokens of a single chat to buy that gain</div></div>
+      <div class="stat"><div class="sv">80.9%</div><div class="sl">gain for multi-agent on independent-part tasks (Google Research, 2026)</div></div>
+      <div class="stat"><div class="sv">17.2×</div><div class="sl">error amplification without an orchestrator, versus 4.4× with one</div></div>
+    </div>
+    <p style="margin-top:28px">The edge is dependency. Domains that need every agent to share the same context, or that carry many sequential dependencies, are not a good fit for multi-agent systems today. Google's numbers show the same shape degrading 39 to 70 percent on sequential tasks. Cognition makes the counter-case outright in <em>Don't Build Multi-Agents</em>: context fragments, decisions disperse, and coding is the clearest place it breaks.</p>
+  </section>
+
+  <!-- 10. REGULATION FIT -->
+  <section id="constraints">
+    <div class="sec-eyebrow"><span class="num">10</span>What this guide sets aside</div>
+    <h2>Four real constraints, named on purpose</h2>
+    <p>The shapes above are the design vocabulary. Four things sit outside it and decide, in practice, which shapes you can actually reach.</p>
+    <div class="constraints rv">
+      <div class="constraint">
+        <div class="cn">01</div>
+        <h4>Live-call latency</h4>
+        <p>A pyramid review is realistically a post-call or asynchronous pattern. You do not make a caller wait on a chain of reviewers.</p>
+      </div>
+      <div class="constraint">
+        <div class="cn">02</div>
+        <h4>Compliance in regulated settings</h4>
+        <p>Call-recording consent, PCI scope for anything that touches card data, and dispute-handling rules are design inputs, not afterthoughts. In a regulated center they decide where the wall goes and which agent is allowed to write.</p>
+      </div>
+      <div class="constraint">
+        <div class="cn">03</div>
+        <h4>Vendor platform versus greenfield</h4>
+        <p>The platform you are already on constrains which shapes are actually reachable. Ambition meets the tooling you have.</p>
+      </div>
+      <div class="constraint">
+        <div class="cn">04</div>
+        <h4>The workforce transition</h4>
+        <p>The reps' work concentrates rather than disappears. The dull, dirty, and dangerous leaves. The judgment and the accountability stay with a person.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. EVALS HONESTY -->
+  <section id="evals">
+    <div class="sec-eyebrow"><span class="num">11</span>Reading the numbers</div>
+    <h2>Ask what the metric means before you believe it</h2>
+    <p>Deflection and resolution are not standardized terms. Every vendor defines them differently, so ask for the definition before you accept the number. A system that deflects a call by frustrating the caller into hanging up scores the same as one that actually solved the problem.</p>
+    <div class="callout rv">
+      <div class="ct">The cautionary arc</div>
+      <p>Klarna's assistant launched loud: 2.3 million conversations, resolution time from 11 minutes to under 2. Then in May 2025 came the reversal. Cost had been made too dominant a factor, quality slipped, and the company began rehiring humans.</p>
+      <p style="margin-bottom:0">Citi took the other road. Its Agent Assist is a human-in-the-loop copilot across more than 5,000 reps and 11 million card calls, run on the stated principle that they cannot afford anything going wrong with any interaction.</p>
+    </div>
+  </section>
+
+  <!-- CLOSER: composition -->
+  <section id="compose">
+    <div class="sec-eyebrow"><span class="num">12</span>Putting it together</div>
+    <h2>The shapes nest</h2>
+    <p>A system does not have to take one shape. On the same billing-dispute call, the shapes compose. You do not pick just one.</p>
+    <div class="compose rv">
+      <ol>
+        <li>A <b>privacy wall</b> sits on the outside, so the customer-facing agent never holds sensitive context.</li>
+        <li>Inside, <b>parallel</b> branches run the moment the call lands: identity, sentiment, intent.</li>
+        <li><b>Hub and spoke</b> gathers the account details across systems.</li>
+        <li>A <b>pyramid</b> gives the money back, because real funds move and someone has to sign off.</li>
+        <li>A <b>pipeline</b> handles the after-call wrap-up, from transcript to disposition to follow-up.</li>
+      </ol>
+    </div>
+    <p style="margin-top:28px">These shapes are not exotic. They are how your organization already works: the delegating manager, the firm with layers of review, the front office and back office, the standard operating procedure, the task force. Galbraith read structure as information processing, Mintzberg cataloged the shapes, and equifinality says different designs can reach the same end. There is rarely one best structure.</p>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final">
+    <div class="fq">There is no best shape. There is only the right shape for this call.</div>
+    <a class="cta" href="https://www.hamz.ai">See how I build these systems →</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>hamz.ai · Hamza Malik · <a href="https://www.hamz.ai">www.hamz.ai</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- reading progress ---- */
+  var bar = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = max > 0 ? (h.scrollTop / max * 100) + '%' : '0%';
+  }
+  window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+  /* ---- reveal on scroll ---- */
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:0.12 });
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+
+  /* ================= STEPPER ================= */
+  var STEP_DATA = [
+    { know:"Which identity check is required for this account tier.", touch:"Identity system, CRM.", judgment:false,
+      note:"A rule. The check either passes or it does not." },
+    { know:"Where transactions live and how to read a statement.", touch:"Billing, transaction history.", judgment:false,
+      note:"Plain code. A lookup against the billing system." },
+    { know:"What counts as a true duplicate versus a valid repeat charge.", touch:"Transaction history, policy.", judgment:true,
+      note:"Judgment. This runs on reasoning, not a rule. A person keeps a hand on it." },
+    { know:"Eligibility, the amount owed, and the escalation point.", touch:"Policy, account, authority limits.", judgment:true,
+      note:"Judgment. This runs on reasoning, not a rule. A person keeps a hand on it." },
+    { know:"How to post a refund and what to tell the caller.", touch:"Refund ledger, CRM, messaging.", judgment:false,
+      note:"An API call, gated behind approval if the amount is over the limit." }
+  ];
+  var stepBtns = Array.prototype.slice.call(document.querySelectorAll('#stepper .step'));
+  var sdKnow = document.getElementById('sd-know');
+  var sdTouch = document.getElementById('sd-touch');
+  var sdNote = document.getElementById('sd-note');
+  function selectStep(i){
+    stepBtns.forEach(function(b,j){ b.setAttribute('aria-selected', j===i ? 'true':'false'); });
+    var d = STEP_DATA[i];
+    sdKnow.textContent = d.know;
+    sdTouch.textContent = d.touch;
+    sdNote.textContent = d.note;
+    sdNote.classList.toggle('on', d.judgment);
+  }
+  stepBtns.forEach(function(b){
+    b.addEventListener('click', function(){ selectStep(parseInt(b.dataset.step,10)); });
+    b.addEventListener('mouseenter', function(){ selectStep(parseInt(b.dataset.step,10)); });
+  });
+  selectStep(0);
+
+  /* ================= VOICE STACK ================= */
+  var vlayers = Array.prototype.slice.call(document.querySelectorAll('#vlayers .vlayer'));
+  vlayers.forEach(function(l){
+    l.addEventListener('mouseenter', function(){
+      vlayers.forEach(function(o){ o.classList.toggle('dim', o !== l); });
+    });
+    l.addEventListener('mouseleave', function(){
+      vlayers.forEach(function(o){ o.classList.remove('dim'); });
+    });
+  });
+
+  /* ================= TOPOLOGY SVGS + GAUGES ================= */
+  var C = { line:'#333333', teal:'#2BD7AF', fill:'#0D0D0D', dim:'#7C7C76' };
+  function node(x,y,r,accent){ return '<circle cx="'+x+'" cy="'+y+'" r="'+(r||9)+'" fill="'+C.fill+'" stroke="'+(accent?C.teal:C.line)+'" stroke-width="1.2"/>'; }
+  function link(x1,y1,x2,y2){ return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+C.line+'" stroke-width="1"/>'; }
+  var SVGS = {
+    hub: function(){ var s='<svg width="150" height="70" viewBox="0 0 150 70">';
+      var cx=75,cy=35, xs=[20,50,100,130];
+      xs.forEach(function(x){ s+=link(cx,cy,x, x<75?12:58); });
+      xs.forEach(function(x){ s+=node(x, x<75?12:58, 8); });
+      s+=node(cx,cy,11,true); s+='</svg>'; return s; },
+    pyramid: function(){ var s='<svg width="150" height="70" viewBox="0 0 150 70">';
+      s+=link(75,14,45,40)+link(75,14,105,40)+link(45,40,30,64)+link(45,40,60,64)+link(105,40,90,64)+link(105,40,120,64);
+      s+=node(75,14,10,true)+node(45,40,8,true)+node(105,40,8,true)+node(30,64,7)+node(60,64,7)+node(90,64,7)+node(120,64,7);
+      s+='</svg>'; return s; },
+    pipeline: function(){ var s='<svg width="150" height="70" viewBox="0 0 150 70">';
+      var xs=[18,54,96,132];
+      for(var i=0;i<xs.length-1;i++){ s+='<line x1="'+(xs[i]+9)+'" y1="35" x2="'+(xs[i+1]-9)+'" y2="35" stroke="'+C.teal+'" stroke-width="1"/>'; }
+      xs.forEach(function(x,i){ s+=node(x,35,9, i===0||i===xs.length-1); });
+      s+='</svg>'; return s; },
+    parallel: function(){ var s='<svg width="150" height="70" viewBox="0 0 150 70">';
+      var ys=[14,35,56]; ys.forEach(function(y){ s+='<line x1="20" y1="'+y+'" x2="55" y2="'+y+'" stroke="'+C.line+'" stroke-width="1"/>'; s+=node(15,y,7)+node(62,y,9,true); });
+      s+='</svg>'; return s; },
+    mesh: function(){ var s='<svg width="150" height="70" viewBox="0 0 150 70">';
+      var p=[[40,18],[110,18],[75,58]];
+      s+=link(p[0][0],p[0][1],p[1][0],p[1][1])+link(p[1][0],p[1][1],p[2][0],p[2][1])+link(p[0][0],p[0][1],p[2][0],p[2][1]);
+      p.forEach(function(q){ s+=node(q[0],q[1],9,true); });
+      s+='</svg>'; return s; }
+  };
+  document.querySelectorAll('[data-svg]').forEach(function(el){ var k=el.dataset.svg; if(SVGS[k]) el.innerHTML = SVGS[k](); });
+
+  var GLABEL = ['Speed','Cost','Rigor','Contain'];
+  document.querySelectorAll('[data-gauges]').forEach(function(el){
+    var vals = el.dataset.gauges.split(',').map(Number);
+    var html='';
+    vals.forEach(function(v,i){
+      html += '<div class="gauge"><div class="gl"><span>'+GLABEL[i]+'</span></div>'
+           +  '<div class="gbar"><div class="gfill" style="width:'+(v/4*100)+'%"></div></div></div>';
+    });
+    el.innerHTML = html;
+  });
+
+  /* ================= DECISION WIDGET ================= */
+  var choice = { stakes:'low', latency:'realtime', dependency:'independent' };
+  var TOPO_NAME = { hub:'Hub and spoke', pyramid:'Pyramid', pipeline:'Pipeline', parallel:'Parallel', mesh:'Mesh' };
+  var TOPO_WHY = {
+    hub:'one coordinator fans work out to narrow workers and gathers the results',
+    pyramid:'money or trust is on the line, so a reviewer checks before anything commits',
+    pipeline:'the steps are sequential, so a clean assembly line is the easiest thing to audit',
+    parallel:'the parts are independent and the caller is waiting, so run them all at once'
+  };
+  function recommend(c){
+    if(c.dependency === 'sequential') return 'pipeline';
+    if(c.stakes === 'high') return c.latency === 'async' ? 'pyramid' : 'pyramid';
+    if(c.dependency === 'independent' && c.latency === 'realtime') return 'parallel';
+    return 'hub';
+  }
+  var dresult = document.getElementById('dresult');
+  function updateDecider(){
+    var pick = recommend(choice);
+    dresult.innerHTML = 'Reach for <b>'+TOPO_NAME[pick]+'</b>. Because '+TOPO_WHY[pick]+'.';
+    document.querySelectorAll('.topo').forEach(function(t){ t.classList.toggle('hot', t.dataset.topo === pick); });
+  }
+  document.querySelectorAll('#decider .dtoggle').forEach(function(g){
+    var group = g.dataset.group;
+    g.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){
+        g.querySelectorAll('button').forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+        b.setAttribute('aria-pressed','true');
+        choice[group] = b.dataset.val;
+        updateDecider();
+      });
+    });
+  });
+  updateDecider();
+
+  /* ================= PRIVACY WALL ================= */
+  var wall = document.getElementById('wall');
+  var inside = wall.querySelector('.wall-zone.inside');
+  inside.addEventListener('mouseenter', function(){ wall.classList.add('reveal'); });
+  inside.addEventListener('mouseleave', function(){ wall.classList.remove('reveal'); });
+})();
+</script>
+</body>
+</html>

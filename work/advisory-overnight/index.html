@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An overnight AI pipeline for a capital-markets advisory firm - hamz.ai</title>
+<meta name="description" content="An anonymized case study. Each advisor carried a book of clients across scattered notes, tasks, transcripts, and a CRM. I built an advisor cockpit, a client portal, and an overnight pipeline that turns every meeting into a review-and-approve step by morning.">
+<meta property="og:title" content="An overnight AI pipeline for a capital-markets advisory firm">
+<meta property="og:description" content="An anonymized case study. Meeting transcripts become drafted summaries, tasks, and client messages overnight, all behind a human approval gate.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0F0F; --raised:#161616; --hover:#1C1C1C;
+    --line:#262626; --line-strong:#333333;
+    --ink:#F2F2F0; --dim:#9A9A94; --faint:#7C7C76;
+    --teal:#2BD7AF; --teal-dim:#1A6B58; --teal-tint:rgba(43,215,175,0.08);
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:"Inter", system-ui, -apple-system, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --max:1080px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans); font-size:17px; line-height:1.6; letter-spacing:-0.01em; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  ::selection{ background:var(--teal); color:#0F0F0F; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+  .mono{ font-family:var(--mono); }
+
+  nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px; padding:15px 28px; background:rgba(15,15,15,0.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  nav .brand{ font-family:var(--mono); font-size:13px; color:var(--ink); }
+  nav .brand b{ color:var(--teal); font-weight:500; }
+  nav .back{ margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--dim); }
+  nav .back:hover{ color:var(--teal); }
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
+
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  .hero h1{ font-size:clamp(34px,6vw,62px); line-height:1.02; margin-bottom:26px; font-weight:600; max-width:18ch; }
+  .hero .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:56ch; line-height:1.5; }
+  .chips{ margin-top:38px; display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--dim); border:1px solid var(--line); padding:8px 12px; background:var(--raised); }
+  .chip b{ color:var(--teal); font-weight:500; }
+
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  section h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:22ch; }
+  section h3{ font-size:20px; margin:0 0 12px; }
+  section p{ max-width:66ch; margin-bottom:20px; color:var(--dim); }
+  section p:last-child{ margin-bottom:0; }
+  .lead{ font-size:20px; color:var(--ink); max-width:60ch; }
+
+  .pull{ margin:40px 0; padding:4px 0 4px 28px; border-left:2px solid var(--teal); font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25; color:var(--ink); font-weight:500; max-width:26ch; letter-spacing:-0.02em; }
+
+  /* scattered-sources problem */
+  .pile{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .pile .p{ background:var(--raised); padding:16px 18px; font-family:var(--mono); font-size:12px; color:var(--dim); display:flex; align-items:center; gap:10px; }
+  .pile .p::before{ content:""; width:6px; height:6px; background:var(--faint); flex-shrink:0; }
+  .pile-note{ margin-top:18px; font-family:var(--mono); font-size:13px; color:var(--faint); }
+
+  /* pipeline */
+  .pipe{ margin-top:36px; }
+  .pipe-flow{ display:grid; grid-template-columns:0.8fr auto 1.4fr auto 0.9fr; align-items:stretch; gap:0; border:1px solid var(--line); background:var(--raised); }
+  .pipe-stage{ padding:22px 20px; }
+  .pipe-stage .pn{ font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:0.06em; margin-bottom:10px; }
+  .pipe-stage .ph{ font-size:16px; color:var(--ink); font-family:var(--display); font-weight:500; margin-bottom:6px; line-height:1.2; }
+  .pipe-stage .pd{ font-size:13px; color:var(--faint); }
+  .pipe-arrow{ display:flex; align-items:center; justify-content:center; color:var(--teal); font-family:var(--mono); background:#0D0D0D; padding:0 10px; }
+  .pipe-outs{ display:flex; flex-direction:column; gap:1px; background:var(--line); }
+  .pipe-out{ background:var(--raised); padding:10px 12px; font-size:13px; color:var(--dim); display:flex; align-items:center; gap:10px; }
+  .pipe-out .oi{ font-family:var(--mono); font-size:10px; color:var(--teal); }
+  .pipe-gate{ background:var(--teal-tint); }
+  .pipe-gate .ph{ color:var(--teal); }
+  @media (max-width:820px){
+    .pipe-flow{ grid-template-columns:1fr; }
+    .pipe-arrow{ padding:8px 0; transform:rotate(90deg); }
+  }
+
+  .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--teal); background:var(--raised); padding:24px 26px; }
+  .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+  .callout p{ font-size:15px; margin-bottom:14px; }
+  .callout p:last-child{ margin-bottom:0; }
+
+  /* invariants */
+  .invariants{ margin-top:36px; border:1px solid var(--line); }
+  .inv{ display:flex; gap:18px; padding:20px 22px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .18s; }
+  .inv:last-child{ border-bottom:none; }
+  .inv:hover{ background:var(--hover); }
+  .inv .ii{ font-family:var(--mono); font-size:12px; color:var(--teal); flex-shrink:0; padding-top:3px; width:28px; }
+  .inv .it{ font-size:16px; color:var(--ink); font-family:var(--display); font-weight:500; margin-bottom:5px; }
+  .inv .id{ font-size:14px; color:var(--dim); }
+
+  /* stat row */
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px; }
+  .stat{ background:var(--raised); padding:24px 20px; }
+  .stat .sv{ font-family:var(--display); font-size:32px; color:var(--teal); font-weight:600; line-height:1; margin-bottom:10px; letter-spacing:-0.03em; }
+  .stat .sl{ font-family:var(--mono); font-size:11px; color:var(--faint); line-height:1.5; letter-spacing:0.02em; }
+
+  /* architecture layers */
+  .layers{ margin-top:36px; border:1px solid var(--line); }
+  .layer{ display:flex; align-items:baseline; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--raised); }
+  .layer:last-child{ border-bottom:none; }
+  .layer .lk{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); width:110px; flex-shrink:0; }
+  .layer .lv{ font-size:14px; color:var(--ink); }
+  .layer .lv span{ color:var(--faint); }
+
+  /* outcome */
+  .outcome-hero{ margin-top:12px; border:1px solid var(--line); background:var(--raised); padding:36px 30px; display:flex; flex-wrap:wrap; align-items:center; gap:30px; }
+  .outcome-hero .big{ font-family:var(--display); font-size:clamp(48px,9vw,84px); color:var(--teal); font-weight:600; line-height:0.9; letter-spacing:-0.04em; }
+  .outcome-hero .oc-text{ flex:1; min-width:240px; }
+  .outcome-hero .oc-text .l{ font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--faint); margin-bottom:10px; }
+  .outcome-hero .oc-text p{ font-size:15px; color:var(--dim); margin:0; }
+  .basis{ margin-top:24px; font-family:var(--mono); font-size:12px; line-height:1.7; color:var(--faint); border-left:1px solid var(--line-strong); padding-left:16px; max-width:74ch; }
+  .basis b{ color:var(--dim); font-weight:500; }
+
+  .final{ padding:88px 0; text-align:center; border-bottom:none; }
+  .final .fq{ font-family:var(--display); font-size:clamp(20px,3vw,28px); color:var(--ink); font-weight:500; max-width:30ch; margin:0 auto 36px; line-height:1.25; }
+  .cta{ display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:14px; color:#0F0F0F; background:var(--teal); padding:14px 24px; transition:opacity .15s; }
+  .cta:hover{ opacity:0.88; }
+  .cta.ghost{ background:none; border:1px solid var(--line-strong); color:var(--dim); margin-left:12px; }
+  .cta.ghost:hover{ border-color:var(--teal); color:var(--teal); opacity:1; }
+  footer{ padding:40px 0 64px; text-align:center; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  footer a{ color:var(--dim); }
+  footer a:hover{ color:var(--teal); }
+
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){ .rv{ opacity:1; transform:none; transition:none; } }
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<div id="progress"></div>
+<nav>
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="back" href="https://www.hamz.ai">← back to hamz.ai</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Anonymized case study / Capital markets</div>
+    <h1>An overnight AI pipeline for a capital-markets advisory firm</h1>
+    <p class="lede">Every advisor carried a book of clients across scattered notes, tasks, transcripts, and a CRM, and lost real time to the admin between meetings. I built the cockpit, the client portal, and the overnight pipeline that turns each meeting into a review-and-approve step by morning, without ever sending a word the advisor did not approve.</p>
+    <div class="chips">
+      <span class="chip">advisor cockpit <b>+</b> client portal</span>
+      <span class="chip"><b>5</b> hard invariants</span>
+      <span class="chip"><b>78</b> logged product decisions</span>
+      <span class="chip">mock-first, <b>25</b>-client seeded demo</span>
+    </div>
+  </header>
+
+  <!-- PROBLEM -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">01</span>The problem</div>
+    <h2>The client relationship lived in six places, and the admin never ended</h2>
+    <p class="lead">At an independent capital-markets advisory firm, each advisor runs a book of clients through a structured, multi-month program, meeting each of them on a recurring cadence. The record of every one of those relationships was spread across spreadsheets, a shared drive, call transcripts, email, and the CRM that is supposed to be the system of record.</p>
+    <p>The cost was the admin around each meeting. Before a call, an advisor reloaded the client's whole situation by hand across those systems. After it, they wrote the notes, split out who owed what, and sent the follow-ups. Every week, the open tasks were copied by hand into the next week's tab, one of the biggest time sinks in the whole workflow. The firm's own stated goal for the project was simple and specific: give the advisors their hours back.</p>
+    <div class="pile rv">
+      <div class="p">Per-client spreadsheets</div>
+      <div class="p">Shared drive</div>
+      <div class="p">Call transcripts</div>
+      <div class="p">Email threads</div>
+      <div class="p">The CRM</div>
+      <div class="p">Manual task carry-forward</div>
+    </div>
+    <p class="pile-note">Six systems, reconciled by hand, around every meeting.</p>
+  </section>
+
+  <!-- WHAT WAS BUILT: PIPELINE -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">02</span>What I built</div>
+    <h2>An advisor cockpit and client portal over an overnight pipeline</h2>
+    <p>Two surfaces sit on top of one engine. The advisor gets a cockpit that holds the whole book in one place. The client gets a clean portal. Between them runs an overnight pipeline: it takes each meeting's transcript and, by morning, has drafted everything the advisor used to write by hand, queued behind a single approval gate.</p>
+
+    <div class="pipe rv">
+      <div class="pipe-flow">
+        <div class="pipe-stage">
+          <div class="pn">INPUT</div>
+          <div class="ph">Meeting transcript</div>
+          <div class="pd">Pulled from the recorded call after it ends.</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage">
+          <div class="pn">OVERNIGHT</div>
+          <div class="ph">The pipeline drafts</div>
+          <div class="pipe-outs" style="margin-top:12px">
+            <div class="pipe-out"><span class="oi">A</span> An internal advisor summary</div>
+            <div class="pipe-out"><span class="oi">B</span> Tasks, split by owner</div>
+            <div class="pipe-out"><span class="oi">C</span> Client messages, in the advisor's voice</div>
+            <div class="pipe-out"><span class="oi">D</span> Detected wins</div>
+            <div class="pipe-out"><span class="oi">E</span> SOP-based quality feedback</div>
+          </div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage pipe-gate">
+          <div class="pn">BY MORNING</div>
+          <div class="ph">Drafts queue</div>
+          <div class="pd">Everything waits behind a human approval gate. Nothing is sent, nothing is visible to a client, until the advisor approves it.</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:28px">The advisor walks in, opens the queue, and reviews. Approve, edit, or reject. The work that used to take a block of admin after every call is now a few minutes of reviewing drafts that already exist.</p>
+
+    <div class="pull rv">The pipeline does the drafting. The advisor keeps the decision.</div>
+  </section>
+
+  <!-- INVARIANTS -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">03</span>The invariants</div>
+    <h2>Five rules the system is never allowed to break</h2>
+    <p>An AI that drafts client-facing messages in a regulated relationship has to be safe by construction, not by good intentions. Five invariants held across the entire build, and every design decision was checked against them.</p>
+    <div class="invariants rv">
+      <div class="inv"><div class="ii">01</div><div><div class="it">Nothing sends without explicit advisor approval</div><div class="id">Every outbound message passes through the gate. There is no auto-send path anywhere in the system.</div></div></div>
+      <div class="inv"><div class="ii">02</div><div><div class="it">A client can never read an unsent message</div><div class="id">Drafts live entirely on the advisor's side of the wall. The portal cannot surface anything that has not been approved and sent.</div></div></div>
+      <div class="inv"><div class="ii">03</div><div><div class="it">Every extracted claim carries a verified source quote</div><div class="id">The AI does not assert anything it cannot point to. Each extracted fact links back to the exact line in the transcript it came from.</div></div></div>
+      <div class="inv"><div class="ii">04</div><div><div class="it">Gaps are flagged, not filled</div><div class="id">When the transcript does not support a conclusion, the system says so. It never invents the missing piece to look complete.</div></div></div>
+      <div class="inv"><div class="ii">05</div><div><div class="it">Drafts are in the advisor's voice, and visibly AI-assisted</div><div class="id">A standardized core, personalized per advisor: their voice, their SOPs, their templates, their cadences, and always marked as a draft.</div></div></div>
+    </div>
+  </section>
+
+  <!-- BUILD DISCIPLINE -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">04</span>How it was built</div>
+    <h2>Demoable end to end without touching a single client system</h2>
+    <p>The integrations, Zoom, the CRM, the drive, calendar, and email, are all flagged adapters with mock implementations behind them. That let the whole product run on a deterministic seeded demo of twenty-five clients, so it could be shown and tested top to bottom without reaching into anyone's real data. The riskiest real-world join, matching a recorded meeting back to the right client, was named as the top build risk and designed around from the start.</p>
+    <div class="stats rv">
+      <div class="stat"><div class="sv">78</div><div class="sl">logged product decisions, D1 through D78, tracing every call</div></div>
+      <div class="stat"><div class="sv">25</div><div class="sl">client deterministic seed, demoable end to end</div></div>
+      <div class="stat"><div class="sv">5</div><div class="sl">mock-first adapters: Zoom, CRM, drive, calendar, email</div></div>
+      <div class="stat"><div class="sv">E2E</div><div class="sl">Vitest and Playwright across the flows</div></div>
+    </div>
+    <div class="layers rv">
+      <div class="layer"><span class="lk">App</span><span class="lv">Next.js and TypeScript, <span>advisor cockpit and client portal</span></span></div>
+      <div class="layer"><span class="lk">Data</span><span class="lv">Drizzle ORM and Postgres</span></div>
+      <div class="layer"><span class="lk">Testing</span><span class="lv">Vitest and Playwright, <span>end-to-end</span></span></div>
+      <div class="layer"><span class="lk">Integrations</span><span class="lv">flagged mock-first adapters <span>for Zoom, CRM, drive, calendar, email</span></span></div>
+      <div class="layer"><span class="lk">Demo</span><span class="lv">deterministic 25-client seed, <span>no real client data required</span></span></div>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">05</span>Outcome</div>
+    <h2>Per-meeting admin becomes a review-and-approve step</h2>
+    <p>The notes, the tasks, and the client drafts that an advisor used to produce by hand after every meeting are waiting for them in the morning, already drafted, gated on their approval. The firm's stated success metric for the engagement was advisor hours saved, and the per-meeting admin is where those hours were.</p>
+    <div class="outcome-hero rv">
+      <div class="big">~15 min</div>
+      <div class="oc-text">
+        <div class="l">saved per meeting on notes, tasks, and drafts</div>
+        <p>The admin around each meeting collapses to reviewing pre-drafted work. Across a book of clients and a weekly cadence, that is where the advisor's time was going.</p>
+      </div>
+    </div>
+    <div class="basis rv">
+      <b>Basis:</b> documented current-state workflow, 5&ndash;15 min of prep plus 5&ndash;10 min of wrap-up per meeting, collapsed to a review-and-approve step. The client's stated success metric is advisor hours saved. This is a derived per-meeting figure with its basis stated, not a client-outcome claim.
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="fq">The hard part was not the drafting. It was the gate that guarantees nothing reaches a client the advisor did not sign.</div>
+    <a class="cta" href="https://www.hamz.ai/designing-agentic-ai">How I design these systems →</a>
+    <a class="cta ghost" href="https://www.hamz.ai">Back to hamz.ai</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>hamz.ai · Hamza Malik · anonymized case study · <a href="https://www.hamz.ai">www.hamz.ai</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight; bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:0.12});
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trip-feasibility engine for a business-aviation operator - hamz.ai</title>
+<meta name="description" content="An anonymized case study. A dispatcher spent hours per trip checking feasibility across a dozen systems. I built a 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.">
+<meta property="og:title" content="Trip-feasibility engine for a business-aviation operator">
+<meta property="og:description" content="An anonymized case study. 16 automated feasibility checks over 10+ enterprise data sources, built into production with a 5-person team.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0F0F; --raised:#161616; --hover:#1C1C1C;
+    --line:#262626; --line-strong:#333333;
+    --ink:#F2F2F0; --dim:#9A9A94; --faint:#7C7C76;
+    --teal:#2BD7AF; --teal-dim:#1A6B58; --teal-tint:rgba(43,215,175,0.08);
+    --amber:#D9A441;
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:"Inter", system-ui, -apple-system, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --max:1080px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans); font-size:17px; line-height:1.6; letter-spacing:-0.01em; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  ::selection{ background:var(--teal); color:#0F0F0F; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+  .mono{ font-family:var(--mono); }
+
+  nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px; padding:15px 28px; background:rgba(15,15,15,0.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  nav .brand{ font-family:var(--mono); font-size:13px; color:var(--ink); }
+  nav .brand b{ color:var(--teal); font-weight:500; }
+  nav .back{ margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--dim); }
+  nav .back:hover{ color:var(--teal); }
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
+
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  .hero h1{ font-size:clamp(34px,6vw,62px); line-height:1.02; margin-bottom:26px; font-weight:600; max-width:18ch; }
+  .hero .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:56ch; line-height:1.5; }
+  .chips{ margin-top:38px; display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--dim); border:1px solid var(--line); padding:8px 12px; background:var(--raised); }
+  .chip b{ color:var(--teal); font-weight:500; }
+
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  section h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:22ch; }
+  section h3{ font-size:20px; margin:0 0 12px; }
+  section p{ max-width:66ch; margin-bottom:20px; color:var(--dim); }
+  section p:last-child{ margin-bottom:0; }
+  .lead{ font-size:20px; color:var(--ink); max-width:60ch; }
+
+  .pull{ margin:40px 0; padding:4px 0 4px 28px; border-left:2px solid var(--teal); font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25; color:var(--ink); font-weight:500; max-width:26ch; letter-spacing:-0.02em; }
+
+  /* problem: the manual pile-up */
+  .pile{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .pile .p{ background:var(--raised); padding:16px 18px; font-family:var(--mono); font-size:12px; color:var(--dim); display:flex; align-items:center; gap:10px; }
+  .pile .p::before{ content:""; width:6px; height:6px; background:var(--faint); flex-shrink:0; }
+  .pile-note{ margin-top:18px; font-family:var(--mono); font-size:13px; color:var(--faint); }
+
+  /* module / checks explorer */
+  .engine{ margin-top:36px; border:1px solid var(--line); background:var(--raised); }
+  .engine-head{ display:flex; flex-wrap:wrap; }
+  .mtab{ flex:1 1 25%; min-width:160px; background:none; border:none; border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:18px 18px; text-align:left; cursor:pointer; color:var(--dim); font-family:inherit; transition:background .18s; position:relative; }
+  .mtab:last-child{ border-right:none; }
+  .mtab:hover{ background:var(--hover); }
+  .mtab .mn{ font-family:var(--mono); font-size:11px; color:var(--faint); display:block; margin-bottom:8px; letter-spacing:0.04em; }
+  .mtab .mt{ font-size:15px; color:var(--ink); font-weight:500; font-family:var(--display); line-height:1.2; }
+  .mtab[aria-selected="true"]{ background:var(--hover); }
+  .mtab[aria-selected="true"]::after{ content:""; position:absolute; left:0; bottom:-1px; height:2px; width:100%; background:var(--teal); }
+  .mtab[aria-selected="true"] .mn{ color:var(--teal); }
+  .checks{ padding:22px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); }
+  .check{ background:var(--raised); padding:14px 16px; display:flex; align-items:flex-start; gap:12px; }
+  .check .cid{ font-family:var(--mono); font-size:11px; color:var(--faint); flex-shrink:0; padding-top:2px; }
+  .check .cname{ font-size:15px; color:var(--ink); }
+  .check .ai{ display:inline-block; margin-left:8px; font-family:var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal); border:1px solid var(--teal-dim); padding:1px 6px; vertical-align:middle; }
+  .check .cdesc{ font-size:13px; color:var(--faint); margin-top:4px; }
+  .engine-foot{ padding:16px 22px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; flex-wrap:wrap; gap:8px 20px; }
+  .engine-foot b{ color:var(--dim); font-weight:500; }
+  .engine-foot .legend{ color:var(--teal); }
+  @media (max-width:640px){ .checks{ grid-template-columns:1fr; } .mtab{ flex:1 1 50%; } }
+
+  .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--teal); background:var(--raised); padding:24px 26px; }
+  .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+  .callout p{ font-size:15px; margin-bottom:14px; }
+  .callout.warn{ border-left-color:var(--amber); }
+  .callout.warn .ct{ color:var(--amber); }
+
+  /* status chip demo */
+  .statuses{ margin-top:24px; display:flex; flex-wrap:wrap; gap:10px; }
+  .sc{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; padding:7px 12px; border:1px solid var(--line); background:#0D0D0D; color:var(--dim); }
+  .sc.pass{ color:var(--teal); border-color:var(--teal-dim); }
+  .sc.warnc{ color:var(--amber); border-color:#5a4415; }
+  .sc.fail{ color:#E06C6C; border-color:#5a2020; }
+  .sc.manual{ color:var(--ink); border-color:var(--line-strong); background:var(--hover); }
+
+  /* stat row */
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:36px; }
+  .stat{ background:var(--raised); padding:24px 20px; }
+  .stat .sv{ font-family:var(--display); font-size:32px; color:var(--teal); font-weight:600; line-height:1; margin-bottom:10px; letter-spacing:-0.03em; }
+  .stat .sl{ font-family:var(--mono); font-size:11px; color:var(--faint); line-height:1.5; letter-spacing:0.02em; }
+
+  /* architecture layers */
+  .arch{ margin-top:36px; display:grid; grid-template-columns:1.4fr 1fr; gap:28px; align-items:start; }
+  .layers{ border:1px solid var(--line); }
+  .layer{ display:flex; align-items:baseline; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--raised); }
+  .layer:last-child{ border-bottom:none; }
+  .layer .lk{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); width:98px; flex-shrink:0; }
+  .layer .lv{ font-size:14px; color:var(--ink); }
+  .layer .lv span{ color:var(--faint); }
+  .arch-aside{ font-size:14px; }
+  .arch-aside .cap{ font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:0.04em; margin-bottom:14px; }
+  .arch-aside svg{ width:100%; height:auto; margin-bottom:16px; }
+  .arch-aside p{ font-size:14px; color:var(--dim); }
+  @media (max-width:820px){ .arch{ grid-template-columns:1fr; } }
+
+  /* outcome */
+  .outcome-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:12px; }
+  .oc{ background:var(--raised); padding:28px 22px; }
+  .oc .ov{ font-family:var(--display); font-size:38px; color:var(--ink); font-weight:600; line-height:1; margin-bottom:12px; letter-spacing:-0.03em; }
+  .oc .ol{ font-family:var(--mono); font-size:11px; color:var(--faint); line-height:1.5; letter-spacing:0.02em; }
+  @media (max-width:640px){ .outcome-grid{ grid-template-columns:1fr; } }
+
+  .final{ padding:88px 0; text-align:center; border-bottom:none; }
+  .final .fq{ font-family:var(--display); font-size:clamp(20px,3vw,28px); color:var(--ink); font-weight:500; max-width:30ch; margin:0 auto 36px; line-height:1.25; }
+  .cta{ display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:14px; color:#0F0F0F; background:var(--teal); padding:14px 24px; transition:opacity .15s; }
+  .cta:hover{ opacity:0.88; }
+  .cta.ghost{ background:none; border:1px solid var(--line-strong); color:var(--dim); margin-left:12px; }
+  .cta.ghost:hover{ border-color:var(--teal); color:var(--teal); opacity:1; }
+  footer{ padding:40px 0 64px; text-align:center; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  footer a{ color:var(--dim); }
+  footer a:hover{ color:var(--teal); }
+
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){ .rv{ opacity:1; transform:none; transition:none; } }
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<div id="progress"></div>
+<nav>
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="back" href="https://www.hamz.ai">← back to hamz.ai</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Anonymized case study / Business aviation</div>
+    <h1>A trip-feasibility engine for a business-aviation operator</h1>
+    <p class="lede">A dispatcher used to spend hours per trip checking whether a flight was even possible, across a dozen disconnected systems. I built the engine that gathers that whole picture in one place, and kept a human in charge of every call it cannot make cleanly.</p>
+    <div class="chips">
+      <span class="chip"><b>16</b> automated checks</span>
+      <span class="chip"><b>5</b> AI-assisted, confidence-scored</span>
+      <span class="chip"><b>10+</b> data sources unified</span>
+      <span class="chip"><b>15</b>-week delivery to production</span>
+      <span class="chip">team of <b>5</b>, hired and led</span>
+    </div>
+  </header>
+
+  <!-- PROBLEM -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">01</span>The problem</div>
+    <h2>Feasibility lived in a dozen places, and in one person's head</h2>
+    <p class="lead">Before anyone could quote a private or charter trip, someone on the concierge team had to assemble the entire feasibility picture by hand. Is the runway long and strong enough for this aircraft, fully loaded, wet? Are there NOTAMs closing anything? Are customs and immigration open at those hours? Is the crew inside its duty limits? Do we have permits to overfly and land?</p>
+    <p>Each answer lived in a different system, and no system talked to the next. A single trip meant hopping between maintenance records, flight planning, NOTAM feeds, security advisories, passport and visa data, and noise rules, then holding all of it in your head long enough to make a call. It was slow, it did not scale past the people who knew it cold, and the knowledge walked out the door at the end of the day.</p>
+    <div class="pile rv">
+      <div class="p">Runway strength</div>
+      <div class="p">NOTAMs</div>
+      <div class="p">Customs hours</div>
+      <div class="p">Crew duty time</div>
+      <div class="p">Immigration and visas</div>
+      <div class="p">Overflight permits</div>
+      <div class="p">Aircraft performance</div>
+      <div class="p">Maintenance status</div>
+      <div class="p">Insurance coverage</div>
+      <div class="p">Destination security</div>
+      <div class="p">Noise abatement</div>
+      <div class="p">Parking and slots</div>
+    </div>
+    <p class="pile-note">A dozen systems, checked by hand, on every trip.</p>
+  </section>
+
+  <!-- APPROACH / WHAT WAS BUILT -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">02</span>What I built</div>
+    <h2>One engine that runs 16 feasibility checks per flight leg</h2>
+    <p>I designed and built a flight-operations portal around a single idea: the concierge builds a trip, and the system runs the whole feasibility check for them, per leg, against a unified copy of every source that used to be checked by hand. Each check returns a clear status, and the ones that call for interpretation carry a confidence score so the operator knows how much to trust them.</p>
+    <p>The checks are organized into four modules. Tap through them.</p>
+
+    <div class="engine rv" id="engine">
+      <div class="engine-head" role="tablist" aria-label="Check modules">
+        <button class="mtab" role="tab" aria-selected="true" data-m="0">
+          <span class="mn">MODULE 01</span><span class="mt">Resource &amp; pre-flight readiness</span>
+        </button>
+        <button class="mtab" role="tab" aria-selected="false" data-m="1">
+          <span class="mn">MODULE 02</span><span class="mt">Regulatory &amp; compliance</span>
+        </button>
+        <button class="mtab" role="tab" aria-selected="false" data-m="2">
+          <span class="mn">MODULE 03</span><span class="mt">Airport environment</span>
+        </button>
+        <button class="mtab" role="tab" aria-selected="false" data-m="3">
+          <span class="mn">MODULE 04</span><span class="mt">Logistics &amp; support</span>
+        </button>
+      </div>
+      <div class="checks" id="checks"></div>
+      <div class="engine-foot">
+        <span><b>Status per check:</b> pass, warning, fail, incomplete, or bypassed</span>
+        <span class="legend">AI-assisted checks carry a confidence score</span>
+      </div>
+    </div>
+
+    <div class="statuses rv">
+      <span class="sc pass">PASS</span>
+      <span class="sc warnc">WARNING</span>
+      <span class="sc fail">FAIL</span>
+      <span class="sc">INCOMPLETE</span>
+      <span class="sc">BYPASSED</span>
+      <span class="sc manual">MANUAL REVIEW REQUIRED · confidence 0</span>
+    </div>
+
+    <div class="pull rv">Not knowing must always be visible, never absorbed.</div>
+  </section>
+
+  <!-- HUMAN OVERRIDE -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">03</span>The design principle</div>
+    <h2>The human stays in command, and every override is on the record</h2>
+    <p>An automated feasibility check is only trustworthy if a person can overrule it and if the system is honest about what it does not know. Both were first-class from day one.</p>
+    <p>An operator can <strong>bypass</strong> a check or <strong>force-fail</strong> it, and every change is attributed and logged. A read-only workflow history shows every field that moved, old value to new, who changed it, and why. Concierge, admin, and super-admin roles see different slices of that trail by design.</p>
+
+    <div class="callout warn rv">
+      <div class="ct">When an AI check fails, it gets louder, not quieter</div>
+      <p>If an AI-assisted check cannot complete, say a source times out, the system does not crash the trip and it does not quietly wave the check through. It converts the failure into <strong>Manual Review Required, confidence zero</strong>, and the interface renders that state more prominently than a pass. A gap in knowledge is surfaced, never swallowed.</p>
+      <p style="margin-bottom:0">That is the whole safety model in one rule: a failed check can never silently look like a passed one.</p>
+    </div>
+  </section>
+
+  <!-- DELIVERY STATS -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">04</span>How it shipped</div>
+    <h2>Architected, built, and delivered into production</h2>
+    <p>I architected the system and personally built it on Azure, while hiring and leading a five-person team. We went from ten discovery interviews, through a fifteen-week agile delivery, into production, live for four teams and twenty-five users, and handed over with a developer guide, a user manual, and an operations runbook. It was built to be handed over, not babysat.</p>
+    <div class="stats rv">
+      <div class="stat"><div class="sv">10</div><div class="sl">discovery interviews before a line of production code</div></div>
+      <div class="stat"><div class="sv">15 wk</div><div class="sl">agile delivery from discovery to production</div></div>
+      <div class="stat"><div class="sv">4 / 25</div><div class="sl">teams and users live on it in production</div></div>
+      <div class="stat"><div class="sv">5</div><div class="sl">person team, hired and led through the build</div></div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">05</span>Architecture</div>
+    <h2>A hub-and-spoke over a unified copy of every source</h2>
+    <p>The concierge portal sits at the center. Around it, the four check modules run as spokes, each reading from a local store that a data-ingestion engine keeps in sync with the outside sources on an hourly job. The checks run against that unified copy, so a trip is evaluated in one place instead of ten.</p>
+    <div class="arch rv">
+      <div class="layers">
+        <div class="layer"><span class="lk">Frontend</span><span class="lv">Next.js and React, <span>Mantine UI, TypeScript</span></span></div>
+        <div class="layer"><span class="lk">Backend</span><span class="lv">ASP.NET Core 9, <span>REST API</span></span></div>
+        <div class="layer"><span class="lk">Data</span><span class="lv">Azure SQL, <span>Entity Framework Core migrations</span></span></div>
+        <div class="layer"><span class="lk">AI</span><span class="lv">Azure OpenAI, <span>confidence-scored assessments</span></span></div>
+        <div class="layer"><span class="lk">Cloud</span><span class="lv">Azure App Service, Key Vault, AD, <span>DevOps CI/CD</span></span></div>
+        <div class="layer"><span class="lk">Ingestion</span><span class="lv">hourly sync of 10+ sources <span>into a unified store</span></span></div>
+      </div>
+      <aside class="arch-aside">
+        <div class="cap">Hub and spoke</div>
+        <svg viewBox="0 0 200 150" aria-label="A hub-and-spoke diagram: the concierge portal at the center, four check modules around it, and external sources feeding in.">
+          <g fill="#0D0D0D" stroke="#333" stroke-width="1.2">
+            <line x1="100" y1="75" x2="45" y2="30" stroke="#262626"/>
+            <line x1="100" y1="75" x2="155" y2="30" stroke="#262626"/>
+            <line x1="100" y1="75" x2="45" y2="120" stroke="#262626"/>
+            <line x1="100" y1="75" x2="155" y2="120" stroke="#262626"/>
+            <circle cx="45" cy="30" r="14"/><circle cx="155" cy="30" r="14"/>
+            <circle cx="45" cy="120" r="14"/><circle cx="155" cy="120" r="14"/>
+          </g>
+          <circle cx="100" cy="75" r="20" fill="#0D0D0D" stroke="#2BD7AF" stroke-width="1.5"/>
+          <text x="100" y="79" text-anchor="middle" fill="#2BD7AF" font-family="'JetBrains Mono',monospace" font-size="9">portal</text>
+          <g fill="#7C7C76" font-family="'JetBrains Mono',monospace" font-size="7" text-anchor="middle">
+            <text x="45" y="33">M1</text><text x="155" y="33">M2</text>
+            <text x="45" y="123">M3</text><text x="155" y="123">M4</text>
+          </g>
+        </svg>
+        <p>The four modules read from a unified store, not from ten live systems on every click. The design questions were which sources to trust fresh and which to cache on the hourly sync.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">06</span>Outcome</div>
+    <h2>What the operator reports</h2>
+    <p>The engine collapsed a manual, hours-long, dozen-system feasibility check into a single reviewed screen, with the human firmly in the loop on anything the system flags. The headline figures below are what the operator reports from running it.</p>
+    <div class="outcome-grid rv">
+      <div class="oc"><div class="ov">~75%</div><div class="ol">less manual concierge workload, operator-reported</div></div>
+      <div class="oc"><div class="ov">~90%</div><div class="ol">faster time-to-decision on trip feasibility, operator-reported</div></div>
+      <div class="oc"><div class="ov">$250K+</div><div class="ol">saved annually, operator-reported</div></div>
+    </div>
+    <div class="callout rv">
+      <div class="ct">A note on these numbers</div>
+      <p style="margin-bottom:0">These are figures the operator reports, not measurements taken from inside the system. I keep them labeled that way on purpose. What is verifiable in the build is the scope: sixteen checks across four modules, five of them AI-assisted and confidence-scored, over ten-plus unified data sources, in production for four teams, with human override and a full audit trail.</p>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="fq">The judgment was in deciding which checks a machine should make, and which ones a person always signs.</div>
+    <a class="cta" href="https://www.hamz.ai/designing-agentic-ai">How I design these systems →</a>
+    <a class="cta ghost" href="https://www.hamz.ai">Back to hamz.ai</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>hamz.ai · Hamza Malik · anonymized case study · <a href="https://www.hamz.ai">www.hamz.ai</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight; bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:0.12});
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+
+  var MODULES = [
+    [
+      {id:'01', name:'Crew availability', desc:'Is a qualified crew free for these legs?'},
+      {id:'02', name:'Scheduling conflicts', desc:'Does this trip collide with another booking?'},
+      {id:'03', name:'Aircraft maintenance', desc:'Is the tail airworthy and clear of open work orders?'},
+      {id:'04', name:'Aircraft performance', desc:'Runway, takeoff and landing, wet and dry, at weight.'}
+    ],
+    [
+      {id:'05', name:'Crew duty time', desc:'Private versus commercial duty and rest limits.'},
+      {id:'06', name:'Insurance coverage', desc:'Is this trip inside the policy?'},
+      {id:'07', name:'Overflight and landing permits', desc:'Every transit country, mapped.'},
+      {id:'08', name:'Customs availability', desc:'Are customs open at these hours?'},
+      {id:'09', name:'Immigration check', desc:'Passports and visas for everyone aboard.'},
+      {id:'10', name:'Aerodrome status', ai:true, desc:'Reads and classifies raw NOTAMs.'},
+      {id:'11', name:'Noise abatement', desc:'Curfews and noise rules at the airport.'}
+    ],
+    [
+      {id:'10', name:'Aerodrome status', ai:true, desc:'Shared with the compliance module.'},
+      {id:'12', name:'Aircraft parking', ai:true, desc:'Is there a stand for this aircraft?'},
+      {id:'13', name:'Airport suitability', ai:true, desc:'Runway strength versus the aircraft, plus closures.'}
+    ],
+    [
+      {id:'14', name:'Destination security', desc:'Medical and travel-risk advisories.'},
+      {id:'15', name:'Special events', ai:true, desc:'Scans for disruptive events at the destination.'},
+      {id:'16', name:'Nav charts', ai:true, desc:'Pulls the right approach and navigation charts.'}
+    ]
+  ];
+  var checksEl = document.getElementById('checks');
+  function renderModule(i){
+    checksEl.innerHTML = MODULES[i].map(function(c){
+      return '<div class="check"><span class="cid">'+c.id+'</span><div><span class="cname">'+c.name+(c.ai?'<span class="ai">AI</span>':'')+'</span><div class="cdesc">'+c.desc+'</div></div></div>';
+    }).join('');
+  }
+  var mtabs = Array.prototype.slice.call(document.querySelectorAll('.mtab'));
+  mtabs.forEach(function(b){
+    function sel(){ mtabs.forEach(function(o){ o.setAttribute('aria-selected', o===b?'true':'false'); }); renderModule(parseInt(b.dataset.m,10)); }
+    b.addEventListener('click', sel);
+    b.addEventListener('mouseenter', sel);
+  });
+  renderModule(0);
+})();
+</script>
+</body>
+</html>
