@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case Playtesting — hamz.ai</title>
+<title>Case Playtesting - hamz.ai</title>
 <meta name="description" content="A method for pressure-testing decision materials against a simulated panel of AI personas before they meet a real audience.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ================================================================
-     hamz.ai — Case Playtesting
+     hamz.ai - Case Playtesting
      Design system: dark #0F0F0F ground, JetBrains Mono headings,
      Inter body, single teal accent #2BD7AF, flat / 0 radius.
      ================================================================ */
@@ -415,8 +415,8 @@
     <h1>Case<br>Play<span class="accent">testing</span><span class="cursor"></span></h1>
     <p class="dek">
       <strong>Simulate the room before you walk into it.</strong>
-      Case playtesting is a method for pressure-testing decision materials —
-      a teaching case, a proposal, a strategy memo — against a simulated panel
+      Case playtesting is a method for pressure-testing decision materials -
+      a teaching case, a proposal, a strategy memo - against a simulated panel
       of AI personas before those materials ever meet a real audience.
     </p>
     <div class="hero-meta">
@@ -457,7 +457,7 @@
 <section id="topologies">
   <div class="wrap">
     <div class="rv">
-      <span class="label">01 — The Idea</span>
+      <span class="label">01 - The Idea</span>
       <h2>A room full of people is a topology. Topologies can be simulated.</h2>
       <p class="lede">
         A <span class="tealword">topology</span> is the shape of a system of agents:
@@ -467,8 +467,8 @@
       </p>
       <p class="lede">
         The insight behind case playtesting is that this works in reverse, too.
-        Any room where people read something and then decide — a classroom, a
-        credit committee, an exec review — <strong>is already a topology</strong>:
+        Any room where people read something and then decide - a classroom, a
+        credit committee, an exec review - <strong>is already a topology</strong>:
         different backgrounds, different information, one coordination protocol.
         Model the seats, wire the protocol, and you can run the room before
         it exists.
@@ -477,7 +477,7 @@
 
     <div class="diagram-frame rv">
       <div class="diagram-head">
-        <span>fig. 1 — panel topology</span>
+        <span>fig. 1 - panel topology</span>
         <span class="dh-right">parallel / blind / structured output</span>
       </div>
       <svg viewBox="0 0 960 420" role="img" aria-label="Diagram: a draft document feeds an orchestrator, which fans out in parallel to seventeen persona agents split across three model tiers, whose votes converge into a tally.">
@@ -503,7 +503,7 @@
         <path class="sv-wire" d="M380,210 C430,210 430,335 480,335"/>
 
         <!-- tier 1 band : fast tier, 8 seats -->
-        <g class="tier-g" aria-label="Fast tier — quick, instinct-first readers">
+        <g class="tier-g" aria-label="Fast tier - quick, instinct-first readers">
           <rect class="tier-band" x="480" y="50" width="330" height="70"/>
           <text class="tier-name sv-label" x="494" y="72">TIER · FAST ×8</text>
           <circle class="node" cx="510" cy="98" r="7"/>
@@ -517,7 +517,7 @@
         </g>
 
         <!-- tier 2 band : mid tier, 5 seats -->
-        <g class="tier-g" aria-label="Mid tier — balanced readers">
+        <g class="tier-g" aria-label="Mid tier - balanced readers">
           <rect class="tier-band" x="480" y="175" width="330" height="70"/>
           <text class="tier-name sv-label" x="494" y="197">TIER · MID ×5</text>
           <circle class="node" cx="510" cy="223" r="7"/>
@@ -528,7 +528,7 @@
         </g>
 
         <!-- tier 3 band : deep tier, 4 seats -->
-        <g class="tier-g" aria-label="Deep tier — slow, adversarial readers">
+        <g class="tier-g" aria-label="Deep tier - slow, adversarial readers">
           <rect class="tier-band" x="480" y="300" width="330" height="70"/>
           <text class="tier-name sv-label" x="494" y="322">TIER · DEEP ×4</text>
           <circle class="node" cx="510" cy="348" r="7"/>
@@ -552,7 +552,7 @@
       </svg>
       <div class="diagram-caption">
         <b>Parallel topology, deliberately.</b> Every seat reads the same draft in
-        isolation and returns a structured vote — no cross-talk, no anchoring on
+        isolation and returns a structured vote - no cross-talk, no anchoring on
         the loudest agent. Coordination happens only at the tally, exactly like a
         blind ballot in a real room.
       </div>
@@ -563,7 +563,7 @@
         <span class="num">/01</span>
         <h3>Context is a design decision</h3>
         <p>Each persona agent gets a professional background, a temperament, and
-        the draft — nothing else. What a seat knows is chosen, not accumulated.
+        the draft - nothing else. What a seat knows is chosen, not accumulated.
         That is what makes the simulation legible.</p>
       </div>
       <div class="card">
@@ -576,8 +576,8 @@
       <div class="card">
         <span class="num">/03</span>
         <h3>Protocol is the room</h3>
-        <p>Blind vote, then reveal, then re-vote. The wiring between the seats —
-        who speaks when, who hears what — carries as much signal as the seats
+        <p>Blind vote, then reveal, then re-vote. The wiring between the seats -
+        who speaks when, who hears what - carries as much signal as the seats
         themselves.</p>
       </div>
     </div>
@@ -587,7 +587,7 @@
 <section id="method">
   <div class="wrap">
     <div class="rv">
-      <span class="label">02 — The Method</span>
+      <span class="label">02 - The Method</span>
       <h2>Five steps, run in a loop until the room moves the way it should.</h2>
       <p class="lede">
         The unit of work is a full playtest: one draft, one simulated panel, one
@@ -601,7 +601,7 @@
         <span class="step-num">01</span>
         <div>
           <h3>Cast a panel of distinct professionals</h3>
-          <p>Write 17 personas, each with a different professional background —
+          <p>Write 17 personas, each with a different professional background -
           a risk officer, a CFO, a platform engineer, a policy staffer, a
           management consultant. Each persona is one agent with one seat. The
           spread of backgrounds is the point: a draft that only convinces one
@@ -614,8 +614,8 @@
         <span class="step-num">02</span>
         <div>
           <h3>Spread the seats across model tiers</h3>
-          <p>Assign the personas across three Claude model tiers — fast, mid,
-          and deep — so the panel doesn't reason alike. Seventeen copies of the
+          <p>Assign the personas across three Claude model tiers - fast, mid,
+          and deep - so the panel doesn't reason alike. Seventeen copies of the
           same model produce seventeen flavors of the same read. Mixed tiers
           produce genuinely different failure modes: the skimmer who misses the
           buried detail, and the careful reader who catches it.</p>
@@ -629,7 +629,7 @@
           <h3>Run the real timeline</h3>
           <p>The panel runs the exact sequence the real room will: every seat
           reads the material cold and casts a blind vote with written reasoning;
-          then the reveal — the information the room will only get live — is
+          then the reveal - the information the room will only get live - is
           delivered; then every seat re-votes. One workflow, one agent per seat,
           structured output throughout so the tally is machine-readable.</p>
           <div class="protocol" id="protocol">
@@ -665,7 +665,7 @@
           vote should lean one way, and the reveal should move the room the
           other way. If the panel flips before the reveal, the draft is leaking.
           If it doesn't flip after, the reveal isn't landing. Revise the draft
-          and re-run the full playtest — every version faces the same panel,
+          and re-run the full playtest - every version faces the same panel,
           the same protocol, the same tally.</p>
           <span class="mono-note">revise → re-run → compare tallies → repeat</span>
         </div>
@@ -676,8 +676,8 @@
         <div>
           <h3>De-machine the prose</h3>
           <p>A final pass on the draft itself: strip the tells of generated
-          text — the symmetrical paragraphs, the hedged summaries, the lists
-          that want to be sentences — until the material reads as written by a
+          text - the symmetrical paragraphs, the hedged summaries, the lists
+          that want to be sentences - until the material reads as written by a
           person, because the last thing a simulated room can vouch for is how
           it feels to a real one.</p>
           <span class="mono-note">the panel tests the argument; a human ear tests the voice</span>
@@ -685,7 +685,7 @@
       </div>
     </div>
 
-    <!-- PENDING PERMISSION: aggregate vote-flip chart goes here — blind-round vs
+    <!-- PENDING PERMISSION: aggregate vote-flip chart goes here - blind-round vs
          post-reveal vote distribution across draft iterations, shown as an
          anonymized before/after tally. Do not publish until the underlying
          classroom-simulation data is cleared for release. -->
@@ -695,7 +695,7 @@
 <section id="why">
   <div class="wrap">
     <div class="rv">
-      <span class="label">03 — Why It Works</span>
+      <span class="label">03 - Why It Works</span>
       <h2>Three properties do the work.</h2>
     </div>
     <div class="why-grid rv">
@@ -703,7 +703,7 @@
         <span class="glyph">≠</span>
         <h3>Diversity of simulated reasoners</h3>
         <p>Distinct personas on distinct model tiers disagree for different
-        reasons — which is what a real room does. The disagreements are the
+        reasons - which is what a real room does. The disagreements are the
         diagnostic: where the panel splits tells you which readers your
         material loses, and why.</p>
       </div>
@@ -722,7 +722,7 @@
         <p>Each run is cheap, repeatable, and scored the same way, so drafts
         improve against a fixed standard instead of a shifting gut feeling. By
         the time the material meets a real audience, it has already failed in
-        front of seventeen simulated ones — and been fixed.</p>
+        front of seventeen simulated ones - and been fixed.</p>
       </div>
     </div>
   </div>
@@ -731,7 +731,7 @@
 <section id="beyond">
   <div class="wrap">
     <div class="rv">
-      <span class="label">04 — Beyond the Classroom</span>
+      <span class="label">04 - Beyond the Classroom</span>
       <h2>Anywhere people read a document and then decide, the room can be rehearsed.</h2>
     </div>
     <div class="beyond-list rv">
@@ -742,7 +742,7 @@
       </div>
       <div class="beyond">
         <h3>Org simulation</h3>
-        <p>Model a decision-making body — committee, board, review chain — as a
+        <p>Model a decision-making body - committee, board, review chain - as a
         topology and test how a proposal travels through it.</p>
       </div>
       <div class="beyond">
@@ -764,14 +764,14 @@
     <div class="foot-note rv">
       Developed during research-assistant work on an
       <b>MIT Sloan course on agentic AI</b> (details forthcoming).
-      This page describes the method only — no course materials, case content,
+      This page describes the method only - no course materials, case content,
       or classroom data appear here.
       <!-- PENDING PERMISSION: name the course (number + title) and the faculty
            collaborator here once explicit permission to credit is received. -->
     </div>
     <div class="foot-row">
       <a href="https://www.hamz.ai">hamz.ai</a>
-      <span>Case Playtesting — a working method, in production use</span>
+      <span>Case Playtesting - a working method, in production use</span>
       <span>© 2026 Hamza Malik</span>
     </div>
   </div>
