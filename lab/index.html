@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Assurance Chain · hamz.ai</title>
+<meta name="description" content="How we review, evaluate, and secure AI-built work before it reaches a client: an adversarial review panel, tiered escalation, an evidence-based eval harness, and production security controls.">
+<meta property="og:title" content="The Assurance Chain">
+<meta property="og:description" content="An independent review panel, tiered escalation, an evidence-based eval harness, and production security controls, the standard every deliverable is held to before it ships.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%232BD7AF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0F0F; --raised:#161616; --hover:#1C1C1C;
+    --line:#262626; --line-strong:#333333;
+    --ink:#F2F2F0; --dim:#9A9A94; --faint:#7C7C76;
+    --teal:#2BD7AF; --teal-dim:#1A6B58; --teal-tint:rgba(43,215,175,0.08);
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:"Inter", system-ui, -apple-system, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --max:1080px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans); font-size:17px; line-height:1.6; letter-spacing:-0.01em; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  ::selection{ background:var(--teal); color:#0F0F0F; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+  .mono{ font-family:var(--mono); }
+
+  nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px; padding:15px 28px; background:rgba(15,15,15,0.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  nav .brand{ font-family:var(--mono); font-size:13px; color:var(--ink); display:flex; align-items:baseline; gap:9px; }
+  nav .brand b{ color:var(--teal); font-weight:500; }
+  nav .brand .sep{ color:var(--faint); font-weight:400; }
+  nav .back{ margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--dim); }
+  nav .back:hover{ color:var(--teal); }
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
+
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  .hero h1{ font-size:clamp(34px,6vw,62px); line-height:1.02; margin-bottom:26px; font-weight:600; max-width:20ch; }
+  .hero .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+  .chips{ margin-top:38px; display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--dim); border:1px solid var(--line); padding:8px 12px; background:var(--raised); }
+  .chip b{ color:var(--teal); font-weight:500; }
+
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  section h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+  section h3{ font-size:20px; margin:0 0 12px; }
+  section p{ max-width:68ch; margin-bottom:20px; color:var(--dim); }
+  section p:last-child{ margin-bottom:0; }
+  .lead{ font-size:20px; color:var(--ink); max-width:62ch; }
+
+  .pull{ margin:40px 0; padding:4px 0 4px 28px; border-left:2px solid var(--teal); font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25; color:var(--ink); font-weight:500; max-width:28ch; letter-spacing:-0.02em; }
+
+  /* numbered item lists: what it catches, the ladder rungs, the evidence tools, the controls */
+  .invariants{ margin-top:36px; border:1px solid var(--line); }
+  .inv{ display:flex; gap:18px; padding:20px 22px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .18s; }
+  .inv:last-child{ border-bottom:none; }
+  .inv:hover{ background:var(--hover); }
+  .inv .ii{ font-family:var(--mono); font-size:12px; color:var(--teal); flex-shrink:0; padding-top:3px; width:28px; }
+  .inv .it{ font-size:16px; color:var(--ink); font-family:var(--display); font-weight:500; margin-bottom:5px; }
+  .inv .id{ font-size:14px; color:var(--dim); }
+
+  /* architecture-style layered list, used for the review ladder */
+  .layers{ margin-top:36px; border:1px solid var(--line); }
+  .layer{ display:flex; align-items:baseline; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--raised); }
+  .layer:last-child{ border-bottom:none; }
+  .layer .lk{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); width:80px; flex-shrink:0; }
+  .layer .lv{ font-size:14px; color:var(--ink); }
+
+  /* proof links */
+  .proof{ margin-top:36px; border:1px solid var(--line); }
+  .proof-item{ display:block; padding:22px 24px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .15s; }
+  .proof-item:last-child{ border-bottom:none; }
+  .proof-item:hover{ background:var(--hover); }
+  .proof-item .pi-top{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .proof-item .pi-name{ font-family:var(--display); font-size:18px; color:var(--ink); font-weight:600; transition:color .15s; }
+  .proof-item:hover .pi-name{ color:var(--teal); }
+  .proof-item .pi-arrow{ font-family:var(--mono); color:var(--teal); font-size:12px; letter-spacing:0.04em; white-space:nowrap; }
+  .proof-item .pi-desc{ margin-top:8px; font-size:14px; color:var(--dim); max-width:66ch; }
+  .proof-note{ margin-top:20px; font-family:var(--mono); font-size:13px; color:var(--faint); max-width:66ch; }
+
+  .final{ padding:88px 0; text-align:center; border-bottom:none; }
+  .final .fq{ font-family:var(--display); font-size:clamp(20px,3vw,28px); color:var(--ink); font-weight:500; max-width:30ch; margin:0 auto 36px; line-height:1.25; }
+  .cta{ display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:14px; color:#0F0F0F; background:var(--teal); padding:14px 24px; transition:opacity .15s; }
+  .cta:hover{ opacity:0.88; }
+  .cta.ghost{ background:none; border:1px solid var(--line-strong); color:var(--dim); margin-left:12px; }
+  .cta.ghost:hover{ border-color:var(--teal); color:var(--teal); opacity:1; }
+  footer{ padding:40px 0 64px; text-align:center; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  footer a{ color:var(--dim); }
+  footer a:hover{ color:var(--teal); }
+
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){ .rv{ opacity:1; transform:none; transition:none; } }
+
+  @media (max-width:600px){
+    .cta.ghost{ margin-left:0; margin-top:12px; }
+    .final .cta{ display:flex; justify-content:center; }
+  }
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<div id="progress"></div>
+<nav>
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai<span class="sep">/ lab</span></a>
+  <a class="back" href="https://www.hamz.ai">&larr; back to hamz.ai</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">The lab / methodology</div>
+    <h1>The Assurance Chain</h1>
+    <p class="lede">This is the standard we hold every deliverable to before it reaches a client: an independent panel that argues against the work, a tiered sign-off that mirrors how a real firm reviews finished material, an evidence harness that settles what ships by evidence instead of opinion, and production security controls that hold once the system is actually live. What follows is how each stage works, and the public proof behind it.</p>
+    <div class="chips">
+      <span class="chip"><b>01</b> Adversarial review</span>
+      <span class="chip"><b>02</b> Tiered escalation</span>
+      <span class="chip"><b>03</b> Evidence harness</span>
+      <span class="chip"><b>04</b> Security controls</span>
+    </div>
+  </header>
+
+  <!-- 01: ADVERSARIAL REVIEW -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">01</span>Adversarial review</div>
+    <h2>Attacked before it is trusted</h2>
+    <p class="lead">Before a piece of consequential work moves forward, we do not proofread it. We attack it.</p>
+    <p>An independent review pass reads the work fresh and argues against it. Its only job is to find the failure mode a friendly read would miss, and to refuse sign-off until the strongest objection against the work has been answered. Once a fix lands, a second, independent pass checks that the objection is actually resolved, not just answered on paper.</p>
+    <div class="invariants rv">
+      <div class="inv"><div class="ii">01</div><div><div class="it">Correctness bugs hiding behind confident language</div><div class="id">A conclusion can read as certain and still be wrong. The review pass checks the claim against the evidence, not against how sure it sounds.</div></div></div>
+      <div class="inv"><div class="ii">02</div><div><div class="it">Claims the work cannot actually support</div><div class="id">Anything stated as fact gets checked against what is actually true, not against what would be convenient to be true.</div></div></div>
+      <div class="inv"><div class="ii">03</div><div><div class="it">A requirement quietly dropped for a simpler answer</div><div class="id">The easiest version of a fix is often the one that silently drops a case the work was supposed to handle. Finding that is the adversarial pass's whole job.</div></div></div>
+      <div class="inv"><div class="ii">04</div><div><div class="it">Convenience that opens a gap</div><div class="id">A shortcut that makes the work faster to ship and less safe to run gets caught here, before it ships, not after.</div></div></div>
+    </div>
+  </section>
+
+  <!-- 02: TIERED ESCALATION -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">02</span>Tiered escalation</div>
+    <h2>Finished work climbs before it lands</h2>
+    <p class="lead">A finished deliverable does not go from draft to done in one step. It climbs a ladder, the same way it would inside a real firm.</p>
+    <p>Work that fails a level goes back down with specific, addressed feedback, not a vague rejection, and climbs again once that feedback is resolved. Nothing reaches the person who asked for it until every level above has signed off, and each of those levels is checked against a harder question than the one below it had to answer.</p>
+    <div class="layers rv">
+      <div class="layer"><span class="lk">Step 1</span><span class="lv">Draft, the first version of the work</span></div>
+      <div class="layer"><span class="lk">Step 2</span><span class="lv">Checked against the standard, sent back with specific notes if it fails</span></div>
+      <div class="layer"><span class="lk">Step 3</span><span class="lv">Checked against intent: does it actually solve what was asked</span></div>
+      <div class="layer"><span class="lk">Step 4</span><span class="lv">Checked against the hardest edge case a first read would miss</span></div>
+      <div class="layer"><span class="lk">Step 5</span><span class="lv">Sign-off. Only then does it reach the person who asked for it</span></div>
+    </div>
+  </section>
+
+  <!-- 03: EVIDENCE HARNESS -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">03</span>Evidence harness</div>
+    <h2>Decisions settled by evidence, not opinion</h2>
+    <p class="lead">Whether a change ships should never come down to whose judgment sounds most confident.</p>
+    <p>We settle it the way a serious engineering organization would: against fixed test cases, against what is already running in production, and against reviewers who do not know which answer they are grading.</p>
+    <div class="invariants rv">
+      <div class="inv"><div class="ii">01</div><div><div class="it">Golden-fixture eval runners</div><div class="id">A fixed, known-answer test suite that every model or prompt change is graded against before anything ships. A change that regresses even one case is caught here, not in production.</div></div></div>
+      <div class="inv"><div class="ii">02</div><div><div class="it">Shadow-mode comparison</div><div class="id">A candidate runs alongside the current production system on real, live traffic. Its outputs are compared before it ever reaches a user.</div></div></div>
+      <div class="inv"><div class="ii">03</div><div><div class="it">Blinded behavioral A/B testing</div><div class="id">Reviewers score outputs without knowing which system produced which answer, so the grade reflects the work, not a guess about its source.</div></div></div>
+      <div class="inv"><div class="ii">04</div><div><div class="it">LLM-as-judge scoring</div><div class="id">Rubric-based grading at a volume no human review queue could sustain, calibrated against the blinded human scores it is meant to approximate.</div></div></div>
+    </div>
+    <div class="pull rv">The question is never whether it looks right. It is what the evidence says.</div>
+  </section>
+
+  <!-- 04: SECURITY CONTROLS -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">04</span>Security controls</div>
+    <h2>Controls built for production, not a demo</h2>
+    <p class="lead">None of the above matters if what it approves does not hold once it is actually running.</p>
+    <p>So the systems we build carry their own controls, not bolted on after the fact:</p>
+    <div class="invariants rv">
+      <div class="inv"><div class="ii">01</div><div><div class="it">Audit hash chains</div><div class="id">Every consequential action is logged into a chain where altering an earlier entry breaks every entry after it, so the record cannot be quietly edited.</div></div></div>
+      <div class="inv"><div class="ii">02</div><div><div class="it">Capability-scoped authorization</div><div class="id">Each part of a system holds exactly the access it needs to do its job, never the access of the account running it.</div></div></div>
+      <div class="inv"><div class="ii">03</div><div><div class="it">Defined data retention</div><div class="id">Data carries an explicit lifespan and a defined deletion point, not indefinite storage by default.</div></div></div>
+      <div class="inv"><div class="ii">04</div><div><div class="it">Breach-response triggers</div><div class="id">Named conditions escalate to a human automatically the moment they are crossed, instead of waiting for someone to notice.</div></div></div>
+      <div class="inv"><div class="ii">05</div><div><div class="it">Prompt-injection guards</div><div class="id">Content a system reads but did not ask for, a document, a web page, a tool result, is treated as data to defend against, never as an instruction to follow.</div></div></div>
+      <div class="inv"><div class="ii">06</div><div><div class="it">Human-approval gates</div><div class="id">The step where money moves, a message sends, or a record changes stays a decision a person makes, not a default the system takes on its own.</div></div></div>
+    </div>
+  </section>
+
+  <!-- 05: PROOF -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">05</span>The proof</div>
+    <h2>See the practice, not a description of it</h2>
+    <p class="lead">Here is where this is public: a working prototype, open for review, and the field guide that shapes what gets reviewed in the first place.</p>
+    <div class="proof rv">
+      <a class="proof-item" href="https://github.com/HamzaYM/clara" target="_blank" rel="noopener">
+        <div class="pi-top"><span class="pi-name">Clara</span><span class="pi-arrow">View on GitHub &rarr;</span></div>
+        <p class="pi-desc">A working prototype, open on GitHub, that reads dense official mail, government, health, financial, and explains it back in plain language.</p>
+      </a>
+      <a class="proof-item" href="../designing-agentic-ai/">
+        <div class="pi-top"><span class="pi-name">Designing agentic systems</span><span class="pi-arrow">Read the field guide &rarr;</span></div>
+        <p class="pi-desc">The deep-dive on how we decide the shape of an agentic system: one agent or many, and where a step should stay plain code instead of a model.</p>
+      </a>
+      <a class="proof-item" href="../designing-agentic-ai/visual/">
+        <div class="pi-top"><span class="pi-name">The same guide, in 3D</span><span class="pi-arrow">Walk it in 3D &rarr;</span></div>
+        <p class="pi-desc">The same field guide, made spatial: walk the shapes instead of reading them top to bottom.</p>
+      </a>
+    </div>
+    <p class="proof-note">A library of the reusable skills behind this practice is next. It stays private for now, while it is still being hardened.</p>
+  </section>
+
+  <section class="final">
+    <div class="fq">Good work should survive someone trying to break it before a client ever sees it.</div>
+    <a class="cta" href="https://github.com/HamzaYM/clara" target="_blank" rel="noopener">View Clara on GitHub &rarr;</a>
+    <a class="cta ghost" href="https://www.hamz.ai">Back to hamz.ai</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>hamz.ai &middot; Hamza Malik &middot; The Assurance Chain &middot; <a href="https://www.hamz.ai">www.hamz.ai</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight; bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:0.12});
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+})();
+</script>
+</body>
+</html>
