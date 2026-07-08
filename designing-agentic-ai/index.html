@@ -14,6 +14,7 @@
   --line:#262626; --line-strong:#333333;
   --ink:#F2F2F0; --dim:#9A9A94; --faint:#7C7C76;
   --teal:#2BD7AF; --teal-dim:#1A6B58; --teal-tint:rgba(43,215,175,0.08); --teal-loud:#2BD7AF;
+  --orch-fill:#22B89A;
   --slate:#7C93D8; --human-fill:#3E5C8A; --user-fill:#242424;
   --edge:#5C5C58; --panel:#12241D; --shadow:none;
   /* legacy aliases from the source, remapped */
@@ -393,6 +394,7 @@ html{scroll-behavior:smooth;}
   --line:#E7E3DC; --line-strong:#948C7F;
   --ink:#14140F; --dim:#555C58; --faint:#6B726E;
   --teal:#067A63; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+  --orch-fill:#22B89A;
   --slate:#3E5C8A; --human-fill:#3E5C8A; --user-fill:#D9D4CC;
   --edge:#8C857A; --panel:#EAF3EF;
   --paper:#FFFFFF; --paper-2:#EFEAE3; --ink-soft:#555C58;
@@ -405,6 +407,7 @@ html{scroll-behavior:smooth;}
   --line:#E7E3DC; --line-strong:#948C7F;
   --ink:#14140F; --dim:#555C58; --faint:#6B726E;
   --teal:#067A63; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+  --orch-fill:#22B89A;
   --slate:#3E5C8A; --human-fill:#3E5C8A; --user-fill:#D9D4CC;
   --edge:#8C857A; --panel:#EAF3EF;
   --paper:#FFFFFF; --paper-2:#EFEAE3; --ink-soft:#555C58;
@@ -454,6 +457,16 @@ nav.site-nav .back:hover{color:var(--teal);}
 .eyebrow.muted{color:var(--faint);}
 .byline{color:var(--faint);font-family:'JetBrains Mono',monospace;}
 .lede{color:var(--dim);}
+
+/* ---- read / 3d toggle ---- */
+.view-toggle-row{padding:2px 0 clamp(20px,3vw,32px);}
+.view-toggle{display:inline-flex;border:1px solid var(--line);}
+.view-toggle .vt-item{font-family:'JetBrains Mono',monospace;font-size:.74rem;letter-spacing:.08em;
+     text-transform:uppercase;padding:9px 18px;border-right:1px solid var(--line);border-bottom:none;}
+.view-toggle .vt-item:last-child{border-right:none;}
+.view-toggle span.vt-item{color:#0F0F0F;background:var(--teal-loud);font-weight:500;}
+.view-toggle a.vt-item{color:var(--faint);transition:color .15s,background .15s;}
+.view-toggle a.vt-item:hover{color:var(--ink);background:var(--hover);}
 
 /* ---- toc ---- */
 .toc{background:var(--raised);border-color:var(--line);}
@@ -529,7 +542,7 @@ nav.site-nav .back:hover{color:var(--teal);}
 .lbl{fill:#F2F2F0;}
 .lbl-dark{fill:var(--ink);}
 .lbl-sub{fill:var(--gray);}
-.fill-orch{fill:var(--teal-loud);}
+.fill-orch{fill:var(--orch-fill);}
 .fill-worker{fill:var(--raised-2);stroke:var(--line-strong);stroke-width:1.4;}
 .fill-special{fill:var(--teal-dim);}
 .fill-human{fill:var(--human-fill);}
@@ -661,6 +674,15 @@ footer .fmeta a{color:#2BD7AF;border:none;}
     </div>
   </div>
 </header>
+
+<div class="view-toggle-row">
+  <div class="wrap">
+    <div class="view-toggle" role="group" aria-label="Reading mode">
+      <span class="vt-item" aria-current="page">The Read</span>
+      <a class="vt-item" href="visual/">In 3D &#8599;</a>
+    </div>
+  </div>
+</div>
 
 <!-- CONTENTS -->
 <nav class="toc" aria-label="Contents">

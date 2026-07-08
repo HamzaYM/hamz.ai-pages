@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Shape of the Work · hamz.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#08070A;
+  --bone:#EFEAE1;
+  --smoke:#B9B3A9;
+  --dim:#6E695F;
+  --mit:#FF4054;
+  --mit-soft:rgba(255,64,84,.55);
+  --ember:#FFB454;
+  --violet:#8F7BFF;
+  --signal:#7EC8FF;
+  --hair:rgba(239,234,225,.14);
+  --super:#FF7A6B;
+  --sys:#9AA6B2;
+  --green:#8FD49B;
+  --plus:#9BC49B;
+  --minus:#D08585;
+  color-scheme:dark;
+}
+/* light mode: same brand, printed on paper instead of glowing on void */
+html.light{
+  --void:#F6F2E9;
+  --bone:#161318;
+  --smoke:#4E4A44;
+  --dim:#8B8478;
+  --mit:#D92839;
+  --mit-soft:rgba(217,40,57,.5);
+  --ember:#B8741A;
+  --violet:#5F49D6;
+  --signal:#1F7AB8;
+  --hair:rgba(22,19,24,.14);
+  --super:#C74A3D;
+  --sys:#5E6B78;
+  --green:#2F8A4C;
+  --plus:#3E7F46;
+  --minus:#B84040;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:auto;}
+html,body{background:var(--void);}
+body{
+  color:var(--smoke);
+  font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+::selection{background:rgba(255,64,84,.35);color:var(--bone);}
+
+/* ---------- scroll track & fixed stage ---------- */
+#track{position:relative;width:100%;}
+#stage{position:fixed;inset:0;z-index:1;}
+#gl{position:absolute;inset:0;display:block;width:100%;height:100%;}
+
+/* filmic layers */
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, rgba(3,3,5,.55) 100%);}
+.grain{position:fixed;inset:-50%;z-index:3;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(6) infinite;}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)} 20%{transform:translate(-4%,3%)}
+  40%{transform:translate(3%,-5%)} 60%{transform:translate(-5%,-2%)} 80%{transform:translate(4%,4%)}
+}
+/* left reading column: darken behind the type, let the scene own the right */
+.textshade{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg, rgba(8,7,10,.82) 0%, rgba(8,7,10,.5) 24%, rgba(8,7,10,.14) 44%, transparent 60%);}
+
+/* ---------- 3D node labels ---------- */
+#labels{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
+.nlabel{
+  position:absolute;left:0;top:0;transform:translate(-50%,-140%);
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--smoke);white-space:nowrap;
+  opacity:0;transition:opacity .5s ease;
+  text-shadow:0 1px 8px rgba(0,0,0,.9);
+}
+.nlabel::after{content:"";display:block;width:1px;height:9px;margin:3px auto 0;
+  background:linear-gradient(rgba(239,234,225,.5),transparent);}
+.nlabel.on{opacity:.85;}
+.nlabel.mit{color:var(--mit);}
+.nlabel.ember{color:var(--ember);}
+.nlabel.violet{color:var(--violet);}
+.nlabel.signal{color:var(--signal);}
+.nlabel.green{color:var(--green);}
+.nlabel.wall{font-size:.58rem;color:var(--dim);letter-spacing:.22em;}
+.nlabel.wall::after{display:none;}
+
+/* ---------- HUD chrome ---------- */
+.hud{position:fixed;z-index:10;font-family:'IBM Plex Mono',monospace;
+  font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);}
+.hud-top{top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;
+  padding:18px 26px;border-bottom:1px solid transparent;}
+.hud-top .brand b{color:var(--bone);font-weight:500;}
+.hud-top .brand i{font-style:normal;color:var(--mit);}
+.hud-top a{color:var(--dim);text-decoration:none;transition:color .25s;pointer-events:auto;}
+.hud-top a:hover{color:var(--mit);}
+.hud-top a b{font-weight:500;}
+.hud-right{display:flex;align-items:center;gap:24px;}
+#mode{all:unset;cursor:pointer;pointer-events:auto;display:flex;align-items:center;gap:8px;
+  color:var(--dim);transition:color .25s;}
+#mode:hover{color:var(--mit);}
+#mode::before{content:"";width:7px;height:7px;border-radius:50%;border:1px solid currentColor;transition:background .25s;}
+html.light #mode::before{background:currentColor;}
+#rail button:focus-visible,.tg:focus-visible,.chip:focus-visible,#mode:focus-visible{
+  outline:1px solid var(--mit);outline-offset:3px;}
+
+/* progress rail */
+#rail{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:10;
+  display:flex;flex-direction:column;gap:14px;align-items:flex-end;}
+#rail button{
+  all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;pointer-events:auto;
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.14em;
+  text-transform:uppercase;color:transparent;transition:color .3s;
+}
+#rail button .tick{width:14px;height:1px;background:rgba(239,234,225,.25);transition:all .3s;}
+#rail button:hover{color:var(--dim);}
+#rail button.on{color:var(--smoke);}
+#rail button.on .tick{width:26px;background:var(--mit);}
+
+/* scroll cue */
+#cue{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:10;
+  font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--dim);transition:opacity .6s;display:flex;flex-direction:column;align-items:center;gap:10px;}
+#cue .line{width:1px;height:34px;background:linear-gradient(var(--mit),transparent);
+  animation:drip 1.8s ease-in-out infinite;}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+#cue.gone{opacity:0;}
+
+/* color legend: what each glow means, bottom-left, once the story starts */
+#legend{position:fixed;left:26px;bottom:22px;z-index:10;display:flex;gap:16px;flex-wrap:wrap;
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);opacity:0;transition:opacity .7s ease;pointer-events:none;}
+#legend.on{opacity:1;}
+#legend span{display:flex;align-items:center;gap:7px;}
+#legend i{width:6px;height:6px;border-radius:50%;box-shadow:0 0 7px currentColor;}
+#legend i.ka{background:var(--mit);color:var(--mit);}
+#legend i.kc{background:var(--signal);color:var(--signal);}
+#legend i.kh{background:var(--ember);color:var(--ember);}
+#legend i.kv{background:var(--violet);color:var(--violet);}
+#legend i.ks{background:var(--super);color:var(--super);}
+#legend i.ky{background:var(--sys);color:var(--sys);}
+
+/* keyword tints inside card copy, same mapping as the scene */
+.k{font-weight:600;}
+.k.ka{color:var(--mit);} .k.kc{color:var(--signal);} .k.kh{color:var(--ember);}
+.k.kv{color:var(--violet);} .k.ks{color:var(--super);}
+
+/* ---------- chapter cards ---------- */
+.card{
+  position:fixed;z-index:9;left:clamp(24px,6vw,88px);top:50%;
+  width:min(460px,calc(100vw - 48px));
+  transform:translateY(-46%);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .55s ease, transform .55s ease, visibility 0s linear .55s;
+}
+.card.on{opacity:1;visibility:visible;transform:translateY(-50%);pointer-events:auto;
+  transition:opacity .55s ease .12s, transform .55s ease .12s, visibility 0s;}
+.card .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--mit);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.card .eyebrow::before{content:"";width:22px;height:1px;background:var(--mit-soft);}
+.card h2{font-family:'Fraunces',Georgia,serif;font-weight:500;color:var(--bone);
+  font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.1;letter-spacing:-.01em;margin-bottom:16px;}
+.card p{font-size:.95rem;color:var(--smoke);max-width:44ch;margin-bottom:12px;}
+.card p b{color:var(--bone);font-weight:600;}
+.card .mirror{
+  margin-top:18px;padding:12px 14px;border-left:1px solid var(--mit-soft);
+  background:linear-gradient(90deg,color-mix(in srgb, var(--mit) 7%, transparent),transparent 70%);
+  font-size:.85rem;color:var(--smoke);max-width:44ch;
+}
+.card .mirror b{display:block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;font-weight:500;}
+.card .trade{display:flex;gap:18px;margin-top:16px;font-size:.85rem;max-width:46ch;}
+.card .trade span{flex:1;}
+.card .trade .plus{color:var(--plus);}
+.card .trade .minus{color:var(--minus);}
+.card .trade i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:.72rem;display:block;margin-bottom:3px;opacity:.7;}
+
+/* hero variant */
+#card-0{width:min(720px,calc(100vw - 48px));}
+#card-0 h1{font-family:'Fraunces',Georgia,serif;font-weight:500;color:var(--bone);
+  font-size:clamp(2.5rem,6.4vw,4.7rem);line-height:1.03;letter-spacing:-.015em;margin-bottom:22px;max-width:15ch;}
+#card-0 .lede{font-size:clamp(1rem,1.6vw,1.18rem);line-height:1.55;max-width:52ch;color:var(--smoke);}
+#card-0 .lede b{color:var(--bone);font-weight:600;}
+#card-0 .byline{margin-top:26px;font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--dim);}
+#card-0 .byline b{color:var(--smoke);font-weight:500;}
+
+/* feature toggles */
+.toggles{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.tg{
+  all:unset;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.66rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);
+  padding:9px 14px;border:1px solid var(--hair);border-radius:2px;
+  transition:all .25s;display:flex;align-items:center;gap:8px;
+}
+.tg .dot{width:5px;height:5px;border-radius:50%;background:var(--dim);transition:all .25s;}
+.tg:hover{border-color:rgba(239,234,225,.35);color:var(--bone);}
+.tg.on{color:var(--bone);border-color:var(--acc,var(--mit));background:color-mix(in srgb,var(--acc,var(--mit)) 10%, transparent);}
+.tg.on .dot{background:var(--acc,var(--mit));box-shadow:0 0 8px var(--acc,var(--mit));}
+.tg[data-f="boundary"]{--acc:var(--signal);}
+.tg[data-f="review"]{--acc:var(--violet);}
+.tg[data-f="human"]{--acc:var(--ember);}
+.tg[data-f="cache"]{--acc:var(--green);}
+#featnote{margin-top:14px;font-size:.85rem;color:var(--smoke);max-width:46ch;min-height:3.2em;
+  transition:opacity .3s;border-left:1px solid var(--hair);padding-left:12px;}
+
+/* finale chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;max-width:46ch;}
+.chip{
+  all:unset;cursor:pointer;font-size:.85rem;color:var(--smoke);
+  padding:9px 15px;border:1px solid var(--hair);border-radius:999px;transition:all .25s;
+}
+.chip:hover{border-color:rgba(239,234,225,.4);color:var(--bone);}
+.chip.on{border-color:var(--mit);color:var(--bone);background:color-mix(in srgb, var(--mit) 10%, transparent);}
+#verdict{margin-top:18px;max-width:46ch;min-height:5em;}
+#verdict .shape{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--bone);margin-bottom:6px;}
+#verdict .why{font-size:.88rem;color:var(--smoke);}
+#verdict .opt{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mit);margin-top:10px;}
+.footlink{margin-top:26px;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;}
+.footlink a{color:var(--bone);text-decoration:none;border-bottom:1px solid var(--mit-soft);padding-bottom:2px;transition:all .25s;}
+.footlink a:hover{color:var(--mit);border-color:var(--mit);}
+
+/* light-mode one-offs (dark-alpha gradients and shadows) */
+html.light ::selection{background:rgba(217,40,57,.22);}
+html.light .vignette{background:radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, rgba(86,72,52,.2) 100%);}
+html.light .grain{opacity:.035;}
+html.light .textshade{background:linear-gradient(90deg, rgba(246,242,233,.9) 0%, rgba(246,242,233,.58) 24%, rgba(246,242,233,.18) 44%, transparent 60%);}
+html.light .nlabel{text-shadow:0 1px 6px rgba(246,242,233,.95);}
+html.light .nlabel::after{background:linear-gradient(rgba(22,19,24,.45),transparent);}
+html.light #rail button .tick{background:rgba(22,19,24,.25);}
+
+/* mobile */
+@media(max-width:700px){
+  #rail{display:none;}
+  #legend{display:none;}
+  .textshade{background:linear-gradient(180deg, transparent 46%, rgba(8,7,10,.55) 100%);}
+  html.light .textshade{background:linear-gradient(180deg, transparent 46%, rgba(246,242,233,.75) 100%);}
+  .hud-top{padding:14px 16px;font-size:.56rem;}
+  .card{left:18px;right:18px;width:auto;top:auto;bottom:0;transform:translateY(8px);
+    padding:18px 16px 26px;background:linear-gradient(transparent,rgba(8,7,10,.88) 26%);}
+  html.light .card{background:linear-gradient(transparent,rgba(246,242,233,.94) 26%);}
+  .card.on{transform:translateY(0);}
+  .card p{font-size:.88rem;}
+  #card-0{top:50%;bottom:auto;background:none;padding:0 4px;}
+  .trade{flex-direction:column;gap:8px;}
+}
+@media(prefers-reduced-motion:reduce){
+  .grain{animation:none;}
+  #cue .line{animation:none;}
+}
+
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <canvas id="gl"></canvas>
+</div>
+<div class="textshade"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div id="labels"></div>
+
+<div id="legend" aria-hidden="true">
+  <span><i class="ka"></i>Agents</span>
+  <span><i class="kc"></i>Customer</span>
+  <span><i class="kh"></i>Human</span>
+  <span><i class="kv"></i>Review</span>
+  <span><i class="ks"></i>Supervisor</span>
+  <span><i class="ky"></i>Systems</span>
+</div>
+
+<!-- HUD -->
+<div class="hud hud-top">
+  <span class="brand"><b>hamz.ai</b> · <i>Agent topologies</i></span>
+  <span class="hud-right">
+    <button id="mode" aria-label="Switch to light mode">Light</button>
+    <a href="../" target="_blank" rel="noopener">Read the full guide <b>↗</b></a>
+  </span>
+</div>
+<nav id="rail" aria-label="Chapters"></nav>
+<div id="cue"><span>Scroll</span><span class="line"></span></div>
+
+<!-- CHAPTER CARDS -->
+<section class="card" id="card-0">
+  <div class="eyebrow">Re-imagining workflows · Domain-expert leaders</div>
+  <h1>Agent topologies and the shape of the work</h1>
+  <p class="lede">Most leaders bolt agents onto the workflow they already run. A faster version of today's process. <b>The bigger move is to redesign the shape of the work itself</b>, and the shapes are not exotic. Scroll, and watch <span class="k ka">one troupe of agents</span> rewire into every structure your organization already runs on.</p>
+  <div class="byline">A spatial companion to Designing Agentic Systems · <b>Hamza Malik</b></div>
+</section>
+
+<section class="card" id="card-1">
+  <div class="eyebrow">Where the idea starts</div>
+  <h2>One call center. Two moves.</h2>
+  <p>A leader comes home from an agentic AI summit and looks at his floor with new eyes. The reflex is to <b>automate the workflow he already has</b>. Same shape, just faster. Safe, and the smaller prize.</p>
+  <p>The reframe is to <b>redesign how the work is structured</b> around what agents are good at. Which tasks collapse, who decides what, where the humans sit. Harder to do, and where the gains compound.</p>
+  <p style="color:var(--dim);font-size:.85rem;">Everything that follows is <span class="k kc">one inbound call</span>, shaped five different ways.</p>
+</section>
+
+<section class="card" id="card-2">
+  <div class="eyebrow">Shape 01 · Hub and spoke</div>
+  <h2>One coordinator, a ring of specialists</h2>
+  <p>The <span class="k ka">orchestrator</span> holds the conversation and dispatches to narrow workers, each in its own isolated context. They report back, it composes the answer. The shape Anthropic used for its research product.</p>
+  <div class="trade">
+    <span class="plus"><i>+</i>Fast. Workers run at once, and you add or drop one as the work changes.</span>
+    <span class="minus"><i>−</i>Nothing checks the workers, so one wrong answer can pass straight through.</span>
+  </div>
+  <div class="mirror"><b>In your organization</b>The delegating manager. Parcels pieces to specialists who never talk to each other, assembles the result, and is the one set of eyes that has to catch every mistake.</div>
+</section>
+
+<section class="card" id="card-3">
+  <div class="eyebrow">Shape 02 · Pyramid</div>
+  <h2>Layers, and a loop that sends work back</h2>
+  <p>A wide base does the legwork. <span class="k kv">Reviewers</span> above check the draft and <span class="k ka">send it back</span> when it is not good enough. One sign-off at the top commits. The send-back loop is the mechanism doing the work: <b>nothing ships unchecked.</b></p>
+  <div class="trade">
+    <span class="plus"><i>+</i>Catches mistakes. Every level reviews before anything commits.</span>
+    <span class="minus"><i>−</i>Slow and costly. Every answer waits on a sign-off.</span>
+  </div>
+  <div class="mirror"><b>In your organization</b>The firm with layers of review. Associate drafts, manager sends it back until it holds, partner signs. Quality bought with layers, worth it when being wrong is expensive.</div>
+</section>
+
+<section class="card" id="card-4">
+  <div class="eyebrow">Shape 03 · Pipeline</div>
+  <h2>An assembly line with clean gates</h2>
+  <p>Each stage feeds the next in fixed order. Every handoff is a gate you can check, log, or stop, which makes this <b>the easiest shape to audit.</b> Good for work that genuinely has to happen in order.</p>
+  <div class="trade">
+    <span class="plus"><i>+</i>Predictable and easy to govern. Each step is a clean, gated handoff.</span>
+    <span class="minus"><i>−</i>Slow, and the whole chain stalls if any one step jams.</span>
+  </div>
+  <div class="mirror"><b>In your organization</b>The standard operating procedure. Each desk does its step and passes the file along. The claims process, the mortgage pipeline, the assembly line.</div>
+</section>
+
+<section class="card" id="card-5">
+  <div class="eyebrow">Shape 04 · Parallel</div>
+  <h2>Everything at once, merged at the end</h2>
+  <p>Independent agents run at the same moment on parts that do not depend on each other, and the results merge at the end. <b>The whole bet is independence.</b> It turns dangerous when the parts secretly depend on each other.</p>
+  <div class="trade">
+    <span class="plus"><i>+</i>The fastest shape. Independent reads run at the same moment.</span>
+    <span class="minus"><i>−</i>You have to reconcile results that come back not lining up.</span>
+  </div>
+  <div class="mirror"><b>In your organization</b>The task force. Several people take independent angles at once, then converge. A war room, a due-diligence sprint, and the same merge headache.</div>
+</section>
+
+<section class="card" id="card-6">
+  <div class="eyebrow">Shape 05 · Mesh</div>
+  <h2>Peers negotiating, no one in the middle</h2>
+  <p>Agents talk straight to each other with no coordinator. Useful when specialists genuinely need to negotiate. Without someone deciding when the job is done, <b>you build in a rule for when to stop</b>, and you keep a <span class="k ks">supervisor</span> watching.</p>
+  <div class="trade">
+    <span class="plus"><i>+</i>Flexible and powerful. Agents coordinate directly, with no bottleneck.</span>
+    <span class="minus"><i>−</i>Hard to govern. Use rarely, and never unwatched.</span>
+  </div>
+  <div class="mirror"><b>In your organization</b>The flat room of peers. No boss in the room, specialists negotiating directly. A trading desk, a founding team. Creative, quick, hard to govern.</div>
+</section>
+
+<section class="card" id="card-7">
+  <div class="eyebrow">Features · Layer onto any shape</div>
+  <h2>Four things you bolt onto whichever shape you pick</h2>
+  <p>None of these is a topology. They sit on top of the five shapes. Tap to layer them onto this one.</p>
+  <div class="toggles">
+    <button class="tg" data-f="boundary"><span class="dot"></span>Boundary</button>
+    <button class="tg" data-f="review"><span class="dot"></span>Adversarial review</button>
+    <button class="tg" data-f="human"><span class="dot"></span>Human in the loop</button>
+    <button class="tg" data-f="cache"><span class="dot"></span>Caching</button>
+  </div>
+  <div id="featnote">A privacy wall, a checker, a person at the point of no return, and a way to pay once for what does not change.</div>
+</section>
+
+<section class="card" id="card-8">
+  <div class="eyebrow">No best shape</div>
+  <h2>There is only the right shape for this call</h2>
+  <p>The tempting move is to pick one architecture and use it everywhere. Real systems mix them. You match the shape to the risk and complexity of each kind of call. Pick one.</p>
+  <div class="chips">
+    <button class="chip" data-c="reset">Password reset</button>
+    <button class="chip" data-c="address">Address change</button>
+    <button class="chip" data-c="refund">Billing dispute, refund</button>
+    <button class="chip" data-c="angry">Angry escalation</button>
+    <button class="chip" data-c="fraud">Fraud and retention</button>
+  </div>
+  <div id="verdict">
+    <div class="shape" style="color:var(--dim);font-size:.95rem;">The troupe is idling through the shapes. Choose a call to make it commit.</div>
+  </div>
+  <div class="footlink"><a href="../" target="_blank" rel="noopener">Read the full guide ↗</a></div>
+</section>
+
+<div id="track"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+/* ---------- palette ---------- */
+var C = {
+  void_: 0x08070A,
+  bone:  0xEFEAE1,
+  worker:0xE04F5C,   /* troupe red, one step quieter than the orchestrator */
+  mit:   0xFF4054,
+  ember: 0xFFB454,
+  violet:0x8F7BFF,
+  signal:0x7EC8FF,
+  green: 0x8FD49B,
+  dim:   0x5A554D
+};
+
+/* ---------- renderer / scene ---------- */
+var canvas = document.getElementById('gl');
+var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:false});
+renderer.setClearColor(C.void_, 1);
+var DPR = Math.min(window.devicePixelRatio || 1, isTouch ? 1.75 : 2);
+renderer.setPixelRatio(DPR);
+
+var scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(C.void_, 0.016);
+
+var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+camera.position.set(0, 2, 34);
+
+/* ---------- shared textures ---------- */
+function radialTex(stops){
+  var s = 128, cv = document.createElement('canvas'); cv.width = cv.height = s;
+  var g = cv.getContext('2d');
+  var grd = g.createRadialGradient(s/2,s/2,0, s/2,s/2,s/2);
+  stops.forEach(function(st){ grd.addColorStop(st[0], st[1]); });
+  g.fillStyle = grd; g.fillRect(0,0,s,s);
+  var t = new THREE.CanvasTexture(cv); t.needsUpdate = true; return t;
+}
+var haloTex  = radialTex([[0,'rgba(255,255,255,.85)'],[0.25,'rgba(255,255,255,.28)'],[1,'rgba(255,255,255,0)']]);
+var sparkTex = radialTex([[0,'rgba(255,255,255,1)'],[0.4,'rgba(255,255,255,.5)'],[1,'rgba(255,255,255,0)']]);
+
+/* ---------- ambient dust + deep glow ---------- */
+var dustPts, deepGlow;
+(function dust(){
+  var n = isTouch ? 420 : 900;
+  var pos = new Float32Array(n*3);
+  for (var i=0;i<n;i++){
+    pos[i*3]   = (Math.random()-0.5)*110;
+    pos[i*3+1] = (Math.random()-0.5)*70;
+    pos[i*3+2] = (Math.random()-0.5)*110 - 10;
+  }
+  var g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  var m = new THREE.PointsMaterial({size:0.16, map:sparkTex, transparent:true, opacity:0.16,
+    color:0xBFB8AC, depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true});
+  dustPts = new THREE.Points(g,m); dustPts.name='dust'; scene.add(dustPts);
+  deepGlow = new THREE.Sprite(new THREE.SpriteMaterial({map:haloTex, color:0x2A1418,
+    transparent:true, opacity:0.5, depthWrite:false, blending:THREE.AdditiveBlending}));
+  deepGlow.scale.set(70,52,1); deepGlow.position.set(0,0,-24); scene.add(deepGlow);
+})();
+
+/* ============================================================
+   THE TROUPE: 16 agents, reused across every shape
+   ============================================================ */
+var NODE_DEFS = [
+  {id:0,  kind:'orch',   r:1.05},
+  {id:1,  kind:'worker', r:0.62},
+  {id:2,  kind:'worker', r:0.62},
+  {id:3,  kind:'worker', r:0.62},
+  {id:4,  kind:'worker', r:0.62},
+  {id:5,  kind:'worker', r:0.62},
+  {id:6,  kind:'worker', r:0.62},
+  {id:7,  kind:'human',  r:0.72},
+  {id:8,  kind:'review', r:0.68},
+  {id:9,  kind:'signal', r:0.78},
+  {id:10, kind:'super',  r:0.7},
+  {id:11, kind:'worker', r:0.62},
+  {id:12, kind:'worker', r:0.62},
+  {id:13, kind:'worker', r:0.62},
+  {id:14, kind:'worker', r:0.62},
+  {id:15, kind:'system', r:0.66}
+];
+var KIND_COLOR = {orch:C.mit, worker:C.worker, human:C.ember, review:C.violet,
+  signal:C.signal, super:0xFF7A6B, system:0x9AA6B2};
+
+var nodeFresnel = {
+  vertex: [
+    'varying vec3 vN; varying vec3 vV;',
+    'void main(){',
+    '  vN = normalize(normalMatrix * normal);',
+    '  vec4 mv = modelViewMatrix * vec4(position,1.0);',
+    '  vV = normalize(-mv.xyz);',
+    '  gl_Position = projectionMatrix * mv;',
+    '}'
+  ].join('\n'),
+  fragment: [
+    'uniform vec3 uColor; uniform float uOpacity; uniform float uPulse; uniform float uInk;',
+    'varying vec3 vN; varying vec3 vV;',
+    'void main(){',
+    '  float fr = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.2);',
+    '  vec3 glow = uColor * 0.22 + uColor * fr * (1.35 + uPulse);',
+    '  vec3 ink  = uColor * (0.97 - fr * 0.42);',
+    '  ink = mix(ink, vec3(1.0), uPulse * 0.35);',
+    '  vec3 col = mix(glow, ink, uInk);',
+    '  gl_FragColor = vec4(col, uOpacity);',
+    '}'
+  ].join('\n')
+};
+
+var sphereGeo = new THREE.SphereGeometry(1, 26, 20);
+var nodes = NODE_DEFS.map(function(def){
+  var color = new THREE.Color(KIND_COLOR[def.kind]);
+  var mat = new THREE.ShaderMaterial({
+    uniforms:{ uColor:{value:color}, uOpacity:{value:1}, uPulse:{value:0}, uInk:{value:0} },
+    vertexShader:nodeFresnel.vertex, fragmentShader:nodeFresnel.fragment,
+    transparent:true, depthWrite:true
+  });
+  var mesh = new THREE.Mesh(sphereGeo, mat);
+  var halo = new THREE.Sprite(new THREE.SpriteMaterial({map:haloTex, color:color,
+    transparent:true, opacity:0.34, depthWrite:false, blending:THREE.AdditiveBlending}));
+  mesh.add(halo);
+  scene.add(mesh);
+  return {
+    def:def, mesh:mesh, halo:halo, mat:mat,
+    cur:new THREE.Vector3(), from:new THREE.Vector3(), to:new THREE.Vector3(),
+    curS:0.001, fromS:0.001, toS:0.001,
+    curO:0, fromO:0, toO:0,
+    t:1, delay:0, drift:Math.random()*Math.PI*2, driftSpd:0.4+Math.random()*0.5,
+    pulse:0
+  };
+});
+
+/* bench: where unused agents wait */
+function benchPos(i){
+  var a = (i/nodes.length)*Math.PI*2 + 0.7;
+  return new THREE.Vector3(Math.cos(a)*17, Math.sin(a*1.7)*4.2, -11 - (i%4)*2.2);
+}
+
+/* ---------- edges ---------- */
+var MAX_EDGES = 48;
+var edgeGeo = new THREE.BufferGeometry();
+var edgePos = new Float32Array(MAX_EDGES*2*3);
+var edgeCol = new Float32Array(MAX_EDGES*2*3);
+edgeGeo.setAttribute('position', new THREE.BufferAttribute(edgePos,3));
+edgeGeo.setAttribute('color', new THREE.BufferAttribute(edgeCol,3));
+var edgeMat = new THREE.LineBasicMaterial({vertexColors:true, transparent:true,
+  opacity:0, blending:THREE.AdditiveBlending, depthWrite:false});
+var edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
+scene.add(edgeLines);
+
+var EDGE_COLOR = {normal:0x8A8378, hot:0xFF4054, review:0x8F7BFF, gate:0xFFB454,
+  watch:0x4A443C, signal:0x5E85A0, cache:0x8FD49B};
+function recolorEdges(){
+  var col = new THREE.Color();
+  for (var i=0;i<activeEdges.length;i++){
+    col.setHex(edgeHex(activeEdges[i].kind));
+    edgeCol[i*6]=col.r; edgeCol[i*6+1]=col.g; edgeCol[i*6+2]=col.b;
+    edgeCol[i*6+3]=col.r; edgeCol[i*6+4]=col.g; edgeCol[i*6+5]=col.b;
+  }
+  edgeGeo.attributes.color.needsUpdate = true;
+}
+var activeEdges = [];      // {a,b,kind,dir}  dir: 1, -1, 2(bidir)
+var edgeAlpha = 0, edgeAlphaTarget = 0.5;
+
+function setEdges(list){
+  edgeAlphaTarget = 0;
+  setTimeout(function(){
+    activeEdges = list.slice(0, MAX_EDGES);
+    recolorEdges();
+    edgeGeo.setDrawRange(0, activeEdges.length*2);
+    assignParticles();
+    edgeAlphaTarget = 0.5;
+  }, reduced ? 0 : 240);
+}
+
+/* ---------- flow particles ---------- */
+var P = isTouch ? 220 : 340;
+var pGeo = new THREE.BufferGeometry();
+var pPos = new Float32Array(P*3);
+var pCol = new Float32Array(P*3);
+var pAlp = new Float32Array(P);
+var pSize= new Float32Array(P);
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3));
+pGeo.setAttribute('aColor',  new THREE.BufferAttribute(pCol,3));
+pGeo.setAttribute('aAlpha',  new THREE.BufferAttribute(pAlp,1));
+pGeo.setAttribute('aSize',   new THREE.BufferAttribute(pSize,1));
+var pMat = new THREE.ShaderMaterial({
+  uniforms:{ uTex:{value:sparkTex} },
+  vertexShader:[
+    'attribute vec3 aColor; attribute float aAlpha; attribute float aSize;',
+    'varying vec3 vC; varying float vA;',
+    'void main(){',
+    '  vC = aColor; vA = aAlpha;',
+    '  vec4 mv = modelViewMatrix * vec4(position,1.0);',
+    '  gl_PointSize = aSize * (140.0 / -mv.z);',
+    '  gl_Position = projectionMatrix * mv;',
+    '}'
+  ].join('\n'),
+  fragmentShader:[
+    'uniform sampler2D uTex; varying vec3 vC; varying float vA;',
+    'void main(){',
+    '  vec4 t = texture2D(uTex, gl_PointCoord);',
+    '  gl_FragColor = vec4(vC, t.a * vA);',
+    '}'
+  ].join('\n'),
+  transparent:true, depthWrite:false, blending:THREE.AdditiveBlending
+});
+var particles = new THREE.Points(pGeo, pMat);
+particles.frustumCulled = false;
+scene.add(particles);
+
+var pState = [];
+for (var i=0;i<P;i++) pState.push({edge:-1, t:Math.random(), speed:0.3, back:false, size:1});
+
+var PKIND_COLOR = {normal:0xFFEDD8, hot:C.mit, review:C.violet, gate:C.ember,
+  watch:0x8A8378, signal:C.signal, cache:C.green};
+
+var flow = {mode:'free', speed:1, sendBack:false, density:1};
+
+function assignParticles(){
+  var col = new THREE.Color();
+  var nE = activeEdges.length;
+  for (var i=0;i<P;i++){
+    var ps = pState[i];
+    if (!nE || Math.random() > flow.density){ ps.edge = -1; pAlp[i]=0; continue; }
+    var e = (Math.random()*nE)|0;
+    ps.edge = e;
+    ps.t = Math.random();
+    ps.speed = 0.22 + Math.random()*0.28;
+    var kind = activeEdges[e].kind || 'normal';
+    ps.back = false;
+    if (flow.sendBack && kind==='review' && Math.random()<0.45) ps.back = true;
+    ps.size = (kind==='hot' || ps.back) ? 2.4 : (kind==='signal' ? 2.0 : 1.5);
+    col.setHex(particleHex(kind, ps.back));
+    pCol[i*3]=col.r; pCol[i*3+1]=col.g; pCol[i*3+2]=col.b;
+  }
+  pGeo.attributes.aColor.needsUpdate = true;
+}
+function recolorParticles(){
+  var col = new THREE.Color();
+  for (var i=0;i<P;i++){
+    var ps = pState[i];
+    if (ps.edge < 0 || ps.edge >= activeEdges.length) continue;
+    col.setHex(particleHex(activeEdges[ps.edge].kind || 'normal', ps.back));
+    pCol[i*3]=col.r; pCol[i*3+1]=col.g; pCol[i*3+2]=col.b;
+  }
+  pGeo.attributes.aColor.needsUpdate = true;
+}
+
+/* ---------- boundary wall / cache glyph (feature props) ---------- */
+var wall = (function(){
+  var g = new THREE.PlaneGeometry(1,1);
+  var m = new THREE.ShaderMaterial({
+    uniforms:{uColor:{value:new THREE.Color(C.signal)}, uOp:{value:0}},
+    vertexShader:'varying vec2 vUv; void main(){vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+    fragmentShader:[
+      'uniform vec3 uColor; uniform float uOp; varying vec2 vUv;',
+      'void main(){',
+      '  float edge = smoothstep(0.0,0.12,vUv.y)*smoothstep(1.0,0.88,vUv.y);',
+      '  float line = smoothstep(0.06,0.0,abs(vUv.x-0.5))*0.9;',
+      '  float haze = (1.0-abs(vUv.x-0.5)*2.0)*0.06;',
+      '  gl_FragColor = vec4(uColor,(line+haze)*edge*uOp);',
+      '}'
+    ].join('\n'),
+    transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.AdditiveBlending
+  });
+  var mesh = new THREE.Mesh(g,m);
+  mesh.scale.set(2.4, 15, 1);
+  mesh.rotation.y = Math.PI/2;
+  mesh.visible = false;
+  scene.add(mesh);
+  return mesh;
+})();
+
+var cacheGlyph = (function(){
+  var mesh = new THREE.Mesh(new THREE.OctahedronGeometry(0.5),
+    new THREE.MeshBasicMaterial({color:C.green, transparent:true, opacity:0, wireframe:true}));
+  var halo = new THREE.Sprite(new THREE.SpriteMaterial({map:haloTex, color:C.green,
+    transparent:true, opacity:0, depthWrite:false, blending:THREE.AdditiveBlending}));
+  halo.scale.set(3,3,1); mesh.add(halo); mesh.userData.halo = halo;
+  scene.add(mesh);
+  return mesh;
+})();
+
+/* ============================================================
+   LAYOUTS
+   pos: {nodeId:[x,y,z]}, edges: [[a,b,kind,dir]], labels:{id:text}
+   cam: {pos, look}
+   ============================================================ */
+function E(a,b,kind,dir){ return {a:a,b:b,kind:kind||'normal',dir:dir||1}; }
+
+var LAYOUTS = {
+
+  constellation: {
+    pos:(function(){
+      var p = {};
+      for (var i=0;i<16;i++){
+        var a = i*2.4, r = 5 + (i*2.7)%7;
+        p[i] = [Math.cos(a)*r, Math.sin(a*1.3)*4.6, Math.sin(a)*r*0.6 - 2];
+      }
+      return p;
+    })(),
+    edges: [E(0,3,'watch'),E(3,9,'watch'),E(9,5,'watch'),E(5,12,'watch'),E(12,7,'watch'),E(7,1,'watch'),E(1,10,'watch')],
+    labels:{},
+    flow:{mode:'free', speed:0.5, density:0.35},
+    cam:{pos:[0,1.5,33], look:[0,0,0]}
+  },
+
+  twoMoves: {
+    pos:{9:[-11,0,1], 0:[0,0,0], 15:[10.5,0,-1]},
+    edges:[E(9,0,'signal'), E(0,15,'normal',2)],
+    labels:{9:'The call', 0:'One agent, faster', 15:'Systems'},
+    words:['the call','the answer'],
+    flow:{mode:'free', speed:1.15, density:0.9},
+    cam:{pos:[0.5,3.2,25], look:[0,0,0]}
+  },
+
+  hub: {
+    pos:(function(){
+      var p = {0:[0,0,0], 9:[-14.5,0.6,2.5]};
+      var ring = [1,2,3,4,5,6];
+      for (var i=0;i<6;i++){
+        var a = i*(Math.PI*2/6) - Math.PI/2 + 0.26;
+        p[ring[i]] = [Math.cos(a)*7.6, Math.sin(i*2.1)*1.5, Math.sin(a)*7.6];
+      }
+      return p;
+    })(),
+    edges:[E(9,0,'signal'), E(0,1,'hot',2),E(0,2,'normal',2),E(0,3,'normal',2),
+           E(0,4,'normal',2),E(0,5,'normal',2),E(0,6,'normal',2)],
+    labels:{0:'Orchestrator',9:'Customer',1:'Identity',2:'Billing',3:'Account',4:'Orders',5:'Knowledge',6:'Messaging'},
+    words:['intent','lookup','answer'],
+    flow:{mode:'free', speed:1.25, density:1},
+    cam:{pos:[7.5,7.5,22.5], look:[-0.5,0.2,0]}
+  },
+
+  pyramid: {
+    pos:{
+      0:[0,6.2,0],
+      4:[-3.3,3.1,0.4], 5:[3.3,3.1,-0.4],
+      1:[-5.4,0.1,0.8], 2:[0,0.1,-0.2], 11:[5.4,0.1,0.6],
+      6:[-7.2,-3,1], 12:[-2.4,-3,0.2], 13:[2.4,-3,-0.4], 14:[7.2,-3,0.8],
+      9:[-14,5.2,2.5]
+    },
+    edges:[
+      E(6,1),E(12,1),E(12,2),E(13,2),E(13,11),E(14,11),
+      E(1,4,'review',2),E(2,4,'review',2),E(2,5,'review',2),E(11,5,'review',2),
+      E(4,0,'review',2),E(5,0,'review',2),
+      E(0,9,'hot')
+    ],
+    labels:{0:'Partner · sign-off',4:'Manager',5:'Manager',2:'Sr. associate',12:'Associate',9:'Decision out'},
+    words:['draft','review','send back','sign-off'],
+    flow:{mode:'free', speed:0.8, sendBack:true, density:1},
+    cam:{pos:[10.5,3.4,21], look:[0,1.6,0]}
+  },
+
+  pipeline: {
+    pos:{9:[-13,0,0], 1:[-6.5,0.7,-0.6], 2:[0,-0.5,0.5], 3:[6.5,0.7,-0.6], 0:[13,0,0]},
+    edges:[E(9,1,'signal'),E(1,2),E(2,3),E(3,0,'hot')],
+    labels:{9:'Transcript',1:'Summary',2:'Disposition code',3:'Follow-up task',0:'Done · commit'},
+    words:['transcript','summary','code','task','commit'],
+    flow:{mode:'sequential', speed:1, density:1},
+    cam:{pos:[0,7,25.5], look:[0,0,0]}
+  },
+
+  parallel: {
+    pos:{9:[-11.5,0,0], 1:[0,5,0.4], 2:[0.4,0,-0.6], 3:[0,-5,0.4], 0:[11,0,0]},
+    edges:[E(9,1,'signal'),E(9,2,'signal'),E(9,3,'signal'),
+           E(1,0),E(2,0),E(3,0)],
+    labels:{9:'Call lands',1:'Identity',2:'Sentiment',3:'Intent',0:'Merge'},
+    words:['identity','sentiment','intent','merge'],
+    flow:{mode:'burst', speed:1.5, density:1},
+    cam:{pos:[1.5,3,26], look:[0,0,0]}
+  },
+
+  mesh: {
+    pos:{1:[-5.4,-1.2,1.5], 2:[5.4,-1.2,1.5], 3:[0,-1.2,-5.6], 10:[0,6.4,-1.2], 9:[-14,-1,3]},
+    edges:[E(1,2,'hot',2),E(2,3,'hot',2),E(3,1,'hot',2),
+           E(10,1,'watch'),E(10,2,'watch'),E(10,3,'watch')],
+    labels:{1:'Fraud',2:'Retention',3:'Pricing',10:'Supervisor · watching'},
+    words:['offer','counter','hold','agreed'],
+    flow:{mode:'chatter', speed:1.6, density:0.9},
+    cam:{pos:[-7,6.5,19.5], look:[0,0.6,-1]}
+  },
+
+  layers: {
+    pos:{9:[-13.5,0,1.5], 1:[-6.2,0,0], 0:[0.5,0,0], 15:[10.5,-0.6,-0.5],
+         8:[4,4.6,-1.2], 7:[5.8,-4.4,1.2], 4:[-1,-4.6,-2], 5:[2,4.8,2]},
+    edges:[E(9,1,'signal',2),E(1,0,'normal',2),E(0,15,'hot',2),
+           E(0,4),E(0,5)],
+    labels:{9:'Customer',1:'External agent',0:'Internal agent',15:'Systems'},
+    words:['request','cleared','write'],
+    flow:{mode:'free', speed:1, density:0.9},
+    cam:{pos:[0,3.6,25.5], look:[-0.5,0,0]}
+  },
+
+  escalation: {
+    pos:{9:[-12.5,0,1], 2:[-4,0.4,0], 0:[5.5,0,0], 7:[11.5,-2.6,1]},
+    edges:[E(9,2,'signal'),E(2,0,'hot'),E(0,7,'gate',2)],
+    labels:{9:'Angry caller',2:'Router · sees almost nothing',0:'Escalation specialist',7:'Human · authority'},
+    words:['handoff','context','authority'],
+    flow:{mode:'free', speed:1, density:0.85},
+    cam:{pos:[1,3.5,24], look:[0,0,0]}
+  }
+};
+
+/* per-layout node scale/opacity */
+function roleScale(id, layout){
+  var d = NODE_DEFS[id];
+  if (layout === LAYOUTS.escalation && id===2) return d.r*0.72;
+  if (layout === LAYOUTS.escalation && id===0) return d.r*1.05;
+  if (layout === LAYOUTS.pyramid && (id===4||id===5)) return 0.78;
+  return d.r;
+}
+
+/* ---------- morph ---------- */
+var currentLayout = null;
+function applyLayout(layout, opts){
+  opts = opts || {};
+  currentLayout = layout;
+  var used = layout.pos;
+  nodes.forEach(function(n, i){
+    var target, tScale, tOp;
+    if (used[i]){
+      var a = used[i];
+      target = new THREE.Vector3(a[0],a[1],a[2]);
+      tScale = roleScale(i, layout);
+      tOp = 1;
+    } else {
+      target = benchPos(i);
+      tScale = NODE_DEFS[i].r*0.5;
+      tOp = 0.1;
+    }
+    n.from.copy(n.cur); n.to.copy(target);
+    n.fromS = n.curS; n.toS = tScale;
+    n.fromO = n.curO; n.toO = tOp;
+    n.t = 0;
+    n.delay = reduced ? 0 : (opts.stagger===false ? 0 : i*0.035);
+  });
+  flow = Object.assign({mode:'free',speed:1,sendBack:false,density:1}, layout.flow);
+  setEdges(layout.edges);
+  setLabels(layout.labels);
+  setWords(layout.words);
+}
+
+/* ---------- labels ---------- */
+var labelWrap = document.getElementById('labels');
+var labelPool = nodes.map(function(n,i){
+  var d = document.createElement('div');
+  d.className = 'nlabel ' + ({orch:'mit',human:'ember',review:'violet',signal:'signal',super:'mit'}[n.def.kind]||'');
+  labelWrap.appendChild(d);
+  return d;
+});
+var wallLabels = ['OUTSIDE THE WALL','INSIDE THE WALL'].map(function(t){
+  var d = document.createElement('div'); d.className='nlabel wall'; d.textContent=t;
+  labelWrap.appendChild(d); return d;
+});
+var cacheLabel = (function(){
+  var d = document.createElement('div'); d.className='nlabel green';
+  d.textContent='CACHED · PAID ONCE'; labelWrap.appendChild(d); return d;
+})();
+var activeLabels = {};
+function setLabels(map){
+  activeLabels = map || {};
+  labelPool.forEach(function(el, i){
+    var txt = activeLabels[i];
+    if (txt){ el.textContent = txt; el.classList.add('on'); }
+    else el.classList.remove('on');
+  });
+}
+/* ---------- word riders: fragments of the work, in transit ----------
+   Short mono words ride the live edges the same way the particles do,
+   so the traffic is literate: DRAFT climbs the pyramid, SEND BACK falls,
+   TRANSCRIPT walks the pipeline. Skipped under reduced motion. */
+var RIDER_N = isTouch ? 3 : 6;
+var wordVocab = [], wordIdx = 0;
+var riders = [];
+for (var ri=0; ri<RIDER_N; ri++){
+  var rcv = document.createElement('canvas'); rcv.width = 8; rcv.height = 64;
+  var rtex = new THREE.CanvasTexture(rcv);
+  var rspr = new THREE.Sprite(new THREE.SpriteMaterial({map:rtex, transparent:true,
+    opacity:0, depthWrite:false, blending:THREE.AdditiveBlending}));
+  rspr.visible = false; rspr.scale.set(0.001,0.001,1);
+  scene.add(rspr);
+  riders.push({sprite:rspr, cv:rcv, tex:rtex, edge:-1, t:0, dur:2.6,
+    delay:1.2 + ri*1.1, rev:false, on:false, w:1});
+}
+function paintRider(r, text, hex){
+  var g = r.cv.getContext('2d');
+  g.font = '600 40px "IBM Plex Mono", monospace';
+  var spaced = text.toUpperCase().split('').join('\u2009');
+  var w = Math.max(8, Math.ceil(g.measureText(spaced).width) + 36);
+  r.cv.width = w; r.cv.height = 64;           /* resizing clears state */
+  g = r.cv.getContext('2d');
+  g.font = '600 40px "IBM Plex Mono", monospace';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  var col = '#' + ('00000' + hex.toString(16)).slice(-6);
+  g.shadowColor = col; g.shadowBlur = LIGHT ? 4 : 14;
+  g.fillStyle = col;
+  g.fillText(spaced, w/2, 34);
+  r.tex.needsUpdate = true;
+  r.w = w/64;
+}
+function setWords(list){
+  wordVocab = (reduced || !list) ? [] : list;
+  wordIdx = 0;
+  riders.forEach(function(r, i){
+    r.on = false;
+    r.delay = 1.1 + i*1.15 + Math.random()*0.7;
+  });
+}
+function spawnRider(r){
+  var nE = activeEdges.length;
+  if (!wordVocab.length || !nE) return false;
+  r.edge = (Math.random()*nE)|0;
+  var ed = activeEdges[r.edge];
+  var kind = ed.kind || 'normal';
+  var hex = riderHex(kind);
+  paintRider(r, wordVocab[wordIdx % wordVocab.length], hex);
+  wordIdx++;
+  r.rev = (ed.dir === -1) || (ed.dir === 2 && kind !== 'review' && Math.random() < 0.5);
+  r.t = 0; r.dur = 2.3 + Math.random()*0.9; r.on = true;
+  var H = 0.55, sw = r.w*H, maxW = 4.6;
+  if (sw > maxW){ H *= maxW/sw; sw = maxW; }
+  r.sprite.scale.set(sw, H, 1);
+  return true;
+}
+
+var _v = new THREE.Vector3();
+function projectLabel(el, worldPos){
+  _v.copy(worldPos).project(camera);
+  if (_v.z > 1){ el.style.opacity = 0; return; }
+  el.style.opacity = '';
+  var x = (_v.x*0.5+0.5)*window.innerWidth;
+  var y = (-_v.y*0.5+0.5)*window.innerHeight;
+  el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-150%)';
+}
+
+/* ============================================================
+   THEME: dark is glow on void, light is ink on paper.
+   Additive blending vanishes on a light background, so light mode
+   swaps every glow material to normal blending and a darker palette,
+   and the node shader crossfades from rim-glow to filled ink.
+   ============================================================ */
+var LIGHT = false;
+var HALO_B = 0.34, HALO_P = 0.3;
+var EDGE_COLOR_L = {normal:0x9A9082, hot:0xD92839, review:0x5F49D6, gate:0xC08018,
+  watch:0xCFC7B9, signal:0x2E7FB8, cache:0x4A9E63};
+var PKIND_COLOR_L = {normal:0x8A6B45, hot:0xD92839, review:0x5F49D6, gate:0xB8741A,
+  watch:0xB4AA9A, signal:0x2270A8, cache:0x2F8A4C};
+var NODE_TWEAK_L = {signal:0x3E93C9, system:0x76828F, super:0xC74A3D};
+function edgeHex(kind){ return (LIGHT ? EDGE_COLOR_L : EDGE_COLOR)[kind || 'normal']; }
+function particleHex(kind, back){
+  if (back) return LIGHT ? 0xD92839 : C.mit;
+  return (LIGHT ? PKIND_COLOR_L : PKIND_COLOR)[kind];
+}
+function riderHex(kind){
+  if (kind==='normal' || kind==='watch') return LIGHT ? 0x3A352E : C.bone;
+  return particleHex(kind, false);
+}
+var modeBtn = document.getElementById('mode');
+function applyTheme(light){
+  LIGHT = light;
+  document.documentElement.classList.toggle('light', light);
+  modeBtn.textContent = light ? 'Dark' : 'Light';
+  modeBtn.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
+  var bg = light ? 0xF6F2E9 : C.void_;
+  renderer.setClearColor(bg, 1);
+  scene.fog.color.setHex(bg);
+  var B = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+  dustPts.material.blending = B;
+  dustPts.material.color.setHex(light ? 0x8F8574 : 0xBFB8AC);
+  dustPts.material.opacity = light ? 0.22 : 0.16;
+  deepGlow.material.blending = B;
+  deepGlow.material.color.setHex(light ? 0xEBDFCB : 0x2A1418);
+  deepGlow.material.opacity = light ? 0.55 : 0.5;
+  edgeMat.blending = B;
+  pMat.blending = B;
+  wall.material.blending = B;
+  wall.material.uniforms.uColor.value.setHex(light ? 0x2E7FB8 : C.signal);
+  cacheGlyph.material.color.setHex(light ? 0x2F8A4C : C.green);
+  cacheGlyph.userData.halo.material.blending = B;
+  cacheGlyph.userData.halo.material.color.setHex(light ? 0x2F8A4C : C.green);
+  HALO_B = light ? 0.18 : 0.34;
+  HALO_P = light ? 0.2 : 0.3;
+  nodes.forEach(function(n){
+    n.mat.uniforms.uInk.value = light ? 1 : 0;
+    var hex = (light && NODE_TWEAK_L[n.def.kind]) ? NODE_TWEAK_L[n.def.kind] : KIND_COLOR[n.def.kind];
+    n.mat.uniforms.uColor.value.setHex(hex);
+    n.halo.material.color.setHex(hex);
+    n.halo.material.blending = B;
+  });
+  riders.forEach(function(r){ r.sprite.material.blending = B; });
+  recolorEdges();
+  recolorParticles();
+}
+modeBtn.addEventListener('click', function(){ applyTheme(!LIGHT); });
+applyTheme(false);
+
+/* ============================================================
+   CHAPTERS + SCROLL
+   ============================================================ */
+var CHAPTERS = [
+  {layout:'constellation'},
+  {layout:'twoMoves'},
+  {layout:'hub'},
+  {layout:'pyramid'},
+  {layout:'pipeline'},
+  {layout:'parallel'},
+  {layout:'mesh'},
+  {layout:'layers'},
+  {layout:null} /* finale: cycles or chip-driven */
+];
+var N = CHAPTERS.length;
+var RAIL_NAMES = ['Open','Two moves','Hub & spoke','Pyramid','Pipeline','Parallel','Mesh','Features','Your call'];
+
+var track = document.getElementById('track');
+function sizeTrack(){ track.style.height = (N*130) + 'vh'; }
+sizeTrack();
+
+var legendEl = document.getElementById('legend');
+
+var rail = document.getElementById('rail');
+RAIL_NAMES.forEach(function(name, i){
+  var b = document.createElement('button');
+  b.setAttribute('aria-label', name);
+  b.innerHTML = '<span>'+name+'</span><span class="tick"></span>';
+  b.addEventListener('click', function(){
+    var seg = (document.documentElement.scrollHeight - window.innerHeight) / (N-1);
+    window.scrollTo({top:seg*i, behavior: reduced ? 'auto' : 'smooth'});
+  });
+  rail.appendChild(b);
+});
+var railBtns = rail.querySelectorAll('button');
+
+var cards = [];
+for (var ci=0; ci<N; ci++) cards.push(document.getElementById('card-'+ci));
+
+var chapterFloat = 0, activeChapter = -1;
+var FINALE_SHAPES = ['hub','pyramid','pipeline','parallel','mesh'];
+var finaleIdx = 0, finaleTimer = 0, finaleOverride = null;
+
+function enterChapter(i){
+  if (i === activeChapter) return;
+  activeChapter = i;
+  cards.forEach(function(c, j){ c.classList.toggle('on', j===i); });
+  railBtns.forEach(function(b, j){ b.classList.toggle('on', j===i); });
+  document.getElementById('cue').classList.toggle('gone', i!==0);
+  legendEl.classList.toggle('on', i>0);
+
+  if (i === 8){
+    finaleOverride = null; finaleTimer = 0;
+    applyLayout(LAYOUTS[FINALE_SHAPES[finaleIdx]]);
+    resetVerdict();
+  } else if (CHAPTERS[i].layout){
+    applyLayout(LAYOUTS[CHAPTERS[i].layout]);
+  }
+  if (i !== 7) clearFeatures();
+}
+
+function onScroll(){
+  var max = document.documentElement.scrollHeight - window.innerHeight;
+  var p = max > 0 ? window.scrollY / max : 0;
+  chapterFloat = p*(N-1);
+  var idx = Math.round(chapterFloat);
+  enterChapter(idx);
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+
+window.addEventListener('keydown', function(e){
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  var dir = (e.key==='ArrowDown'||e.key==='ArrowRight') ? 1 : -1;
+  var seg = (document.documentElement.scrollHeight - window.innerHeight)/(N-1);
+  var next = Math.min(N-1, Math.max(0, Math.round(chapterFloat)+dir));
+  window.scrollTo({top:seg*next, behavior: reduced ? 'auto' : 'smooth'});
+  e.preventDefault();
+});
+
+/* ============================================================
+   FEATURES (chapter 7)
+   ============================================================ */
+var FEAT = {boundary:false, review:false, human:false, cache:false};
+var FEAT_NOTES = {
+  base:'A privacy wall, a checker, a person at the point of no return, and a way to pay once for what does not change.',
+  boundary:'<b style="color:var(--signal)">Boundary.</b> The external agent talks to the customer and is deliberately starved of sensitive context. Requests cross in, only cleared answers cross out. It cannot leak what it never held.',
+  review:'<b style="color:var(--violet)">Adversarial review.</b> A checker with fresh eyes and no memory of the first draft tries to break the work before it ships. Cheap insurance against confident wrong answers.',
+  human:'<b style="color:var(--ember)">Human in the loop.</b> The agents do everything up to the point of no return. Then a person approves, and only then does it commit. Gate only the writes that matter.',
+  cache:'<b style="color:var(--green)">Caching.</b> The policy manual and the system prompt do not change between calls. Pay to process them once, and every call after that reads them at a discount.'
+};
+var featnote = document.getElementById('featnote');
+var LAYERS_BASE = LAYOUTS.layers;
+
+function buildLayersLayout(){
+  var pos = {}, k;
+  for (k in LAYERS_BASE.pos) pos[k] = LAYERS_BASE.pos[k];
+  var edges = [E(9,1,'signal',2), E(1,0,'normal',2), E(0,4), E(0,5)];
+  var labels = {9:'Customer',1:'External agent',0:'Internal agent',15:'Systems'};
+  if (FEAT.human){
+    edges.push(E(0,7,'gate'), E(7,15,'hot'));
+    labels[7] = 'Human · approves the write';
+  } else {
+    edges.push(E(0,15,'hot',2));
+  }
+  if (FEAT.review){
+    edges.push(E(0,8,'review',2));
+    labels[8] = 'Checker · finds the holes';
+  }
+  if (FEAT.cache){
+    edges = edges.map(function(e){
+      if ((e.a===0&&e.b===4)||(e.a===0&&e.b===5)) return E(e.a,e.b,'cache');
+      return e;
+    });
+    labels[4] = 'Policy · static'; labels[5] = 'Prompt · static';
+  }
+  var words = FEAT.human ? ['request','cleared','approve','commit'] : ['request','cleared','write'];
+  if (FEAT.review) words.push('objection');
+  if (FEAT.cache) words.push('cached');
+  return {pos:pos, edges:edges, labels:labels, words:words,
+    flow:{mode:'free', speed:1, density:0.9, sendBack:FEAT.review},
+    cam:LAYERS_BASE.cam};
+}
+function refreshLayers(){
+  if (activeChapter !== 7) return;
+  applyLayout(buildLayersLayout(), {stagger:false});
+  wall.visible = FEAT.boundary;
+  var notes = ['boundary','review','human','cache'].filter(function(f){return FEAT[f];});
+  featnote.innerHTML = notes.length ? FEAT_NOTES[notes[notes.length-1]] : FEAT_NOTES.base;
+}
+function clearFeatures(){
+  FEAT = {boundary:false, review:false, human:false, cache:false};
+  document.querySelectorAll('.tg').forEach(function(b){ b.classList.remove('on'); });
+  wall.visible = false;
+  featnote.innerHTML = FEAT_NOTES.base;
+}
+document.querySelectorAll('.tg').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var f = btn.dataset.f;
+    FEAT[f] = !FEAT[f];
+    btn.classList.toggle('on', FEAT[f]);
+    refreshLayers();
+  });
+});
+
+/* ============================================================
+   FINALE: the call matcher (chapter 8)
+   ============================================================ */
+var MATCH = {
+  reset:{shape:'pipeline', name:'Pipeline, or a single lean agent',
+    why:'Rote and low stakes. One verify, one write, done. Spending more here just builds a committee to reset a password.',
+    opt:'Optimising for speed and cost'},
+  address:{shape:'hub', name:'Hub and spoke',
+    why:'A quick identity check, then a write to the CRM. Fan out the lookups, compose the change, finish in one pass.',
+    opt:'Optimising for speed, with light containment'},
+  refund:{shape:'pyramid', name:'Pyramid, with sign-off',
+    why:'Money plus write access. You want the amount drafted, reviewed against policy, and signed off before a dollar moves. Pay the extra calls to be sure.',
+    opt:'Optimising for rigor and containment'},
+  angry:{shape:'escalation', name:'Route to the escalation specialist',
+    why:'The router only needs to see that this is going sideways and who owns it. The specialist holds the de-escalation playbook and the authority to make it right.',
+    opt:'Optimising for containment, and a human-shaped response'},
+  fraud:{shape:'mesh', name:'Mesh, kept under supervision',
+    why:'A fraud agent and a retention agent negotiate an offer against each other. Let them talk, but keep a supervisor in the loop so the result stays auditable.',
+    opt:'Optimising for rigor, watch containment'}
+};
+var verdict = document.getElementById('verdict');
+function resetVerdict(){
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
+  verdict.innerHTML = '<div class="shape" style="color:var(--dim);font-size:.95rem;">The troupe is idling through the shapes. Choose a call to make it commit.</div>';
+}
+document.querySelectorAll('.chip').forEach(function(chip){
+  chip.addEventListener('click', function(){
+    document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
+    chip.classList.add('on');
+    var m = MATCH[chip.dataset.c];
+    finaleOverride = m.shape;
+    applyLayout(LAYOUTS[m.shape]);
+    verdict.innerHTML = '<div class="shape">'+m.name+'</div><div class="why">'+m.why+'</div><div class="opt">'+m.opt+'</div>';
+  });
+});
+
+/* ============================================================
+   CAMERA RIG + POINTER
+   ============================================================ */
+var camPos = new THREE.Vector3(0,2,34);
+var camLook = new THREE.Vector3(0,0,0);
+var px = 0, py = 0, tx = 0, ty = 0;
+var azimuth = 0, azVel = 0, dragging = false, lastX = 0;
+
+window.addEventListener('pointermove', function(e){
+  tx = (e.clientX/window.innerWidth)*2 - 1;
+  ty = (e.clientY/window.innerHeight)*2 - 1;
+  if (dragging && e.pointerType === 'mouse'){
+    azVel += (e.clientX - lastX)*0.00022;
+    lastX = e.clientX;
+  }
+});
+window.addEventListener('pointerdown', function(e){
+  if (e.pointerType !== 'mouse') return;
+  dragging = true; lastX = e.clientX;
+});
+window.addEventListener('pointerup', function(){ dragging = false; });
+
+function chapterCam(i){
+  if (i >= 8 || !CHAPTERS[i] || !CHAPTERS[i].layout){
+    var L = finaleOverride ? LAYOUTS[finaleOverride] : LAYOUTS[FINALE_SHAPES[finaleIdx]];
+    return L.cam;
+  }
+  return LAYOUTS[CHAPTERS[i].layout].cam;
+}
+var _ca = new THREE.Vector3(), _cb = new THREE.Vector3(), _la = new THREE.Vector3(), _lb = new THREE.Vector3();
+function smoothstep(t){ return t*t*(3-2*t); }
+
+/* ---------- resize ---------- */
+function resize(){
+  var w = window.innerWidth, h = window.innerHeight;
+  renderer.setSize(w,h,false);
+  camera.aspect = w/h;
+  /* text lives in a left column, so push the formation's optical center to
+     ~63% of the viewport; labels follow for free since they project through
+     the same camera. Centered again on touch / narrow screens. */
+  var shift = (w > 900) ? Math.round(w*0.13) : 0;
+  camera.setViewOffset(w, h, -shift, 0, w, h);
+  camera.updateProjectionMatrix();
+}
+window.addEventListener('resize', resize);
+resize();
+
+/* ============================================================
+   FRAME LOOP
+   ============================================================ */
+function easeInOut(t){ return t<0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+var clock = new THREE.Clock();
+var seqPhase = 0, burstPhase = 0;
+
+function frame(){
+  requestAnimationFrame(frame);
+  var dt = Math.min(clock.getDelta(), 0.05);
+  var T = clock.elapsedTime;
+
+  /* nodes: morph + idle drift + pulse decay */
+  nodes.forEach(function(n, i){
+    if (n.t < n.delay + 1.15){
+      var k = easeInOut(Math.max(0, Math.min(1, (n.t - n.delay)/1.15)));
+      n.cur.lerpVectors(n.from, n.to, k);
+      n.curS = n.fromS + (n.toS-n.fromS)*k;
+      n.curO = n.fromO + (n.toO-n.fromO)*k;
+      n.t += dt;
+      if (n.t >= n.delay + 1.15){ n.cur.copy(n.to); n.curS = n.toS; n.curO = n.toO; }
+    }
+    var d = reduced ? 0 : Math.sin(T*n.driftSpd + n.drift)*0.14;
+    n.mesh.position.set(n.cur.x, n.cur.y + d, n.cur.z);
+    n.mesh.scale.setScalar(Math.max(n.curS, 0.001));
+    n.pulse = Math.max(0, n.pulse - dt*2.4);
+    n.mat.uniforms.uOpacity.value = n.curO;
+    n.mat.uniforms.uPulse.value = n.pulse + (n.def.kind==='human' && FEAT.human && activeChapter===7 ? (Math.sin(T*3)*0.5+0.5)*0.8 : 0);
+    n.halo.material.opacity = HALO_B*n.curO + n.pulse*HALO_P;
+    n.halo.scale.setScalar(4.6 + n.pulse*1.6);
+  });
+
+  /* edges follow live node positions */
+  edgeAlpha += (edgeAlphaTarget - edgeAlpha)*Math.min(1, dt*6);
+  edgeMat.opacity = edgeAlpha;
+  for (var e=0; e<activeEdges.length; e++){
+    var A = nodes[activeEdges[e].a].mesh.position;
+    var B = nodes[activeEdges[e].b].mesh.position;
+    edgePos[e*6]=A.x; edgePos[e*6+1]=A.y; edgePos[e*6+2]=A.z;
+    edgePos[e*6+3]=B.x; edgePos[e*6+4]=B.y; edgePos[e*6+5]=B.z;
+  }
+  if (activeEdges.length) edgeGeo.attributes.position.needsUpdate = true;
+
+  /* flow particles */
+  seqPhase += dt * flow.speed * 0.7;
+  burstPhase += dt * flow.speed * 0.55;
+  var nE = activeEdges.length;
+  for (var i2=0; i2<P; i2++){
+    var ps = pState[i2];
+    if (ps.edge < 0 || ps.edge >= nE || !nE){ pAlp[i2] = 0; continue; }
+    var ed = activeEdges[ps.edge];
+    var spdMul = 1;
+    if (flow.mode === 'burst'){
+      var off = (ed.kind === 'signal') ? 0 : 0.5;
+      ps.t = (burstPhase + off + ps.speed*0.12) % 1;
+    } else {
+      if (ed.kind==='gate' && ps.t>0.78 && ps.t<0.97) spdMul = 0.07;
+      ps.t += dt * ps.speed * flow.speed * spdMul;
+      if (ps.t > 1){
+        ps.t = 0;
+        if (flow.mode === 'chatter'){
+          ps.edge = (Math.random()*nE)|0;
+          ed = activeEdges[ps.edge];
+        }
+      }
+    }
+    var t = easeInOut(ps.t);
+    var Aa = nodes[ed.a], Bb = nodes[ed.b];
+    var rev = ps.back || ed.dir === -1 || (ed.dir===2 && ed.kind!=='review' && (i2%2===1));
+    var from = rev ? Bb.mesh.position : Aa.mesh.position;
+    var to   = rev ? Aa.mesh.position : Bb.mesh.position;
+    pPos[i2*3]   = from.x + (to.x-from.x)*t;
+    pPos[i2*3+1] = from.y + (to.y-from.y)*t;
+    pPos[i2*3+2] = from.z + (to.z-from.z)*t;
+    var alpha = Math.sin(ps.t*Math.PI);
+    if (flow.mode === 'sequential'){
+      var stage = Math.floor(seqPhase) % nE;
+      alpha *= (ps.edge === stage) ? 1 : 0.12;
+    }
+    if (ed.kind === 'watch') alpha *= 0.3;
+    if (ed.kind === 'cache') alpha *= 0.22;
+    pAlp[i2] = alpha * Math.min(nodes[ed.a].curO, 1);
+    pSize[i2] = ps.size;
+    /* arrival pulse on the destination node */
+    if (ps.t > 0.985 && flow.mode!=='burst'){
+      var destNode = rev ? Aa : Bb;
+      destNode.pulse = Math.min(1, destNode.pulse + 0.5);
+    }
+  }
+  pGeo.attributes.position.needsUpdate = true;
+  pGeo.attributes.aAlpha.needsUpdate = true;
+  pGeo.attributes.aSize.needsUpdate = true;
+
+  /* word riders */
+  for (var wr=0; wr<riders.length; wr++){
+    var r = riders[wr];
+    if (!r.on){
+      r.sprite.material.opacity *= (1 - dt*5);
+      if (r.sprite.material.opacity < 0.02) r.sprite.visible = false;
+      r.delay -= dt;
+      if (r.delay <= 0){
+        if (spawnRider(r)) r.sprite.visible = true;
+        else r.delay = 0.6;
+      }
+      continue;
+    }
+    if (r.edge >= activeEdges.length){ r.on = false; r.delay = 0.6; continue; }
+    var edW = activeEdges[r.edge];
+    r.t += dt / r.dur;
+    if (r.t >= 1){ r.on = false; r.delay = 1.1 + Math.random()*2.4; continue; }
+    var tw = easeInOut(r.t);
+    var Aw = nodes[edW.a].mesh.position, Bw = nodes[edW.b].mesh.position;
+    var fw = r.rev ? Bw : Aw, gw = r.rev ? Aw : Bw;
+    r.sprite.position.set(
+      fw.x + (gw.x - fw.x)*tw,
+      fw.y + (gw.y - fw.y)*tw + 0.72,
+      fw.z + (gw.z - fw.z)*tw
+    );
+    r.sprite.material.opacity =
+      Math.sin(r.t*Math.PI) * 0.8 * Math.min(nodes[edW.a].curO, nodes[edW.b].curO);
+  }
+
+  /* feature props */
+  if (activeChapter === 7 && FEAT.boundary){
+    wall.material.uniforms.uOp.value += (1 - wall.material.uniforms.uOp.value)*dt*4;
+    wall.position.set(-3.1, 0, 0);
+  } else {
+    wall.material.uniforms.uOp.value *= (1 - dt*6);
+    if (wall.material.uniforms.uOp.value < 0.01) wall.visible = false;
+  }
+  var cacheOn = activeChapter===7 && FEAT.cache;
+  var cg = cacheGlyph.material;
+  cg.opacity += ((cacheOn?0.9:0) - cg.opacity)*dt*5;
+  cacheGlyph.userData.halo.material.opacity = cg.opacity*0.4;
+  cacheGlyph.visible = cg.opacity > 0.02;
+  if (cacheGlyph.visible){
+    cacheGlyph.position.set(0.5, 3.1, 1.4);
+    cacheGlyph.rotation.y += dt*0.8; cacheGlyph.rotation.x += dt*0.3;
+    var pu = 1 + Math.sin(T*2.2)*0.08;
+    cacheGlyph.scale.setScalar(pu);
+  }
+
+  /* finale auto-cycle */
+  if (activeChapter === 8 && !finaleOverride){
+    finaleTimer += dt;
+    if (finaleTimer > 5.5){
+      finaleTimer = 0;
+      finaleIdx = (finaleIdx+1) % FINALE_SHAPES.length;
+      applyLayout(LAYOUTS[FINALE_SHAPES[finaleIdx]]);
+    }
+  }
+
+  /* camera: blend between neighbouring chapters by scroll */
+  var i0 = Math.floor(chapterFloat), i1 = Math.min(N-1, i0+1);
+  var f = smoothstep(Math.min(1, Math.max(0, chapterFloat - i0)));
+  var cA = chapterCam(i0), cB = chapterCam(i1);
+  _ca.fromArray(cA.pos); _cb.fromArray(cB.pos); _ca.lerp(_cb, f);
+  _la.fromArray(cA.look); _lb.fromArray(cB.look); _la.lerp(_lb, f);
+
+  if (!dragging) azVel *= 0.92;
+  azimuth += azVel; azimuth *= 0.97;
+  if (!reduced) azimuth += Math.sin(T*0.11)*0.00016;
+  var cosA = Math.cos(azimuth), sinA = Math.sin(azimuth);
+  var rx = _ca.x*cosA + _ca.z*sinA, rz = -_ca.x*sinA + _ca.z*cosA;
+  _ca.set(rx, _ca.y, rz);
+
+  px += (tx - px)*dt*3; py += (ty - py)*dt*3;
+  _ca.x += px*1.5; _ca.y += -py*0.9;
+
+  camPos.lerp(_ca, Math.min(1, dt*2.6));
+  camLook.lerp(_la, Math.min(1, dt*2.6));
+  camera.position.copy(camPos);
+  camera.lookAt(camLook);
+
+  /* labels */
+  nodes.forEach(function(n, i){
+    if (activeLabels[i]) projectLabel(labelPool[i], n.mesh.position);
+  });
+  if (activeChapter===7 && FEAT.boundary && wall.material.uniforms.uOp.value > 0.05){
+    wallLabels[0].classList.add('on'); wallLabels[1].classList.add('on');
+    projectLabel(wallLabels[0], _tmpA.set(-8.4, 6.4, 0));
+    projectLabel(wallLabels[1], _tmpB.set(2.6, 6.4, 0));
+  } else {
+    wallLabels[0].classList.remove('on'); wallLabels[1].classList.remove('on');
+  }
+  if (cacheGlyph.visible && cacheGlyph.material.opacity > 0.3){
+    cacheLabel.classList.add('on');
+    projectLabel(cacheLabel, cacheGlyph.position);
+  } else cacheLabel.classList.remove('on');
+
+  renderer.render(scene, camera);
+}
+var _tmpA = new THREE.Vector3(), _tmpB = new THREE.Vector3();
+
+/* ---------- boot ---------- */
+nodes.forEach(function(n, i){
+  var b = benchPos(i);
+  n.cur.copy(b); n.from.copy(b); n.to.copy(b);
+});
+applyLayout(LAYOUTS.constellation);
+onScroll();
+frame();
+})();
+
+</script>
+</body>
+</html>
