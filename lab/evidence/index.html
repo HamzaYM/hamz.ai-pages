@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
+<!--
+  hamz.ai/lab/evidence · The skills study
+  Link slots (HTML comments):
+    SLOT-RESULTS-EXPLORER, SLOT-EFFORT-SWEEP-WORKBENCH (section 05).
+  Serve this file statically (no client-side render step) so
+  crawlers, link unfurlers, and AI fetchers can read it.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The skills study &middot; hamz.ai / lab</title>
+<meta name="description" content="Do Claude Code skills change agent behavior? An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. Baseline 26 of 50. With the library, 46 of 50.">
+<link rel="canonical" href="https://www.hamz.ai/lab/evidence/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hamz.ai">
+<meta property="og:title" content="The skills study · hamz.ai / lab">
+<meta property="og:description" content="Do Claude Code skills change agent behavior? An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. Baseline 26 of 50. With the library, 46 of 50.">
+<meta property="og:url" content="https://www.hamz.ai/lab/evidence/">
+<meta property="og:image" content="https://www.hamz.ai/lab/og/lab.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Do Claude Code skills change agent behavior?",
+  "name": "The skills study",
+  "url": "https://www.hamz.ai/lab/evidence/",
+  "dateModified": "2026-07-09",
+  "about": "AI agent evaluation",
+  "author": {
+    "@type": "Person",
+    "name": "Hamza Malik",
+    "url": "https://www.hamz.ai",
+    "sameAs": ["https://linkedin.com/in/hamzaymalik", "https://github.com/HamzaYM"]
+  },
+  "description": "Do Claude Code skills change agent behavior? An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. Baseline 26 of 50. With the library, 46 of 50."
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%232BD7AF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* surfaces */
+    --bg:#0F0F0F;
+    --raised:#161616;
+    --raised-2:#1C1C1C;
+    --hover:#1C1C1C;
+    /* lines */
+    --line:#262626;
+    --line-strong:#333333;
+    /* ink */
+    --ink:#F2F2F0;
+    --dim:#9A9A94;
+    --faint:#85857F;
+    /* accent */
+    --teal:#2BD7AF;
+    --teal-dim:#1A6B58;
+    --teal-tint:rgba(43,215,175,0.08);
+    --teal-loud:#2BD7AF;
+    --amber:#D9A441;
+    /* tooltip chip (inverted ink) */
+    --tip-text:#0F0F0F;
+    --tt-accent:#067A63;
+    /* type */
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    /* layout */
+    --max:1080px;
+  }
+  /* system prefers light, and the user hasn't explicitly chosen dark */
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --amber:#8F6A1B;
+    --tip-text:#F7F5F2; --tt-accent:#2BD7AF;
+  } }
+  /* explicit light toggle wins over everything */
+  :root[data-theme="light"]{
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --amber:#8F6A1B;
+    --tip-text:#F7F5F2; --tt-accent:#2BD7AF;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;border-radius:0 !important;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans);
+        font-size:17px; line-height:1.6; letter-spacing:-0.01em;
+        -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  ::selection{ background:var(--teal); color:#0F0F0F; }
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  /* progress bar */
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
+
+  /* nav (opaque flavor, page ships the theme toggle) */
+  nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px;
+       padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
+  nav.site-nav .brand b{ color:var(--teal); font-weight:500; }
+  nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
+  nav.site-nav .brand-lab:hover{ color:var(--teal); }
+  nav.site-nav .nav-right{ margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .lab-nav{ display:flex; gap:14px; flex-wrap:wrap; }
+  .lab-nav a{ font-family:var(--mono); font-size:12px; color:var(--faint); padding:4px 2px; border-bottom:1px solid transparent; }
+  .lab-nav a:hover{ color:var(--teal); }
+  .lab-nav a[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--teal); }
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+       font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+  .theme-toggle button:last-child{ border-right:none; }
+  .theme-toggle button:hover{ color:var(--dim); }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
+  @media(max-width:520px){ .lab-nav{ gap:10px; } }
+  @media(max-width:640px){
+    nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+    nav.site-nav .nav-right{ gap:8px 12px; }
+    .lab-nav{ gap:6px 12px; }
+  }
+
+  /* tooltip */
+  #tip{ position:fixed; z-index:300; max-width:280px; background:var(--ink); color:var(--tip-text);
+        font-family:var(--sans); font-size:.86rem; line-height:1.45; padding:12px 14px;
+        box-shadow:0 10px 30px rgba(0,0,0,.22); pointer-events:none;
+        opacity:0; transform:translateY(4px); transition:opacity .14s ease, transform .14s ease; }
+  #tip.show{ opacity:1; transform:none; }
+  #tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+        color:var(--tt-accent); display:block; margin-bottom:5px; }
+  .hot{ cursor:pointer; border-bottom:1px dashed var(--line-strong); }
+  .hot:hover, .hot:focus-visible{ border-bottom-color:var(--teal); }
+  .hot:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+
+  /* hero */
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .crumbs{ font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; gap:16px; flex-wrap:wrap; margin-bottom:30px; }
+  .crumbs a{ color:var(--faint); }
+  .crumbs a:hover{ color:var(--teal); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+            text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:26px; }
+  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+  .lede strong{ font-weight:500; }
+
+  /* sections */
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+                text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+  section p{ max-width:760px; margin-bottom:16px; }
+  .lead{ font-size:20px; color:var(--ink); max-width:62ch; }
+
+  /* A/B bars */
+  .ab{ margin:36px 0 8px; border:1px solid var(--line); background:var(--raised); padding:26px 24px; display:grid; gap:16px; max-width:760px; }
+  .ab-row{ display:grid; grid-template-columns:150px 1fr 74px; gap:14px; align-items:center; }
+  .ab-row .lbl{ font-family:var(--mono); font-size:12px; color:var(--dim); letter-spacing:0.02em; }
+  .ab-track{ height:14px; background:var(--raised-2); border:1px solid var(--line); overflow:hidden; }
+  .ab-fill{ height:100%; transition:width 1.1s cubic-bezier(.22,1,.36,1); }
+  .ab-base .ab-fill{ background:var(--faint); }
+  .ab-skill .ab-fill{ background:var(--teal-loud); }
+  .ab-row .val{ text-align:right; font-family:var(--mono); font-size:13px; color:var(--ink); font-weight:500; white-space:nowrap; justify-self:end; }
+  @media(max-width:640px){ .ab-row{ grid-template-columns:96px 1fr 64px; gap:10px; } .ab-row .lbl{ font-size:11px; } }
+  @media (prefers-reduced-motion:reduce){ .ab-fill{ transition:none; } }
+
+  /* timeline (bordered stack) */
+  .timeline{ margin-top:36px; border:1px solid var(--line); max-width:760px; }
+  .trow{ display:flex; gap:18px; padding:18px 22px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .18s; }
+  .trow:last-child{ border-bottom:none; }
+  .trow:hover{ background:var(--hover); }
+  .trow .tt-time{ font-family:var(--mono); font-size:12px; color:var(--teal); flex-shrink:0; width:104px; padding-top:3px; }
+  .trow .tt-desc{ font-size:15px; color:var(--dim); }
+  .trow .tt-desc b{ color:var(--ink); font-weight:500; }
+  .timeline-note{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px; letter-spacing:0.02em; }
+  @media(max-width:520px){ .trow{ flex-direction:column; gap:6px; } .trow .tt-time{ width:auto; } }
+
+  /* callout */
+  .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--amber);
+            background:var(--raised); padding:24px 26px; max-width:760px; }
+  .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); margin-bottom:12px; }
+  .callout p{ font-size:15px; margin-bottom:14px; }
+  .callout p:last-child{ margin-bottom:0; }
+
+  /* lattice handoff (mirrors the chain page's handoff pattern) */
+  .handoff{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--teal);
+            background:var(--raised); padding:24px 26px; max-width:760px; }
+  .handoff .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+  .handoff p{ font-size:15.5px; color:var(--dim); max-width:66ch; margin-bottom:0; }
+  .handoff .go{ display:inline-block; margin-top:14px; font-family:var(--mono); font-size:13px; color:var(--teal); }
+  .handoff .go:hover{ border-bottom:1px solid var(--teal); }
+
+  /* pull quote / outro */
+  .final{ padding:88px 0; border-bottom:none; }
+  .pull{ margin:0; padding:4px 0 4px 28px; border-left:2px solid var(--teal);
+         font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25;
+         color:var(--ink); font-weight:500; max-width:28ch; letter-spacing:-0.02em; }
+
+  /* footer */
+  footer{ border-top:1px solid var(--line); padding:30px 0 56px; }
+  .foot{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .foot a{ color:var(--dim); margin-right:16px; }
+  .foot a:last-child{ margin-right:0; }
+  .foot a:hover{ color:var(--teal); }
+
+  /* reveal */
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .rv{ opacity:1; transform:none; transition:none; }
+    #tip{ transition:none; }
+  }
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="site-nav" aria-label="Lab">
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../">/ lab</a>
+  <div class="nav-right">
+    <div class="lab-nav">
+      <a href="../lattice/">Lattice</a>
+      <a href="../skills/">Skills</a>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </div>
+  </div>
+</nav>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:14px"><a href="../">part of the lab</a></div>
+    <div class="crumbs">
+      <a href="https://www.hamz.ai">&larr; hamz.ai</a>
+      <span>Updated July 2026</span>
+    </div>
+    <div class="eyebrow">The lab / the evidence study</div>
+    <h1>Do Claude Code skills change agent behavior?</h1>
+    <p class="lede">A skill is a written playbook an agent loads before it works. The question was whether loading one changes what the agent actually does. I did not want an opinion about that, so I measured it.</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- 01 · THE DESIGN -->
+  <section id="design">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">01</span>The design</div>
+      <h2>The design</h2>
+      <p class="lead">A <span class="hot" tabindex="0" data-tt="Provenance" data-tip="Documented in the run log of the discovery workflow. Narrative record, not a public artifact.">14-agent discovery pipeline</span> pulled 26 candidate skills from two production codebases; 8 of them went through an order-blinded A/B across <span class="hot" tabindex="0" data-tt="Why 50" data-tip="The pre-registered plan carries 50 expectations. An early write-up said 51, which was a miscount, corrected here.">50 pre-registered must-hits</span> in 16 tasks. Eight skills, two tasks each.</p>
+      <p>A <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hit</span> is a pass/fail expectation written in advance. The output either meets it or it does not, and each task carried its own short list, 50 across the suite.</p>
+      <p>Two words in that design carry the weight. <strong>Pre-registered</strong> means the pass rule and every expectation were written down before any skill file existed, so the test could not drift toward the result I wanted. <strong>Order-blinded</strong> means judges saw the two reports for a task in an alternating order and were not told which arm was which.</p>
+      <p>Every task ran twice. In the cold arm, an agent worked the task with no skill loaded. In the loaded arm, an agent worked the same task with the skill loaded. A judge then graded each pair against the task's must-hits.</p>
+      <p>The harness this ran on is <a href="../chain/#evidence">stage 03 of the assurance chain</a>, the standard the client work passes. That page describes the instrument. This page is what happened when I pointed it at my own tools.</p>
+    </div>
+  </section>
+
+  <!-- 02 · THE NUMBERS -->
+  <section id="numbers">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">02</span>The numbers</div>
+      <h2>The numbers</h2>
+      <p class="lead">Fifty must-hits, graded in both arms.</p>
+      <div class="ab" id="ab">
+        <div class="ab-row ab-base"><span class="lbl">baseline, no skills</span><div class="ab-track"><div class="ab-fill" data-w="52" style="width:52%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">26 / 50</span></div>
+        <div class="ab-row ab-skill"><span class="lbl">with the library</span><div class="ab-track"><div class="ab-fill" data-w="92" style="width:92%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">46 / 50</span></div>
+      </div>
+      <p style="margin-top:24px">Task must-hits rose from 26/50 to 46/50, and all 8 tested skills cleared the pre-registered rule. The 26 sources were distilled into 17 portable skills, released as <a href="https://github.com/HamzaYM/reliable-ai-skills">Reliable AI Skills</a>, open source, with the harness included so you can grade your own.</p>
+      <p>The rule itself was fixed in the plan before the first run: a skill passes only if its loaded runs beat its cold runs and clear at least two thirds of their must-hits. Four tasks tied between arms; the gains came from the rest.</p>
+      <div class="handoff">
+        <div class="ct">This study has a sequel</div>
+        <p>A bigger, pre-registered experiment followed: it tested whether more reasoning effort erases what the skills add, across three Claude models at five effort levels each. It is complete, and the answer is on its own page.</p>
+        <a class="go" href="../lattice/">Read the effort lattice &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · THE TIMELINE -->
+  <section id="timeline">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">03</span>The timeline</div>
+      <h2>The timeline</h2>
+      <p class="lead">The whole study ran on 2026-07-02, and the order of the timestamps is the point: the plan came first, and no skill file existed when it was written.</p>
+      <div class="timeline">
+        <div class="trow"><span class="tt-time hot" tabindex="0" data-tt="Recorded times" data-tip="All four timestamps are the recorded completion times of the runs. Same day, all UTC.">07:52</span><span class="tt-desc"><b>Plan written.</b> Every task, every must-hit, and the pass rule, down on paper. Before any skill file existed.</span></div>
+        <div class="trow"><span class="tt-time">17:37</span><span class="tt-desc"><b>Cold arm complete.</b> <span class="hot" tabindex="0" data-tt="Cold arm" data-tip="The cold arm ran every task with no skill loaded. Same tasks, same must-hits as the loaded arm.">Sixteen tasks, no skills loaded.</span></span></div>
+        <div class="trow"><span class="tt-time">21:33</span><span class="tt-desc"><b>Loaded arm complete.</b> <span class="hot" tabindex="0" data-tt="Loaded arm" data-tip="The loaded arm ran the same 16 tasks with the skill under test loaded. The only difference between arms is the skill.">The same sixteen tasks, skills loaded.</span></span></div>
+        <div class="trow"><span class="tt-time">21:36</span><span class="tt-desc"><b>Judges complete.</b> <span class="hot" tabindex="0" data-tt="LLM-as-judge" data-tip="A model grades each pair of reports against the task's written must-hits, one judge run per task, with the arm order withheld.">One order-blinded judge run per task.</span></span></div>
+      </div>
+      <p class="timeline-note">2026-07-02 &middot; all times UTC</p>
+    </div>
+  </section>
+
+  <!-- 04 · WHAT THIS DOES NOT SHOW -->
+  <section id="limits">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">04</span>What this does not show</div>
+      <h2>What this does not show</h2>
+      <p class="lead">The study has limits. They are stated here, plainly, because a result you cannot bound is a result you cannot trust.</p>
+      <div class="callout">
+        <div class="ct">The stated limit</div>
+        <p>The judging was <span class="hot" tabindex="0" data-tt="Order-blinded" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span>, not content-blinded. The order key was withheld from the judges. The content was not scrubbed. Consumer reports included an actions section, and some judge verdicts noted that a report had consulted a skill. The next version of the harness judges outputs only, so that leak closes.</p>
+      </div>
+      <p style="margin-top:32px">The released library is also not a straight copy of what was tested. The honest accounting: 26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library, for 17 total.</p>
+      <p>That has a consequence worth saying outright. 5 of the 17 released skills trace to A/B-measured sources. The measured deltas attach to the source skills as tested in their home repos, and the released rewrites carry the lineage, not a fresh measurement.</p>
+    </div>
+  </section>
+
+  <!-- 05 · WHAT COMES NEXT -->
+  <section id="next">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">05</span>What comes next</div>
+      <h2>What comes next</h2>
+      <p>That next run has since happened: the effort lattice, pre-registered the same way, judging outputs only, and measuring the released skills as shipped rather than their sources. Its numbers live on its own page.</p>
+      <!-- SLOT-RESULTS-EXPLORER: replace this paragraph's repo link with the explorer URL when it exists; do not invent the URL now -->
+      <!-- SLOT-EFFORT-SWEEP-WORKBENCH: add the effort-sweep workbench link beside the results explorer when it exists; do not invent the URL now -->
+      <p>The method and the harness are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>, so you can grade your own; the sequel ships with its own per-cell explorer.</p>
+      <!-- HANDOFF-LATTICE: links ../lattice/ per instruction; that page carries the lattice results, now complete (all 15 cells adjudicated, opus-high and sonnet-xhigh landed). No numbers belong in this block. -->
+      <div class="handoff">
+        <div class="ct">The lattice</div>
+        <p>The study on this page ran in a single configuration. The follow-up tests the released skill library across three models and five reasoning-effort levels in a <span class="hot" tabindex="0" data-tt="Pre-registered" data-tip="The full plan was hashed and posted publicly before any lattice run started, so the design could not drift toward a wanted result.">pre-registered</span> lattice, now complete, on its own page.</p>
+        <a class="go" href="../lattice/">Read the lattice study &rarr;</a>
+      </div>
+      <p style="margin-top:32px">The library the 17 skills landed in, and the rest of the artifacts behind the lab, are on <a href="../proof/">the proof page</a>.</p>
+    </div>
+  </section>
+
+  <div class="final">
+    <div class="wrap rv">
+      <p class="pull">The question is never whether it looks right. It is what the evidence says.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
+    <span>
+      <a href="https://github.com/HamzaYM">GitHub</a>
+      <a href="https://linkedin.com/in/hamzaymalik">LinkedIn</a>
+      <a href="https://www.hamz.ai">hamz.ai &rarr;</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* theme toggle */
+  var root=document.documentElement;
+  var btns=Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+  function paint(v){btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.themeSet===v?'true':'false');});}
+  function apply(v){
+    if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+    else{root.removeAttribute('data-theme');}
+    try{localStorage.setItem('hamz-theme',v);}catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.themeSet);});});
+  paint(cur());
+
+  /* scroll progress */
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight;
+    bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* reveal on scroll */
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduced){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0});
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+
+  /* A/B bars: rendered filled without JS (inline widths); JS only adds the animation */
+  var ab = document.getElementById('ab');
+  if(ab && !reduced && 'IntersectionObserver' in window){
+    var fills = ab.querySelectorAll('.ab-fill');
+    fills.forEach(function(f){ f.style.width='0%'; });
+    var io2 = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){
+        fills.forEach(function(f){ f.style.width = f.dataset.w + '%'; });
+        io2.unobserve(ab);
+      } });
+    },{threshold:.4});
+    io2.observe(ab);
+  }
+
+  /* tooltip engine */
+  var tip = document.getElementById('tip');
+  var pinned = false;
+  function showTip(el, x, y){
+    var txt = el.getAttribute('data-tip'); if(!txt) return;
+    var tt = el.getAttribute('data-tt') || '';
+    tip.innerHTML = (tt ? '<span class="tt">'+tt+'</span>' : '') + txt;
+    tip.classList.add('show');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var r = tip.getBoundingClientRect();
+    var left = x + 14, top = y + 16;
+    if(left + r.width + 10 > vw) left = x - r.width - 14;
+    if(left < 8) left = 8;
+    if(top + r.height + 10 > vh) top = y - r.height - 14;
+    if(top < 8) top = 8;
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+  function hideTip(){ tip.classList.remove('show'); pinned = false; }
+  document.querySelectorAll('.hot').forEach(function(el){
+    el.addEventListener('mouseenter', function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mousemove',  function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', function(){ if(!pinned) tip.classList.remove('show'); });
+    el.addEventListener('focus', function(){ var b=el.getBoundingClientRect(); showTip(el, b.left+b.width/2, b.top+b.height-8); });
+    el.addEventListener('blur',  function(){ tip.classList.remove('show'); });
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); pinned=false; showTip(el, ev.clientX, ev.clientY); pinned=true; });
+  });
+  document.addEventListener('click',  function(ev){ if(!ev.target.closest('.hot')) hideTip(); });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') hideTip(); });
+})();
+</script>
+</body>
+</html>

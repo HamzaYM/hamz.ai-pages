@@ -1,0 +1,45 @@
+# hamz.ai
+
+> hamz.ai is an AI implementation studio founded by Hamza Malik. We design, build, and ship production LLM systems, and we hold every deliverable to a public review standard called the Assurance Chain: adversarial review, tiered escalation, an evidence harness, and production security controls. Decisions are settled by evidence, not opinion.
+
+hamz.ai builds multi-model Claude architectures, eval harnesses, production reliability and cost controls, and interactive single-file tools. The founder, Hamza Malik, is an aerospace engineer, former KPMG senior technology consultant, and MIT Sloan MBA candidate (2027) who co-develops a new MIT Sloan course on leading agentic AI transformation in organizations.
+
+## Site
+
+- [hamz.ai root](https://www.hamz.ai/): The site root. Redirects to the living resume at /resume/.
+
+## The lab
+
+- [The Lab](https://www.hamz.ai/lab/): The public proof room of the hamz.ai studio: the standard every deliverable passes, the receipts behind each stage, and the experiments run on the studio's own tools.
+- [The Assurance Chain](https://www.hamz.ai/lab/chain/): The standard every deliverable passes before it reaches a client, with the public receipt behind each stage. Adversarial review, tiered escalation, evidence harness, security controls.
+- [The skills study](https://www.hamz.ai/lab/evidence/): Do Claude Code skills change agent behavior? An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. Baseline 26 of 50; with the library, 46 of 50.
+- [Field notes](https://www.hamz.ai/lab/notes/): Dated write-ups from the hamz.ai practice, newest first. Each note carries its position on the same review ladder the client work climbs.
+- [The proof](https://www.hamz.ai/lab/proof/): The artifacts behind the lab: the open-source skills library with its eval harness, a working prototype, and the field guide with its 3D walkthrough.
+- [The effort lattice](https://www.hamz.ai/lab/lattice/): Does turning up reasoning effort replace skills? A pre-registered lattice across three Claude models at five effort levels each, run cold and loaded. Effort bought capability; it did not buy back what the skills add. Draft, noindex.
+
+## Guides
+
+- [Designing agentic systems](https://www.hamz.ai/designing-agentic-ai/): Field guide on choosing the shape of an agentic system: one agent or many, and where a step should stay plain code instead of a model. Originally built as an interactive primer on context allocation, model routing, and orchestration for MIT Sloan course 15.S50.
+- [The same guide, in 3D](https://www.hamz.ai/designing-agentic-ai/visual/): The field guide as a spatial, walkable Three.js build. One inbound call, shaped five different ways.
+
+## Work
+
+- [Overnight AI pipeline for a capital-markets advisory firm](https://www.hamz.ai/work/advisory-overnight/): An anonymized case study. An advisor cockpit, a client portal, and an overnight pipeline that turns every meeting into a review-and-approve step by morning.
+- [Trip-feasibility engine for a business-aviation operator](https://www.hamz.ai/work/aviation-operations/): An anonymized case study. A 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.
+- [Case playtesting](https://www.hamz.ai/case-playtesting/): A method for pressure-testing decision materials against a simulated panel of AI personas before they meet a real audience.
+- [Clara](https://www.hamz.ai/clara/): A prototype that reads hard mail, classifies it, and explains it back in plain language with audio and deadline reminders.
+
+## Open source
+
+- [Reliable AI Skills](https://github.com/HamzaYM/reliable-ai-skills): 26 skills from two production codebases, distilled into 17 portable Claude Code skills (9 merges, 6 carried over, 2 new from the maintainer's own tooling, 1 dropped). 8 of the 26 sources were validated with an order-blinded A/B and all 8 passed. MIT licensed.
+- [Clara (source)](https://github.com/HamzaYM/clara): A working prototype that reads dense official mail (government, health, financial) and explains it back in plain language.
+
+## People
+
+- [Hamza Malik, builder page](https://www.hamz.ai/builder/): First-person page for the engineering audience. What gets built, the artifacts, the numbers, and what is being worked on this month.
+- [Hamza Malik, resume](https://www.hamz.ai/resume/): A living resume. Builder, founder, teacher. Production LLM systems from discovery to deployment.
+
+## Optional
+
+- [LinkedIn](https://linkedin.com/in/hamzaymalik): Hamza Malik on LinkedIn.
+- [GitHub](https://github.com/HamzaYM): All public repositories.

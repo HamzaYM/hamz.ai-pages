@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
+<!--
+  hamz.ai/lab/skills · The skills library
+  Content sources, all verified this session:
+    - reliable-ai-skills repo: INDEX.md (one-liners, category grouping)
+    - reliable-ai-skills repo: skills/*/SKILL.md frontmatter (descriptions; failure-mode
+      lines on each card are derived from these, never invented)
+    - reliable-ai-skills repo: README.md (funnel story, verdict, install block verbatim)
+    - reliable-ai-skills repo: skills/*/SKILL.md bodies (the "From the skill" excerpts
+      and the "Three to start with" walkthroughs; every line is an excerpt or
+      tight paraphrase of a real SKILL.md line, none invented)
+    - the skill modals embed each SKILL.md converted to HTML at build time,
+      verbatim content, frontmatter description shown as "when to reach for it"
+    - Codex cross-check numbers (97.2%, 383 of 394 marks, one run) verified
+      against the campaign records this session
+  Numbers follow the frozen canon: 26 distilled, 8 tested (all passed),
+  consolidated to 17; July 2026 study 26/50 -> 46/50 (92%), denominator 50.
+  NAV NOTE: this page ships the 3-item lab nav per Hamza's IA decision
+  2026-07-12 (brand "/ lab" is the way back to the landing; only the two
+  flagship pages, Lattice and Skills, sit in the nav). Same nav as the
+  other lab pages.
+  Serve this file statically (no client-side render step) so
+  crawlers, link unfurlers, and AI fetchers can read it.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The skills library &middot; hamz.ai / lab</title>
+<meta name="description" content="17 open-source Claude Code skills for building and operating AI systems in production. Distilled from two production codebases, reviewed adversarially, tested against pre-registered must-hits, and consolidated into a portable library.">
+<link rel="canonical" href="https://www.hamz.ai/lab/skills/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hamz.ai">
+<meta property="og:title" content="The skills library · hamz.ai / lab">
+<meta property="og:description" content="17 open-source Claude Code skills for building and operating AI systems in production. Distilled from two production codebases, reviewed adversarially, tested against pre-registered must-hits, and consolidated into a portable library.">
+<meta property="og:url" content="https://www.hamz.ai/lab/skills/">
+<meta property="og:image" content="https://www.hamz.ai/lab/og/lab.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "The skills library",
+  "url": "https://www.hamz.ai/lab/skills/",
+  "dateModified": "2026-07-11",
+  "about": "AI agent skills",
+  "author": {
+    "@type": "Person",
+    "name": "Hamza Malik",
+    "url": "https://www.hamz.ai",
+    "sameAs": ["https://linkedin.com/in/hamzaymalik", "https://github.com/HamzaYM"]
+  },
+  "description": "17 open-source Claude Code skills for building and operating AI systems in production. Distilled from two production codebases, reviewed adversarially, tested against pre-registered must-hits, and consolidated into a portable library."
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%232BD7AF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* surfaces */
+    --bg:#0F0F0F;
+    --raised:#161616;
+    --raised-2:#1C1C1C;
+    --hover:#1C1C1C;
+    /* lines */
+    --line:#262626;
+    --line-strong:#333333;
+    /* ink */
+    --ink:#F2F2F0;
+    --dim:#9A9A94;
+    --faint:#85857F;
+    /* accent */
+    --teal:#2BD7AF;
+    --teal-dim:#1A6B58;
+    --teal-tint:rgba(43,215,175,0.08);
+    --teal-loud:#2BD7AF;
+    --amber:#D9A441;
+    /* type */
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    /* layout */
+    --max:1080px;
+  }
+  /* system prefers light, and the user hasn't explicitly chosen dark */
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --amber:#8F6A1B;
+  } }
+  /* explicit light toggle wins over everything */
+  :root[data-theme="light"]{
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --amber:#8F6A1B;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;border-radius:0 !important;}
+  [hidden]{display:none !important;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans);
+        font-size:17px; line-height:1.6; letter-spacing:-0.01em;
+        -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  ::selection{ background:var(--teal-loud); color:#0F0F0F; }
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+
+  /* progress bar */
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal-loud); z-index:70; transition:width .1s linear; }
+
+  /* nav (opaque flavor, page ships the theme toggle) */
+  nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px;
+       padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
+  nav.site-nav .brand b{ color:var(--teal); font-weight:500; }
+  nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
+  nav.site-nav .brand-lab:hover{ color:var(--teal); }
+  nav.site-nav .nav-right{ margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .lab-nav{ display:flex; gap:14px; flex-wrap:wrap; }
+  .lab-nav a{ font-family:var(--mono); font-size:12px; color:var(--faint); padding:4px 2px; border-bottom:1px solid transparent; }
+  .lab-nav a:hover{ color:var(--teal); }
+  .lab-nav a[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--teal); }
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+       font-family:var(--sans); font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+  .theme-toggle button:last-child{ border-right:none; }
+  .theme-toggle button:hover{ color:var(--dim); }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
+  @media(max-width:640px){
+    nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+    nav.site-nav .nav-right{ gap:8px 12px; }
+    .lab-nav{ gap:6px 12px; }
+  }
+
+  /* tooltip (same engine as the landing page) */
+  #tip{ position:fixed; z-index:300; max-width:260px; background:var(--ink); color:var(--bg);
+       font-family:var(--sans); font-size:.86rem; line-height:1.45; padding:12px 14px;
+       box-shadow:0 10px 30px rgba(0,0,0,.22); pointer-events:none;
+       opacity:0; transform:translateY(4px); transition:opacity .14s ease, transform .14s ease; }
+  #tip.show{ opacity:1; transform:none; }
+  #tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+       color:var(--teal-loud); display:block; margin-bottom:5px; }
+  .hot{ cursor:pointer; }
+  a.hot, span.hot{ color:var(--ink); text-decoration:underline dotted; text-decoration-color:var(--teal);
+       text-decoration-thickness:1px; text-underline-offset:3px; transition:color .15s; }
+  a.hot:hover, span.hot:hover{ color:var(--teal); }
+
+  /* hero */
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .crumbs{ font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; gap:16px; flex-wrap:wrap; margin-bottom:30px; }
+  .crumbs a{ color:var(--faint); }
+  .crumbs a:hover{ color:var(--teal); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+            text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:26px; }
+  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+  .hook{ margin-top:26px; font-size:16px; max-width:66ch; }
+
+  /* draft banner */
+  .draft{ margin-top:34px; max-width:760px; border:1px dashed var(--amber); padding:14px 18px;
+          font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.03em; }
+
+  /* sections */
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+                text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+  section p{ max-width:66ch; margin-bottom:16px; }
+  section p:last-child{ margin-bottom:0; }
+
+  /* library tools: search + filter chips (hidden until JS reveals them) */
+  .tools{ margin-top:34px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  .tools input[type="search"]{ flex:1 1 260px; max-width:400px; background:var(--raised); border:1px solid var(--line);
+       color:var(--ink); font-family:var(--mono); font-size:13px; padding:11px 14px; appearance:none; -webkit-appearance:none; }
+  .tools input[type="search"]::placeholder{ color:var(--faint); }
+  .tools input[type="search"]:focus{ outline:2px solid var(--teal); outline-offset:0; }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chips button{ background:var(--raised); border:1px solid var(--line); color:var(--dim); font-family:var(--mono);
+       font-size:11px; letter-spacing:0.04em; padding:8px 12px; cursor:pointer; transition:color .15s,background .15s,border-color .15s; }
+  .chips button:hover{ color:var(--teal); border-color:var(--teal-dim); }
+  .chips button[aria-pressed="true"]{ background:var(--teal-loud); border-color:var(--teal-loud); color:#0F0F0F; }
+  .tools-hint{ flex-basis:100%; font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:0.02em; }
+  .no-match{ margin-top:28px; font-family:var(--mono); font-size:13px; color:var(--faint);
+       border:1px dashed var(--line-strong); padding:18px 20px; max-width:760px; }
+  .no-match button{ background:none; border:none; color:var(--teal); font-family:var(--mono); font-size:13px;
+       cursor:pointer; padding:0; margin-left:8px; text-decoration:underline; }
+
+  /* category groups + skill cards (hairline grid) */
+  .cat{ margin-top:44px; }
+  .cat:first-of-type{ margin-top:36px; }
+  .cat-head{ font-family:var(--mono); font-size:12px; letter-spacing:0.06em; color:var(--faint); margin-bottom:12px; }
+  .cat-head b{ color:var(--ink); font-weight:500; }
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+          gap:1px; background:var(--line); border:1px solid var(--line); }
+  .card{ position:relative; background:var(--raised); padding:24px 24px 22px; transition:background .15s; }
+  .card:hover{ background:var(--hover); }
+  body.js-on .card{ cursor:pointer; }
+  .card .sk-tag{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+                 color:var(--faint); margin-bottom:10px; }
+  .card .sk-name{ font-family:var(--mono); font-size:13.5px; color:var(--ink); font-weight:500; display:block; margin-bottom:12px; word-break:break-word; }
+  .card .sk-name::after{ content:""; position:absolute; inset:0; }
+  .card:hover .sk-name{ color:var(--teal); }
+  .card .sk-what{ font-size:14.5px; color:var(--dim); margin-bottom:12px; }
+  .card .sk-catch{ font-size:13px; color:var(--dim); border-top:1px solid var(--line); padding-top:12px; }
+  .card .sk-catch b{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+                     color:var(--teal); font-weight:500; display:block; margin-bottom:4px; }
+  .card .sk-links{ position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:12px; }
+  .card .sk-links a{ font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:0.02em; }
+  .card .sk-links a:hover{ color:var(--teal); }
+
+  /* featured strip: three to start with */
+  .feat-title{ font-size:clamp(20px,2.8vw,26px); margin-top:44px; }
+  .feat-note{ font-size:14px; color:var(--faint); margin-top:6px; }
+  .feat-strip{ margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+               gap:1px; background:var(--line); border:1px solid var(--line); }
+  .feat{ background:var(--raised); padding:26px 26px 24px; transition:background .15s; }
+  .feat:hover{ background:var(--hover); }
+  .feat .feat-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); margin-bottom:10px; }
+  .feat .feat-name{ font-family:var(--mono); font-size:13.5px; color:var(--ink); font-weight:500; margin-bottom:12px; word-break:break-word; }
+  .feat p{ font-size:14px; color:var(--dim); margin-bottom:0; }
+  .feat .feat-go{ display:inline-block; margin-top:14px; font-family:var(--mono); font-size:12px; color:var(--teal); }
+
+  /* per-card "From the skill" excerpts (native details/summary, no JS needed) */
+  .card .sk-more{ position:relative; z-index:1; margin-top:12px; border-top:1px solid var(--line); padding-top:12px; }
+  .card .sk-more summary{ cursor:pointer; list-style:none; display:inline-block;
+       font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); }
+  .card .sk-more summary::-webkit-details-marker{ display:none; }
+  .card .sk-more summary::before{ content:"+ "; }
+  .card .sk-more[open] summary::before{ content:"\2212 "; }
+  .card .sk-more summary:hover{ color:var(--teal-dim); }
+  .card .sk-more ul{ list-style:none; margin:10px 0 0; padding:0; }
+  .card .sk-more li{ position:relative; font-size:13px; color:var(--dim); padding-left:14px; margin-bottom:8px; }
+  .card .sk-more li::before{ content:""; position:absolute; left:0; top:0.65em; width:6px; height:1px; background:var(--teal); }
+  .card .sk-more li:last-child{ margin-bottom:0; }
+
+  /* A/B pipeline diagram (July 2026 study) */
+  .pipe-label{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); margin-top:36px; }
+  .abf{ margin-top:14px; max-width:640px; }
+  .abf-box{ border:1px solid var(--line); background:var(--raised); padding:14px 18px; }
+  .abf-box b{ display:block; font-family:var(--display); font-size:15.5px; color:var(--ink); font-weight:500; line-height:1.25; }
+  .abf-box span{ display:block; font-size:12.5px; color:var(--dim); line-height:1.5; margin-top:3px; }
+  .abf-tag{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); margin-bottom:5px; }
+  .abf-gate{ border-left:2px solid var(--teal); }
+  .abf-arrow{ text-align:center; font-family:var(--mono); color:var(--teal); font-size:14px; padding:5px 0; }
+  .abf-cols{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .abf-ans{ border:1px solid var(--line); background:var(--raised); padding:10px 16px; font-family:var(--mono); font-size:12px; color:var(--ink); text-align:center; }
+  .abf-scrub{ display:grid; grid-template-columns:1fr auto; gap:10px; align-items:stretch; }
+  .abf-key{ border:1px dashed var(--line-strong); padding:12px 14px; max-width:230px; }
+  .abf-key i{ font-style:normal; display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:5px; }
+  .abf-key span{ display:block; font-size:12px; color:var(--dim); line-height:1.5; }
+  .abf-result{ border:1px solid var(--teal-dim); background:var(--teal-tint); padding:14px 18px; }
+  .abf-result .abf-nums{ display:flex; gap:12px; flex-wrap:wrap; align-items:baseline; font-family:var(--mono); font-size:13px; color:var(--dim); margin-top:3px; }
+  .abf-result .abf-nums b{ color:var(--ink); font-weight:500; }
+  .abf-result .abf-nums .to{ color:var(--teal); }
+  @media(max-width:640px){
+    .abf-cols{ grid-template-columns:1fr; gap:8px; }
+    .abf-cols.abf-arrow{ gap:0; }
+    .abf-cols.abf-arrow span+span{ display:none; }
+    .abf-scrub{ grid-template-columns:1fr; gap:8px; }
+    .abf-key{ max-width:none; }
+  }
+
+  /* skill modal (JS-only enhancement; cards fall back to links without it) */
+  .sk-overlay{ position:fixed; inset:0; z-index:80; background:rgba(0,0,0,0.55);
+       display:flex; align-items:flex-start; justify-content:center; padding:6vh 20px 48px; overflow-y:auto; }
+  .sk-overlay[hidden]{ display:none; }
+  .sk-modal{ background:var(--bg); border:1px solid var(--line-strong); max-width:780px; width:100%; padding:30px 34px 36px; }
+  .sk-modal-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:18px; }
+  .sk-modal-tag{ font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); margin-bottom:8px; }
+  .sk-modal-name{ font-family:var(--mono); font-size:15px; color:var(--ink); font-weight:500; word-break:break-word; line-height:1.4; }
+  .sk-modal-close{ background:none; border:1px solid var(--line); color:var(--dim); font-family:var(--mono);
+       font-size:15px; line-height:1; padding:9px 12px; cursor:pointer; flex:0 0 auto; }
+  .sk-modal-close:hover{ color:var(--ink); border-color:var(--line-strong); }
+  .sk-modal-when{ font-size:14px; color:var(--dim); border-left:2px solid var(--teal); padding-left:14px; margin-top:18px; line-height:1.6; }
+  .sk-modal-when b{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+       color:var(--teal); font-weight:500; display:block; margin-bottom:4px; }
+  .sk-modal-links{ display:flex; flex-wrap:wrap; gap:4px 18px; margin-top:16px; padding-bottom:18px; border-bottom:1px solid var(--line); }
+  .sk-modal-links a{ font-family:var(--mono); font-size:12px; color:var(--teal); }
+  .sk-md{ margin-top:20px; }
+  .sk-md h1{ font-size:22px; margin:0 0 12px; }
+  .sk-md h2{ font-size:17px; margin:24px 0 10px; }
+  .sk-md h3{ font-size:15px; margin:20px 0 8px; }
+  .sk-md p{ font-size:14.5px; color:var(--dim); margin:0 0 12px; line-height:1.65; }
+  .sk-md ul,.sk-md ol{ margin:0 0 14px; padding-left:22px; color:var(--dim); }
+  .sk-md li{ font-size:14.5px; margin-bottom:8px; line-height:1.6; }
+  .sk-md li ul{ margin:8px 0 0; }
+  .sk-md code{ font-family:var(--mono); font-size:12.5px; background:var(--raised-2); padding:1px 5px; color:var(--ink); }
+  .sk-md pre{ background:var(--raised); border:1px solid var(--line); padding:14px 16px; overflow-x:auto; margin:0 0 14px; }
+  .sk-md pre code{ background:none; padding:0; display:block; line-height:1.7; }
+  .sk-md .tbl{ overflow-x:auto; margin:0 0 14px; }
+  .sk-md table{ border-collapse:collapse; width:100%; min-width:520px; font-size:13px; }
+  .sk-md th,.sk-md td{ border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; color:var(--dim); }
+  .sk-md th{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink); font-weight:500; }
+  .sk-md strong{ color:var(--ink); font-weight:500; }
+  body.sk-modal-open{ overflow:hidden; }
+  @media(max-width:640px){ .sk-overlay{ padding:14px 12px 32px; } .sk-modal{ padding:22px 18px 28px; } }
+
+  /* evidence strip */
+  .ev-strip{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+             gap:1px; background:var(--line); border:1px solid var(--line); }
+  .ev{ position:relative; background:var(--raised); padding:26px 26px 24px; transition:background .15s; }
+  .ev:hover{ background:var(--hover); }
+  .ev .ev-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+  .ev .ev-line{ font-family:var(--display); font-size:19px; color:var(--ink); font-weight:500; line-height:1.3; margin-bottom:10px; letter-spacing:-0.01em; }
+  .ev p{ font-size:14px; color:var(--dim); margin-bottom:0; }
+  .ev .ev-go{ display:block; margin-top:14px; font-family:var(--mono); font-size:12px; color:var(--teal); }
+  .ev .ev-go::after{ content:""; position:absolute; inset:0; }
+
+  /* install */
+  pre.install{ margin-top:32px; border:1px solid var(--line); background:var(--raised); padding:22px 24px;
+               font-family:var(--mono); font-size:13.5px; line-height:1.9; color:var(--ink);
+               overflow-x:auto; max-width:760px; }
+  .install-note{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px; max-width:760px; letter-spacing:0.02em; }
+  .install-note a{ color:var(--dim); }
+  .install-note a:hover{ color:var(--teal); }
+
+  /* footer */
+  footer{ padding:40px 0 64px; }
+  .foot{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap;
+         font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .foot a{ color:var(--dim); margin-right:16px; }
+  .foot a:last-child{ margin-right:0; }
+  .foot a:hover{ color:var(--teal); }
+
+  /* reveal */
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .rv{ opacity:1; transform:none; transition:none; }
+    #progress{ transition:none; }
+    #tip{ transition:none; }
+  }
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="site-nav" aria-label="Lab">
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../">/ lab</a>
+  <div class="nav-right">
+    <!-- 3-item lab nav per Hamza's IA decision 2026-07-12: brand /lab is the
+         way back to the landing; only the two flagship pages sit in the nav. -->
+    <div class="lab-nav">
+      <a href="../lattice/">Lattice</a>
+      <a href="./" aria-current="page">Skills</a>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </div>
+  </div>
+</nav>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="crumbs">
+      <a href="https://www.hamz.ai">&larr; hamz.ai</a>
+      <span>Updated July 2026</span>
+    </div>
+    <div class="eyebrow">The lab / the skills library</div>
+    <h1>The skills library</h1>
+    <p class="lede">I use Claude Code every day, and these 17 <span class="hot" tabindex="0" data-tt="Skill" data-tip="A short packaged playbook an agent loads before working: the traps to check, the order to work in, what a finished answer must contain.">skills</span> are the habits I got tired of re-teaching it. The library covers building and operating AI systems in production: adversarial and tiered review, validation gates, cost and safety guardrails, deploy campaigns, debugging playbooks, and change control. In July 2026 I distilled 26 skills from two production codebases I run Claude Code against, and every one went through four review passes plus an adversarial pass by <span class="hot" tabindex="0" data-tt="Codex" data-tip="A coding model from a different vendor than Claude, brought in so the review does not share Claude's blind spots.">Codex</span> at extra-high effort, run twice. Eight were then <span class="hot" tabindex="0" data-tt="A/B tested" data-tip="Each task ran twice, once with the skill loaded and once without, and judges compared the two results.">A/B tested</span> against <span class="hot" tabindex="0" data-tt="Pre-registered" data-tip="The pass rule and every expectation were written down before any skill file existed, so the test could not drift toward a wanted result.">pre-registered</span> <span class="hot" tabindex="0" data-tt="Must-hit" data-tip="A pass/fail expectation written in advance. A task output either meets it or it does not.">must-hits</span> and all eight passed, and the library was consolidated into the 17 portable skills on this page, an open instrument that ships with its own <a class="hot" tabindex="0" data-tt="Eval harness" data-tip="The program that runs a model on fixed tasks and scores the answers against pre-written checklists, so claims get measured instead of asserted." href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/eval">eval harness</a>.</p>
+    <p class="hook">The evidence behind them is measured, not asserted: the July 2026 study and <a href="../lattice/">the effort lattice</a> both graded these skills against pre-registered criteria, and the whole library is open source at <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>.</p>
+  </div>
+</header>
+
+<main>
+
+  <section id="skills">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">01</span>The library</div>
+      <h2>The 17 skills</h2>
+      <p>Each skill is a self-contained folder with one <strong>SKILL.md</strong>: a description that tells an agent when to reach for it, the failure mode it prevents, and the pattern as decision gates and checklists rather than prose. The groups below are the library&rsquo;s real category directories. Every card links its skill file and its folder in the <a href="https://github.com/HamzaYM/reliable-ai-skills">repo</a>, and every card&rsquo;s <strong>From the skill</strong> section quotes or closely paraphrases lines that are actually in that skill&rsquo;s file.</p>
+
+      <div class="tools" id="tools" hidden>
+        <input type="search" id="sk-search" placeholder="search the 17 skills" aria-label="Search skills by name, description, or what they catch">
+        <div class="chips" role="group" aria-label="Filter skills by category" id="sk-chips">
+          <button type="button" data-group="all" aria-pressed="true">all</button>
+          <button type="button" data-group="review" aria-pressed="false">review and quality</button>
+          <button type="button" data-group="systems" aria-pressed="false">systems and architecture</button>
+          <button type="button" data-group="cost" aria-pressed="false">cost and safety</button>
+          <button type="button" data-group="deploy" aria-pressed="false">deploy and infrastructure</button>
+          <button type="button" data-group="debugging" aria-pressed="false">debugging</button>
+          <button type="button" data-group="process" aria-pressed="false">process and change management</button>
+          <button type="button" data-group="docs" aria-pressed="false">documentation and compliance</button>
+        </div>
+        <span class="tools-hint">Click any card for the full skill file, rendered in place.</span>
+      </div>
+      <p class="no-match" id="no-match" hidden>No skill matches that search.<button type="button" id="sk-clear">clear it</button></p>
+
+      <h3 class="feat-title">Three to start with</h3>
+      <p class="feat-note">The three richest skill files in the library, each opened up to one real pattern from inside it.</p>
+      <div class="feat-strip">
+        <div class="feat">
+          <div class="feat-tag">adversarial review</div>
+          <div class="feat-name">multi-model-adversarial-review</div>
+          <p>Asking a model to critique its own work mostly gets you agreement, because its blind spots are its reviewer&rsquo;s blind spots too. This skill runs a second model from a different vendor, then makes every finding survive a deliberate attempt to knock it down before it gets reported. A long list of nitpicks with no real issue is read as nothing substantive found, not as lots of problems.</p>
+          <a class="feat-go" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/adversarial-review/multi-model-adversarial-review">read the full skill &rarr;</a>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">deploy and infra</div>
+          <div class="feat-name">environment-and-build-hazards</div>
+          <p>Some stacks have no real local setup: what feels like a scratch database on your own machine is shared infrastructure the whole team depends on, one destructive command away from damage. The skill&rsquo;s rule is to confirm where you are by the real hostname or account ID, never by an environment label. Some shared environments deliberately label themselves production to pick up production&rsquo;s safety defaults, so the label misleads by design.</p>
+          <a class="feat-go" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/deploy-and-infra/environment-and-build-hazards">read the full skill &rarr;</a>
+        </div>
+        <div class="feat">
+          <div class="feat-tag">debugging playbooks</div>
+          <div class="feat-name">failure-archaeology</div>
+          <p>Every mature codebase has approaches that were tried, didn&rsquo;t work, and were abandoned on purpose, and the reasoning usually lived in a conversation that is gone. This skill keeps a settled-battles record: what was tried, why it was dropped, and what the codebase does instead. Its most honest rule: when the reason for a revert is lost, the entry says so plainly, because an admitted unknown beats a plausible-sounding guess.</p>
+          <a class="feat-go" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/debugging-playbooks/failure-archaeology">read the full skill &rarr;</a>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>adversarial-review</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="review" title="Use before merging any substantive change, or before finalizing a document, plan, or claim, when you want a genuine adversarial pass rather than the same model re-reading its own work. Applies to code diffs, PRs, architecture plans, and prose (specs, memos, claims). Not worth it for trivial one-line changes.">
+            <span class="sk-tag">review and quality</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/adversarial-review/multi-model-adversarial-review">multi-model-adversarial-review</a>
+            <p class="sk-what">Runs a second, independently vendored model against your own review pass and reconciles the findings.</p>
+            <p class="sk-catch"><b>Catches</b>The same model re-reading its own work and agreeing with itself.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Rebuttals say withdraw only if the evidence refutes you. A model that folds because the other side disagrees is a known failure mode.</li>
+                <li>If a second opinion implies an error in your own work, don&rsquo;t dismiss it on your own authority. Verify outside the model or escalate.</li>
+                <li>If the second model is unavailable, proceed single-model and say so in the report. Never silently downgrade without disclosing it.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/adversarial-review/multi-model-adversarial-review/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/adversarial-review/multi-model-adversarial-review">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>tiered-review</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="review" title="Use when a deliverable needs to go from rough draft to genuinely finished without the requester babysitting every pass, a cover letter, a strategy memo, a customer-facing document, a recommendation, a decision review, or any artifact where tone, framing, and defensibility all matter as much as correctness. Mirrors how a consulting firm actually reviews work before a partner signs it.">
+            <span class="sk-tag">review and quality</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/tiered-review/tiered-consultancy-review">tiered-consultancy-review</a>
+            <p class="sk-what">A five-tier escalation ladder (analysts, managers, specialists, partners, polish) for taking a deliverable from rough draft to genuinely finished.</p>
+            <p class="sk-catch"><b>Catches</b>Drafts that ship after one pass, with the requester babysitting every revision.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Analysts read the draft blind to each other, so one loud opinion can&rsquo;t anchor the rest.</li>
+                <li>Every tier can fix directly, confer with a peer, or kick work back down. A tier that can only pass things up adds latency, not review.</li>
+                <li>The adversarial tier catches what earlier tiers were too close to see, like a draft led by evidence that undercut its own core claim.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/tiered-review/tiered-consultancy-review/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/tiered-review/tiered-consultancy-review">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>validation-gates</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="review" title="Use before declaring any change &quot;done,&quot; before opening or updating a PR, after any UI-touching change, or whenever you&#x27;re about to report test results. Defines what &quot;done&quot; actually means and how to report it without overstating what was checked.">
+            <span class="sk-tag">review and quality</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/validation-gates/pre-merge-validation-gate">pre-merge-validation-gate</a>
+            <p class="sk-what">Defines what &ldquo;done&rdquo; actually means for a change and how to report test results without overstating what was checked.</p>
+            <p class="sk-catch"><b>Catches</b>A change declared done on test results that overstate what was actually checked.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Build passing plus unit tests passing is necessary, never sufficient, for anything a user sees. Drive the changed screen live.</li>
+                <li>Before committing a recaptured snapshot, read the diff. Anything you can&rsquo;t explain is a regression, not a fixture update.</li>
+                <li>&ldquo;Environment wasn&rsquo;t up&rdquo; is a finding: go start it, don&rsquo;t skip the step and stay silent about it.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/validation-gates/pre-merge-validation-gate/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/validation-gates/pre-merge-validation-gate">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>architecture-and-contracts</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="systems" title="Use when changing anything that crosses a system boundary: database schema, wire/API shapes, cross-module imports, the one place a third-party SDK is allowed to be called from, or when tempted to build infrastructure &quot;ahead of need.&quot; Establishes a single merge-blocking source of truth for system invariants, kept current in the same commit as the code that changes it.">
+            <span class="sk-tag">systems and architecture</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/architecture-and-contracts/architecture-contracts-as-law">architecture-contracts-as-law</a>
+            <p class="sk-what">Keeps a single, merge-blocking source of truth for system invariants (schema, API shape, module boundaries) in sync with the code.</p>
+            <p class="sk-catch"><b>Catches</b>Invariants drifting from the code that crosses them, and infrastructure built ahead of need.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Drift between the contract document and the code is treated as a bug, not as a doc to update eventually.</li>
+                <li>An exception list honest about real deviations beats a diagram that&rsquo;s aspirationally clean but wrong.</li>
+                <li>Deferred infrastructure gets a ledger entry with a concrete pickup trigger, not a TODO-maybe-someday comment.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/architecture-and-contracts/architecture-contracts-as-law/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/architecture-and-contracts/architecture-contracts-as-law">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>auth-and-tenancy</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="systems" title="Use when debugging or changing auth, tokens, sessions, invites, or tenant isolation in a multi-tenant application: unexpected 401s/403s, cross-tenant data leaking or disappearing, role checks that seem too wide or too narrow, or row-level security that appears to be silently doing nothing.">
+            <span class="sk-tag">systems and architecture</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/auth-and-tenancy/multi-tenant-auth-reference">multi-tenant-auth-reference</a>
+            <p class="sk-what">A ground-truth reference pattern for token kinds, role checks, and tenant isolation, so you stop guessing during auth bugs.</p>
+            <p class="sk-catch"><b>Catches</b>Guessing through unexpected 401s and 403s, cross-tenant data leaks, and row-level security that is silently doing nothing.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Two wrong guesses about which token a path expects means the reference is missing or stale, not a sign to guess harder.</li>
+                <li>The worst failure is silent: a privileged database connection skips row-level isolation and the query just returns everything.</li>
+                <li>Widening a role guard to make a 403 go away likely re-opens a boundary drawn on purpose. Find out why it was narrow first.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/auth-and-tenancy/multi-tenant-auth-reference/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/auth-and-tenancy/multi-tenant-auth-reference">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>evals-and-scoring</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="systems" title="Use when building or changing a pipeline that scores, grades, or extracts structured output from an LLM in production: composite/aggregate scoring math, partial-failure handling when one sub-call fails, prompt versioning, an eval harness that makes real model calls, or comparing a candidate model/prompt against production without flipping it live.">
+            <span class="sk-tag">systems and architecture</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/evals-and-scoring/llm-eval-harness-and-scoring-pipeline">llm-eval-harness-and-scoring-pipeline</a>
+            <p class="sk-what">Locked aggregation math, partial-failure handling, prompt versioning, and shadow comparison for any pipeline that scores LLM output.</p>
+            <p class="sk-catch"><b>Catches</b>One failed sub-call corrupting a composite score, and a candidate prompt flipped live without a shadow comparison.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>If nothing scoreable survived, emit nothing. A zero is a real, comparable data point; a missing score is not.</li>
+                <li>Partial results presented as complete have produced real mis-rankings that only surfaced when the scores looked off.</li>
+                <li>Never answer &ldquo;would this change behave differently&rdquo; by flipping it live. That&rsquo;s an experiment on real users, not a test.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/evals-and-scoring/llm-eval-harness-and-scoring-pipeline/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/evals-and-scoring/llm-eval-harness-and-scoring-pipeline">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>cost-and-safety-guardrails</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="cost" title="Use when adding or changing any LLM call in a system that handles regulated or sensitive data (health records, financial data, other personal information) or that needs hard cost control: provider fallover between vendors, rate limiting, per-session or per-tenant cost caps, or making sure every call is tracked and priced.">
+            <span class="sk-tag">cost and safety</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/cost-and-safety-guardrails/ai-cost-tracking-and-guardrails">ai-cost-tracking-and-guardrails</a>
+            <p class="sk-what">Enforced call tracking, safe cross-provider fallover, and fail-closed rate limiting for LLM calls touching money or sensitive data.</p>
+            <p class="sk-catch"><b>Catches</b>Untracked, unpriced LLM calls in systems that handle regulated data or need hard cost control.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>A &ldquo;blocked by cost cap&rdquo; record written inside the failing transaction gets thrown away by the very rollback that triggered it.</li>
+                <li>Never fail over a rejected payload to a second vendor. Sensitive data could land somewhere it was never approved to go.</li>
+                <li>Log metadata by allowlist, not denylist. A list of known-bad keys reliably misses the next field an engineer adds.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/cost-and-safety-guardrails/ai-cost-tracking-and-guardrails/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/cost-and-safety-guardrails/ai-cost-tracking-and-guardrails">folder &rarr;</a>
+            </span>
+          </div>
+          <div class="card" data-group="cost" title="Use when you&#x27;re working with more than one model or provider with separate rate-limit or token budgets, and one of them is running low. Decide whether to proceed lean, defer non-urgent work, or shift heavy work to whichever provider has headroom, instead of blowing through a limit on autopilot.">
+            <span class="sk-tag">cost and safety</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/cost-and-safety-guardrails/budget-aware-model-allocation">budget-aware-model-allocation</a>
+            <p class="sk-what">How to work deliberately when a token or rate-limit budget is running low across more than one model or provider.</p>
+            <p class="sk-catch"><b>Catches</b>Blowing through a rate limit on autopilot instead of deferring or shifting work to the provider with headroom.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Trim before you cut scope: lower the effort setting, batch requests, and avoid re-reading context you already processed.</li>
+                <li>When budgets are healthy, work normally. Rationing against a hypothetical shortage just produces worse answers for no benefit.</li>
+                <li>Never hard-block on a low budget. Degrade gracefully: smaller scope, lower effort, or the provider with headroom.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/cost-and-safety-guardrails/budget-aware-model-allocation/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/cost-and-safety-guardrails/budget-aware-model-allocation">folder &rarr;</a>
+            </span>
+          </div>
+          <div class="card" data-group="cost" title="Use when adding or changing configuration, environment variables, or feature flags: deciding which config layer something belongs in, adding a new per-tenant flag, debugging why a config value or flag &quot;does nothing,&quot; or reviewing whether a boot-time secret guard is safe to weaken.">
+            <span class="sk-tag">cost and safety</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/cost-and-safety-guardrails/config-and-secrets-hygiene">config-and-secrets-hygiene</a>
+            <p class="sk-what">Picking the right config layer, avoiding precedence traps, and a repeatable recipe for adding a new feature flag safely.</p>
+            <p class="sk-catch"><b>Catches</b>A config value or flag that &ldquo;does nothing&rdquo; because it landed in the wrong layer.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>A misspelled variable may be silently ignored, not rejected. Check the exact field name before assuming a deeper bug.</li>
+                <li>A flag can be stored, displayed, and editable while nothing reads it. A meaningful share of registered settings are inert.</li>
+                <li>An app that refuses to boot on a placeholder secret is working as intended. Fix the input; never widen the validator.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/cost-and-safety-guardrails/config-and-secrets-hygiene/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/cost-and-safety-guardrails/config-and-secrets-hygiene">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>deploy-and-infra</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="deploy" title="Use when standing up a new deployment environment (first staging deploy, or a greenfield production environment), when infra work has been authored but not yet applied, or when deciding what staging config must never be inherited by production. Covers first-apply traps, ops-script deployment pitfalls, and the do-not-inherit scrub.">
+            <span class="sk-tag">deploy and infrastructure</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/deploy-and-infra/staging-to-prod-cutover-campaign">staging-to-prod-cutover-campaign</a>
+            <p class="sk-what">First-apply traps, the do-not-inherit config scrub, and how to separate go-live gates from infra bring-up.</p>
+            <p class="sk-catch"><b>Catches</b>Staging config inherited by production, and first applies that fail in ways a second apply never will.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Developer-convenience flags are omitted from stricter config entirely, not set to false. Omit and false can fail differently.</li>
+                <li>Certificate validation timing out on the very first apply is expected before the nameservers move. Don&rsquo;t debug the module.</li>
+                <li>Cloud-seeded placeholder secrets often slip past a weak-secret boot guard, whose denylist only knows your own dev placeholders.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/deploy-and-infra/staging-to-prod-cutover-campaign/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/deploy-and-infra/staging-to-prod-cutover-campaign">folder &rarr;</a>
+            </span>
+          </div>
+          <div class="card" data-group="deploy" title="Use when bringing up or diagnosing a local development environment: services won&#x27;t start, database connection/permission errors, seed data missing, or when &quot;local&quot; development actually points at a shared remote environment and destructive commands are one keystroke away from hitting it.">
+            <span class="sk-tag">deploy and infrastructure</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/deploy-and-infra/environment-and-build-hazards">environment-and-build-hazards</a>
+            <p class="sk-what">The two-role database model, seed-data idempotency, and cloud-auth preflight for local development environments.</p>
+            <p class="sk-catch"><b>Catches</b>&ldquo;Local&rdquo; development that actually points at a shared remote environment, one destructive command away from hitting it.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>A privileged database role skips row-level isolation silently: no error, no warning, every policy quietly does nothing.</li>
+                <li>If a seed script fakes an API call to avoid real costs, don&rsquo;t &ldquo;fix&rdquo; it by calling the real service. That defeats its purpose.</li>
+                <li>A surprising share of &ldquo;the stack won&rsquo;t start&rdquo; reports are really &ldquo;something is already listening on that port.&rdquo;</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/deploy-and-infra/environment-and-build-hazards/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/deploy-and-infra/environment-and-build-hazards">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>debugging-playbooks</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="debugging" title="Use when debugging any bug, regression, or failing test, before proposing a fix, and especially before editing a file you know is a frequent source of regressions. Establishes ground truth before hypothesizing, and defines the discipline for multi-round fix loops after a review pass finds problems.">
+            <span class="sk-tag">debugging</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/debugging-playbooks/systematic-debugging-playbook">systematic-debugging-playbook</a>
+            <p class="sk-what">Establishes ground truth before hypothesizing, and the regression rule for multi-round fix loops after a review pass.</p>
+            <p class="sk-catch"><b>Catches</b>Fixes proposed before ground truth is established, especially in files that are frequent sources of regressions.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Search history before hypothesizing. A surprising number of &ldquo;new&rdquo; bugs already have a full root-cause writeup sitting in git.</li>
+                <li>One &ldquo;confirmed&rdquo; finding was an artifact of the test itself: a guessed URL producing an expected 404, not a broken link.</li>
+                <li>In multi-round fix loops the proven failure mode is the fixer introducing the next bug. Re-run every earlier round&rsquo;s tests.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/debugging-playbooks/systematic-debugging-playbook/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/debugging-playbooks/systematic-debugging-playbook">folder &rarr;</a>
+            </span>
+          </div>
+          <div class="card" data-group="debugging" title="Use when you&#x27;re about to propose something that smells like it might have already been tried and abandoned: a hosting/platform migration, a framework or library swap, a &quot;quick fix&quot; to code that looks deliberately unusual, or when a revert commit turns up in git history. Prevents re-litigating settled decisions and re-fighting battles someone already lost on purpose.">
+            <span class="sk-tag">debugging</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/debugging-playbooks/failure-archaeology">failure-archaeology</a>
+            <p class="sk-what">A &ldquo;settled battles&rdquo; reference so nobody re-attempts an approach that was already tried and deliberately abandoned.</p>
+            <p class="sk-catch"><b>Catches</b>Re-fighting a battle someone already lost on purpose: the migration, framework swap, or quick fix that was abandoned for a reason.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Code that looks unnecessarily defensive is disproportionately likely to be the fix for a settled battle. Check before deleting it.</li>
+                <li>Some reverts happened because it wasn&rsquo;t the engineer&rsquo;s call. The lesson is the decision owner&rsquo;s sign-off, not the change itself.</li>
+                <li>Unrelated-looking hacks can share one root cause fixed piecemeal. Document it once so nobody cleans up a fix whose purpose isn&rsquo;t visible.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/debugging-playbooks/failure-archaeology/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/debugging-playbooks/failure-archaeology">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>change-control</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="process" title="Use when doing any git work: cutting a branch, opening a PR, merging parallel work, or resuming work in a repo you didn&#x27;t just leave. Covers state verification before acting, the dead-base PR trap, migration-number collisions, working-tree discipline, and how to handle a product decision that surfaces mid-task.">
+            <span class="sk-tag">process and change management</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/change-control/git-change-control-for-agents">git-change-control-for-agents</a>
+            <p class="sk-what">State verification before any git work, the dead-base PR trap, migration collisions, and working-tree discipline.</p>
+            <p class="sk-catch"><b>Catches</b>Acting on a repo whose state was assumed rather than verified, and PRs cut against a dead base.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>A stacked branch still existing on the remote proves nothing about whether it&rsquo;s still the right base. Base every PR on the trunk.</li>
+                <li>Numbered migration files often don&rsquo;t textually conflict at all, which is exactly what makes that collision easy to miss.</li>
+                <li>Untracked files you don&rsquo;t recognize may be someone&rsquo;s live work queue. Ask before stashing, discarding, or cleaning.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/change-control/git-change-control-for-agents/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/change-control/git-change-control-for-agents">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>campaign-execution</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="process" title="Use when executing a large backlog of review findings or a multi-part feature as coordinated batches across parallel agents or sessions, planning waves, avoiding file-contention collisions, and resuming a campaign that a previous session left mid-way through.">
+            <span class="sk-tag">process and change management</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/campaign-execution/multi-agent-batch-campaigns">multi-agent-batch-campaigns</a>
+            <p class="sk-what">Wave planning, file-contention mapping, and checkpoint-to-file discipline for executing a large backlog across parallel agents.</p>
+            <p class="sk-catch"><b>Catches</b>Parallel agents colliding on the same files, and campaigns a previous session left mid-way with no way to resume.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>Status docs rot, git doesn&rsquo;t. Re-read the actual code at each cited location before trusting a backlog&rsquo;s description of it.</li>
+                <li>Long sessions die more often than anyone plans for. The only thing that reliably survives is what got written to a file.</li>
+                <li>Unpushed local-only branches are invisible to every remote check and one disk failure from gone.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/campaign-execution/multi-agent-batch-campaigns/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/campaign-execution/multi-agent-batch-campaigns">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">skills/<b>docs-and-compliance</b>/</div>
+        <div class="cards">
+          <div class="card" data-group="docs" title="Use when project documentation disagrees with itself, disagrees with the code, or you&#x27;re not sure which of several overlapping docs is actually current, and when producing a business or team-facing deliverable (a showcase, a report, screenshots) that needs to be factually solid before it ships.">
+            <span class="sk-tag">documentation and compliance</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/docs-and-compliance/docs-of-record-and-arbitration">docs-of-record-and-arbitration</a>
+            <p class="sk-what">An explicit arbitration order for when project docs disagree, plus a fact-check-first method for business deliverables.</p>
+            <p class="sk-catch"><b>Catches</b>Building from the wrong document when several overlapping ones all claim to be current.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>If a doc contradicts a settled decision, or code that correctly implements it, the doc is wrong. Fix the doc, cite the decision.</li>
+                <li>Even a formally versioned spec has been caught inventing behavior that never shipped.</li>
+                <li>Open every before/after pair: an &ldquo;after&rdquo; showing an unrelated screen is the most common way these documents ship wrong.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/docs-and-compliance/docs-of-record-and-arbitration/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/docs-and-compliance/docs-of-record-and-arbitration">folder &rarr;</a>
+            </span>
+          </div>
+          <div class="card" data-group="docs" title="Use when a change touches user consent, data retention or erasure, breach notification, or any messaging/communication opt-in that&#x27;s subject to privacy or marketing-communication law (health data, financial data, or general personal-data regulation). Establishes fail-closed defaults and the never-cross lines that keep a system defensible.">
+            <span class="sk-tag">documentation and compliance</span>
+            <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/docs-and-compliance/consent-and-regulated-data-reference">consent-and-regulated-data-reference</a>
+            <p class="sk-what">Fail-closed defaults for consent, retention, and audit trails in systems handling regulated personal data.</p>
+            <p class="sk-catch"><b>Catches</b>Defaults that fail open when a change touches consent, retention, erasure, or a regulated opt-in.</p>
+            <details class="sk-more">
+              <summary>From the skill</summary>
+              <ul>
+                <li>No consent record means no processing, no send, no session. A missing check never degrades to &ldquo;allow and log a warning.&rdquo;</li>
+                <li>Publishing a policy version is never a safe test. Staging often shares the same tables as production for exactly this record.</li>
+                <li>Raw data deletes with the user. A personal-data-free proof of consent survives, to show consent was once properly obtained.</li>
+              </ul>
+            </details>
+            <span class="sk-links">
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/skills/docs-and-compliance/consent-and-regulated-data-reference/SKILL.md">view SKILL.md &rarr;</a>
+              <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/docs-and-compliance/consent-and-regulated-data-reference">folder &rarr;</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="evidence">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">02</span>Evidence</div>
+      <h2>Proven twice, then checked by another vendor</h2>
+      <p>Two pre-registered studies grade this library, and a second vendor&rsquo;s model then re-checked the judging behind the second one. Each study lives on its own page with full methodology, and the harness that ran them is open in the repo&rsquo;s <a href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/eval">eval/</a> folder.</p>
+      <div class="pipe-label">How the July 2026 study ran</div>
+      <div class="abf" role="img" aria-label="Flow diagram of the July 2026 study. A freeze gate locks the task list first; nothing runs until it is frozen. One task from the frozen list is answered twice: a cold arm answers with no skill loaded, and a loaded arm answers with the skill loaded. The two results become answer A and answer B, and a scrubber removes any tell of which arm is which. The order key, the map of which answer is cold and which is loaded, is kept secret; the judges never see it. Blind judges score both answers against the pre-registered checklist. The result: cold 26 of 50, 52 percent; loaded 46 of 50, 92 percent.">
+        <div class="abf-box abf-gate"><span class="abf-tag">Freeze gate</span><b>The task list locks first</b><span>Nothing runs until the list is frozen: 16 tasks, 50 pre-registered must-hits.</span></div>
+        <div class="abf-arrow">&darr;</div>
+        <div class="abf-box"><b>One task from the frozen list</b><span>Each of the 16 tasks walks this same path.</span></div>
+        <div class="abf-cols abf-arrow"><span>&darr;</span><span>&darr;</span></div>
+        <div class="abf-cols">
+          <div class="abf-box"><span class="abf-tag">Cold arm</span><b>Answers with no skill loaded</b></div>
+          <div class="abf-box"><span class="abf-tag">Loaded arm</span><b>Answers with the skill loaded</b></div>
+        </div>
+        <div class="abf-cols abf-arrow"><span>&darr;</span><span>&darr;</span></div>
+        <div class="abf-cols">
+          <div class="abf-ans">Answer A</div>
+          <div class="abf-ans">Answer B</div>
+        </div>
+        <div class="abf-arrow">&darr;</div>
+        <div class="abf-scrub">
+          <div class="abf-box"><b>Order scrambler</b><span>Shuffles which answer comes first, so position gives nothing away.</span></div>
+          <div class="abf-key"><i>Order key, kept secret</i><span>The map of which answer is cold and which is loaded. The judges never see it.</span></div>
+        </div>
+        <div class="abf-arrow">&darr;</div>
+        <div class="abf-box"><b>Blind judges</b><span>Score both answers against the pre-registered checklist.</span></div>
+        <div class="abf-arrow">&darr;</div>
+        <div class="abf-result"><span class="abf-tag">The result</span><span class="abf-nums"><span>Cold <b>26/50</b> (52%)</span><span class="to">&rarr;</span><span>Loaded <b>46/50</b> (92%)</span></span></div>
+      </div>
+      <p style="margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--faint);max-width:70ch;">Honest note: these judges were order-blinded, not content-blinded; a few answers mentioned their own skill in passing. The sequel's harness closed that gap by scrubbing those tells before judging.</p>
+      <div class="ev-strip">
+        <div class="ev">
+          <div class="ev-tag">The July 2026 study</div>
+          <div class="ev-line">Baseline 26 of 50. With the skills loaded, 46 of 50 (92%).</div>
+          <p>An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. All 8 tested source skills passed the pre-registered rule.</p>
+          <a class="ev-go" href="../evidence/">the skills study &rarr;</a>
+        </div>
+        <div class="ev">
+          <div class="ev-tag">The effort lattice</div>
+          <div class="ev-line">Effort raises the floor. The skills still add on top.</div>
+          <p>Three Claude models at five reasoning-effort levels, each run with the skill library installed and without it. More effort raised the no-skills baseline on all three models, and it did not shrink what the skills add on any of them.</p>
+          <a class="ev-go" href="../lattice/">the effort lattice &rarr;</a>
+        </div>
+        <div class="ev">
+          <div class="ev-tag">The Codex cross-check</div>
+          <div class="ev-line">A second vendor agreed on 383 of 394 marks (97.2%).</div>
+          <p>After the lattice run, Codex, a model from a different vendor, re-scored a fixed sample of the committed judge inputs in one run and agreed with the panel&rsquo;s judging 97.2% of the time. How the check ran is on the lattice page.</p>
+          <a class="ev-go" href="../lattice/#methodology">the lattice methodology &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">03</span>Install</div>
+      <h2>Two commands</h2>
+      <p>The library installs as a Claude Code <span class="hot" tabindex="0" data-tt="Plugin" data-tip="A package Claude Code installs from inside the editor. Installing this one gives the agent all 17 skills at once.">plugin</span>, all 17 skills at once. Manual and single-skill install paths are in the repo.</p>
+      <pre class="install"><code>/plugin marketplace add HamzaYM/reliable-ai-skills
+/plugin install reliable-ai-skills@reliable-ai-skills</code></pre>
+      <p class="install-note"><span class="hot" tabindex="0" data-tt="MIT licensed" data-tip="Free to use, copy, modify, and ship commercially. Just keep the license notice.">MIT licensed</span>. Browse the flat one-page index at <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/INDEX.md">INDEX.md</a>, or start from the <a href="https://github.com/HamzaYM/reliable-ai-skills">repo</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Skill modal: a JS-only enhancement. Without JS this whole block is inert
+     (the overlay ships hidden; templates never render) and every card falls
+     back to its plain repo links. Each template below is that skill's full
+     SKILL.md body, converted from markdown to HTML at build time, verbatim. -->
+<div class="sk-overlay" id="sk-overlay" hidden>
+  <div class="sk-modal" role="dialog" aria-modal="true" aria-labelledby="sk-modal-name">
+    <div class="sk-modal-head">
+      <div>
+        <div class="sk-modal-tag" id="sk-modal-tag"></div>
+        <div class="sk-modal-name" id="sk-modal-name"></div>
+      </div>
+      <button type="button" class="sk-modal-close" id="sk-modal-close" aria-label="Close">&#215;</button>
+    </div>
+    <p class="sk-modal-when"><b>When to reach for it</b><span id="sk-modal-when"></span></p>
+    <div class="sk-modal-links">
+      <a id="sk-modal-file" href="#">view SKILL.md &rarr;</a>
+      <a id="sk-modal-folder" href="#">folder &rarr;</a>
+    </div>
+    <div class="sk-md" id="sk-modal-body"></div>
+  </div>
+</div>
+
+<template id="md-multi-model-adversarial-review" data-cat="adversarial-review" data-group="review" data-groupname="review and quality" data-when="Use before merging any substantive change, or before finalizing a document, plan, or claim, when you want a genuine adversarial pass rather than the same model re-reading its own work. Applies to code diffs, PRs, architecture plans, and prose (specs, memos, claims). Not worth it for trivial one-line changes.">
+<h1>Multi-model adversarial review</h1>
+<p>A single model reviewing its own work is not an adversarial review, even if you ask it to "be critical." One model's blind spots are usually its reviewer's blind spots too. The pattern that actually catches things: run <strong>two models from different vendors or of different sizes</strong>, then <strong>reconcile</strong> their findings instead of concatenating them.</p>
+<h2>Why this works</h2>
+<p>Different models (or the same vendor's different model tiers) are trained differently enough that their errors are only partially correlated. Agreement between them is a real confidence signal. Disagreement is where the interesting findings live. But they are still both language models trained on overlapping data: agreement reduces <em>stochastic</em> misses, but it does not clear a <em>shared</em> blind spot. For anything safety- or correctness-critical, pair this with at least one non-LLM check (run it, compute it, grep for it).</p>
+<h2>The pattern</h2>
+<ol>
+<li><strong>Identify the artifact.</strong> A diff, a file, a plan, a claim. Decide whether you're reviewing code or prose: the framing changes what "finding" means.</li>
+<li><strong>Run your primary reviewer's own pass first</strong> (one or several review lenses; see below). Don't skip this: the second model adds diversity, it doesn't replace your own critique.</li>
+<li><strong>In parallel, run a second model</strong> (a different vendor's CLI, or a different tier of your own vendor) with read-only access to the same artifact. Give it a specific focus question, not just "review this." Never send secrets, regulated data, or embargoed material to a third-party model you don't already trust with that data.</li>
+<li><strong>Synthesize.</strong> The actual value is here, not in step 3. Never just paste the second opinion into your output; reconcile it against your own.</li>
+</ol>
+<p>Run the two passes concurrently rather than serially; on a large artifact, split it into chunks and review each chunk separately, since most review wrappers warn about size but silently truncate rather than erroring.</p>
+<h3>Multi-lens fan-out (when one reviewer isn't enough on its own)</h3>
+<p>For anything merge-bound or high-stakes, don't rely on a single reviewer even within one model family. Fan out several independent reviewers, each briefed on a distinct lens (e.g., correctness, security, product-intent fidelity, completeness) and, if your tooling allows model overrides, running on different model sizes so they don't share a blind spot. Two stages, not one: a genuine correctness/simplicity pass first, then the adversarial pass. A same-model, same-lens panel is not a real panel.</p>
+<h2>Refute-verification: the load-bearing step</h2>
+<p>Every candidate finding must survive an attempt to refute it before it gets reported. In practice: route each finding to two or three independent reviewers whose job is specifically to try to knock it down. A finding survives only if it withstands that attempt. This single rule is what keeps a review from turning into a pile of plausible-sounding but wrong "findings." Fewer real findings beat a long list of maybes, and a wall of nitpicks with no real issue means "nothing substantive found," not "lots of problems."</p>
+<p>Add one more pass after the fan-out: a <strong>completeness critic</strong> whose only job is "what did we not look at?"</p>
+<h2>Synthesis contract</h2>
+<ul>
+<li><strong>Tag every finding by source</strong> (which lens, or which model raised it).</li>
+<li><strong>Agreement across independent reviewers = high confidence.</strong> Surface these first.</li>
+<li><strong>Single-source findings get adjudicated, never rubber-stamped and never silently dropped.</strong> State agree / disagree / uncertain with a one-line reason.</li>
+<li><strong>On factual disagreement about something material, run one rebuttal round.</strong> Give the dissenting side the specific counter-evidence and ask it to withdraw (if genuinely refuted) or hold and sharpen its reasoning. Cap it at one round (two for genuinely high-stakes cases). A model that withdraws immediately just because it was told the other side disagrees is a known failure mode, the rebuttal prompt should explicitly say "withdraw only if the evidence refutes you," not "agree to be agreeable."</li>
+<li><strong>Matters of taste are the lead reviewer's call.</strong> Tone, styling, severity, record the dissent in one line, decide, and move on. Don't escalate taste to a human.</li>
+<li><strong>Escalate to a human only when a finding is material and genuinely unresolvable</strong> by the reviewers themselves, not merely because two models disagree.</li>
+<li><strong>Asymmetric veto for self-checks.</strong> If a second opinion would, if true, mean an error in <em>your own</em> prior work or output, don't dismiss it on your own authority. That's precisely the case you're least equipped to judge fairly. Verify it with a non-LLM check or escalate, regardless of how confident you feel.</li>
+<li>Weigh the sampling asymmetry: if you ran several review lenses and the second model ran one pass, "the second model didn't flag it" is weak evidence either way.</li>
+</ul>
+<h2>Fold-back</h2>
+<p>Fixes for confirmed findings should be test-first where feasible (write the failing test, then the minimal fix) and re-run the full validation gate before calling the finding closed. Standing practice worth adopting: after a PR opens, dispatch one more independent reviewer against the live diff and fold any real findings back the same way. Reviewers should return their verdicts to whoever is orchestrating the review, not post directly to external systems (PR comments, tickets). That keeps a human or lead model as the actual editor of what gets reported.</p>
+<h2>Graceful degradation</h2>
+<p>If the second model or reviewing tool is unavailable (not installed, unauthenticated, timed out, empty output), proceed with the single-model review and say so explicitly in your report. Never block a review pass on tooling being down, and never silently downgrade to single-model without disclosing it.</p>
+<h2>A related, prospective use of the same idea</h2>
+<p>The pattern above is retrospective: it critiques finished work. The same two-model idea also works prospectively: before a consequential, hard-to-reverse decision (an architecture choice, a migration, a release), ask a second model for its take on the options and risks before you commit. Same rule applies: it advises, you decide. Reserve it for genuinely high-stakes forks. Overusing it just adds latency and becomes a way to avoid deciding.</p>
+</template>
+
+<template id="md-tiered-consultancy-review" data-cat="tiered-review" data-group="review" data-groupname="review and quality" data-when="Use when a deliverable needs to go from rough draft to genuinely finished without the requester babysitting every pass, a cover letter, a strategy memo, a customer-facing document, a recommendation, a decision review, or any artifact where tone, framing, and defensibility all matter as much as correctness. Mirrors how a consulting firm actually reviews work before a partner signs it.">
+<h1>Tiered consultancy review</h1>
+<p>Most review setups are flat: one reviewer, one pass, done. That catches surface errors but misses the things a real firm catches before a partner-level deliverable goes out the door: weak framing, an unearned claim, a tone mismatch for the audience, a competitor argument nobody stress-tested. The fix is to run review as an actual <strong>escalation ladder</strong>, the way a consultancy staffs a real engagement: juniors first, then managers, then specialists, then partners, and only then does it reach the person who actually owns the decision.</p>
+<h2>The ladder</h2>
+<p>Each tier has a distinct job. Don't collapse them into one giant "review this" pass, the value is in the separation.</p>
+<ol>
+<li><strong>Analysts (parallel, blind to each other).</strong> Two or three independent first passes, each reading the draft cold through a different frame (e.g., one for the core argument, one for factual/technical grounding, one for how a skeptical outsider would read it). Blind means they don't see each other's notes yet: that's what prevents one loud opinion from anchoring the rest.</li>
+<li><strong>Managers (synthesis).</strong> Merge the analyst passes into one coherent draft. Resolve overlaps, keep the sharpest version of each point, and drop redundant feedback. This is where "several good ideas" becomes "one good draft."</li>
+<li><strong>Specialists (targeted passes).</strong> One or two reviewers with a narrow, specific mandate, e.g., "is every factual claim actually true and not overstated," or "does this read naturally for the intended audience, not like a machine wrote it." Specialists catch what generalists miss because they aren't trying to catch everything at once.</li>
+<li><strong>Partners (three angles, not one).</strong> This is the tier that decides if it ships:<ul><li><strong>Internal partner</strong>: reads for whether it serves the requester's actual goal and asks for anything that strengthens their position.</li><li><strong>External partner</strong>: reads as the actual audience would, with zero sympathy for how the sausage was made. Cuts throat-clearing, hedging, and anything that reads as unearned.</li><li><strong>Adversarial partner</strong>: actively tries to find the argument's weakest point, the way a skeptic or competitor would attack it. This tier catches structural problems the earlier tiers were too close to see (e.g., a draft that led with the wrong achievement because the "obviously best" evidence actually undercut the core claim).</li></ul></li>
+<li><strong>Final polish.</strong> One last pass for length, redundancy, and voice consistency after all the substantive edits have landed.</li>
+</ol>
+<h2>Rules that make this actually work</h2>
+<ul>
+<li><strong>Each tier can do one of three things with what it receives: fix it directly, confer with a peer at the same tier, or kick it back down with specific, actionable feedback.</strong> A tier that can only pass things up is not adding review, it's adding latency.</li>
+<li><strong>Keep a review ledger.</strong> One line per material change: what was flagged, at which tier, and what changed as a result. This is what lets you defend the final version later and lets the next review start from where this one left off instead of re-litigating settled points.</li>
+<li><strong>Escalate to the actual owner only for calls only they can make</strong>: a factual claim only they can verify, a framing choice that depends on context the reviewers don't have, a tradeoff between two legitimate options. Don't escalate taste; the partner tiers exist to make taste calls.</li>
+<li><strong>Calibrate the depth of the ladder to the stakes.</strong> A five-tier pass with three independent adversarial angles is for something that ships externally and is hard to walk back. An internal working doc gets one honest pass, not the full ladder. Running the whole pipeline on low-stakes material is how review theater happens.</li>
+<li><strong>The adversarial tier is not optional for anything customer- or decision-facing.</strong> It is the one most likely to be skipped because it feels redundant after four other passes already said "looks good," and it is the one that catches structural problems the others structurally cannot, because everyone before it was working from inside the same frame.</li>
+</ul>
+<h2>A parallel version for finished code or docs</h2>
+<p>The same escalation idea works as a <strong>fixed-panel</strong> variant rather than a strict ladder, useful when you want speed over depth: run several review lenses in parallel and blind (fidelity to spec, completeness against a checklist, clarity for a reader with zero context, honesty about alternatives considered, and a red-team pass), then route every material finding to an independent verifier whose only job is to try to refute it against the actual artifact (the live code, the actual source document). Report confirmed vs. refuted counts explicitly, fix every confirmed finding, and re-verify the fix against the real artifact rather than trusting the diff. This variant trades the sequential ladder's depth for running everything at once. Pick it when the artifact is well-defined and you want thorough coverage fast rather than a genuinely escalating argument.</p>
+<h2>When not to use this</h2>
+<p>For a quick correctness check on a small diff, use a single adversarial pass instead (see the adversarial-review pattern). The full ladder is overkill and will just slow you down without adding real signal.</p>
+</template>
+
+<template id="md-pre-merge-validation-gate" data-cat="validation-gates" data-group="review" data-groupname="review and quality" data-when="Use before declaring any change &quot;done,&quot; before opening or updating a PR, after any UI-touching change, or whenever you&#x27;re about to report test results. Defines what &quot;done&quot; actually means and how to report it without overstating what was checked.">
+<h1>Pre-merge validation gate</h1>
+<p>"The build passed and the unit tests are green" is not the same claim as "this works." Treating them as equivalent is the single most common way agentic work ships a real bug that automated checks structurally cannot see: a UI regression that a type-checker and a passing test suite both miss because neither one looks at a rendered screen.</p>
+<h2>Core rule: a UI-touching change is not done until it has been driven live</h2>
+<p>Build passing plus unit tests passing is necessary, never sufficient, for anything that changes what a user sees or interacts with. If there's no CI safety net on the branch you're targeting, treat your local gate as the only one that exists. Don't assume a downstream check will catch what you skipped.</p>
+<h2>Scale the gate to the change</h2>
+<p>Not every change needs the full gate. Match the check to the blast radius:</p>
+<div class="tbl"><table><thead><tr><th>Change</th><th>Minimum required</th></tr></thead><tbody><tr><td>Docs/config only</td><td>None of the below</td></tr><tr><td>Backend-only, no client-visible behavior change</td><td>Backend test suite</td></tr><tr><td>Backend change to an endpoint a client calls</td><td>Backend suite + integration/e2e suite</td></tr><tr><td>Anything in the UI layer</td><td>Full suite + a live, driven check of the changed screen</td></tr><tr><td>Shared/high-traffic UI chrome</td><td>All of the above + any byte-identical or snapshot fixtures that depend on it</td></tr><tr><td>New or changed user-facing strings</td><td>Land in every locale in the same commit, then run the test suite (a locale-parity check, if you have one, is the only thing that catches a string landing in one locale only)</td></tr></tbody></table></div>
+<h2>Live verification, not just green CI</h2>
+<p>Driving the actual feature (clicking it, submitting it, refreshing it, observing the real output) is not optional for a UI change, even when an end-to-end suite exists and passes. End-to-end coverage tests what someone thought to write a test for; live verification catches what nobody thought to test yet. Concretely: bring up the real stack, exercise the specific thing you changed, and report what you actually observed (screenshot as evidence when you can produce one), not just "the suite passed."</p>
+<h2>Gate paid or costly test suites behind an explicit switch</h2>
+<p>Any suite that spends real money (a live LLM call, a paid third-party API) should be opt-in, not run-by-default. Keep it deselected in your default test config and only enable it explicitly when asked. Don't "fix" that deselection just because it looks like a suite is being skipped: that's the intended behavior, and removing the opt-in gate is how you get a surprise bill.</p>
+<h2>Baselines drift: measure, don't assume</h2>
+<p>Lint/type-check error counts, warning counts, and "known-flaky" baselines are a snapshot from whenever someone last measured them, not a permanent constant. State the bar as "zero <em>new</em> problems in the files you touched" rather than an absolute number, and re-measure the baseline yourself before citing it. Don't copy a number from an old doc or a stale comment.</p>
+<h2>Byte-identical / snapshot fixtures: recapture is not a rubber stamp</h2>
+<p>If your project pins some UI surface to committed fixtures (golden screenshots, byte-identical content baselines), a failure right after your intentional change is expected, but recapturing over it is not automatic. Before committing a recaptured fixture: read the diff against the old fixture and confirm every changed hunk traces to your intended change. Anything you can't explain is a regression, not a fixture update. Investigate it; don't launder it into the new baseline. Recapture, then re-run in assert mode (no capture flag) at least twice to confirm the new fixture is actually deterministic before committing it.</p>
+<h2>Reporting: unambiguous, not optimistic</h2>
+<p>Report the gate as a table: one row per check, with exit status and counts, new-vs-baseline where applicable. Then:</p>
+<ul>
+<li>List every applicable stage you did <strong>not</strong> run, and why ("environment wasn't up" is a finding: go start it, don't skip the step and stay silent about it).</li>
+<li>Never write "tests pass" if any applicable stage was skipped or any failure is unexplained.</li>
+<li>Quote failures verbatim and label each one as pre-existing (already failing before your change) or introduced by it.</li>
+<li>For anything verified live, state exactly what you exercised and what you observed.</li>
+</ul>
+<h2>Environment write discipline during verification</h2>
+<p>If verifying a change requires writing to a shared environment (a staging database, a real third-party service), positively identify the write target before you write anything. A working credential proves nothing about which environment it's pointed at; check the actual resource identity (account ID, hostname, connection string marker), not an environment-name variable that might be misleading by design. Never report a verification write as a "no-op": if it created, published, or mutated anything, say so. Some records are legally or operationally material the instant they're created (a published policy version, a config version, anything append-only). There is no "test" scope that makes writing one of those safe; if a verification step seems to require it, stop and escalate rather than improvising a workaround.</p>
+<h2>When not to use this</h2>
+<p>This is the "is it done" gate, not the review-quality gate. Pair it with an adversarial or tiered review for anything merge-bound (see the adversarial-review and tiered-review skills). It's also not a debugging guide: if the gate surfaces a failure, that's a handoff to a systematic debugging pass, not a reason to loosen the gate.</p>
+<p><em>Evidence: both source versions of this gate passed the pre-registered, order-blinded A/B of July 2, 2026 (one source: must-hits 1/3 cold to 3/3 loaded on one task and a 4/4 tie on the other; the second: 0/3 to 3/3 on a consent-scenario task and a 2/3 tie); this merged rewrite was later tested in the July 2026 effort lattice, where the full 17-skill library ran against every model and effort level (results/matrix/MATRIX.md; evidence note updated 2026-07-12).</em></p>
+</template>
+
+<template id="md-architecture-contracts-as-law" data-cat="architecture-and-contracts" data-group="systems" data-groupname="systems and architecture" data-when="Use when changing anything that crosses a system boundary: database schema, wire/API shapes, cross-module imports, the one place a third-party SDK is allowed to be called from, or when tempted to build infrastructure &quot;ahead of need.&quot; Establishes a single merge-blocking source of truth for system invariants, kept current in the same commit as the code that changes it.">
+<h1>Architecture contracts as law</h1>
+<p>Large systems accumulate implicit invariants ("this module never imports that one," "only this file talks to the LLM SDK") that everyone half-remembers and nobody has written down. The fix is a single, explicit contract document that is treated as merge-blocking law, updated in the same commit as any change to what it governs: not a wiki page that quietly goes stale.</p>
+<h2>The contract document is a source of truth, not documentation</h2>
+<p>Whatever you call it (a CONTRACTS file, an architecture decision record, an invariants doc), it needs one property to actually work: <strong>drift between it and the code is treated as a bug</strong>, not as "the doc needs updating eventually." Concretely:</p>
+<ul>
+<li>Any change to schema, API/wire shape, route surface, or a documented invariant updates the contract document <strong>in the same commit</strong>, and the change is called out explicitly in the summary of that commit/PR.</li>
+<li>If the contract is ambiguous or looks wrong for what you're trying to do, that's a stop-and-surface moment. Don't silently improvise an interpretation and move on.</li>
+<li>Locked algorithms or formulas (see the llm-eval-harness-and-scoring-pipeline skill for a concrete example) live here, with an explicit note on who has to sign off before they can change.</li>
+</ul>
+<h2>Enforce a module dependency direction, and name the exceptions</h2>
+<p>If your system has a layered or DAG-shaped dependency structure (module A may depend on B but never the reverse), write the intended direction down explicitly, and separately maintain a short list of the <strong>real, current exceptions</strong>. In any system old enough to matter, reality has drifted from the original diagram at least a little. An exception list that's honest about existing deviations is far more useful than a diagram that's aspirationally clean but wrong. New code should follow the documented direction; an existing exception is not a license to add a new one elsewhere without the same scrutiny the original one presumably got.</p>
+<p>Verify programmatically, don't just trust the doc:</p>
+<pre><code># generalized pattern, adapt the paths/import syntax to your language
+grep -rn "^from your_module\." path/to/leaf_module | grep -v "expected internal imports"</code></pre>
+<h2>Isolate third-party SDK / vendor boundaries to one module</h2>
+<p>If your system calls an external LLM provider, payment processor, or any other vendor SDK, funnel every call through a single module that owns that boundary. Domain code gets a thin accessor function, never the raw SDK client. This buys you two things: a swappable provider (changing the default model or backing vendor is a one-line change in one place) and an enforceable invariant you can literally grep for:</p>
+<pre><code>grep -rn "from provider_sdk_name" your_codebase --include="*.py" | grep -v path/to/the/one/allowed/module</code></pre>
+<p>Keep an explicit, current list of the rare legitimate exceptions (e.g., a batch-API client that needs its own SDK instance, or a module that only imports the SDK's error types for exception handling). Anything not on that list is a violation.</p>
+<h2>Version anything whose meaning changes over time</h2>
+<p>Prompts, scoring rubrics, rule configurations: anything read at runtime whose <em>content</em> changing changes behavior should be versioned as explicit files or records, not edited in place. Every row/record produced using one of these should record which version produced it, so you can answer "what changed, and which past results does it affect" without guessing. New versions get added as new files; old versions stay around for as long as anything produced under them needs to remain comparable.</p>
+<h2>Keep an explicit deferred-work ledger with pickup triggers</h2>
+<p>For deliberately-postponed infrastructure (a queueing system you don't need yet, an auth provider swap, a caching layer), don't just leave a "TODO: maybe someday" comment. Keep one ledger with, per deferred item: what's deferred, what the interim shortcut is, and the <strong>explicit, concrete trigger</strong> that means it's time to build it now ("when scoring consistently takes longer than N minutes," "when a second external identity provider is needed"). This does two things: it stops people from building speculative infrastructure early ("check the ledger: has the trigger actually fired?"), and it stops the deferred item from being silently forgotten once the trigger does fire.</p>
+<h2>Freeze identifiers that other systems depend on for comparability</h2>
+<p>If an ID (a category, a rubric dimension, a taxonomy key) is used anywhere that compares values across time or across records, treat renaming or removing it as almost never acceptable once real data exists under it. A rename breaks every historical comparison silently. Add new identifiers for new concepts; don't repurpose old ones. Where a decision like this has already been made, document it as settled rather than leaving it to be re-litigated by whoever encounters the temptation next.</p>
+<h2>Physical infrastructure names can be permanent even after logical renames</h2>
+<p>If you rename a logical reference to a piece of infrastructure (a Terraform resource address, a code-level identifier) but the actual deployed resource has a physical name baked in at creation (an IAM role name, a fixed identifier some other system already depends on), renaming the physical name usually means destroy-and-recreate, not a clean rename. Decide explicitly whether that's worth doing as its own planned operation. Don't let it get bundled unintentionally into an unrelated change just because the logical name looks inconsistent.</p>
+<h2>Don't cite a number: read the source</h2>
+<p>Any place your documentation states a count that can drift (a count of error codes, capability flags, dependency-free modules) is guaranteed to go stale, and multiple docs disagreeing about the same count is worse than no doc at all. It hands the reader three wrong answers instead of one honest "go read the code." Where you need to communicate something like this, either point at the single source of truth to compute the number, or drop the number entirely and describe the property instead of the count.</p>
+<h2>When not to use this</h2>
+<p>For the specific technique of keeping a symptom-driven token/permission reference for auth systems, see the multi-tenant-auth-reference skill. For which <em>document</em> wins when several pieces of documentation disagree with each other, see the docs-of-record-and-arbitration skill.</p>
+</template>
+
+<template id="md-multi-tenant-auth-reference" data-cat="auth-and-tenancy" data-group="systems" data-groupname="systems and architecture" data-when="Use when debugging or changing auth, tokens, sessions, invites, or tenant isolation in a multi-tenant application: unexpected 401s/403s, cross-tenant data leaking or disappearing, role checks that seem too wide or too narrow, or row-level security that appears to be silently doing nothing.">
+<h1>Multi-tenant auth and tenancy reference</h1>
+<p>Auth bugs in a multi-tenant system are expensive to debug by guessing, because the failure modes look identical from the outside (a 401, a blank page, a row that "should" be there) but have completely different root causes. The fix is to maintain a ground-truth reference for your own system's token/role model instead of re-deriving it from scratch every time, and to never guess which token or role kind is in play.</p>
+<h2>Document every token/credential kind as a table, not prose</h2>
+<p>If your system mints more than one kind of credential (a full user session, a scoped short-lived token, a share link, an account-level token distinct from a session token), keep one table: what claims discriminate it, what mints it, what verifies it, and its TTL. The single highest-cost mistake in this space is guessing which kind of token a code path expects instead of looking it up. Treat two wrong guesses in one session as a sign the reference is missing or stale, not a sign to guess harder.</p>
+<p>If tokens are stored client-side across multiple keys (a global session token, a per-resource token, an account-level token that must never get swapped into the global slot), document the full key set and both directions of any swap that can happen. The classic bug here is exactly that: an unrelated code path swaps the global slot back to the wrong credential mid-flow, and everything downstream 401s in a way that looks unrelated to the actual cause.</p>
+<h2>Build a symptom → cause → fix decision table</h2>
+<p>Keep a running table of "if you see X, it means Y, do Z" for your own system's actual auth errors, e.g.:</p>
+<div class="tbl"><table><thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead><tbody><tr><td>401 "wrong token kind"</td><td>A route expects one credential type and received another</td><td>Check the discriminator table above; don't retry with a different token blindly</td></tr><tr><td>401 after a previously-working flow</td><td>A credential got clobbered by a parallel bootstrap/session-refresh path</td><td>Check the storage-key swap directions, not just the immediate call site</td></tr><tr><td>403 on a role that should have access</td><td>A role guard is narrower (or a permission model is more granular) than the role name suggests</td><td>Check whether access is actually gated by a capability/permission, not the role string; see below</td></tr><tr><td>Cross-tenant read returns zero rows instead of an error</td><td>Isolation is enforced by a session-scoped context variable that wasn't set on this code path</td><td>Confirm the isolation context is pinned before the query runs, not after</td></tr></tbody></table></div>
+<p>This table is worth more than any individual fix, because most "new" auth bugs in a mature system are re-encounters of an already-diagnosed failure mode.</p>
+<h2>Prefer capability checks over role-string checks</h2>
+<p><code>role === "admin"</code> (or any literal role-string comparison) is a trap the moment your permission model has more nuance than the role name suggests: for example, an "admin" role that shouldn't automatically get every admin capability, or a narrower role that legitimately needs one specific elevated permission. Gate behavior on an explicit capability/permission check (<code>requireCapability("doTheSensitiveThing")</code>), not on the role label. When you widen a role guard to "just make the 403 go away," you are very likely re-opening a boundary that was deliberately drawn. Treat any urge to widen a role guard as a signal to go find out why it was narrow, not a green light.</p>
+<h2>Row-level isolation has a silent-bypass failure mode: know it</h2>
+<p>If tenant isolation is enforced by a database-level policy (row-level security or equivalent) keyed on a session-scoped variable, there is usually a role or connection mode that silently bypasses it entirely: for example, a superuser or elevated-privilege connection role skips row-level security unconditionally, with no error and no warning at query time. This is the single most dangerous failure mode in this category because it doesn't fail loud: the query just returns everything, and nothing tells you the policy didn't run. Concretely:</p>
+<ul>
+<li>The application's runtime connection must use a least-privilege role that cannot bypass the isolation mechanism. Never the same role that owns the schema or runs migrations.</li>
+<li>Add a boot-time or startup check that asserts the connected role does not have bypass privileges, and treat any warning from it as a stop-the-line issue, not a log line to ignore.</li>
+<li>Defense in depth: also filter by tenant ID in application code, even though the database policy should already be doing it. Isolation should not depend on exactly one mechanism working.</li>
+</ul>
+<h2>Invite / redemption flows: enumerate every path explicitly</h2>
+<p>If your system has more than one way to redeem an invite (a user-account invite vs. a scoped single-use invite tied to a specific resource), they usually need genuinely different handling: different token shapes, different consumption semantics. Document both paths side by side and treat "what happens when someone re-invites an existing user, or a role mismatch shows up on redemption" as a product decision, not an engineering one. Escalate it rather than picking a direction that changes user-facing semantics unilaterally.</p>
+<h2>Maintain provenance, not just facts</h2>
+<p>Auth references go stale fast: file:line citations rot the moment the branch moves. Date-stamp what you verified and how (a specific grep, a specific test name), so the next reader can re-verify in seconds instead of re-deriving the whole model from scratch.</p>
+</template>
+
+<template id="md-llm-eval-harness-and-scoring-pipeline" data-cat="evals-and-scoring" data-group="systems" data-groupname="systems and architecture" data-when="Use when building or changing a pipeline that scores, grades, or extracts structured output from an LLM in production: composite/aggregate scoring math, partial-failure handling when one sub-call fails, prompt versioning, an eval harness that makes real model calls, or comparing a candidate model/prompt against production without flipping it live.">
+<h1>LLM eval harness and scoring pipeline</h1>
+<p>Any pipeline that turns LLM output into a number or a structured decision (a grade, a rank, a composite score) needs three things most first drafts skip: locked-down math that can't silently drift, an explicit policy for what happens when part of the pipeline fails, and a way to measure quality changes before they ship. This skill covers all three, plus the shadow-comparison technique for testing changes safely.</p>
+<h2>Lock the aggregation math, and gate changes on it explicitly</h2>
+<p>Whatever formula turns multiple sub-scores into one number (a mean, a weighted composite, a rank with a tie-breaking rule) should be written down as an explicit, versioned contract: not just "whatever the code currently does." Once real scores exist that people compare over time, changing this math retroactively changes the meaning of every past score. Treat any change to it as requiring the same sign-off as a database migration: explicit, documented, and updated in one commit alongside whichever doc is the source of truth for it.</p>
+<h2>Partial failure: degrade, never silently substitute</h2>
+<p>The most expensive bug class in a multi-call scoring pipeline is emitting a comparable-looking number that quietly lost an input. Concretely: if one sub-call in a multi-call scoring flow fails,</p>
+<ul>
+<li><strong>If the failed piece is not load-bearing for the final number</strong> (a non-critical axis, an optional embellishment), renormalize over what succeeded and keep the result flagged as complete.</li>
+<li><strong>If the failed piece is load-bearing</strong> (a required axis, or the piece that determines pass/fail), do not emit a number that looks comparable to a fully-scored case. Mark the result as degraded/incomplete, still show whatever partial signal you have (clearly labeled as partial), and queue the missing piece for retry.</li>
+<li><strong>If nothing scoreable survived, emit nothing.</strong> Not a zero, not a placeholder value. A zero is a real, comparable data point; a missing score is not, and conflating them corrupts every downstream aggregate (rankings, cohort averages) that reads the number.</li>
+</ul>
+<p>This matters because the alternative failure mode is silent and expensive: a partial result presented as complete has, in practice, produced real mis-rankings that only surfaced once someone noticed the underlying scores looked off.</p>
+<h2>Version your prompts like schema migrations</h2>
+<p>Store prompts as versioned files (not inline strings), with an explicit version marker at the top of each one. Every scored/generated row should record which prompt version produced it, so that a prompt change is diffable after the fact: you can answer "which rows were scored under the old wording" without guessing. Keep old versions around rather than overwriting them; re-scoring needs to stay comparable across versions.</p>
+<h2>Cost and concurrency controls belong next to the pipeline, not bolted on later</h2>
+<ul>
+<li><strong>Concurrency limit on fan-out calls.</strong> If a single unit of work triggers several parallel LLM calls, cap the fan-out with an explicit semaphore. If you start seeing rate-limit errors or timeouts under load, lower the concurrency limit first. Raising per-call timeouts just delays the same failure.</li>
+<li><strong>Retry only genuinely retryable errors</strong> (rate limits, 5xx, timeouts) with exponential backoff; don't retry a definitive rejection (bad input, auth failure, content-policy block). That just wastes calls and, if the call carries sensitive data, can also reroute it somewhere it shouldn't go (see the cost-and-safety-guardrails skills for the full fallover-safety version of this rule).</li>
+<li><strong>Price every model you can call.</strong> Any model string that can appear in a response needs a corresponding entry in your pricing table. An unpriced model call should never silently report as free: that blinds your cost dashboard exactly when a new/experimental model starts getting real traffic.</li>
+<li><strong>Make demo/seed data provably free.</strong> If you seed a demo environment with synthetic scored data, run it through the real scoring code path with a deterministic stand-in for the LLM call, not a separate hand-authored shortcut. That way the seed data has the same shape and honesty as real output, costs nothing, and reruns byte-identically.</li>
+</ul>
+<h2>Eval harness: real calls, opt-in, checked before every prompt change</h2>
+<p>An eval harness that makes real, costed LLM calls against a fixed set of test inputs should be deselected by default in your test runner (an explicit marker/flag), never run accidentally in a normal test pass. Run it deliberately after any prompt edit, before merging: assert on output shape and value ranges, not exact free-text content. Free text will legitimately vary between runs even with a stable prompt.</p>
+<h2>Shadow comparison: how to test a model or prompt change safely</h2>
+<p>To answer "would a different model, prompt, or extraction strategy behave differently in production" without flipping anything live: run the candidate in parallel with the production path, on real traffic, but never let its output affect what the user sees or what state gets persisted. Concretely:</p>
+<ul>
+<li>The production path always wins and always determines behavior; the shadow path is purely observational.</li>
+<li>Log a structured comparison (exact-equality booleans, or a diff) between what production did and what the shadow candidate would have done, and aggregate those logs to make the go/no-go decision.</li>
+<li>Shadow calls should be excluded from cost caps and rate limits that apply to real traffic, and tagged distinctly in your cost ledger, since they're overhead, not user-facing work.</li>
+<li>Never resolve "would X behave differently" by actually flipping X on production to see what happens. That's an experiment on real users, not a test.</li>
+</ul>
+<h2>When not to use this</h2>
+<p>If the question is "should this specific PR be reviewed before merge," that's the validation-gates or adversarial-review skill. This skill is about the scoring/eval pipeline's own architecture and invariants, not about reviewing a change to it.</p>
+</template>
+
+<template id="md-ai-cost-tracking-and-guardrails" data-cat="cost-and-safety-guardrails" data-group="cost" data-groupname="cost and safety" data-when="Use when adding or changing any LLM call in a system that handles regulated or sensitive data (health records, financial data, other personal information) or that needs hard cost control: provider fallover between vendors, rate limiting, per-session or per-tenant cost caps, or making sure every call is tracked and priced.">
+<h1>AI cost tracking and safety guardrails</h1>
+<p>Every LLM call in a production system costs real money and, in a lot of real systems, also carries sensitive or regulated data. Both problems get solved the same way: make the safe/tracked path the only path that's easy to write, and enforce it with an automated check rather than a code-review convention that erodes over time.</p>
+<h2>Guardrail 1: every call is tracked, with an explicit opt-out</h2>
+<p>The failure mode to design against is a new LLM call that quietly bypasses your cost/usage tracking because it was written against the raw SDK client instead of your tracked wrapper. Enforce this with a static check (a script that greps for raw provider-client usage and diffs against an allowed baseline), wired into your test suite so it runs on every change, not just something a reviewer might remember to check. Two things make this actually hold up:</p>
+<ul>
+<li><strong>The check needs to catch direct instantiation, not just direct function calls.</strong> A grep for "raw call" typically misses <code>new ProviderClient(...)</code>. Wrap the instance yourself immediately after constructing it.</li>
+<li><strong>The opt-out must be explicit and local.</strong> If a script, test, or one-off tool genuinely can't build the tracking context, require an explicit <code>{ untracked: true }</code> (or equivalent) on the same line as the call, never a silent bypass. That keeps the opt-out visible to the same grep that catches accidental misses.</li>
+<li><strong>Tracking failures should fail loud, not swallow silently.</strong> If writing a usage record fails, that should surface as an error on the request, not a silently-dropped tracking row. A silent swallow defeats the entire point of a cost cap, because the cap logic reads the same table that just failed to get written to.</li>
+</ul>
+<h2>Guardrail 2: cross-provider fallover is a denylist, not a guess</h2>
+<p>If you fail over from a primary LLM provider to a secondary one on error, classify errors as <strong>definitively non-retryable</strong> (bad request, auth failure, not-found, a content-policy rejection) vs. <strong>everything else</strong> (rate limits, timeouts, 5xx, connection errors). Retry/fail over on the second category; never fail over a definitively-rejected payload to a different vendor. If the primary vendor rejected it outright, rerouting it to a second vendor can mean sending sensitive data somewhere it was never approved to go. Write this as an explicit denylist function with tests, not an inline <code>if</code> in the retry logic, because "everything else fails over" is the correct default and it's easy to accidentally invert it while refactoring.</p>
+<h2>Guardrail 3: rate limiting fails closed, everywhere, by default</h2>
+<p>A rate limiter (or any safety-relevant gate) should fail <strong>closed</strong> in every environment unless a narrow, explicitly-named override is set for local development. Do not gate fail-open/fail-closed behavior on an "is this production" check: see the config-and-secrets-hygiene skill for why environment-name checks are unreliable in staging-like environments that deliberately mirror production defaults.</p>
+<h2>Guardrail 4: cost-cap state must survive the transaction that triggered it</h2>
+<p>If a cost cap is checked inside a database transaction (e.g., under an advisory lock) and the cap is exceeded, the "we blocked this" record often needs to be written to the database <em>after</em> that transaction has already rolled back, because the very error that trips the cap is what's causing the rollback. Writing the "blocked" record on the same connection, inside the same transaction, means it gets thrown away by the rollback that triggered it. Persist it on a separate connection/transaction, in the caller's exception handler, after the original transaction has fully unwound. Test this specifically (start a session, force the cap, verify the block record survived). It's the kind of bug that looks fine until the first real production cap trip.</p>
+<h2>Guardrail 5: no session/call without a resolved tenant or cost-attribution context</h2>
+<p>If cost caps and tracking are keyed on a tenant/organization/account ID, any code path that can start a billable session must refuse to proceed without that ID resolved. Never fall through to an untracked, uncapped path just because the ID lookup came back null. A missing tenant ID should block session creation with a clear error, not silently downgrade to "untracked call, no cap enforced."</p>
+<h2>Guardrail 6: price every model that can appear in a response</h2>
+<p>Any model identifier that can show up in your usage records needs a matching row in your pricing table, including less common presets and foundation-model IDs from a secondary cloud provider. An unpriced model should never silently report as free-of-cost: that blinds your spend dashboard exactly when a new or experimental model starts taking real traffic.</p>
+<h2>Handling sensitive or regulated data specifically</h2>
+<p>If the system processes health data, financial data, or other regulated personal information:</p>
+<ul>
+<li><strong>Fail closed on anything that gates handling of that data.</strong> A missing required secret (a salt, a signing key) should make the dependent route fail hard, never silently fall back to an unsalted or unguarded path.</li>
+<li><strong>Keep sensitive data out of logs and audit metadata by allowlist, not denylist.</strong> Maintain an explicit allowlist of metadata keys that are safe to log; drop anything not on the list rather than trying to enumerate everything unsafe. A denylist of "known-bad" keys reliably misses a new field the next engineer adds; an allowlist fails safe by default. Long or free-text content that must be referenced in a log should be hashed/truncated, never logged verbatim.</li>
+<li><strong>Never claim data residency or handling guarantees your infrastructure doesn't actually provide.</strong> If you're not certain every code path for a given data category stays within a specific region or provider, say so explicitly rather than asserting compliance. This is very often a live open question for counsel or compliance, not an engineering fact you can assert unilaterally.</li>
+<li><strong>New AI action that touches sensitive data → it needs a place in the audit-metadata allowlist and a place in the cost/fallover guardrails above, in the same change</strong>, not as a follow-up.</li>
+</ul>
+<h2>When not to use this</h2>
+<p>For the actual consent/retention/regulatory-lifecycle side of handling personal data (not the AI-call-specific guardrails), see the consent-and-regulated-data-reference skill.</p>
+</template>
+
+<template id="md-budget-aware-model-allocation" data-cat="cost-and-safety-guardrails" data-group="cost" data-groupname="cost and safety" data-when="Use when you&#x27;re working with more than one model or provider with separate rate-limit or token budgets, and one of them is running low. Decide whether to proceed lean, defer non-urgent work, or shift heavy work to whichever provider has headroom, instead of blowing through a limit on autopilot.">
+<h1>Budget-aware model allocation</h1>
+<p>If you have access to more than one model or vendor, each with its own separate rate-limit or spend budget, treat that as a resource-allocation problem, not just a cost line item. The failure mode this guards against: an offhand, unscoped request (a wide fan-out, a big batch job, ingesting a large corpus) detonates a large fraction of a budget window that was already running low, at the worst possible moment.</p>
+<h2>When a budget signal says a window is getting low</h2>
+<ol>
+<li><strong>Be deliberate before large spends.</strong> If the next action is inherently large (a wide parallel fan-out, ingesting a big corpus, a long agentic loop), say so explicitly before doing it: state the intended scope, either in your own reasoning or to whoever you're working with. If no one is available to check with, default to the smallest scope that actually accomplishes the task rather than blocking entirely.</li>
+<li><strong>Shift heavy work to whichever provider has headroom.</strong> If one provider is the constraint and another has budget to spare, route the heavy or parallel execution and review work there. You orchestrate; the other provider spends its own budget. This is the same idea as the multi-model-adversarial-review skill: a second vendor isn't just diversity of opinion, it's also separate capacity.</li>
+<li><strong>Trim before you cut scope.</strong> Lower the effort/reasoning setting, batch requests, and avoid re-reading large context you've already processed, before you resort to skipping work outright.</li>
+</ol>
+<h2>When budgets are healthy</h2>
+<p>Work normally. Don't pre-emptively ration based on a hypothetical future shortage: that just produces worse answers for no real benefit.</p>
+<h2>Rules</h2>
+<ul>
+<li><strong>Don't trust a stale signal as current.</strong> If a budget snapshot is flagged as possibly out of date, re-check it or proceed conservatively rather than trusting a number that might be minutes or hours old.</li>
+<li><strong>This is judgment, not a hard gate.</strong> Never hard-block work because a budget looks low; degrade gracefully instead (smaller scope, lower effort, defer to the other provider).</li>
+<li><strong>If every available provider is constrained, proceed with the smallest scoped action and say so.</strong> Don't stall waiting for headroom that may not come.</li>
+</ul>
+</template>
+
+<template id="md-config-and-secrets-hygiene" data-cat="cost-and-safety-guardrails" data-group="cost" data-groupname="cost and safety" data-when="Use when adding or changing configuration, environment variables, or feature flags: deciding which config layer something belongs in, adding a new per-tenant flag, debugging why a config value or flag &quot;does nothing,&quot; or reviewing whether a boot-time secret guard is safe to weaken.">
+<h1>Config and secrets hygiene</h1>
+<p>Configuration bugs are rarely about the value being wrong. They're about the value landing in a layer nobody reads, a precedence rule nobody remembered, or a flag whose null/missing state does the opposite of what its name implies. This skill is a checklist for avoiding all three.</p>
+<h2>Pick the right layer, on purpose</h2>
+<p>Most non-trivial systems end up with several config layers (server-side environment variables, client-side/build-time variables, and a runtime database-backed settings table for things end users or admins can tune). Choose deliberately:</p>
+<ul>
+<li><strong>Server-side env var</strong>: per-deploy, infrastructure-shaped, or secret.</li>
+<li><strong>Client-side/build-time var</strong>: the client needs it and it is <em>not</em> a secret. Anything that ends up in a client bundle ships to every browser that loads the app, full stop.</li>
+<li><strong>Runtime, tenant/admin-tunable setting</strong>: an admin should be able to change it without a deploy. This is the highest-overhead option (needs validation, an admin surface, auditing); don't reach for it by default.</li>
+</ul>
+<h2>Precedence traps that waste hours</h2>
+<ul>
+<li><strong>A misspelled env var may be silently ignored</strong> rather than erroring, if your config loader is configured to ignore unknown keys. If a new variable "does nothing," check the spelling against the exact field name before assuming a deeper bug.</li>
+<li>**Process-level environment variables usually beat a checked-in <code>.env</code> file**, which usually beats a local-only override file. Know your own stack's order, and check the override file closest to "wins" first when a value seems wrong. A stale local override file is one of the most common causes of "it works for everyone except me."</li>
+<li><strong>A local override pointing at a dead port/host is a classic silent trap.</strong> If a client is healthy per every log but every request fails at the network layer, check for a stale local override before assuming a code bug.</li>
+</ul>
+<h2>Boot-time guards exist to be obeyed, not relaxed</h2>
+<p>If your app refuses to boot on a placeholder/weak secret, or refuses to start without a required credential, treat that as working as intended, not as an obstacle. Fix the actual input (generate a real secret, set the real credential); never widen the list of "acceptable" values or delete the validator to unblock yourself locally. The entire point of the guard is to make it structurally impossible to accidentally run production, or anything production-adjacent, on a placeholder secret.</p>
+<h2>Runtime feature flags: verify a consumer actually exists</h2>
+<p>A flag that renders correctly in an admin UI is not proof that anything reads it. Before relying on a runtime-tunable setting, or citing it in a fix, grep for its actual consumer in the codebase outside the settings-registration code itself. It is common, in a system that's grown organically, for a meaningful fraction of registered settings to have zero runtime consumer: the value is stored, displayed, editable, and completely inert. If you're asked to "make X configurable," check whether the field already exists unconsumed before adding a new one; the real work is usually wiring an existing dead field to its intended consumer, not creating a new one.</p>
+<h2>Per-tenant flags: the null/missing semantics is a product decision, not a coin flip</h2>
+<p>When a new tenant-level flag can be null, missing, or malformed, decide its default deliberately based on blast radius:</p>
+<ul>
+<li><strong>Low-risk, convenience-only behavior</strong> (an authoring nicety, a UI preference) → grandfather existing tenants in as "on" by default; new capability should not require every existing tenant to opt in manually.</li>
+<li><strong>Anything that can trigger outbound messaging, spend money, or take an automated action on a user's behalf</strong> → invert the default: null/missing/malformed means <strong>off</strong>. The asymmetry matters because grandfathering a convenience feature on is low-cost if wrong, while grandfathering an automated outbound action on can mean silently enrolling every existing tenant into behavior they never opted into.</li>
+</ul>
+<p>Never copy-paste one resolver's null-handling into a new flag in the other category without re-deciding this explicitly.</p>
+<h2>Rollout flags: check the exact literal, and check both halves</h2>
+<p>If a rollout flag is read as a strict string literal (<code>=== "true"</code>, not any truthy value), and it's gated by an env-level master switch AND a per-tenant/per-record value, a flag flip that "does nothing" is almost always one of:</p>
+<ol>
+<li>The literal doesn't match (<code>"1"</code> vs <code>"true"</code>, case, whitespace).</li>
+<li>The other half of the pair is off (the master gate can override the per-tenant value in either direction; know which way).</li>
+<li>The variable was set in the wrong deployment target, so the specific component that reads it never got it.</li>
+<li>The change hasn't actually been redeployed yet.</li>
+</ol>
+<p>Check in that order before assuming the flag's logic is broken.</p>
+<h2>Adding a new flag: a repeatable recipe</h2>
+<ol>
+<li>A pure, testable resolver function, not an inline check scattered across call sites.</li>
+<li>Default OFF / no-op everywhere, until step 4 explicitly turns it on somewhere.</li>
+<li>If it's per-tenant, combine the tenant value with an env-level master (AND them together) and choose grandfather-on vs. invert-off per the blast-radius rule above.</li>
+<li>Wire it into deploy config with a paragraph-length description and a genuinely no-op default, so adding the wiring itself ships as a no-op.</li>
+<li>Document it in your env-var reference with a ticket/issue reference for why it exists.</li>
+<li>Write down a rollback affordance before you ship the "on" state: know exactly what flips it back off.</li>
+</ol>
+<h2>Live hygiene: things to check, not just things to fix</h2>
+<p>Keep a short automatable check (a script, or a documented set of greps) for the traps that recur in practice: a real secret sitting in a gitignored-but-present local env file, a client-side variable that would leak a secret if anything ever reads it, a stale local override pointing at a dead host/port, and any registered-but-unconsumed flags. Run it before trusting your own assumptions about current config state. These things drift the moment anyone edits a local file, and stale assumptions here waste real debugging time.</p>
+</template>
+
+<template id="md-staging-to-prod-cutover-campaign" data-cat="deploy-and-infra" data-group="deploy" data-groupname="deploy and infrastructure" data-when="Use when standing up a new deployment environment (first staging deploy, or a greenfield production environment), when infra work has been authored but not yet applied, or when deciding what staging config must never be inherited by production. Covers first-apply traps, ops-script deployment pitfalls, and the do-not-inherit scrub.">
+<h1>Staging-to-prod cutover campaign</h1>
+<p>Standing up real infrastructure (a first staging environment, or a greenfield production environment separate from staging) has a small set of traps that recur across almost every stack, plus one discipline that matters more than any individual trap: <strong>probe the actual live state before acting on what a doc says</strong>, because infra docs rot the moment anyone applies something out of band.</p>
+<h2>Step 0: probe, don't assume</h2>
+<p>Before touching any infrastructure, determine the real state with live commands, not by trusting a doc's last-updated date:</p>
+<ul>
+<li>Has the relevant infra branch/config actually been applied anywhere, or does it only exist as authored-but-unapplied code?</li>
+<li>Does a CI/CD pipeline actually exist and run on the branch you think is live, or does automation live only on an unmerged branch?</li>
+<li>Can you actually authenticate to the target cloud account right now? (Session tokens expire silently and mid-task. Check this before starting any work that touches live infrastructure, not after you hit an auth error partway through.)</li>
+<li>Has the state-backend/bootstrap step (e.g., a Terraform state bucket) actually been created, or does nothing exist yet?</li>
+</ul>
+<p>Never proceed on "the doc says X" without a live check backing it up. Treat a doc's own staleness disclaimer as a warning that it needs re-verification, not as ambient permission to trust it anyway.</p>
+<h2>Hard rule: never apply, push, or activate automation without an explicit go-ahead</h2>
+<p><code>plan</code>/<code>validate</code>/<code>diff</code>/dry-run commands are always safe to run. Anything that creates billable resources, pushes an image, or activates a pipeline that will auto-deploy on future pushes needs an explicit, in-the-moment go-ahead from whoever owns the account, not an inference that "it's probably fine because the branch looks ready." Merging an infra branch that arms an auto-deploy pipeline is itself the action that needs that go-ahead, separate from any individual apply.</p>
+<h2>First-apply traps (these recur across almost every stack)</h2>
+<ul>
+<li><strong>DNS/certificate validation can time out on the very first apply</strong>, before the domain's nameservers have actually been pointed at the new infrastructure. This is expected, not a failure: the fix is finishing the manual DNS delegation step and re-applying after propagation, not debugging the certificate module.</li>
+<li><strong>An empty container registry blocks the first deploy in a chicken-and-egg way</strong>: the compute layer can't start a task with no image to pull. Push a trivial placeholder image first, purely to prove the wiring, before your real image is ready.</li>
+<li><strong>Placeholder secrets seeded during infra creation are often NOT caught by your weak-secret boot guard</strong>, because that guard's denylist typically only knows about your own dev-environment placeholders, not the placeholder string a cloud provider auto-generates. Replace every placeholder secret with a real value immediately after apply, before the first real workload starts. Don't rely on the app refusing to boot as a safety net here.</li>
+<li><strong>Automated deploy pipelines commonly don't run your schema migrations for you</strong> on the very first setup. Confirm explicitly whether migrations run automatically or need a manual first pass, and don't assume "the pipeline succeeded" means the schema is current.</li>
+</ul>
+<h2>The do-not-inherit scrub, before promoting anything to a stricter environment</h2>
+<p>Config that's safe in a lower environment and dangerous in a stricter one survives naive copy-paste more often than you'd expect. Build an explicit checklist and review it every time you promote, at minimum:</p>
+<ul>
+<li>Any "developer convenience" flag (debug tools, relaxed auth, preset test accounts): these should be <strong>omitted entirely</strong> from the stricter environment's config, not merely set to false, because "omit vs. false" often has different failure behavior if someone later copies the block wholesale.</li>
+<li>Any shadow/observation-mode AI or experimental feature flag should be fully absent, not just toggled off, since a stray non-empty value elsewhere in the same config can silently re-arm it.</li>
+<li>Any allow-list of internal/test accounts with elevated privileges.</li>
+<li>Any secret injection that's a known dead fossil from a previous architecture: don't recreate it in the new environment just because the old config still references it.</li>
+<li>The deploy-role trust policy and CI/CD authorization: a stricter environment needs its own scoped trust condition, never an inherited or OR'd-together condition shared with a looser environment.</li>
+</ul>
+<h2>Rebuild per environment; don't promote a build artifact wholesale</h2>
+<p>If any client-facing configuration (a base URL, a feature toggle) gets baked into a build artifact at build time rather than read at runtime, promoting the exact same artifact between environments ships the wrong environment's baked-in values with no runtime fix available. Rebuild for each environment's actual config instead of promoting a digest/artifact, and add an automated check that scans the built output for the wrong environment's identifiers before it ships.</p>
+<h2>Ops/seed scripts: verify they actually exist in the deployed image</h2>
+<p>A script that "works locally" is not proven to exist in a containerized deploy unless you've verified it's actually registered in every place the build needs it: a container's file copy allow-list, a pipeline step's explicit file list, and (if it imports sibling files) each of those transitively. This has broken real deploys more than once because deploy-time file inclusion is easy to get subtly wrong even when local execution works perfectly. Write a small static checker that verifies a new script's full import closure is actually included in the deployed image, and run it before merging.</p>
+<h2>Separate go-live gates from infra bring-up</h2>
+<p>Infrastructure can come up completely dark (no real user traffic, every risky feature flag off) well before the business/legal/compliance gates that allow real traffic are satisfied. Don't hold infra work hostage to gates it doesn't actually depend on, and don't let "the infra is ready" become an implicit argument for skipping a compliance gate that's still open. Track them as genuinely separate checklists, and start the longest-lead-time gates (legal sign-off, third-party vendor approvals) as early as possible since they typically take far longer than the engineering work.</p>
+<h2>When not to use this</h2>
+<p>Local development environment setup (not a shared staging/prod environment) is covered by the environment-and-build-hazards skill. Ongoing operational triage of an already-live pipeline (a specific failed deploy, a stuck rollout) is a debugging-playbook problem once the environment itself is established.</p>
+<p><em>Evidence: one of this skill's three source versions was tested in the pre-registered, order-blinded A/B of July 2, 2026 and passed (must-hits 1/3 cold to 3/3 loaded and 2/3 to 3/3); this merged rewrite was later tested in the July 2026 effort lattice, where the full 17-skill library ran against every model and effort level (results/matrix/MATRIX.md; evidence note updated 2026-07-12).</em></p>
+</template>
+
+<template id="md-environment-and-build-hazards" data-cat="deploy-and-infra" data-group="deploy" data-groupname="deploy and infrastructure" data-when="Use when bringing up or diagnosing a local development environment: services won&#x27;t start, database connection/permission errors, seed data missing, or when &quot;local&quot; development actually points at a shared remote environment and destructive commands are one keystroke away from hitting it.">
+<h1>Environment and build hazards</h1>
+<p>Most local-environment pain falls into two buckets: a privilege/role mismatch that only shows up as a confusing runtime error, and "local" actually being a shared remote resource in disguise. Both are worth documenting explicitly rather than re-discovering per session.</p>
+<h2>The two-role model, if your database enforces row-level isolation</h2>
+<p>If your database enforces tenant isolation via row-level security (or an equivalent per-tenant policy), you need <strong>two distinct database roles</strong>, not one:</p>
+<ul>
+<li>A schema-owning role, used <strong>only</strong> for running migrations.</li>
+<li>A least-privilege application role with no bypass privileges, used for everything the running app does.</li>
+</ul>
+<p>The reason this has to be two roles: a superuser or bypass-privileged connection skips row-level security unconditionally and silently. No error, no warning: every isolation policy just quietly does nothing. If your app ever connects with the migration-owning role "because it was easier," every isolation guarantee in the system is inert without any visible signal that it's broken. On first-time setup, the app-only role is often created by an init script that runs once, at cluster creation. If you ever reset the underlying data volume, that role won't exist until you either re-run the init script by hand or fully recreate the environment.</p>
+<h2>Seed data: know exactly what's idempotent and what isn't</h2>
+<p>Document precisely what a seed script does on a second run: does it add more data, or does it drop and recreate a known synthetic set? Getting this wrong wastes real debugging time (assuming stale seed data is old when it's actually freshly regenerated with new IDs, or vice versa). If a seed script exists specifically to avoid real API costs (a deterministic stand-in swapped in for a real LLM/API call), don't "fix" it by making it call the real service. That defeats its entire purpose.</p>
+<h2>The defining hazard when "local" isn't actually local</h2>
+<p>Some stacks don't have a real local environment at all: "local" development runs against a shared remote database and shared remote auth, typically because standing up a fully local equivalent (a local auth provider, a local database matching production extensions) is more effort than it's worth for a small team. If that's your situation, treat every local database command as a <strong>remote operation against shared state</strong>, and:</p>
+<ul>
+<li><strong>Never run a schema-mutating command "locally"</strong> if the connection string actually points at shared infrastructure. A destructive migration command run against what you think is a disposable local database can silently mutate the shared environment everyone else depends on.</li>
+<li><strong>Confirm which environment you're actually pointed at by resource identity</strong> (the actual hostname or account ID), not by an environment-name variable. A shared environment may deliberately set its environment-name variable to look like production, precisely to get production's safety defaults (see the config-and-secrets-hygiene skill for why).</li>
+<li><strong>A stack-bringup tool (docker-compose, a bootstrap script) that looks current may be a dead fossil</strong> from a previous architecture. If it hasn't been touched in a long time and references services you know were replaced, verify it's actually still wired to anything before spending time debugging why it "doesn't work."</li>
+</ul>
+<h2>Cloud auth: verify it before you need it, not when you hit the wall</h2>
+<p>If any part of a task will touch a shared cloud resource (a remote database, a secrets manager, an infrastructure tool, a deploy), verify you're actually authenticated <strong>at the start of the task</strong>, not when the first API call fails partway through. Session credentials expire silently and often mid-task; a single preflight check at the top saves discovering an expired session in the middle of something you can't easily unwind.</p>
+<pre><code># generic pattern, substitute your own provider's identity check
+your-cloud-cli sts get-caller-identity --profile &lt;profile&gt;</code></pre>
+<p>If it fails, re-authenticate immediately (this usually opens a browser: tell whoever you're working with and wait for it, rather than silently retrying) and re-check before proceeding.</p>
+<h2>Ports, processes, and "it's already running somewhere else"</h2>
+<p>A surprising fraction of "the stack won't start" reports are actually "something is already listening on that port." Check for a squatting process before debugging application code. Keep a short list of the ports your stack needs and a one-line command to check each one.</p>
+<h2>When not to use this</h2>
+<p>Deploying to, or standing up, a genuinely shared staging or production environment (not your own local dev loop) is the staging-to-prod-cutover-campaign skill. Running the actual test/validation suite once the environment is up is the validation-gates skill.</p>
+</template>
+
+<template id="md-systematic-debugging-playbook" data-cat="debugging-playbooks" data-group="debugging" data-groupname="debugging" data-when="Use when debugging any bug, regression, or failing test, before proposing a fix, and especially before editing a file you know is a frequent source of regressions. Establishes ground truth before hypothesizing, and defines the discipline for multi-round fix loops after a review pass finds problems.">
+<h1>Systematic debugging playbook</h1>
+<p>The most expensive debugging mistake is skipping straight to a hypothesis and a fix. In any codebase with real history, most "new" bugs are re-encounters of something already root-caused, and most fixes that get re-reviewed introduce a second bug in the process of fixing the first. This playbook is the discipline against both.</p>
+<h2>Step 0: look up ground truth before forming a hypothesis</h2>
+<p>Before writing any code:</p>
+<ol>
+<li><strong>Search prior art first.</strong> Grep commit history for the symptom (<code>git log --all -i --grep="&lt;keyword&gt;"</code>), check any existing investigation/post-mortem archive your project keeps, and check file history for the specific file involved (<code>git log --follow -- &lt;path&gt;</code>). A surprising number of "new" bugs already have a full root-cause writeup sitting in history.</li>
+<li><strong>If a prior investigation doc exists, check whether it was later corrected or resolved.</strong> A doc that opens with a "RESOLVED" or correction banner should have that banner treated as overriding the body. Verify the recorded fix is actually still present in current code before concluding a fixed issue "recurred": it's easy to mistake "I'm looking at the pre-fix version" for "this regressed."</li>
+<li><strong>Don't trust a finding's classification blindly, including your own project's tracker.</strong> A finding marked resolved, retracted, or not-reproducible should be re-verified via the real path that would trigger it, not assumed correct because a doc says so. Post-mortems have real examples of a "confirmed" finding turning out to be an artifact of how it was tested (a guessed URL producing an expected 404, not an actual broken link).</li>
+<li><strong>If the symptom touches auth/permissions</strong>, resolve it against your actual token/role model (see the multi-tenant-auth-reference skill) before guessing which credential or role is involved. Guessing here is exactly the kind of thing that burns hours for no reason, because the answer is almost always already in the code.</li>
+</ol>
+<h2>The core loop: reproduce, then write the failing test, then fix</h2>
+<p><strong>Reproduce at the lowest layer that actually shows the bug.</strong> Pure logic belongs in a unit test with a minimal mock, not a full end-to-end run. A user-facing flow bug needs an end-to-end reproduction; a runtime-only issue (something that only shows up under production-like load or logging) may need a read-only look at real logs before you can even reproduce it locally. That's a legitimate outcome, not a failure to reproduce.</p>
+<p>Then:</p>
+<ol>
+<li>Write the failing regression test <strong>before</strong> the fix, and make sure it actually reproduces the real failure shape. A test using an unrealistic stand-in (e.g., a simplified stub that doesn't match real-world framing/encoding) can pass while the real bug remains, which is worse than no test because it looks like coverage.</li>
+<li>Fix the root cause, not the symptom. If the same logic exists in more than one entry point (a streaming and non-streaming version of the same operation, for instance), the fix has to land in both: "twin" code paths are a common place for a fix to land in one and not the other.</li>
+<li>Write a commit message that states symptom → root cause → fix → how you verified it. This is what makes the "search prior art" step above actually work for the next person (including future-you). A vague commit message breaks the whole mechanism.</li>
+</ol>
+<h2>Danger zones: track your own hot files</h2>
+<p>Keep a short, explicit list of files with unusually high fix-churn in your own project (measurable with <code>git log --format= --name-only | sort | uniq -c | sort -rn</code>). Treat any edit to one of these as needing extra care and, if one exists, a guard test run before and after the change. These files have earned their reputation, and a "quick fix" to one of them is disproportionately likely to be the next entry in this list.</p>
+<h2>Multi-round fix loops: the regression rule</h2>
+<p>When a review pass (see the adversarial-review or tiered-review skills) surfaces multiple findings and you fix them in rounds, the proven failure mode is <strong>the fixer introduces the next round's bug</strong>. Concrete rules that prevent this:</p>
+<ol>
+<li><strong>Every fix in round N ships with its own regression test in round N</strong>, not a follow-up.</li>
+<li><strong>Before declaring round N done, re-run every test added in rounds 1 through N</strong>, not just the new one. A fix late in the loop can silently break an earlier round's guard.</li>
+<li><strong>Treat each round's diff as the next round's review target.</strong> A reviewer's job in round N+1 is to diff round N's changes specifically, not just re-check the original findings.</li>
+<li><strong>One commit per round, with the round labeled in the message</strong>, so that if a regression does slip through, it bisects cleanly to the round that caused it.</li>
+</ol>
+<p>Calibrate how many rounds and how much review-fleet weight you throw at this to the actual stakes: a shipped, customer-facing change warrants the full loop; an internal working doc doesn't.</p>
+<h2>Never "flip it to see what happens" in a shared environment</h2>
+<p>If the question is "would a different model, flag, or config behave differently," resist the urge to just flip it on a shared/production-like environment to observe. Use a shadow/observation mechanism instead (see the llm-eval-harness-and-scoring-pipeline skill) that runs the candidate in parallel without it ever affecting real behavior or real users.</p>
+<h2>Writing up a nontrivial investigation</h2>
+<p>If you spend real effort investigating something, write it down in a consistent, searchable format: what triggered the investigation, your conclusion (labeled clearly as confirmed root cause vs. best hypothesis), and the evidence trail (log lines, file:line references, session/request identifiers). If you found nothing and changed nothing, say so explicitly at the top: "read-only, no changes" is a valid and useful outcome to record. If a later finding invalidates an old writeup, prepend a dated correction banner; never silently edit or delete the original. The original's evidence trail still has value even when its conclusion turns out to be wrong.</p>
+<h2>When not to use this</h2>
+<p>If you're specifically trying to avoid re-attempting something that was already tried and abandoned (not "already fixed," but "already tried this exact approach and it didn't work"), see the failure-archaeology skill. It's a distinct, complementary discipline.</p>
+<p><em>Evidence: both source versions of this playbook passed the pre-registered, order-blinded A/B of July 2, 2026 (one source: must-hits 1/3 cold to 3/3 loaded and 2/3 to 3/3; the second: 0/3 to 2/3 and a 2/3 tie); this merged rewrite was later tested in the July 2026 effort lattice, where the full 17-skill library ran against every model and effort level (results/matrix/MATRIX.md; evidence note updated 2026-07-12).</em></p>
+</template>
+
+<template id="md-failure-archaeology" data-cat="debugging-playbooks" data-group="debugging" data-groupname="debugging" data-when="Use when you&#x27;re about to propose something that smells like it might have already been tried and abandoned: a hosting/platform migration, a framework or library swap, a &quot;quick fix&quot; to code that looks deliberately unusual, or when a revert commit turns up in git history. Prevents re-litigating settled decisions and re-fighting battles someone already lost on purpose.">
+<h1>Failure archaeology</h1>
+<p>Every mature codebase has a set of approaches that were tried, didn't work, and were deliberately reverted or abandoned. Without a record of them, every new contributor (human or agent) is doomed to rediscover the same dead end at the same cost. This skill is about building and using that record.</p>
+<h2>Why this is worth maintaining as its own artifact</h2>
+<p>A revert commit in history is a strong signal, but revert commits often don't explain <em>why</em> in the commit body itself: the reasoning lived in a conversation, a ticket, or someone's head, and is gone unless it's captured somewhere durable. The fix is a standing "settled battles" reference: one entry per abandoned approach, each with what was tried, why it failed or was reverted, and what the actual settled alternative is.</p>
+<h2>What belongs in an entry</h2>
+<p>For each settled battle:</p>
+<ul>
+<li><strong>What was tried</strong>: concretely, not vaguely ("switched the ORM's hosting adapter to X").</li>
+<li><strong>Why it failed or was reverted</strong>: the actual technical reason if known (a specific limitation, an incompatibility), or "reverted, reason not recorded; re-derive before retrying" if the reasoning is genuinely lost. Don't invent a plausible-sounding reason after the fact; an honestly-unknown reason is more useful than a fabricated one, because it tells the next reader to actually investigate rather than trust a guess.</li>
+<li><strong>The settled alternative</strong>: what the codebase actually does today instead, and where to find it.</li>
+<li><strong>A commit hash or reference</strong> so the claim is independently checkable, and a note that hashes/details should be re-verified before being cited, since branches move.</li>
+</ul>
+<h2>Categories worth keeping a battle log for</h2>
+<ul>
+<li><strong>Hosting/platform migrations that were tried and reverted.</strong> These are expensive to re-litigate because the original evaluation (cold starts, bundling incompatibilities, operational opacity) took real time to discover and is easy to forget once the codebase has moved on.</li>
+<li><strong>Framework-specific footguns that don't fail until build/deploy time.</strong> Some config syntax (e.g., certain regex features in a framework's routing-matcher config) parses fine as a string but fails to compile at build time in a way that's easy to reintroduce if the constraint isn't written down anywhere near the code.</li>
+<li><strong>Product/UX decisions that were reverted specifically because they weren't the engineer's call to make</strong>: a copy or behavior change that got reverted with a note like "this is a product decision, not a refactor target," independent of whether the change itself was good. The lesson here isn't about the specific change; it's that anything in this category needs the actual decision-owner's sign-off before it lands, even when it looks obviously correct.</li>
+<li><strong>A feature that shipped, got reverted, and came back reshaped.</strong> Document the reshaped, currently-live version as the settled outcome, not the original attempt, so nobody re-proposes the original shape without knowing it already failed once.</li>
+<li><strong>Schema/migration naming footguns</strong>: for example, a mismatch between a model's logical name and its actual mapped table/column name has, in practice, broken a migration chain more than once in the same codebase. Write down the exact rule for looking up the real physical name before hand-writing any migration SQL.</li>
+<li><strong>Infrastructure teething problems that were each fixed individually but look like a pile of unrelated hacks</strong> if you don't know the underlying root cause connecting them (e.g., several container-networking symptoms that were all actually one binding/interface issue, fixed piecemeal over several commits). Document the root cause once, with pointers to where each individual fix lives, so nobody "cleans up" a fix whose purpose isn't obvious from the code alone.</li>
+</ul>
+<h2>How to use the archive</h2>
+<ul>
+<li><strong>Before proposing a change, check whether it matches a settled battle.</strong> If it does, read the entry, and if you still think it's worth reattempting, that's a decision for whoever owns the system, not something to silently re-attempt. The fact that it was tried before is itself information they need.</li>
+<li><strong>Before deleting "weird" code, check if it's the fix for a settled battle.</strong> Code that looks unnecessarily defensive or oddly specific is disproportionately likely to be exactly that. Read any comment near it, and check the archive, before assuming it's dead weight.</li>
+<li><strong>Treat a revert commit you find in history as a prompt to go looking</strong>, not as a fact you already understand. If the archive doesn't have an entry for it yet, that's a gap worth filling once you understand it.</li>
+</ul>
+<h2>Keeping the archive honest</h2>
+<p>An archive entry is only useful if it's trustworthy. Re-verify a cited hash or file reference before relying on it (<code>git show &lt;hash&gt; --stat</code> costs nothing and confirms the entry hasn't drifted). If digging through history turns up other settled battles not yet documented, add them. A quick sweep of <code>git log --oneline -i --grep="revert"</code> across a mature repo reliably turns up more of these than anyone remembers.</p>
+<h2>When not to use this</h2>
+<p>This is about <em>already-attempted-and-abandoned</em> approaches specifically. For "here's a bug we already root-caused, here's the fix," that's the settled-battles table inside the systematic-debugging-playbook skill: related discipline, different artifact.</p>
+</template>
+
+<template id="md-git-change-control-for-agents" data-cat="change-control" data-group="process" data-groupname="process and change management" data-when="Use when doing any git work: cutting a branch, opening a PR, merging parallel work, or resuming work in a repo you didn&#x27;t just leave. Covers state verification before acting, the dead-base PR trap, migration-number collisions, working-tree discipline, and how to handle a product decision that surfaces mid-task.">
+<h1>Git change control for agents</h1>
+<p>Agentic git work fails in specific, recurring ways that human muscle-memory usually avoids by accident: trusting a branch's state instead of checking it, building a PR on a base that's secretly already dead, and treating "clean up the working tree" as safe when it isn't. This skill is the checklist against all of them.</p>
+<h2>Step 0: determine current state every time, never trust what you inherit</h2>
+<p>Never assume the checkout you're starting from reflects the true remote state, and never act on remembered sequencing from an earlier session. At the start of any branch/PR work:</p>
+<pre><code>git fetch origin
+git status --short --branch
+git log --oneline -1 origin/main
+git log --branches --not --remotes --oneline   # local-only, unpushed work
+gh pr list --state open --json number,title,headRefName,baseRefName
+git worktree list</code></pre>
+<p>Decision gates:</p>
+<ul>
+<li><strong>On the main/trunk branch</strong> → never work here directly; branch first.</li>
+<li><strong>Your current branch is already merged into the trunk</strong> (its tip is an ancestor of the trunk's tip, and isn't the trunk tip itself) → don't commit more here; cut a fresh branch from the trunk instead.</li>
+<li><strong>Local trunk is behind the remote trunk</strong> → never branch from local trunk; branch from the fetched remote tip.</li>
+<li><strong>Unrecognized dirty or untracked files</strong> → don't stash or discard them; they may not be yours. Ask before touching anything you didn't create.</li>
+</ul>
+<h2>The dead-base PR trap</h2>
+<p>Stacking a PR on another feature branch as its base, instead of the trunk, creates a real hazard: if that base branch later gets merged via a <em>different</em> PR (or an earlier snapshot of it does), your stacked PR silently orphans into repeated merge conflicts. The base still technically exists, which proves nothing about whether it's still the right target. Rules:</p>
+<ol>
+<li><strong>Base every PR on the trunk.</strong> For coordinated parallel work, merge individual branches locally into one integration branch first, then open a single PR from that integration branch to the trunk.</li>
+<li><strong>Before opening a PR, confirm your branch actually contains the current trunk tip.</strong> A stale branch needs a rebase/merge first, not a PR.</li>
+<li><strong>If you must target a non-trunk base, verify it's actually still alive</strong> (not merged, not closed) before you do: "the branch exists on the remote" is not sufficient evidence.</li>
+</ol>
+<h2>Migration-number and other serialization collisions</h2>
+<p>If your schema-migration tool numbers files sequentially, two branches independently adding a migration can collide (duplicate numbers, multiple heads). Before and after merging any two branches that both touch migrations, check for exactly one head using your migration tool's own "list heads" command. Never assume it merged cleanly just because git didn't report a conflict (numbered migration files often don't textually conflict at all, which is exactly what makes this collision easy to miss). Fix by renumbering the later migration and re-chaining it, or by adding an explicit no-op "merge" migration if either colliding migration might already be applied somewhere you can't rewrite.</p>
+<h2>Working-tree discipline</h2>
+<ul>
+<li><strong>Never stash, pull, or switch branches mid-fix.</strong> Work only on the current branch, and stage only the files your actual change touched.</li>
+<li><strong>Stage by explicit path, never a blanket "add everything."</strong> A repo used as a workspace for more than just tracked product code (scratch notes, screenshots, generated artifacts) will sweep unrelated files into your commit if you add everything blindly.</li>
+<li><strong>Never run a destructive git cleanup command</strong> (removing untracked files/directories) without first checking whether anything untracked is actually load-bearing. Some untracked directories are deliberately kept out of git because they're a live work queue or contain material that shouldn't be committed without asking. Treat any untracked directory you don't recognize as "ask before touching," not "safe to clean."</li>
+<li><strong>When a mistake lands on the trunk directly</strong>, recover in preserve-first order: pin the mistaken commits on a new branch first, <em>then</em> figure out whether to reset (only if strictly local/unpushed, and prefer a non-destructive reset mode that aborts rather than discards if there's anything else going on in the tree). Never reset-first on a shared or already-dirty checkout.</li>
+</ul>
+<h2>Parallel-work collision rules</h2>
+<p>When more than one agent or contributor is working simultaneously:</p>
+<ul>
+<li><strong>Any single serialized resource (a migration chain, for example) needs one coordinator</strong>, not independent parallel writers. Race a schema change against a scratch/disposable copy of the database before merging, never against the first real shared instance.</li>
+<li><strong>High-churn shared files (a shared translations/localization dictionary, a shared types file) need one clear owner per work session</strong>, with everyone else handing that owner their diffs rather than editing the shared file directly.</li>
+<li><strong>Before opening a PR from a long-running branch, confirm your diff is actually scoped to what you meant to change</strong> (<code>git log origin/main..HEAD -- &lt;file&gt;</code> should be non-empty only for files you actually intended to touch). A stale base can make your diff quietly include changes you didn't make.</li>
+</ul>
+<h2>Product decisions surfacing mid-task</h2>
+<p>If a task reveals a decision that changes user-facing behavior or semantics and isn't already settled by existing documentation, don't decide it yourself and don't guess to keep moving. Log it somewhere durable (a queued-decisions doc, a ticket) with the concrete options and your own recommendation. Park the affected work and continue on independent parts of the task. Note clearly, wherever you report progress, which parts were parked and why.</p>
+<h2>Hard gates before anything merges</h2>
+<ul>
+<li><strong>Never self-merge; get an actual review</strong> (see the adversarial-review and tiered-review skills for how to make that review substantive).</li>
+<li><strong>Follow the repo owner's attribution policy for anything user-visible</strong> (commit trailers, PR bodies, changelogs), and never let tooling set that policy for you. Where the owner's stated convention is no attribution artifacts, strip them and check before pushing (<code>git log &lt;base&gt;..HEAD --format=%B | grep -i &lt;attribution-marker&gt;</code> should return nothing); where there is no stated policy, ask rather than silently strip. Attribution is the repo owner's call, not the default your commit or export tooling happens to inject.</li>
+<li><strong>If merging to your trunk is itself a deploy trigger</strong>, don't merge a schema or seed change you aren't prepared to see applied to the shared environment minutes later.</li>
+</ul>
+<h2>When not to use this</h2>
+<p>Executing a large multi-PR backlog as coordinated batches is the campaign-execution skill. It builds on this one but adds wave planning and checkpoint discipline for work that spans many sessions.</p>
+<p><em>Evidence: both source versions of this skill passed the pre-registered, order-blinded A/B of July 2, 2026 (one source: must-hits 2/3 cold to 3/3 loaded plus a 3/3 tie; the second: 1/3 to 3/3 on both of its tasks); this merged rewrite was later tested in the July 2026 effort lattice, where the full 17-skill library ran against every model and effort level (results/matrix/MATRIX.md; evidence note updated 2026-07-12).</em></p>
+</template>
+
+<template id="md-multi-agent-batch-campaigns" data-cat="campaign-execution" data-group="process" data-groupname="process and change management" data-when="Use when executing a large backlog of review findings or a multi-part feature as coordinated batches across parallel agents or sessions, planning waves, avoiding file-contention collisions, and resuming a campaign that a previous session left mid-way through.">
+<h1>Multi-agent batch campaigns</h1>
+<p>A single large backlog (dozens of review findings, a multi-part feature) executed by parallel agents over multiple sessions fails in specific, avoidable ways: agents redo already-finished work because a status doc rotted, two batches collide on the same file, and a session that dies mid-campaign takes unrecoverable context with it. This skill is the execution model that avoids all three.</p>
+<h2>Step 0: re-establish ground truth. Status docs rot, git doesn't</h2>
+<p>Never trust a backlog's own status annotations at face value. Before planning or resuming anything:</p>
+<ul>
+<li>Check the actual current tip of your integration branch, not what a tracking doc says it is.</li>
+<li>Read the tail of any checkpoint/progress file for the real "what's done, what's next," and never redo an entry already marked done.</li>
+<li>Check for open PRs: a finding already owned by an open PR isn't yours to pick up.</li>
+<li>Check for unpushed, local-only branches: these are invisible to any remote-based check and are one disk failure from gone.</li>
+<li>For each individual finding you're about to work, re-read the actual current code at the cited location before trusting the backlog's description of it. Backlogs go stale the moment anything gets fixed, refactored, or moved, and citations (line numbers especially) rot fast.</li>
+</ul>
+<p>A campaign that trusts a stale status doc instead of live state will, with some regularity, spend real effort redoing work that's already shipped.</p>
+<h2>Planning a campaign</h2>
+<ol>
+<li><strong>Re-baseline every candidate item against the current integration tip.</strong> Drop anything already fixed (with a one-line reason), and dedupe near-identical items across different sources into one canonical owner.</li>
+<li><strong>Flag anything that would change user-facing behavior and isn't already a settled decision.</strong> Escalate these as a batch, don't block the rest of the campaign on an answer, and don't guess.</li>
+<li><strong>Group remaining work by area and primary file</strong>, so each batch owns a disjoint slice of the codebase. This is what makes true parallelism possible without collisions.</li>
+<li><strong>Sequence in waves</strong>: test-only and genuinely file-disjoint work first (fully parallelizable), then area-local application code, then heavy-overlap areas last and sequenced rather than parallelized.</li>
+<li><strong>Use one integration branch.</strong> Batches branch off the integration branch's tip (not the trunk directly), get folded back in as they're reviewed and green, and only the single integration branch ever goes to the actual trunk as one PR. This keeps "many small changes landing continuously" from becoming "the trunk is red half the time."</li>
+</ol>
+<h2>Maintain an explicit file-contention map</h2>
+<p>For any file that multiple planned batches might touch, write down in one place which batch owns it, and route every other batch's related changes through that one owner rather than letting them collide. High-contention files in most systems are predictable in advance (a routing hub, a shared type/contract file, a heavily-used service file), and calling them out explicitly before work starts avoids a lot of merge pain later.</p>
+<h2>Parallel execution mechanics</h2>
+<ul>
+<li><strong>One workspace/worktree per agent or batch</strong>, as a sibling checkout, not a shared working directory. This is what actually enables true parallelism without agents clobbering each other's uncommitted state.</li>
+<li><strong>A backend batch that runs its own test suite needs its own isolated test resource</strong> (a separate test database, a separate scratch environment) so parallel test runs don't collide with each other.</li>
+<li><strong>Every fix stays test-first</strong> (see the systematic-debugging-playbook skill), and gets reviewed before folding into the integration branch (see the adversarial-review skill). A campaign is not an excuse to skip either discipline just because there's a lot of work to get through.</li>
+</ul>
+<h2>Checkpoint-to-file discipline: mandatory for anything long-running</h2>
+<p>Long autonomous sessions die (hit a length limit, get interrupted, crash) more often than anyone plans for, and an in-progress session's context does not survive that. The only thing that reliably survives is what got written to a file. For any campaign expected to span more than one sitting:</p>
+<ul>
+<li>Maintain a single progress file with unambiguous resume instructions at the top ("if resuming: read this file, find the next unfinished item, do not redo finished ones").</li>
+<li>Append an entry after every meaningful event (a unit fixed, a batch gated, a PR opened, a review returned, a fold-back merged), with enough detail (branch, commit, what passed) that a fresh session could resume from just this file with zero other context.</li>
+<li>If a past entry turns out to be wrong, append a correction; never edit history in place. The point of the file is to be a trustworthy trail, and silently rewriting it defeats that.</li>
+<li>Keep individual work small enough to checkpoint frequently; detail belongs in the file, not in a single giant in-memory transcript that might not survive to the next session.</li>
+</ul>
+<h2>Guardrails for autonomous/looped execution specifically</h2>
+<ul>
+<li>Whoever owns the trunk merges the final integration PR. An autonomous loop should never merge anything into the trunk itself.</li>
+<li>Every fix stays test-first and gets reviewed; a long autonomous run is not a reason to relax either discipline.</li>
+<li>A new product/behavior decision surfacing mid-loop gets batched and flagged, never decided by the loop itself.</li>
+<li>Folding a reviewed batch branch into the integration branch with a local merge is not the same action as merging a PR to the trunk. The first is the required mechanism for a multi-batch campaign; only the second is the one action reserved for the trunk's owner.</li>
+</ul>
+<h2>When not to use this</h2>
+<p>For a single bugfix or small feature, plain git-change-control-for-agents is enough. The wave-planning and checkpoint machinery here is specifically for backlogs and campaigns large enough to span multiple sessions or genuinely parallel agents.</p>
+<p><em>Evidence: the source version of this skill passed the pre-registered, order-blinded A/B of July 2, 2026 (must-hits 2/4 cold to 3/4 loaded on one task and 2/3 to 3/3 on the other); this rewrite was later tested in the July 2026 effort lattice, where the full 17-skill library ran against every model and effort level (results/matrix/MATRIX.md; evidence note updated 2026-07-12).</em></p>
+</template>
+
+<template id="md-docs-of-record-and-arbitration" data-cat="docs-and-compliance" data-group="docs" data-groupname="documentation and compliance" data-when="Use when project documentation disagrees with itself, disagrees with the code, or you&#x27;re not sure which of several overlapping docs is actually current, and when producing a business or team-facing deliverable (a showcase, a report, screenshots) that needs to be factually solid before it ships.">
+<h1>Docs of record and arbitration</h1>
+<p>Mature projects accumulate overlapping documentation: several versions of the same spec, a "why we built it this way" doc that's now describing a stack nobody uses anymore, a README that was accurate on the day it was written and hasn't been touched since. The failure mode is building from whichever doc you happened to open first. The fix is an explicit arbitration order, applied consistently.</p>
+<h2>Classify every doc as authoritative or historical, explicitly</h2>
+<p>Keep one short table: which documents currently govern which decisions, and which are retained only as history and should never be built from. A doc that's superseded should say so in its own header if possible ("superseded by vN, kept for history"), but don't rely on that alone. Maintain the classification independent of whether the old doc admits it's stale.</p>
+<h2>Arbitration order when documents disagree</h2>
+<p>A reasonable default order; adapt it to your own project's actual sources of truth:</p>
+<ol>
+<li><strong>A settled-decisions ledger</strong>, if you keep one (a running log of "we decided X, here's why, here's where it's implemented"). This beats every other document, because it records an actual decision made with full context, not a snapshot of intent.</li>
+<li><strong>The contract/invariants document</strong> (see architecture-contracts-as-law), for anything about schema, API shape, or system invariants.</li>
+<li><strong>The current product/behavior spec</strong>, for what the system is supposed to do, as of now.</li>
+<li><strong>Everything else</strong>: older specs, README sections, "why we chose this stack" docs. Useful for historical context, never for settling a current disagreement.</li>
+</ol>
+<p>Concretely: if a doc contradicts a settled decision, or contradicts code that already correctly implements that decision, <strong>the doc is wrong.</strong> Fix the doc and cite the decision when you do. If code contradicts the contract document, that's a bug, full stop, regardless of which one you assume is "obviously" right. And if resolving the discrepancy would itself create a new product decision that isn't already settled, that's an escalation, not something to resolve by picking whichever reading is more convenient.</p>
+<h2>Docs can be wrong even when they look official</h2>
+<p>Even a formally-versioned spec has, in real projects, been caught inventing behavior that never shipped and never matched an already-settled decision. The lesson isn't "specs are untrustworthy," it's "verify against the actual settled decision and the actual code before treating any single document, however official-looking, as ground truth." A living review corpus (open findings, triage notes) can itself go stale the moment a finding gets fixed: a "still open" claim from a finding-tracking doc is worth a quick check against current code before you act on it.</p>
+<h2>How docs of record get properly updated</h2>
+<ul>
+<li>Contract-relevant changes land in the same commit as the code change that necessitates them, never as a promised follow-up.</li>
+<li>When a document needs a substantial rewrite rather than an amendment, prefer cutting a new version that explicitly supersedes the old one over silently rewriting history in place. Within a given version, small amendments get folded in as dated addenda rather than spawning a new version for every tweak.</li>
+<li>Screenshot-based or visually-captured documentation (a team guide, a walkthrough) should treat every image as a <strong>regenerable slot</strong> tied to a specific route/state, not a hand-made asset. If a slot's capture fails because the underlying UI moved, that's a signal to fix the capture definition, not to hand-edit or fake the image.</li>
+</ul>
+<h2>Producing a new business/team deliverable: confirm scope before building</h2>
+<p>Before generating any nontrivial document, screenshot showcase, or report, confirm three things if they aren't already pinned by the request: the actual output format, the intended audience (their technical depth changes the right level of detail enormously), and where it's meant to live. Building the wrong format for the audience is expensive to redo and is a very avoidable mistake. One clarifying question up front is cheaper than a full rebuild.</p>
+<p>Calibrate review effort to the deliverable's stakes: an internal-only draft needs one honest verification pass (facts, links, do the screenshots match what they claim to show); a customer-facing or high-stakes deliverable earns the full tiered or adversarial review (see those skills). Running a heavy review pipeline on a low-stakes internal doc is not "being careful," it's wasted effort that could go somewhere more useful.</p>
+<h2>Fact-check before you polish</h2>
+<p>For any deliverable built substantially from claims about a real system (a feature showcase, a technical write-up), write the underlying fact sheet first, every claim paired with the concrete evidence backing it (a specific file, a specific measured number, a specific verified behavior), before writing the polished prose. Let the prose only ever say what the fact sheet actually supports. This ordering matters: polishing prose first and fact-checking after tends to preserve whatever the first draft assumed, even when it's wrong.</p>
+<h2>Screenshot-heavy documents need their own integrity check</h2>
+<p>If a deliverable includes before/after image pairs or a set of captured screenshots:</p>
+<ul>
+<li>Verify every referenced image file actually exists, and every captured file is actually referenced somewhere (an automatable check, not a manual scan).</li>
+<li>For every before/after pair specifically, open both images and confirm they show the same surface in a comparable state. This is the single most common way this kind of document ships something quietly wrong (an "after" that's actually an unrelated screen), and no automated tool catches it reliably.</li>
+<li>Caption honesty: if a shown surface has placeholder or non-final content, the caption needs to say so. Don't let a polished screenshot imply something is finished when it isn't.</li>
+</ul>
+<h2>Follow the owner's attribution policy in anything user-visible</h2>
+<p>The same rule as in git-change-control-for-agents applies here with a wider blast radius: a changelog entry, a report footer, or embedded document metadata should carry attribution according to the repository or organization owner's stated policy, not according to whatever your export tooling defaults to. Where the owner's convention is no attribution artifacts, strip them; where no policy is stated, ask rather than silently strip. Check the actual output, not just the source you wrote, since export tooling (document generators, static-site builders) sometimes injects its own metadata you didn't type. The point is deliberate policy-obedience: attribution is the owner's call, never the tool's.</p>
+<h2>When not to use this</h2>
+<p>For the specific discipline of handling regulated data (consent records, retention) inside these documents or systems, see the consent-and-regulated-data-reference skill.</p>
+</template>
+
+<template id="md-consent-and-regulated-data-reference" data-cat="docs-and-compliance" data-group="docs" data-groupname="documentation and compliance" data-when="Use when a change touches user consent, data retention or erasure, breach notification, or any messaging/communication opt-in that&#x27;s subject to privacy or marketing-communication law (health data, financial data, or general personal-data regulation). Establishes fail-closed defaults and the never-cross lines that keep a system defensible.">
+<h1>Consent and regulated-data reference</h1>
+<p>Systems that handle regulated personal data (health records, financial data, or personal data generally under a privacy regime) share a small set of hard rules regardless of jurisdiction or industry specifics. Get these wrong and the failure is not a bug ticket, it's a legal or compliance incident. The unifying principle: <strong>fail closed everywhere, and never let a "test" or "verification" action create a legally material record.</strong></p>
+<h2>Fail closed, structurally</h2>
+<ul>
+<li>No consent record → no processing, no send, no session. Don't let a missing consent check degrade to "allow, and log a warning."</li>
+<li>A missing secret required for a compliance-sensitive path (a hashing salt, a signing key) should make that path fail hard (an error), never silently fall back to an unsalted or unguarded equivalent. This is one of the few places where "fail loud and ugly" is strictly better than "fail soft and available."</li>
+<li>If your consent/communication model has more than one generation (an old model being phased out, a new authoritative one), the gate logic should read from the current authoritative model only. A legacy model kept around for backward-compatible reads should never be treated as satisfying a current-model check.</li>
+</ul>
+<h2>Never mix communication scopes</h2>
+<p>If your system distinguishes necessary/operational communication (e.g., service-related messages a user needs to receive) from optional/commercial communication (marketing, upsell, review requests), keep those two consent scopes <strong>completely separate</strong>, in both directions:</p>
+<ul>
+<li>An opt-in for necessary communication never authorizes commercial communication.</li>
+<li>An opt-out from commercial communication must never also silently revoke necessary/operational consent.</li>
+<li>Any new message type needs its scope declared in exactly one place, so "which scope does this belong to" is never re-derived ad hoc at each call site.</li>
+<li>Commercial-category sends should sit behind their own explicit kill switch, off by default, and that switch must gate every stage of the flow (rendering the opt-in UI, capturing the opt-in, and the actual send). A gap at any one stage defeats the whole switch.</li>
+<li>A hard, global opt-out signal (e.g., a "stop all messages" reply) should override every per-service or per-relationship opt-in: global always wins.</li>
+<li>Delivery failures (bounces, spam complaints) are a deliverability signal, not a consent signal. Don't let your bounce-handling code accidentally mutate consent state.</li>
+</ul>
+<h2>Age and minors: gate deliberately, everywhere self-consent matters</h2>
+<p>If your product allows self-directed sign-up or data submission and your jurisdiction has an age-of-consent rule, every entry point that can create a session or consent record on someone's own say-so needs the same age gate. A new unauthenticated entry point added later needs the identical check, not a "we'll add it eventually."</p>
+<h2>Retention and erasure: automate it, and never touch the audit trail</h2>
+<ul>
+<li>Automated retention/erasure sweeps (a scheduled job that purges expired data, processes a deletion request) need to actually run on a real schedule in your deployed environment. Verify the scheduling mechanism is live, not just that the code exists. A retention job that only exists on an unmerged branch is not compliance, it's a draft.</li>
+<li>An append-only audit trail (anything designed as tamper-evidence) should never be purged, updated, or reordered, ever, including as part of a retention sweep. If a genuine legal need to purge audit history arises, that's a decision for whoever owns legal/compliance risk, never a routine engineering action.</li>
+<li>Distinguish between data that must cascade-delete with a user's record (their raw data) and a durable, PII-free proof-of-consent record that should survive deletion specifically to prove consent was once properly obtained. Conflating the two means you either fail to actually erase someone's data, or you lose your own evidence that consent was handled correctly.</li>
+</ul>
+<h2>Audit metadata: allowlist, not denylist</h2>
+<p>Any logging or audit path that records metadata about an action should filter what it stores through an <strong>explicit allowlist</strong> of safe keys, dropping anything not on the list. Never try to enumerate everything unsafe and block that instead, because a denylist reliably misses the next new field someone adds. Long or free-text content that needs to be referenced in an audit record should be hashed or truncated, never stored verbatim. Adding a new logged action means adding its specific new metadata keys to the allowlist as part of that same change, not as an afterthought.</p>
+<h2>Publishing anything legally material is a real write, never a "check"</h2>
+<p>If a change publishes a new version of a legally material document (a consent-text version, a policy version, anything that other records will reference going forward), that publish action is real and irreversible-in-effect the moment it happens: subsequent records point at it. This means:</p>
+<ul>
+<li><strong>It is never an acceptable "verification" or "no-op check."</strong> There is no test-environment exception for this specifically, because in a lot of real systems test/staging environments share the same tables as production for exactly this kind of record.</li>
+<li>Any minimum-content or validation guard on a publish action (a minimum length, a required review step) exists specifically to block low-effort accidental publishes. Never weaken it to unblock a test.</li>
+<li>If a genuine test of the publish mechanism is required, use an isolated, disposable copy of the data store, never a shared environment.</li>
+</ul>
+<h2>Breach notification: build it to actually fire</h2>
+<p>A breach-notification path should always record that a breach was reported (an audit entry), independent of whether the notification email actually got sent. Don't let a missing notification-destination configuration silently mean "nothing happened." If the destination isn't configured, that should surface clearly (at minimum a loud warning, ideally a hard failure at the point notification is attempted), not a silently-skipped send.</p>
+<h2>Legal/regulatory status is often a live open question, not a fact you can assert</h2>
+<p>Whether a specific data-handling posture (e.g., "all sensitive data stays within a specific region," or "this consent language is sufficient") is actually compliant is very often something that's still pending a formal legal or compliance sign-off, even after the engineering work is done. Present open regulatory questions as open, explicitly, and point at wherever your organization tracks real status (a ticket, a legal review doc) rather than asserting compliance yourself. Never let engineering confidence in the implementation substitute for an actual compliance sign-off.</p>
+<h2>When not to use this</h2>
+<p>For the AI-call-specific version of handling sensitive data (cost tracking, provider fallover safety), see the ai-cost-tracking-and-guardrails skill. The two are complementary but distinct.</p>
+</template>
+
+<footer>
+  <div class="wrap foot">
+    <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
+    <span>
+      <a href="https://github.com/HamzaYM/reliable-ai-skills">The library</a>
+      <a href="https://github.com/HamzaYM">GitHub</a>
+      <a href="https://linkedin.com/in/hamzaymalik">LinkedIn</a>
+      <a href="https://www.hamz.ai">hamz.ai &rarr;</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll progress */
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight;
+    bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* reveal on scroll */
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduced){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0});
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+
+  /* theme toggle */
+  var root=document.documentElement;
+  var btns=Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+  function paint(v){btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.themeSet===v?'true':'false');});}
+  function apply(v){
+    if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+    else{root.removeAttribute('data-theme');}
+    try{localStorage.setItem('hamz-theme',v);}catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.themeSet);});});
+  paint(cur());
+
+  /* tooltip engine (same as the landing page) */
+  var tip = document.getElementById('tip');
+  var pinned = false;
+  function showTip(el, x, y){
+    var txt = el.getAttribute('data-tip'); if(!txt) return;
+    var tt = el.getAttribute('data-tt') || '';
+    tip.innerHTML = (tt ? '<span class="tt">'+tt+'</span>' : '') + txt;
+    tip.classList.add('show');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var r = tip.getBoundingClientRect();
+    var left = x + 14, top = y + 16;
+    if(left + r.width + 10 > vw) left = x - r.width - 14;
+    if(left < 8) left = 8;
+    if(top + r.height + 10 > vh) top = y - r.height - 14;
+    if(top < 8) top = 8;
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+  function hideTip(){ tip.classList.remove('show'); pinned = false; }
+  document.querySelectorAll('.hot').forEach(function(el){
+    el.addEventListener('mouseenter', function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mousemove',  function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', function(){ if(!pinned) tip.classList.remove('show'); });
+    el.addEventListener('focus', function(){ var b=el.getBoundingClientRect(); showTip(el, b.left+b.width/2, b.top+b.height-8); });
+    el.addEventListener('blur',  function(){ tip.classList.remove('show'); });
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); pinned=false; showTip(el, ev.clientX, ev.clientY); pinned=true; });
+  });
+  document.addEventListener('click',  function(ev){ if(!ev.target.closest('.hot')) hideTip(); });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') hideTip(); });
+
+  /* ---- everything below is enhancement only; the page is complete without it ---- */
+  if(!document.body.classList) return;
+  document.body.classList.add('js-on');
+
+  var REPO='https://github.com/HamzaYM/reliable-ai-skills';
+  var cards=Array.prototype.slice.call(document.querySelectorAll('#skills .card'));
+  var cats=Array.prototype.slice.call(document.querySelectorAll('#skills .cat'));
+  var featBits=Array.prototype.slice.call(document.querySelectorAll('#skills .feat-title, #skills .feat-note, #skills .feat-strip'));
+
+  /* search + category filter */
+  var tools=document.getElementById('tools');
+  var search=document.getElementById('sk-search');
+  var chips=Array.prototype.slice.call(document.querySelectorAll('#sk-chips button'));
+  var noMatch=document.getElementById('no-match');
+  var clearBtn=document.getElementById('sk-clear');
+  var q='', group='all';
+
+  cards.forEach(function(c){
+    var t=function(sel){ var el=c.querySelector(sel); return el?el.textContent:''; };
+    c.setAttribute('data-search',(t('.sk-name')+' '+t('.sk-what')+' '+t('.sk-catch')).toLowerCase());
+  });
+
+  function applyFilter(){
+    var shown=0, filtering=(q!==''||group!=='all');
+    cards.forEach(function(c){
+      var ok=(group==='all'||c.getAttribute('data-group')===group) &&
+             (q===''||c.getAttribute('data-search').indexOf(q)!==-1);
+      c.hidden=!ok; if(ok)shown++;
+    });
+    cats.forEach(function(s){
+      s.hidden=Array.prototype.slice.call(s.querySelectorAll('.card')).every(function(c){return c.hidden;});
+    });
+    featBits.forEach(function(el){ el.hidden=filtering; });
+    noMatch.hidden=shown>0;
+  }
+  if(tools&&search){
+    tools.hidden=false;
+    search.addEventListener('input',function(){ q=search.value.trim().toLowerCase(); applyFilter(); });
+    chips.forEach(function(b){
+      b.addEventListener('click',function(){
+        group=b.getAttribute('data-group');
+        chips.forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+        applyFilter();
+      });
+    });
+    clearBtn.addEventListener('click',function(){
+      search.value=''; q=''; group='all';
+      chips.forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-group')==='all'?'true':'false'); });
+      applyFilter(); search.focus();
+    });
+  }
+
+  /* skill modal */
+  var overlay=document.getElementById('sk-overlay');
+  var mName=document.getElementById('sk-modal-name');
+  var mTag=document.getElementById('sk-modal-tag');
+  var mWhen=document.getElementById('sk-modal-when');
+  var mFile=document.getElementById('sk-modal-file');
+  var mFolder=document.getElementById('sk-modal-folder');
+  var mBody=document.getElementById('sk-modal-body');
+  var mClose=document.getElementById('sk-modal-close');
+  var lastFocus=null;
+
+  function openSkill(name){
+    var tpl=document.getElementById('md-'+name);
+    if(!tpl||!('content' in tpl)) return false;
+    var cat=tpl.getAttribute('data-cat');
+    mName.textContent=name;
+    mTag.textContent='skills/'+cat+'/ · '+tpl.getAttribute('data-groupname');
+    mWhen.textContent=tpl.getAttribute('data-when');
+    mFile.href=REPO+'/blob/main/skills/'+cat+'/'+name+'/SKILL.md';
+    mFolder.href=REPO+'/tree/main/skills/'+cat+'/'+name;
+    mBody.innerHTML='';
+    mBody.appendChild(tpl.content.cloneNode(true));
+    lastFocus=document.activeElement;
+    overlay.hidden=false;
+    overlay.scrollTop=0;
+    document.body.classList.add('sk-modal-open');
+    mClose.focus();
+    return true;
+  }
+  function closeSkill(){
+    overlay.hidden=true;
+    document.body.classList.remove('sk-modal-open');
+    if(lastFocus&&lastFocus.focus){ lastFocus.focus(); }
+    lastFocus=null;
+  }
+  if(overlay){
+    mClose.addEventListener('click',closeSkill);
+    overlay.addEventListener('mousedown',function(e){ if(e.target===overlay) closeSkill(); });
+    document.addEventListener('keydown',function(e){
+      if(overlay.hidden) return;
+      if(e.key==='Escape'||e.key==='Esc'){ e.preventDefault(); closeSkill(); return; }
+      if(e.key!=='Tab') return;
+      var f=overlay.querySelectorAll('button, a[href]');
+      if(!f.length) return;
+      var first=f[0], last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+      else if(!overlay.contains(document.activeElement)){ e.preventDefault(); first.focus(); }
+    });
+    cards.forEach(function(c){
+      var nameLink=c.querySelector('.sk-name');
+      if(!nameLink) return;
+      var name=nameLink.textContent.trim();
+      c.addEventListener('click',function(e){
+        if(!e.target.closest) return;                       /* very old browser: links still work */
+        var a=e.target.closest('a');
+        if(a&&a!==nameLink) return;                         /* explicit sub-links navigate normally */
+        if(e.target.closest('.sk-more')) return;            /* the details excerpt keeps toggling */
+        if(!openSkill(name)) return;                        /* no template: fall through to the link */
+        e.preventDefault();
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

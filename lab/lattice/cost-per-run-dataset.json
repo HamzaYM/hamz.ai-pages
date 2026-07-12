@@ -1,0 +1,107 @@
+{
+ "lattice-fable-high": {
+  "n_cold": 51,
+  "avg_cold_usd": 1.2061,
+  "n_loaded": 51,
+  "avg_loaded_usd": 1.5022,
+  "skill_marginal_usd": 0.2961
+ },
+ "lattice-fable-low": {
+  "n_cold": 51,
+  "avg_cold_usd": 0.8901,
+  "n_loaded": 51,
+  "avg_loaded_usd": 1.0719,
+  "skill_marginal_usd": 0.1818
+ },
+ "lattice-fable-medium": {
+  "n_cold": 17,
+  "avg_cold_usd": 1.0487,
+  "n_loaded": 17,
+  "avg_loaded_usd": 1.2175,
+  "skill_marginal_usd": 0.1688
+ },
+ "lattice-fable-xhigh": {
+  "n_cold": 17,
+  "avg_cold_usd": 1.4109,
+  "n_loaded": 17,
+  "avg_loaded_usd": 1.6177,
+  "skill_marginal_usd": 0.2068
+ },
+ "lattice-haiku": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.2052,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.2165,
+  "skill_marginal_usd": 0.0113
+ },
+ "lattice-opus-high": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.5344,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.5928,
+  "skill_marginal_usd": 0.0585
+ },
+ "lattice-opus-low": {
+  "n_cold": 51,
+  "avg_cold_usd": 0.5924,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.6693,
+  "skill_marginal_usd": 0.077
+ },
+ "lattice-opus-max": {
+  "n_cold": 51,
+  "avg_cold_usd": 0.888,
+  "n_loaded": 51,
+  "avg_loaded_usd": 1.0045,
+  "skill_marginal_usd": 0.1164
+ },
+ "lattice-opus-medium": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.6608,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.6986,
+  "skill_marginal_usd": 0.0378
+ },
+ "lattice-opus-xhigh": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.7176,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.7489,
+  "skill_marginal_usd": 0.0313
+ },
+ "lattice-sonnet-high": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.4904,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.6242,
+  "skill_marginal_usd": 0.1337
+ },
+ "lattice-sonnet-low": {
+  "n_cold": 51,
+  "avg_cold_usd": 0.4377,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.4885,
+  "skill_marginal_usd": 0.0508
+ },
+ "lattice-sonnet-max": {
+  "n_cold": 51,
+  "avg_cold_usd": 1.2029,
+  "n_loaded": 50,
+  "avg_loaded_usd": 1.1844,
+  "skill_marginal_usd": -0.0185
+ },
+ "lattice-sonnet-medium": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.3912,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.4331,
+  "skill_marginal_usd": 0.0419
+ },
+ "lattice-sonnet-xhigh": {
+  "n_cold": 17,
+  "avg_cold_usd": 0.8094,
+  "n_loaded": 17,
+  "avg_loaded_usd": 0.7999,
+  "skill_marginal_usd": -0.0095
+ }
+}

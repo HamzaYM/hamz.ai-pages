@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="en" class="nojs">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}
+document.documentElement.classList.remove("nojs");document.documentElement.classList.add("js");
+if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("reduced");})();</script>
+<!--
+  hamz.ai/lab/lattice/visual · The effort lattice, the guided tour
+
+  This is the cinematic companion to /lab/lattice/ (the evidence page). The
+  evidence page is the record; this page is the optional tour, linked from
+  the evidence page's hero.
+
+  NUMBERS: every rate, delta, count, and label on this page was generated at
+  build time from results/matrix/matrix.json and MATRIX.md (the reliable-ai-skills repo,
+  adjudicated 2026-07-11), the same file the evidence page's explorer reads.
+  No number was re-typed by hand. The freeze hash is quoted from the staged
+  evidence page (it also matches results/matrix/NUMBERS.md). The evidence
+  page's 917-run count is not shown here: it does not appear in matrix.json
+  or MATRIX.md, so it fails this page's single-source rule. No dollar
+  figures appear here by design.
+
+  The Fable-5-at-max cell is shown as an honestly empty slot (it got too
+  expensive to finish), matching the evidence page's treatment.
+
+  Self-contained: three.min.js r128 is vendored next to this file; no CDN,
+  no font requests, zero third-party calls. prefers-reduced-motion and no-JS
+  both get the full story as static stacked sections with identical facts.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The effort lattice &middot; the tour &middot; hamz.ai / lab</title>
+<meta name="description" content="A guided tour of the effort lattice: seventeen frozen tasks, sixteen conditions, two arms each, judged blind. The companion to the evidence page.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%234ADE80'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0F0F0F;
+  --raised:#161616;
+  --line:#262626;
+  --line-strong:#333333;
+  --ink:#F2F2F0;
+  --dim:#9A9A94;
+  --faint:#85857F;
+  --acc:#4ADE80;
+  --acc-dim:#1F6B3C;
+  --acc-tint:rgba(74,222,128,0.08);
+  --amber:#D9A441;
+  --scrim:rgba(15,15,15,.72);
+  --scrimline:rgba(242,242,240,.08);
+  --lbl:#9A9A94;
+  --lblfaint:#85857F;
+  --lblhalo:0 0 5px var(--bg),0 1px 9px var(--bg);
+  --display:"Space Grotesk", system-ui, sans-serif;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+  --bg:#F7F5F2; --raised:#FFFFFF;
+  --line:#E7E3DC; --line-strong:#948C7F;
+  --ink:#14140F; --dim:#555C58; --faint:#646B67;
+  --acc:#15803D; --acc-dim:#166534; --acc-tint:rgba(21,128,61,0.10);
+  --amber:#8F6A1B;
+  --scrim:rgba(247,245,242,.9);
+  --scrimline:rgba(20,20,15,.12);
+  --lbl:#2E332F;
+  --lblfaint:#454B47;
+  --lblhalo:0 0 2px var(--bg),0 0 2px var(--bg),0 0 5px var(--bg),0 0 9px var(--bg),0 1px 12px var(--bg);
+  color-scheme:light;
+} }
+:root[data-theme="light"]{
+  --bg:#F7F5F2; --raised:#FFFFFF;
+  --line:#E7E3DC; --line-strong:#948C7F;
+  --ink:#14140F; --dim:#555C58; --faint:#646B67;
+  --acc:#15803D; --acc-dim:#166534; --acc-tint:rgba(21,128,61,0.10);
+  --amber:#8F6A1B;
+  --scrim:rgba(247,245,242,.9);
+  --scrimline:rgba(20,20,15,.12);
+  --lbl:#2E332F;
+  --lblfaint:#454B47;
+  --lblhalo:0 0 2px var(--bg),0 0 2px var(--bg),0 0 5px var(--bg),0 0 9px var(--bg),0 1px 12px var(--bg);
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:auto;}
+html,body{background:var(--bg);}
+body{
+  color:var(--dim);
+  font-family:var(--sans);
+  font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+::selection{background:var(--acc);color:var(--bg);}
+a{color:var(--acc);}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;}
+
+/* ---------- scroll track & fixed stage ---------- */
+#track{position:relative;width:100%;}
+#stage{position:fixed;inset:0;z-index:1;}
+#gl{position:absolute;inset:0;display:block;width:100%;height:100%;}
+
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, rgba(0,0,0,.5) 100%);}
+:root[data-theme="light"] .vignette{background:radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, rgba(90,84,70,.16) 100%);}
+@media (prefers-color-scheme:light){ :root:not([data-theme="dark"]) .vignette{
+  background:radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, rgba(90,84,70,.16) 100%);} }
+.grain{position:fixed;inset:-50%;z-index:3;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(6) infinite;}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)} 20%{transform:translate(-4%,3%)}
+  40%{transform:translate(3%,-5%)} 60%{transform:translate(-5%,-2%)} 80%{transform:translate(4%,4%)}
+}
+.textshade{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg, rgba(15,15,15,.84) 0%, rgba(15,15,15,.52) 24%, rgba(15,15,15,.14) 44%, transparent 60%);}
+:root[data-theme="light"] .textshade{background:linear-gradient(90deg, rgba(247,245,242,.92) 0%, rgba(247,245,242,.6) 24%, rgba(247,245,242,.18) 44%, transparent 60%);}
+@media (prefers-color-scheme:light){ :root:not([data-theme="dark"]) .textshade{
+  background:linear-gradient(90deg, rgba(247,245,242,.92) 0%, rgba(247,245,242,.6) 24%, rgba(247,245,242,.18) 44%, transparent 60%);} }
+
+/* ---------- projected labels ---------- */
+#labels{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
+.nlabel{
+  position:absolute;left:0;top:0;transform:translate(-200px,-200px);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--lbl);white-space:nowrap;
+  opacity:0;transition:opacity .5s ease;
+  text-shadow:var(--lblhalo);
+}
+.nlabel.on{opacity:.95;}
+.nlabel.on.settling{opacity:0;}
+.nlabel.acc{color:var(--acc);}
+.nlabel.amber{color:var(--amber);}
+.nlabel.ink{color:var(--ink);}
+.nlabel.faint{font-size:.62rem;color:var(--lblfaint);letter-spacing:.2em;}
+.nlabel.model{font-size:.78rem;color:var(--ink);letter-spacing:.18em;}
+.nlabel.axis{font-size:.72rem;color:var(--ink);letter-spacing:.22em;}
+.nlabel.axisnote{font-size:.6rem;color:var(--lblfaint);letter-spacing:.26em;}
+.nlabel.idx{font-size:.6rem;color:var(--lbl);letter-spacing:.1em;}
+.nlabel.val{font-size:.64rem;color:var(--acc);letter-spacing:.08em;
+  padding:2px 6px;background:var(--raised);border:1px solid var(--line);text-shadow:none;}
+.nlabel.chipbox{padding:4px 9px;border:1px solid var(--amber);background:var(--raised);
+  color:var(--amber);font-size:.62rem;}
+.nlabel.callout{white-space:normal;width:max-content;max-width:230px;line-height:1.5;
+  padding:6px 10px;border:1px solid var(--line-strong);background:var(--raised);
+  color:var(--ink);font-size:.62rem;letter-spacing:.06em;text-transform:none;text-shadow:none;}
+.nlabel.ttl{white-space:normal;width:max-content;max-width:168px;line-height:1.4;
+  font-size:.56rem;letter-spacing:.04em;text-transform:none;color:var(--lbl);}
+.nlabel.def{font-size:.54rem;color:var(--lblfaint);letter-spacing:.24em;
+  border-bottom:1px solid var(--line-strong);padding-bottom:1px;}
+.nlabel.ttlhi{font-size:.63rem;color:var(--ink);}
+#pickleader{position:absolute;left:0;top:0;height:1px;background:var(--acc-dim);
+  transform-origin:0 0;opacity:0;transition:opacity .3s ease;}
+@media(max-width:700px){
+  .nlabel{font-size:.6rem;}
+  .nlabel.callout{max-width:150px;font-size:.58rem;}
+  .nlabel.ttl{max-width:110px;font-size:.52rem;}
+  .nlabel.ttlhi{font-size:.56rem;}
+  .nlabel.model{font-size:.64rem;}
+  .nlabel.axis{font-size:.62rem;}
+}
+#hashstamp{
+  position:absolute;left:0;top:0;transform:translate(-50%,0) scale(1.12);
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;color:var(--acc);
+  white-space:nowrap;opacity:0;transition:opacity .7s ease, transform .7s ease;
+  padding:6px 12px;border:1px solid var(--acc-dim);background:var(--acc-tint);
+}
+#hashstamp.on{opacity:.95;transform:translate(-50%,0) scale(1);}
+
+/* ---------- HUD ---------- */
+.hud{position:fixed;z-index:10;font-family:var(--mono);
+  font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);}
+.hud-top{top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;
+  padding:18px 26px;gap:16px;}
+.hud-top .brand b{color:var(--ink);font-weight:500;}
+.hud-top .brand i{font-style:normal;color:var(--acc);}
+.hud-top a{color:var(--faint);text-decoration:none;transition:color .25s;pointer-events:auto;}
+.hud-top a:hover{color:var(--acc);}
+.hud-right{display:flex;align-items:center;gap:20px;}
+.theme-toggle{display:flex;gap:2px;pointer-events:auto;}
+.theme-toggle button{all:unset;cursor:pointer;padding:4px 8px;color:var(--faint);
+  border:1px solid transparent;font-size:.72rem;line-height:1;transition:color .2s,border-color .2s;}
+.theme-toggle button:hover{color:var(--ink);}
+.theme-toggle button[aria-pressed="true"]{color:var(--acc);border-color:var(--line-strong);}
+#rail button:focus-visible,.chip:focus-visible,.theme-toggle button:focus-visible{
+  outline:1px solid var(--acc);outline-offset:3px;}
+
+#rail{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:10;
+  display:flex;flex-direction:column;gap:14px;align-items:flex-end;}
+#rail button{
+  all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;pointer-events:auto;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;
+  text-transform:uppercase;color:transparent;transition:color .3s;
+}
+#rail button .tick{width:14px;height:1px;background:var(--line-strong);transition:all .3s;}
+#rail button:hover{color:var(--faint);}
+#rail button.on{color:var(--dim);}
+#rail button.on .tick{width:26px;background:var(--acc);}
+
+#cue{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:10;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--faint);transition:opacity .6s;display:flex;flex-direction:column;align-items:center;gap:10px;}
+#cue .line{width:1px;height:34px;background:linear-gradient(var(--acc),transparent);
+  animation:drip 1.8s ease-in-out infinite;}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+#cue.gone{opacity:0;}
+
+#legend{position:fixed;left:26px;bottom:22px;z-index:10;display:flex;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);opacity:0;transition:opacity .7s ease;pointer-events:none;}
+#legend.on{opacity:1;}
+#legend span{display:flex;align-items:center;gap:7px;}
+#legend i{width:7px;height:7px;}
+#legend i.kl{background:var(--acc);}
+#legend i.kc{background:var(--faint);}
+#legend i.kd{background:var(--amber);}
+#legend i.ke{background:transparent;border:1px dashed var(--faint);}
+
+/* ---------- chapter cards ---------- */
+.card{
+  position:fixed;z-index:9;left:clamp(24px,6vw,88px);top:50%;
+  width:min(470px,calc(100vw - 48px));
+  transform:translateY(-46%);
+  padding:24px 28px;
+  background:var(--scrim);
+  border:1px solid var(--scrimline);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .55s ease, transform .55s ease, visibility 0s linear .55s;
+}
+.card.on{opacity:1;visibility:visible;transform:translateY(-50%);pointer-events:auto;
+  transition:opacity .55s ease .12s, transform .55s ease .12s, visibility 0s;}
+@media(min-width:701px){
+  .card{-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);}
+}
+.card .eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--acc);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.card .eyebrow::before{content:"";width:22px;height:1px;background:var(--acc-dim);}
+.card h2{font-family:var(--display);font-weight:500;color:var(--ink);
+  font-size:clamp(1.6rem,3.2vw,2.3rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:14px;}
+.card p{font-size:.95rem;color:var(--dim);max-width:46ch;margin-bottom:12px;}
+.card p b{color:var(--ink);font-weight:600;}
+.stats{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:18px;}
+.stats .st .v{font-family:var(--display);font-size:1.5rem;color:var(--ink);line-height:1.1;}
+.stats .st .l{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:3px;}
+.datalines{margin-top:16px;border-left:1px solid var(--line-strong);padding-left:14px;
+  display:flex;flex-direction:column;gap:7px;}
+.datalines .dl{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--dim);}
+.datalines .dl b{color:var(--ink);font-weight:500;transition:opacity .5s ease;}
+.datalines .dl b.settling{opacity:.15;}
+.datalines .dl i{font-style:normal;color:var(--acc);}
+.smallnote{margin-top:14px;font-size:.78rem;color:var(--faint);max-width:46ch;}
+.hashline{margin-top:16px;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;
+  color:var(--acc);word-break:break-all;max-width:46ch;}
+.hashline span{color:var(--faint);}
+
+/* hero variant */
+#card-0{width:min(720px,calc(100vw - 48px));}
+#card-0 h1{font-family:var(--display);font-weight:500;color:var(--ink);
+  font-size:clamp(2.3rem,5.8vw,4.2rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;max-width:17ch;}
+#card-0 .lede{font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.55;max-width:54ch;color:var(--dim);}
+#card-0 .lede b{color:var(--ink);font-weight:600;}
+#card-0 .byline{margin-top:24px;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+#card-0 .byline b{color:var(--dim);font-weight:500;}
+.draft{margin-top:18px;max-width:54ch;border:1px dashed var(--amber);padding:10px 14px;
+  font-family:var(--mono);font-size:.68rem;color:var(--amber);letter-spacing:.03em;}
+
+/* finale explorer */
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;max-width:48ch;}
+.chiprow .rlab{flex-basis:100%;font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:-2px;}
+.chip{
+  all:unset;cursor:pointer;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--dim);
+  padding:8px 13px;border:1px solid var(--line-strong);transition:all .25s;
+}
+.chip:hover{border-color:var(--dim);color:var(--ink);}
+.chip.on{border-color:var(--acc);color:var(--ink);background:var(--acc-tint);}
+.chip[disabled]{opacity:.35;cursor:default;}
+#cellout{margin-top:18px;max-width:48ch;min-height:6.4em;border-left:1px solid var(--acc-dim);padding-left:14px;}
+#cellout .head{font-family:var(--display);font-size:1.1rem;color:var(--ink);margin-bottom:4px;}
+#cellout .nums{font-family:var(--mono);font-size:.8rem;color:var(--dim);}
+#cellout .nums i{font-style:normal;color:var(--acc);}
+#cellout .basis{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:8px;}
+.footlink{margin-top:24px;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  display:flex;flex-direction:column;gap:10px;}
+.footlink a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--acc-dim);padding-bottom:2px;transition:all .25s;width:fit-content;}
+.footlink a:hover{color:var(--acc);border-color:var(--acc);}
+
+/* ---------- static story (no-JS, reduced-motion, print) ---------- */
+#static{display:none;max-width:860px;margin:0 auto;padding:64px 24px 90px;}
+html.nojs #static, html.reduced #static{display:block;}
+html.nojs #stage, html.nojs .vignette, html.nojs .grain, html.nojs .textshade,
+html.nojs #labels, html.nojs #rail, html.nojs #cue, html.nojs #legend,
+html.nojs .card, html.nojs #track,
+html.reduced #stage, html.reduced .vignette, html.reduced .grain, html.reduced .textshade,
+html.reduced #labels, html.reduced #rail, html.reduced #cue, html.reduced #legend,
+html.reduced .card, html.reduced #track{display:none;}
+html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
+@media print{
+  #static{display:block;}
+  #stage,.vignette,.grain,.textshade,#labels,#rail,#cue,#legend,.card,#track,.hud-top{display:none;}
+}
+#static section{margin-top:58px;border-top:1px solid var(--line);padding-top:34px;}
+#static .eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--acc);margin-bottom:12px;}
+#static h1{font-family:var(--display);font-weight:500;color:var(--ink);font-size:clamp(2rem,6vw,3.2rem);
+  line-height:1.06;letter-spacing:-.02em;margin:10px 0 16px;max-width:18ch;}
+#static h2{font-family:var(--display);font-weight:500;color:var(--ink);font-size:clamp(1.35rem,3.4vw,1.9rem);
+  letter-spacing:-.02em;line-height:1.12;margin-bottom:12px;}
+#static p{max-width:64ch;margin-bottom:10px;}
+#static .stats{margin:18px 0 4px;}
+#static table{border-collapse:collapse;width:100%;margin:16px 0 4px;font-size:.82rem;}
+#static th,#static td{border:1px solid var(--line);padding:7px 10px;text-align:left;color:var(--dim);}
+#static th{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+#static td b{color:var(--ink);font-weight:500;}
+#static td i{font-style:normal;color:var(--acc);}
+#static td.na{color:var(--faint);font-style:italic;}
+#static .tblwrap{overflow-x:auto;}
+#static .hashline{margin-top:12px;}
+#static .chart{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap;margin:22px 0 6px;}
+#static .mgroup{display:flex;flex-direction:column;gap:8px;}
+#static .mgroup .bars{display:flex;gap:8px;align-items:flex-end;}
+#static .sbar{display:flex;flex-direction:column;justify-content:flex-end;width:30px;height:170px;}
+#static .sbar .seg-skill{background:var(--acc);}
+#static .sbar .seg-cold{background:var(--line-strong);}
+#static .sbar.empty{border:1px dashed var(--faint);height:170px;}
+#static .sbar-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);text-align:center;margin-top:4px;width:30px;overflow:visible;}
+#static .sbar-val{font-family:var(--mono);font-size:.56rem;color:var(--dim);text-align:center;width:30px;margin-bottom:3px;}
+#static .mname{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);}
+#static .chart-note{font-size:.78rem;color:var(--faint);max-width:64ch;}
+#static .pair-demo{display:flex;gap:18px;align-items:flex-end;margin:18px 0 8px;}
+#static .pair-demo .pd{width:34px;height:64px;}
+#static .pair-demo .pd.cold{border:1px dashed var(--faint);}
+#static .pair-demo .pd.loaded{background:var(--acc);}
+#static .pair-demo .pdl{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:6px;text-align:center;}
+#static ul{margin:10px 0 10px 20px;max-width:64ch;}
+#static li{margin-bottom:6px;}
+
+/* mobile */
+@media(max-width:700px){
+  #rail{display:none;}
+  #legend{display:none;}
+  #cue{display:none;}
+  .textshade{background:linear-gradient(180deg, transparent 42%, rgba(15,15,15,.62) 100%);}
+  :root[data-theme="light"] .textshade{background:linear-gradient(180deg, transparent 42%, rgba(247,245,242,.8) 100%);}
+  .hud-top{padding:14px 16px;font-size:.56rem;}
+  .card{left:16px;right:16px;width:auto;top:auto;bottom:0;transform:translateY(8px);
+    padding:18px 16px 24px;background:var(--scrim);border:none;border-top:1px solid var(--scrimline);}
+  .card.on{transform:translateY(0);}
+  .card p{font-size:.86rem;}
+  .stats .st .v{font-size:1.2rem;}
+  #card-0{top:50%;bottom:auto;padding:16px 14px;border:1px solid var(--scrimline);}
+  #cellout{min-height:5em;}
+}
+@media(max-width:700px) and (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) .textshade{background:linear-gradient(180deg, transparent 42%, rgba(247,245,242,.8) 100%);}
+}
+@media(prefers-reduced-motion:reduce){
+  .grain{animation:none;}
+  #cue .line{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="stage"><canvas id="gl"></canvas></div>
+<div class="textshade"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div id="labels"><div id="pickleader"></div><div id="hashstamp">b378c796…a1c890</div></div>
+
+<div id="legend" aria-hidden="true">
+  <span><i class="kl"></i>With skills</span>
+  <span><i class="kc"></i>Without</span>
+  <span><i class="kd"></i>Disputed</span>
+  <span><i class="ke"></i>Not run</span>
+</div>
+
+<div class="hud hud-top">
+  <span class="brand"><b>hamz.ai</b> &middot; <i>The effort lattice</i> &middot; the tour</span>
+  <span class="hud-right">
+    <span class="theme-toggle" role="group" aria-label="Theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </span>
+    <a href="../">Read the evidence page <b>&#8599;</b></a>
+  </span>
+</div>
+<nav id="rail" aria-label="Chapters"></nav>
+<div id="cue"><span>Scroll</span><span class="line"></span></div>
+
+<!-- CHAPTER CARDS -->
+<section class="card" id="card-0">
+  <div class="eyebrow">hamz.ai / lab / lattice &middot; the guided tour</div>
+  <h1>Does turning up reasoning effort replace skills?</h1>
+  <p class="lede">One experiment answered that, and this page walks you through it the way it ran: <b>scroll to watch the lattice get built, run, judged, and settled.</b></p>
+  <div class="stats">
+    <div class="st"><div class="v">17</div><div class="l">tasks frozen first</div></div>
+    <div class="st"><div class="v">16</div><div class="l">conditions</div></div>
+    <div class="st"><div class="v">1,827</div><div class="l">marks judged blind</div></div>
+  </div>
+  <div class="byline">Every number here is read from the published matrix &middot; <b>Hamza Malik &middot; hamz.ai</b></div>
+</section>
+
+<section class="card" id="card-1">
+  <div class="eyebrow">Chapter 01 &middot; The freeze</div>
+  <h2>Seventeen tasks, locked before anything ran</h2>
+  <p>Seventeen real tasks, each with a pass checklist, frozen and hash-stamped before a single run. Seventeen skills, one task each.</p>
+  <div class="hashline"><span>suite sha256&nbsp;</span>b378c79644280bb93fb8ac71d0cadcfe301fd15b226dfaec852b619a2aa1c890</div>
+  <p class="smallnote">The hash is the commitment: the tasks could not quietly change after the results started coming in.</p>
+</section>
+
+<section class="card" id="card-2">
+  <div class="eyebrow">Chapter 02 &middot; Sixteen conditions</div>
+  <h2>Three models, five efforts, and Haiku</h2>
+  <p>Three Claude models at five effort levels each, plus Haiku with no effort dial, make the sixteen conditions of the grid.</p>
+  <p class="smallnote">One corner stays empty: Fable 5 at max never finished, it got too expensive. The slot is drawn open rather than papered over.</p>
+</section>
+
+<section class="card" id="card-3">
+  <div class="eyebrow">Chapter 03 &middot; 32 arms</div>
+  <h2>Every condition runs twice</h2>
+  <p>Each condition ran the same seventeen tasks twice, once cold and once with the skill library installed, which makes thirty-two arms.</p>
+  <div class="datalines">
+    <div class="dl"><b>Solid</b> &middot; the loaded arm, skills installed</div>
+    <div class="dl"><b>Hollow</b> &middot; the cold arm, no skills</div>
+  </div>
+</section>
+
+<section class="card" id="card-4">
+  <div class="eyebrow">Chapter 04 &middot; Blind judging</div>
+  <h2>Two judges, one adjudicator</h2>
+  <p>Two blinded judges scored every checklist mark without knowing which arm they were reading, and a fixed adjudicator settled what they disagreed on.</p>
+  <div class="datalines">
+    <div class="dl"><b id="ct-p1">4.7%</b> of marks disagreed &middot; <span id="ct-a1">85</span> of <span id="ct-b1">1,827</span></div>
+    <div class="dl"><b id="ct-p2">2.6%</b> adjudicated &middot; <span id="ct-a2">96</span> of <span id="ct-b2">3,654</span> blinded slots, two per mark</div>
+    <div class="dl"><b id="ct-s">85</b> disputes settled by the adjudicator &middot; none left unresolved</div>
+  </div>
+</section>
+
+<section class="card" id="card-5">
+  <div class="eyebrow">Chapter 05 &middot; The verdict</div>
+  <h2>The matrix crystallizes</h2>
+  <p>Effort raises the floor, and the skills still add on top of it.</p>
+  <div class="datalines">
+    <div class="dl">Lowest to highest effort, no skills: <b>Fable +3.5</b> &middot; <b>Opus +3.9</b> &middot; <b>Sonnet +4.6</b> points, each past the pre-registered 3-point bar</div>
+    <div class="dl">Skills at each model's highest effort: still <i>+2.4 to +9.7 points</i> on top</div>
+    <div class="dl">Haiku, no dial: <i>+26.2 points</i>, the largest gap in the grid</div>
+  </div>
+  <p class="smallnote">Bar heights are the real with-skills rates on the 16 tasks every condition completed, read from matrix.json. The three lines above quote the pre-registered low-versus-top figures from MATRIX.md; Fable's pair is low versus high, its amended confirmatory endpoint, since max never finished. The two bases share verdicts, not decimals, so the same cell can sit up to a couple of points off the bar arithmetic. Small cells are directional, not inferential.</p>
+</section>
+
+<section class="card" id="card-6">
+  <div class="eyebrow">Chapter 06 &middot; The lattice, finished</div>
+  <h2>Turn it over yourself</h2>
+  <p>Drag to rotate the finished lattice, or pick a cell and read its real numbers.</p>
+  <div class="chiprow"><span class="rlab">View</span><button type="button" class="chip" id="gapsbtn" aria-pressed="false">Show what the skills added</button></div>
+  <div class="chiprow" id="modelchips"><span class="rlab">Model</span></div>
+  <div class="chiprow" id="effortchips"><span class="rlab">Effort</span></div>
+  <div id="cellout">
+    <div class="head" style="color:var(--faint);font-size:.95rem;">Pick a model. An effort level is optional.</div>
+  </div>
+  <div class="footlink">
+    <a href="../">The evidence page carries the full record &#8599;</a>
+    <a href="https://github.com/HamzaYM/reliable-ai-skills">The harness, tasks, and judge inputs: github.com/HamzaYM/reliable-ai-skills &#8599;</a>
+  </div>
+</section>
+
+<div id="track"></div>
+
+<!-- ============ STATIC STORY: no-JS, reduced-motion, print ============ -->
+<div id="static">
+  <div class="eyebrow">hamz.ai / lab / lattice &middot; the guided tour &middot; static version</div>
+  <h1>Does turning up reasoning effort replace skills?</h1>
+  <p>One experiment answered that. This is the same story the animated tour tells, as plain sections with identical facts. The full record lives on <a href="../">the evidence page</a>.</p>
+  <div class="stats">
+    <div class="st"><div class="v">17</div><div class="l">tasks frozen first</div></div>
+    <div class="st"><div class="v">16</div><div class="l">conditions</div></div>
+    <div class="st"><div class="v">1,827</div><div class="l">marks judged blind</div></div>
+  </div>
+  <p style="margin-top:14px;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);">Every number here is read from the published matrix &middot; Hamza Malik &middot; hamz.ai</p>
+
+  <section>
+    <div class="eyebrow">Chapter 01 &middot; The freeze</div>
+    <h2>Seventeen tasks, locked before anything ran</h2>
+    <p>Seventeen real tasks, each with a pass checklist, frozen and hash-stamped before a single run. Seventeen skills, one task each. The full slate:</p>
+    <ul>
+      <li>sign off a clinic scheduler's appointment-search PR</li>
+      <li>review the payment integration before refunds work</li>
+      <li>trace cross-clinic data leaks in appointment lists</li>
+      <li>plan parallel engineers through a findings backlog</li>
+      <li>open a PR for a branch built on in-progress work</li>
+      <li>find why nightly classifier accuracy fell to zero</li>
+      <li>audit an LLM document pipeline before switch-on</li>
+      <li>plan an overnight re-score of a full transcript set</li>
+      <li>vet a new patient-reminder toggle and its config</li>
+      <li>audit a reply grader's composite scores and rankings</li>
+      <li>scope moving a FastAPI container to serverless edge</li>
+      <li>debug tenant bleed and a broken local database rebuild</li>
+      <li>check a copied-from-staging production setup before launch</li>
+      <li>review patient-data batch jobs before they go live</li>
+      <li>fact-check a release note against the repository</li>
+      <li>vet a postmortem draft before customers see it</li>
+      <li>judge a plan to refresh goldens so tests pass</li>
+    </ul>
+    <div class="hashline"><span>suite sha256&nbsp;</span>b378c79644280bb93fb8ac71d0cadcfe301fd15b226dfaec852b619a2aa1c890</div>
+    <p style="margin-top:10px;font-size:.85rem;color:var(--faint);">The hash is the commitment: the tasks could not quietly change after the results started coming in.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Chapter 02 &middot; Sixteen conditions</div>
+    <h2>Three models, five efforts, and Haiku</h2>
+    <p>Three Claude models at five effort levels each, plus Haiku with no effort dial, make the sixteen conditions of the grid. One corner stays empty: Fable 5 at max never finished, it got too expensive.</p>
+    <div class="tblwrap">
+    <table><thead><tr><th>Model</th><th>low</th><th>medium</th><th>high</th><th>xhigh (extra high)</th><th>max</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td colspan="5">no effort dial &middot; one condition, ran</td></tr><tr><td><b>Sonnet 5</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran</td></tr><tr><td><b>Opus 4.8</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran</td></tr><tr><td><b>Fable 5</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td class="na">not run &middot; too expensive to finish</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Chapter 03 &middot; 32 arms</div>
+    <h2>Every condition runs twice</h2>
+    <p>Each condition ran the same seventeen tasks twice, once cold and once with the skill library installed, which makes thirty-two arms.</p>
+    <p>The loaded runs get the full seventeen-skill library installed, from multi-model-adversarial-review to pre-merge-validation-gate.</p>
+    <div class="pair-demo">
+      <div><div class="pd cold"></div><div class="pdl">cold</div></div>
+      <div><div class="pd loaded"></div><div class="pdl">loaded</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Chapter 04 &middot; Blind judging</div>
+    <h2>Two judges, one adjudicator</h2>
+    <p>Two blinded judges scored every checklist mark without knowing which arm they were reading, and a fixed adjudicator settled what they disagreed on.</p>
+    <ul>
+      <li><b style="color:var(--ink)">4.7%</b> of marks disagreed: 85 of 1,827.</li>
+      <li><b style="color:var(--ink)">2.6%</b> adjudicated: 96 of 3,654 blinded slots, two per mark.</li>
+      <li><b style="color:var(--ink)">85</b> disputes settled by the adjudicator: none left unresolved.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Chapter 05 &middot; The verdict</div>
+    <h2>The matrix crystallizes</h2>
+    <p>Effort raises the floor, and the skills still add on top of it.</p>
+    <div class="chart">
+      <div class="mgroup"><div class="bars"><div><div class="sbar-val">92.3</div><div class="sbar"><span class="seg-skill" style="height:44px"></span><span class="seg-cold" style="height:113px"></span></div><div class="sbar-label">no dial</div></div></div><div class="mname">Haiku 4.5</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">96.9</div><div class="sbar"><span class="seg-skill" style="height:20px"></span><span class="seg-cold" style="height:145px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">98.5</div><div class="sbar"><span class="seg-skill" style="height:21px"></span><span class="seg-cold" style="height:147px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:18px"></span><span class="seg-cold" style="height:152px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">98.5</div><div class="sbar"><span class="seg-skill" style="height:21px"></span><span class="seg-cold" style="height:147px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">99.5</div><div class="sbar"><span class="seg-skill" style="height:17px"></span><span class="seg-cold" style="height:152px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Sonnet 5</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">96.9</div><div class="sbar"><span class="seg-skill" style="height:15px"></span><span class="seg-cold" style="height:150px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">96.9</div><div class="sbar"><span class="seg-skill" style="height:23px"></span><span class="seg-cold" style="height:141px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">98.5</div><div class="sbar"><span class="seg-skill" style="height:18px"></span><span class="seg-cold" style="height:149px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">98.5</div><div class="sbar"><span class="seg-skill" style="height:16px"></span><span class="seg-cold" style="height:152px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:15px"></span><span class="seg-cold" style="height:155px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Opus 4.8</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">99.5</div><div class="sbar"><span class="seg-skill" style="height:7px"></span><span class="seg-cold" style="height:162px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:13px"></span><span class="seg-cold" style="height:157px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:4px"></span><span class="seg-cold" style="height:166px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:5px"></span><span class="seg-cold" style="height:165px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">&nbsp;</div><div class="sbar empty"></div><div class="sbar-label">max &middot; not run</div></div></div><div class="mname">Fable 5</div></div>
+    </div>
+    <p class="chart-note">Each bar is one condition's with-skills rate; the gray base is that condition's cold rate and the green top is what the skills added. Rates use the 16 tasks every condition completed, read from matrix.json. The three lines below quote the pre-registered low-versus-top figures from MATRIX.md; Fable's pair is low versus high, its amended confirmatory endpoint, since max never finished. The two bases share verdicts, not decimals, so the same cell can sit up to a couple of points off the bar arithmetic. Small cells are directional, not inferential.</p>
+    <ul>
+      <li>Lowest to highest effort, no skills: Fable +3.5, Opus +3.9, Sonnet +4.6 points, each past the pre-registered 3-point bar.</li>
+      <li>Skills at each model's highest effort: still +2.4 to +9.7 points on top.</li>
+      <li>Haiku, no dial: +26.2 points, the largest gap in the grid.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Chapter 06 &middot; The lattice, finished</div>
+    <h2>The cells, in full</h2>
+    <p>Every cell's cold rate, loaded rate, and skill delta, on the 16 tasks every condition completed.</p>
+    <div class="tblwrap">
+    <table><thead><tr><th>Model</th><th>Effort</th><th>Cold</th><th>Loaded</th><th>Skill delta</th><th>Runs</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td>no dial</td><td>66.2%</td><td>92.3%</td><td><i>+26.2 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>low</td><td>85.1%</td><td>96.9%</td><td><i>+11.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>medium</td><td>86.2%</td><td>98.5%</td><td><i>+12.3 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>high</td><td>89.2%</td><td>100.0%</td><td><i>+10.8 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>xhigh</td><td>86.2%</td><td>98.5%</td><td><i>+12.3 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>max</td><td>89.7%</td><td>99.5%</td><td><i>+9.7 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>low</td><td>88.2%</td><td>96.9%</td><td><i>+8.7 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>medium</td><td>83.1%</td><td>96.9%</td><td><i>+13.8 points</i></td><td>single run per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>high</td><td>87.7%</td><td>98.5%</td><td><i>+10.8 points</i></td><td>single run per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>xhigh</td><td>89.2%</td><td>98.5%</td><td><i>+9.2 points</i></td><td>single run per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>max</td><td>91.3%</td><td>100.0%</td><td><i>+8.7 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>low</td><td>95.4%</td><td>99.5%</td><td><i>+4.1 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>medium</td><td>92.3%</td><td>100.0%</td><td><i>+7.7 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>high</td><td>97.4%</td><td>100.0%</td><td><i>+2.6 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>xhigh</td><td>96.9%</td><td>100.0%</td><td><i>+3.1 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>max</td><td colspan="4" class="na">not run &middot; it got too expensive to finish</td></tr></tbody></table>
+    </div>
+    <p style="margin-top:16px;">The full record lives on <a href="../">the evidence page</a>. The harness, tasks, and judge inputs are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
+  </section>
+</div>
+
+<script src="three.min.js"></script>
+<script>
+(function(){
+'use strict';
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+/* ---------- theme plumbing: lattice-page convention ---------- */
+var root = document.documentElement;
+function themeStored(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+function themeSet(v){
+  if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+  else{root.removeAttribute('data-theme');}
+  try{localStorage.setItem('hamz-theme',v);}catch(e){}
+  document.querySelectorAll('[data-theme-set]').forEach(function(b){
+    b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set')===v));
+  });
+  applySceneTheme();
+}
+var sysLight = window.matchMedia('(prefers-color-scheme: light)');
+function isLight(){
+  var v = themeStored();
+  if (v==='light') return true;
+  if (v==='dark') return false;
+  return sysLight.matches;
+}
+document.querySelectorAll('[data-theme-set]').forEach(function(b){
+  b.addEventListener('click', function(){ themeSet(b.getAttribute('data-theme-set')); });
+});
+if (sysLight.addEventListener) sysLight.addEventListener('change', function(){ if(themeStored()==='system') applySceneTheme(); });
+document.querySelectorAll('[data-theme-set]').forEach(function(b){
+  b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set')===themeStored()));
+});
+
+/* ---------- the data: generated at build time from matrix.json ---------- */
+var DATA = {"models":[{"id":"fable","name":"Fable 5"},{"id":"sonnet","name":"Sonnet 5"},{"id":"opus","name":"Opus 4.8"},{"id":"haiku","name":"Haiku 4.5"}],"efforts":["low","medium","high","xhigh","max"],"cells":{"fable@high":{"c":97.4,"l":100.0,"d":2.6,"rep":1},"fable@low":{"c":95.4,"l":99.5,"d":4.1,"rep":1},"fable@medium":{"c":92.3,"l":100.0,"d":7.7,"rep":0},"fable@xhigh":{"c":96.9,"l":100.0,"d":3.1,"rep":0},"haiku@none":{"c":66.2,"l":92.3,"d":26.2,"rep":0},"opus@high":{"c":87.7,"l":98.5,"d":10.8,"rep":0},"opus@low":{"c":88.2,"l":96.9,"d":8.7,"rep":1},"opus@max":{"c":91.3,"l":100.0,"d":8.7,"rep":1},"opus@medium":{"c":83.1,"l":96.9,"d":13.8,"rep":0},"opus@xhigh":{"c":89.2,"l":98.5,"d":9.2,"rep":0},"sonnet@high":{"c":89.2,"l":100.0,"d":10.8,"rep":0},"sonnet@low":{"c":85.1,"l":96.9,"d":11.8,"rep":1},"sonnet@max":{"c":89.7,"l":99.5,"d":9.7,"rep":1},"sonnet@medium":{"c":86.2,"l":98.5,"d":12.3,"rep":0},"sonnet@xhigh":{"c":86.2,"l":98.5,"d":12.3,"rep":0}}};
+
+/* ---------- explorer wiring (works in reduced mode too, but scene skipped) ---------- */
+var MODELS = DATA.models, EFFORTS = DATA.efforts;
+var selModel = null, selEffort = null;
+var cellout = document.getElementById('cellout');
+function fmtPct(v){ return v.toFixed(1) + '%'; }
+function fmtPP(v){ return (v>=0?'+':'') + v.toFixed(1); }
+function cellKey(m,e){ return m + '@' + e; }
+function renderCellOut(){
+  if (!selModel){ return; }
+  var m = MODELS.filter(function(x){return x.id===selModel;})[0];
+  if (selModel==='haiku'){
+    var hc = DATA.cells['haiku@none'];
+    cellout.innerHTML = '<div class="head">'+m.name+' &middot; no effort dial</div>'
+      +'<div class="nums">cold '+fmtPct(hc.c)+' &rarr; loaded '+fmtPct(hc.l)+' &middot; <i>'+fmtPP(hc.d)+' points</i></div>'
+      +'<div class="basis">16 shared tasks &middot; single run per arm &middot; directional only</div>';
+    highlightRow('haiku');
+    highlightCell('haiku@none');
+    onExplorerChange();
+    return;
+  }
+  if (!selEffort){
+    var row = EFFORTS.map(function(e){ return DATA.cells[cellKey(selModel, e)]; }).filter(function(c){ return !!c; });
+    var lLo = row[0], lHi = row[0], dLo = row[0], dHi = row[0];
+    row.forEach(function(c){
+      if (c.l < lLo.l) lLo = c; if (c.l > lHi.l) lHi = c;
+      if (c.d < dLo.d) dLo = c; if (c.d > dHi.d) dHi = c;
+    });
+    cellout.innerHTML = '<div class="head">'+m.name+' &middot; the whole row</div>'
+      +'<div class="nums">with skills '+fmtPct(lLo.l)+' to '+fmtPct(lHi.l)+' &middot; <i>skills added '+fmtPP(dLo.d)+' to '+fmtPP(dHi.d)+' points</i></div>'
+      +'<div class="basis">16 shared tasks &middot; '+(selModel==='fable' ? 'max not run &middot; ' : '')+'pick an effort to narrow to one cell</div>';
+    highlightCell('');
+    highlightRow(selModel);
+    onExplorerChange();
+    return;
+  }
+  var key = cellKey(selModel, selEffort);
+  var c = DATA.cells[key];
+  if (!c){
+    cellout.innerHTML = '<div class="head">'+m.name+' at '+selEffort+'</div>'
+      +'<div class="nums">not run &middot; it got too expensive to finish</div>'
+      +'<div class="basis">the slot stays open on the evidence page too</div>';
+    highlightRow(selModel);
+    highlightCell(key);
+    onExplorerChange();
+    return;
+  }
+  cellout.innerHTML = '<div class="head">'+m.name+' at '+selEffort+'</div>'
+    +'<div class="nums">cold '+fmtPct(c.c)+' &rarr; loaded '+fmtPct(c.l)+' &middot; <i>'+fmtPP(c.d)+' points</i></div>'
+    +'<div class="basis">16 shared tasks &middot; '+(c.rep?'mean over 3 runs per arm':'single run per arm')+' &middot; directional only</div>';
+  highlightRow(selModel);
+  highlightCell(key);
+  onExplorerChange();
+}
+var modelChipsEl = document.getElementById('modelchips');
+var effortChipsEl = document.getElementById('effortchips');
+/* chips in ascending capability, matching the evidence page's table order */
+var MODEL_VIEW = ['haiku','sonnet','opus','fable'].map(function(id){
+  return MODELS.filter(function(m){return m.id===id;})[0];
+});
+MODEL_VIEW.forEach(function(m){
+  var b = document.createElement('button');
+  b.className = 'chip'; b.textContent = m.name; b.dataset.m = m.id;
+  b.setAttribute('aria-pressed','false');
+  b.addEventListener('click', function(){
+    selModel = m.id;
+    selEffort = null;   /* a model pick answers on its own; effort only narrows */
+    modelChipsEl.querySelectorAll('.chip').forEach(function(c){
+      var on = c.dataset.m===m.id;
+      c.classList.toggle('on', on);
+      c.setAttribute('aria-pressed', String(on));
+    });
+    effortChipsEl.querySelectorAll('.chip').forEach(function(c){
+      c.disabled = (m.id==='haiku');
+      c.classList.remove('on');
+      c.setAttribute('aria-pressed','false');
+    });
+    renderCellOut();
+  });
+  modelChipsEl.appendChild(b);
+});
+EFFORTS.forEach(function(e){
+  var b = document.createElement('button');
+  b.className = 'chip'; b.textContent = e; b.dataset.e = e;
+  b.disabled = true;   /* enabled once a dial model is picked */
+  b.setAttribute('aria-pressed','false');
+  b.addEventListener('click', function(){
+    if (b.disabled) return;
+    selEffort = e;
+    effortChipsEl.querySelectorAll('.chip').forEach(function(c){
+      var on = c.dataset.e===e;
+      c.classList.toggle('on', on);
+      c.setAttribute('aria-pressed', String(on));
+    });
+    renderCellOut();
+  });
+  effortChipsEl.appendChild(b);
+});
+
+/* ---------- reduced motion: the static story carries everything ---------- */
+var highlightCell = function(){};
+var highlightRow = function(){};
+var onExplorerChange = function(){};
+if (reduced){ return; }
+
+/* ============================================================
+   SCENE (adapted from the designing-agentic-ai visual engine)
+   ============================================================ */
+var THEMES = {
+  dark:{ bg:0x0F0F0F, ink:0xF2F2F0, dim:0x9A9A94, faint:0x5A5A54,
+    acc:0x4ADE80, accDim:0x1F6B3C, amber:0xD9A441, cold:0x77776F,
+    dust:0x8F8F86, additive:true },
+  light:{ bg:0xF7F5F2, ink:0x14140F, dim:0x555C58, faint:0xA8A296,
+    acc:0x15803D, accDim:0x166534, amber:0x8F6A1B, cold:0x948C7F,
+    dust:0x9A937F, additive:false }
+};
+var TH = THEMES.dark;
+
+var canvas = document.getElementById('gl');
+var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:false});
+var DPR = Math.min(window.devicePixelRatio || 1, isTouch ? 1.75 : 2);
+renderer.setPixelRatio(DPR);
+
+var scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0F0F0F, 0.013);
+
+var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+camera.position.set(0, 2, 36);
+
+/* shared sprite textures */
+function radialTex(stops){
+  var s = 128, cv = document.createElement('canvas'); cv.width = cv.height = s;
+  var g = cv.getContext('2d');
+  var grd = g.createRadialGradient(s/2,s/2,0, s/2,s/2,s/2);
+  stops.forEach(function(st){ grd.addColorStop(st[0], st[1]); });
+  g.fillStyle = grd; g.fillRect(0,0,s,s);
+  var t = new THREE.CanvasTexture(cv); t.needsUpdate = true; return t;
+}
+var haloTex  = radialTex([[0,'rgba(255,255,255,.85)'],[0.25,'rgba(255,255,255,.28)'],[1,'rgba(255,255,255,0)']]);
+var sparkTex = radialTex([[0,'rgba(255,255,255,1)'],[0.4,'rgba(255,255,255,.5)'],[1,'rgba(255,255,255,0)']]);
+
+/* ambient dust */
+var dustPts;
+(function dust(){
+  var n = isTouch ? 380 : 820;
+  var pos = new Float32Array(n*3);
+  for (var i=0;i<n;i++){
+    pos[i*3]   = (Math.random()-0.5)*110;
+    pos[i*3+1] = (Math.random()-0.5)*70;
+    pos[i*3+2] = (Math.random()-0.5)*110 - 10;
+  }
+  var g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  var m = new THREE.PointsMaterial({size:0.15, map:sparkTex, transparent:true, opacity:0.14,
+    color:TH.dust, depthWrite:false, blending:THREE.AdditiveBlending, sizeAttenuation:true});
+  dustPts = new THREE.Points(g,m); scene.add(dustPts);
+})();
+
+/* ---------- generic tween helper ---------- */
+function easeInOut(t){ return t<0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+var tweens = [];
+function makeTw(fields){
+  var tw = {cur:{}, from:{}, to:{}, t:1, delay:0, dur:1.15, onDone:null};
+  fields.forEach(function(f){ tw.cur[f]=0; tw.from[f]=0; tw.to[f]=0; });
+  tw.fields = fields;
+  tweens.push(tw);
+  return tw;
+}
+function twSet(tw, target, delay, dur){
+  tw.fields.forEach(function(f){
+    tw.from[f] = tw.cur[f];
+    if (target[f] !== undefined) tw.to[f] = target[f]; else tw.to[f] = tw.cur[f];
+  });
+  tw.t = 0; tw.delay = delay||0; tw.dur = dur||1.15;
+}
+function twStep(dt){
+  tweens.forEach(function(tw){
+    if (tw.t >= tw.delay + tw.dur) return;
+    tw.t += dt;
+    var k = easeInOut(Math.max(0, Math.min(1, (tw.t - tw.delay)/tw.dur)));
+    tw.fields.forEach(function(f){ tw.cur[f] = tw.from[f] + (tw.to[f]-tw.from[f])*k; });
+  });
+}
+
+/* ---------- 17 task spheres ---------- */
+var nodeFresnel = {
+  vertex:'varying vec3 vN; varying vec3 vV; void main(){ vN = normalize(normalMatrix * normal); vec4 mv = modelViewMatrix * vec4(position,1.0); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }',
+  fragment:'uniform vec3 uColor; uniform float uOpacity; uniform float uPulse; uniform float uInk; varying vec3 vN; varying vec3 vV; void main(){ float fr = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.2); vec3 glow = uColor * 0.22 + uColor * fr * (1.35 + uPulse); vec3 ink = uColor * (0.97 - fr * 0.42); ink = mix(ink, vec3(1.0), uPulse * 0.35); vec3 col = mix(glow, ink, uInk); gl_FragColor = vec4(col, uOpacity); }'
+};
+var sphereGeo = new THREE.SphereGeometry(1, 22, 16);
+function makeSphere(hexKey, r){
+  var color = new THREE.Color(TH[hexKey]);
+  var mat = new THREE.ShaderMaterial({
+    uniforms:{ uColor:{value:color}, uOpacity:{value:1}, uPulse:{value:0}, uInk:{value:0} },
+    vertexShader:nodeFresnel.vertex, fragmentShader:nodeFresnel.fragment,
+    transparent:true, depthWrite:true
+  });
+  var mesh = new THREE.Mesh(sphereGeo, mat);
+  var halo = new THREE.Sprite(new THREE.SpriteMaterial({map:haloTex, color:color,
+    transparent:true, opacity:0.3, depthWrite:false, blending:THREE.AdditiveBlending}));
+  mesh.add(halo);
+  scene.add(mesh);
+  var tw = makeTw(['x','y','z','s','o']);
+  return {mesh:mesh, mat:mat, halo:halo, tw:tw, colorKey:hexKey, r:r,
+    pulse:0, drift:Math.random()*Math.PI*2, driftSpd:0.4+Math.random()*0.5};
+}
+var tasks = [];
+for (var ti=0; ti<17; ti++) tasks.push(makeSphere('ink', 0.34));
+
+/* judge trio */
+var judgeA = makeSphere('dim', 0.8);
+var judgeB = makeSphere('dim', 0.8);
+var adjud  = makeSphere('amber', 0.66);
+
+function sphereFrame(n, dt, T){
+  var c = n.tw.cur;
+  var d = Math.sin(T*n.driftSpd + n.drift)*0.13*c.s/(n.r||1);
+  n.mesh.position.set(c.x, c.y + (reduced?0:d*0.4), c.z);
+  n.mesh.scale.setScalar(Math.max(c.s, 0.001));
+  n.pulse = Math.max(0, n.pulse - dt*2.4);
+  n.mat.uniforms.uOpacity.value = c.o;
+  n.mat.uniforms.uPulse.value = n.pulse;
+  n.halo.material.opacity = (TH.additive?0.3:0.16)*c.o + n.pulse*0.3;
+  n.halo.scale.setScalar(4.4 + n.pulse*1.6);
+}
+
+/* ---------- the 16-cell grid: bars with data-driven height ---------- */
+var H100 = 7.0;               /* world units at 100% */
+var EFF_X = {low:-7.2, medium:-3.6, high:0, xhigh:3.6, max:7.2};
+var ROW_Z = {sonnet:3.8, opus:0, fable:-3.8};   /* front to back: Sonnet, Opus, Fable; Haiku sits front-middle */
+var HAIKU_POS = {x:0, z:8.6};
+var AXIS_Z = 6.1;      /* front-edge effort axis */
+var ROWLBL_X = 10.15;  /* row labels sit past the max column, leader-lined */
+
+var boxGeo = new THREE.BoxGeometry(1,1,1);
+boxGeo.translate(0, 0.5, 0);   /* bottom-anchored */
+var boxEdgeGeo = new THREE.EdgesGeometry(boxGeo);
+
+function makeBar(colorKeyFill){
+  var mat = new THREE.MeshBasicMaterial({color:TH[colorKeyFill], transparent:true, opacity:0, depthWrite:false});
+  var mesh = new THREE.Mesh(boxGeo, mat);
+  var emat = new THREE.LineBasicMaterial({color:TH[colorKeyFill], transparent:true, opacity:0});
+  var edge = new THREE.LineSegments(boxEdgeGeo, emat);
+  mesh.add(edge);
+  scene.add(mesh);
+  var tw = makeTw(['x','y','z','h','w','o','eo']);
+  return {mesh:mesh, mat:mat, edge:edge, emat:emat, tw:tw, colorKey:colorKeyFill};
+}
+function barFrame(b, f){
+  var c = b.tw.cur;
+  if (f === undefined) f = 1;
+  b.mesh.position.set(c.x, c.y, c.z);
+  b.mesh.scale.set(Math.max(c.w,0.001), Math.max(c.h,0.001), Math.max(c.w,0.001));
+  b.mat.opacity = c.o * f;
+  b.emat.opacity = c.eo * f;
+  b.mesh.visible = (c.o*f > 0.01 || c.eo*f > 0.01);
+}
+
+var units = [];   /* {key, model, effort, x, z, data, cold:bar, skill:bar} */
+DATA.models.forEach(function(m){
+  if (m.id === 'haiku'){
+    var d = DATA.cells['haiku@none'];
+    units.push({key:'haiku@none', model:'haiku', effort:'none', x:HAIKU_POS.x, z:HAIKU_POS.z,
+      data:d, cold:makeBar('cold'), skill:makeBar('acc')});
+    return;
+  }
+  DATA.efforts.forEach(function(e){
+    var key = m.id + '@' + e;
+    var d = DATA.cells[key] || null;
+    var u = {key:key, model:m.id, effort:e, x:EFF_X[e], z:ROW_Z[m.id], data:d};
+    if (d){ u.cold = makeBar('cold'); u.skill = makeBar('acc'); }
+    units.push(u);
+  });
+});
+
+/* skill rim: a bright line where the skills segment begins (verdict + finale) */
+var rimGeo = new THREE.BufferGeometry().setFromPoints([
+  new THREE.Vector3(-0.5,0,-0.5), new THREE.Vector3(0.5,0,-0.5),
+  new THREE.Vector3(0.5,0,0.5), new THREE.Vector3(-0.5,0,0.5)
+]);
+units.forEach(function(u){
+  u.dimCur = 1;
+  u.gapCur = 1;
+  if (!u.data) return;
+  var m = new THREE.LineBasicMaterial({color:TH.acc, transparent:true, opacity:0, depthWrite:false});
+  u.rim = new THREE.LineLoop(rimGeo, m);
+  scene.add(u.rim);
+});
+var rimTarget = 0, rimCur = 0;
+
+/* the honestly-empty slot: dashed outline on the floor at fable@max */
+var emptySlot = (function(){
+  var pts = [];
+  var s = 1.15;
+  pts.push(new THREE.Vector3(-s,0.02,-s), new THREE.Vector3(s,0.02,-s),
+           new THREE.Vector3(s,0.02,s), new THREE.Vector3(-s,0.02,s), new THREE.Vector3(-s,0.02,-s));
+  var g = new THREE.BufferGeometry().setFromPoints(pts);
+  var m = new THREE.LineDashedMaterial({color:TH.faint, dashSize:0.32, gapSize:0.2, transparent:true, opacity:0});
+  var line = new THREE.Line(g, m);
+  line.computeLineDistances();
+  line.position.set(EFF_X.max, 0, ROW_Z.fable);
+  scene.add(line);
+  return line;
+})();
+var emptyTarget = 0, emptyPulse = false;
+
+/* effort-floor ribbons: a translucent strip through each row's cold tops */
+var ribbons = [];
+(function(){
+  ['fable','sonnet','opus'].forEach(function(mid){
+    var pts = [];
+    DATA.efforts.forEach(function(e){
+      var d = DATA.cells[mid+'@'+e];
+      if (d) pts.push([EFF_X[e], d.c/100*H100]);
+    });
+    if (pts.length < 2) return;
+    var w = 0.85, z = ROW_Z[mid];
+    var verts = [], idx = [];
+    pts.forEach(function(p, i){
+      verts.push(p[0], p[1], z-w, p[0], p[1], z+w);
+      if (i>0){ var b=(i-1)*2; idx.push(b,b+1,b+2, b+1,b+3,b+2); }
+    });
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(verts,3));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    var m = new THREE.MeshBasicMaterial({color:TH.acc, transparent:true, opacity:0,
+      side:THREE.DoubleSide, depthWrite:false});
+    var mesh = new THREE.Mesh(g,m);
+    mesh.scale.y = 0.001;
+    scene.add(mesh);
+    ribbons.push(mesh);
+  });
+})();
+var ribbonTarget = 0, ribbonCur = 0, ribbonOpTarget = 0;
+
+/* axis + leader guide lines: effort axis on the front edge, row-label leaders,
+   and the vertical leader up to the not-run chip */
+var guideLines = (function(){
+  var v = [];
+  function seg(a,b){ v.push(a[0],a[1],a[2], b[0],b[1],b[2]); }
+  seg([-8.6,0.02,AXIS_Z],[8.6,0.02,AXIS_Z]);
+  seg([8.6,0.02,AXIS_Z],[8.0,0.02,AXIS_Z-0.38]);
+  seg([8.6,0.02,AXIS_Z],[8.0,0.02,AXIS_Z+0.38]);
+  [ROW_Z.fable,ROW_Z.sonnet,ROW_Z.opus].forEach(function(z){ seg([8.55,0.22,z],[ROWLBL_X-0.15,0.22,z]); });
+  seg([EFF_X.max,0.12,ROW_Z.fable],[EFF_X.max,0.95,ROW_Z.fable]);
+  var g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(v,3));
+  var m = new THREE.LineBasicMaterial({color:TH.faint, transparent:true, opacity:0, depthWrite:false});
+  var l = new THREE.LineSegments(g,m);
+  scene.add(l);
+  return l;
+})();
+var guideTarget = 0, guideCur = 0;
+
+/* the settled pool: where agreed marks come to rest in the judging chapter */
+var POOL_POS = new THREE.Vector3(0, 0.03, 14.8);
+var pool = (function(){
+  var g = new THREE.CircleGeometry(1.5, 40); g.rotateX(-Math.PI/2);
+  var m = new THREE.MeshBasicMaterial({color:TH.acc, transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false});
+  var mesh = new THREE.Mesh(g, m); mesh.position.copy(POOL_POS); scene.add(mesh);
+  var halo = new THREE.Sprite(new THREE.SpriteMaterial({map:haloTex, color:TH.acc,
+    transparent:true, opacity:0, depthWrite:false, blending:THREE.AdditiveBlending}));
+  halo.position.copy(POOL_POS); halo.scale.set(6,3,1); scene.add(halo);
+  return {mesh:mesh, halo:halo, pulse:0};
+})();
+var poolTarget = 0, poolCur = 0;
+
+/* explorer highlight halo */
+var pickHalo = new THREE.Sprite(new THREE.SpriteMaterial({map:haloTex, color:TH.acc,
+  transparent:true, opacity:0, depthWrite:false, blending:THREE.AdditiveBlending}));
+pickHalo.scale.set(5,5,1); scene.add(pickHalo);
+var pickTarget = null, selKey = null, selRow = null;
+highlightCell = function(key){
+  var u = units.filter(function(x){return x.key===key;})[0];
+  if (!u){ pickTarget = null; selKey = null; return; }
+  selKey = key;
+  if (!u.data){ pickTarget = {x:u.x, y:0.6, z:u.z}; return; }
+  pickTarget = {x:u.x, y:(u.data.l/100*H100)+0.7, z:u.z};
+};
+highlightRow = function(mid){ selRow = mid || null; };
+onExplorerChange = function(){ if (activeChapter === 6) setLabelsOn(ch6Labels()); };
+
+/* ---------- edges + flow particles (engine system, anchor-based) ---------- */
+var MAX_EDGES = 48;
+var edgeGeo = new THREE.BufferGeometry();
+var edgePos = new Float32Array(MAX_EDGES*2*3);
+var edgeCol = new Float32Array(MAX_EDGES*2*3);
+edgeGeo.setAttribute('position', new THREE.BufferAttribute(edgePos,3));
+edgeGeo.setAttribute('color', new THREE.BufferAttribute(edgeCol,3));
+var edgeMat = new THREE.LineBasicMaterial({vertexColors:true, transparent:true,
+  opacity:0, blending:THREE.AdditiveBlending, depthWrite:false});
+var edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
+scene.add(edgeLines);
+
+function edgeHex(kind){
+  if (kind==='skill') return TH.acc;
+  if (kind==='dispute') return TH.amber;
+  if (kind==='watch') return TH.faint;
+  return TH.cold;
+}
+var activeEdges = [];   /* {a:fn->Vector3, b:fn->Vector3, kind, pulseB:sphere|null} */
+var edgeAlpha = 0, edgeAlphaTarget = 0.45;
+function setEdges(list){
+  edgeAlphaTarget = 0;
+  setTimeout(function(){
+    activeEdges = list.slice(0, MAX_EDGES);
+    recolorEdges();
+    edgeGeo.setDrawRange(0, activeEdges.length*2);
+    assignParticles();
+    edgeAlphaTarget = 0.45;
+  }, 240);
+}
+function recolorEdges(){
+  var col = new THREE.Color();
+  for (var i=0;i<activeEdges.length;i++){
+    col.setHex(edgeHex(activeEdges[i].kind));
+    edgeCol[i*6]=col.r; edgeCol[i*6+1]=col.g; edgeCol[i*6+2]=col.b;
+    edgeCol[i*6+3]=col.r; edgeCol[i*6+4]=col.g; edgeCol[i*6+5]=col.b;
+  }
+  edgeGeo.attributes.color.needsUpdate = true;
+}
+
+var P = isTouch ? 200 : 320;
+var pGeo = new THREE.BufferGeometry();
+var pPos = new Float32Array(P*3);
+var pCol = new Float32Array(P*3);
+var pAlp = new Float32Array(P);
+var pSize= new Float32Array(P);
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3));
+pGeo.setAttribute('aColor',  new THREE.BufferAttribute(pCol,3));
+pGeo.setAttribute('aAlpha',  new THREE.BufferAttribute(pAlp,1));
+pGeo.setAttribute('aSize',   new THREE.BufferAttribute(pSize,1));
+var pMat = new THREE.ShaderMaterial({
+  uniforms:{ uTex:{value:sparkTex} },
+  vertexShader:'attribute vec3 aColor; attribute float aAlpha; attribute float aSize; varying vec3 vC; varying float vA; void main(){ vC = aColor; vA = aAlpha; vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = aSize * (140.0 / -mv.z); gl_Position = projectionMatrix * mv; }',
+  fragmentShader:'uniform sampler2D uTex; varying vec3 vC; varying float vA; void main(){ vec4 t = texture2D(uTex, gl_PointCoord); gl_FragColor = vec4(vC, t.a * vA); }',
+  transparent:true, depthWrite:false, blending:THREE.AdditiveBlending
+});
+var particles = new THREE.Points(pGeo, pMat);
+particles.frustumCulled = false;
+scene.add(particles);
+var pState = [];
+for (var pi=0;pi<P;pi++) pState.push({edge:-1, t:Math.random(), speed:0.3, size:1});
+var flow = {speed:1, density:1};
+function particleHex(kind){
+  if (kind==='skill') return TH.acc;
+  if (kind==='dispute') return TH.amber;
+  if (kind==='watch') return TH.faint;
+  return TH.ink;
+}
+function assignParticles(){
+  var col = new THREE.Color();
+  var nE = activeEdges.length;
+  var totW = 0, wi;
+  for (wi=0; wi<nE; wi++) totW += (activeEdges[wi].w || 1);
+  for (var i=0;i<P;i++){
+    var ps = pState[i];
+    if (!nE || Math.random() > flow.density){ ps.edge = -1; pAlp[i]=0; continue; }
+    var rw = Math.random()*totW, e = 0;
+    while (e < nE-1 && rw > (activeEdges[e].w || 1)){ rw -= (activeEdges[e].w || 1); e++; }
+    ps.edge = e;
+    ps.t = Math.random();
+    ps.speed = 0.22 + Math.random()*0.28;
+    var kind = activeEdges[e].kind || 'normal';
+    ps.size = (kind==='dispute') ? 2.2 : (kind==='skill' ? 1.9 : 1.5);
+    col.setHex(particleHex(kind));
+    pCol[i*3]=col.r; pCol[i*3+1]=col.g; pCol[i*3+2]=col.b;
+  }
+  pGeo.attributes.aColor.needsUpdate = true;
+}
+function recolorParticles(){
+  var col = new THREE.Color();
+  for (var i=0;i<P;i++){
+    var ps = pState[i];
+    if (ps.edge < 0 || ps.edge >= activeEdges.length) continue;
+    col.setHex(particleHex(activeEdges[ps.edge].kind || 'normal'));
+    pCol[i*3]=col.r; pCol[i*3+1]=col.g; pCol[i*3+2]=col.b;
+  }
+  pGeo.attributes.aColor.needsUpdate = true;
+}
+
+/* ---------- word riders: the 17 skill names ride the install stream ---------- */
+var SKILL_NAMES = ['multi-model-adversarial-review','architecture-contracts-as-law',
+  'multi-tenant-auth-reference','multi-agent-batch-campaigns','git-change-control-for-agents',
+  'ai-cost-tracking-and-guardrails','budget-aware-model-allocation','config-and-secrets-hygiene',
+  'failure-archaeology','systematic-debugging-playbook','environment-and-build-hazards',
+  'staging-to-prod-cutover-campaign','consent-and-regulated-data-reference',
+  'docs-of-record-and-arbitration','llm-eval-harness-and-scoring-pipeline',
+  'tiered-consultancy-review','pre-merge-validation-gate'];
+var RIDER_N = isTouch ? 2 : 5;
+var wordVocab = [], wordIdx = 0;
+var riders = [];
+for (var ri=0; ri<RIDER_N; ri++){
+  var rcv = document.createElement('canvas'); rcv.width = 8; rcv.height = 64;
+  var rtex = new THREE.CanvasTexture(rcv);
+  var rspr = new THREE.Sprite(new THREE.SpriteMaterial({map:rtex, transparent:true,
+    opacity:0, depthWrite:false, blending:THREE.NormalBlending}));
+  rspr.visible = false; rspr.scale.set(0.001,0.001,1);
+  scene.add(rspr);
+  riders.push({sprite:rspr, cv:rcv, tex:rtex, edge:-1, t:0, dur:2.6,
+    delay:1.2 + ri*1.1, on:false, w:1});
+}
+function paintRider(r, text, hex){
+  /* small mono chip: solid theme-paper ground so the name stays legible mid-flow */
+  var g = r.cv.getContext('2d');
+  g.font = '500 34px "JetBrains Mono", ui-monospace, monospace';
+  var w = Math.max(8, Math.ceil(g.measureText(text).width) + 40);
+  r.cv.width = w; r.cv.height = 64;
+  g = r.cv.getContext('2d');
+  g.font = '500 34px "JetBrains Mono", ui-monospace, monospace';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  var col = '#' + ('00000' + hex.toString(16)).slice(-6);
+  g.fillStyle = TH.additive ? 'rgba(15,15,15,.92)' : 'rgba(255,255,255,.95)';
+  g.fillRect(0, 8, w, 48);
+  g.strokeStyle = col; g.lineWidth = 2;
+  g.strokeRect(1, 9, w-2, 46);
+  g.fillStyle = col;
+  g.fillText(text, w/2, 33);
+  r.tex.needsUpdate = true;
+  r.w = w/64;
+}
+function setWords(list){
+  wordVocab = (reduced || !list) ? [] : list;
+  wordIdx = 0;
+  riders.forEach(function(r, i){
+    r.on = false;
+    r.delay = 1.1 + i*1.15 + Math.random()*0.7;
+  });
+}
+function spawnRider(r){
+  if (!wordVocab.length || !activeEdges.length) return false;
+  /* ride the install stream only, one rider per edge so chips never collide */
+  var cand = [];
+  for (var i=0;i<activeEdges.length;i++){
+    if ((activeEdges[i].kind || 'normal') !== 'skill') continue;
+    var taken = false;
+    for (var j=0;j<riders.length;j++){
+      if (riders[j] !== r && riders[j].on && riders[j].edge === i){ taken = true; break; }
+    }
+    if (!taken) cand.push(i);
+  }
+  if (!cand.length) return false;
+  r.edge = cand[(Math.random()*cand.length)|0];
+  paintRider(r, wordVocab[wordIdx % wordVocab.length], particleHex('skill'));
+  wordIdx++;
+  r.t = 0; r.dur = 2.6 + Math.random()*0.9; r.on = true;
+  var Hh = 0.6, sw = r.w*Hh, maxW = 5.4;
+  if (sw > maxW){ Hh *= maxW/sw; sw = maxW; }
+  r.sprite.scale.set(sw, Hh, 1);
+  return true;
+}
+
+/* ---------- projected labels: clamped to the viewport, collision-nudged ---------- */
+var labelWrap = document.getElementById('labels');
+var LABELS = [];
+function addLabel(text, cls, getPos, place){
+  var d = document.createElement('div');
+  d.className = 'nlabel' + (cls ? ' '+cls : '');
+  d.textContent = text;
+  labelWrap.appendChild(d);
+  var L = {el:d, get:getPos, on:false, place:place||'above', w:0, h:0,
+    down:!!(cls && cls.indexOf('val') !== -1)};
+  LABELS.push(L);
+  return L;
+}
+var _v = new THREE.Vector3();
+function projectEl(el, wp){
+  _v.copy(wp).project(camera);
+  if (_v.z > 1){ el.style.opacity = 0; return; }
+  el.style.opacity = '';
+  var x = (_v.x*0.5+0.5)*window.innerWidth;
+  var y = (-_v.y*0.5+0.5)*window.innerHeight;
+  el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-150%)';
+}
+var _rects = [];
+var activeCardEl = null;   /* set by enterChapter: labels dim under the copy card */
+function layoutLabels(){
+  var W = window.innerWidth, H = window.innerHeight;
+  var mR = (W > 700) ? 140 : 18;   /* keep clear of the chapter rail on desktop */
+  var cr = activeCardEl ? activeCardEl.getBoundingClientRect() : null;
+  _rects.length = 0;
+  for (var li=0; li<LABELS.length; li++){
+    var L = LABELS[li];
+    if (!L.on) continue;
+    _v.copy(L.get()).project(camera);
+    if (_v.z > 1){ L.el.style.opacity = '0'; continue; }
+    L.el.style.opacity = '';
+    if (!L.w){ L.w = L.el.offsetWidth || 40; L.h = L.el.offsetHeight || 14; }
+    var w = L.w, h = L.h;
+    var x = (_v.x*0.5+0.5)*W, y = (-_v.y*0.5+0.5)*H;
+    if (L.band && y > H - 130){ L.el.style.opacity = '0'; continue; }
+    var tx, ty;
+    var plc = (W <= 700 && L.placeNarrow) ? L.placeNarrow : L.place;
+    if (plc === 'right'){ tx = x + 10; ty = y - h/2; }
+    else if (plc === 'left'){ tx = x - w - 10; ty = y - h/2; }
+    else if (plc === 'below'){ tx = x - w/2; ty = y + 10; }
+    else { tx = x - w/2; ty = y - h - 9; }
+    tx = Math.max(8, Math.min(W - mR - w, tx));
+    ty = Math.max(8, Math.min(H - 8 - h, ty));
+    for (var pass=0; pass<2; pass++){
+      for (var rj=0; rj<_rects.length; rj++){
+        var R = _rects[rj];
+        if (tx < R.x + R.w + 6 && tx + w + 6 > R.x && ty < R.y + R.h + 4 && ty + h + 4 > R.y){
+          ty = (L.down || y >= R.cy) ? (R.y + R.h + 5) : (R.y - h - 5);
+        }
+      }
+    }
+    ty = Math.max(8, Math.min(H - 8 - h, ty));
+    if (cr && tx < cr.right + 6 && tx + w > cr.left - 6 && ty < cr.bottom + 6 && ty + h > cr.top - 6){
+      /* mid widths, finale: the value chips ride the card's top edge instead of vanishing */
+      if (activeChapter === 6 && (L.down || L === defLabel) && W > 700 && W <= 900){
+        ty = cr.top - h - 8;
+      } else {
+        L.el.style.opacity = '0';
+      }
+    }
+    L.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px)';
+    _rects.push({x:tx, y:ty, w:w, h:h, cy:y});
+  }
+}
+function resetLabelSizes(){ LABELS.forEach(function(L){ L.w = 0; L.h = 0; }); }
+var _tmp = new THREE.Vector3();
+function fixed(x,y,z){ return function(){ return _tmp.set(x,y,z); }; }
+function above(n, dy){ return function(){ var p = n.mesh.position; return _tmp.set(p.x, p.y + dy, p.z); }; }
+function beside(n, dx, dy){ return function(){ var p = n.mesh.position; return _tmp.set(p.x + dx, p.y + dy, p.z); }; }
+
+var HLV = new THREE.Vector3(HAIKU_POS.x, 1.0, HAIKU_POS.z);
+function rowAnchor(z){
+  /* on phones the bar chapters keep only a strip of scene above the bottom sheet,
+     so the row labels ride the bar tops there instead of the ground line */
+  return function(){
+    /* the z spread keeps the three stacked labels in distinct slots at the right edge */
+    var y = window.innerWidth <= 700 ? (activeChapter >= 5 ? 10.65 - z*0.12 : 1.2) : 0.22;
+    return _tmp.set(ROWLBL_X, y, z);
+  };
+}
+var rowLabels = {
+  fable:  addLabel('Fable 5','model', rowAnchor(ROW_Z.fable), 'right'),
+  sonnet: addLabel('Sonnet 5','model', rowAnchor(ROW_Z.sonnet), 'right'),
+  opus:   addLabel('Opus 4.8','model', rowAnchor(ROW_Z.opus), 'right'),
+  haiku:  addLabel('Haiku 4.5 · no dial','model', function(){ return HLV; })
+};
+var colLabels = DATA.efforts.map(function(e){
+  return addLabel(e,'axis', fixed(EFF_X[e], 0, AXIS_Z), 'below');
+});
+var axisNote = addLabel('reasoning effort →','axisnote', fixed(7.2, 0, 7.4), 'below');
+var emptyLabel = addLabel('not run · too expensive','chipbox', function(){
+  /* the empty slot sits on the back row now: in the bar chapters the chip floats above the row tops */
+  if (window.innerWidth <= 700 && activeChapter === 6 && selKey === 'fable@max'){
+    return _tmp.set((EFF_X.max - 0.7)*0.38 - 2.0, 10.6, ROW_Z.fable);
+  }
+  return _tmp.set(EFF_X.max - 0.7, (activeChapter >= 5 ? 8.1 : 2.4), ROW_Z.fable);
+}, 'above');
+var judgeLabels = [
+  addLabel('Judge A · blind','ink', above(judgeA, 1.1), 'right'),
+  addLabel('Judge B · blind','ink', above(judgeB, 1.1)),
+  addLabel('Adjudicator · Fable 5','amber', above(adjud, 0.95))
+];
+var suiteLabel = addLabel('the frozen suite','faint', fixed(-15, 6.4, -6.5));
+var disputeLabel = addLabel('4.7% of marks disagreed','amber', fixed(-2.9, 4.4, 11), 'above');
+var marksLabel = addLabel('marks','faint', fixed(0, 1.4, 5.2), 'below');
+var poolLabel = addLabel('settled marks land here','acc', fixed(0, 0.05, 16.4), 'below');
+var adjCountLabel = addLabel('85 disputes settled','amber', above(adjud, -0.85), 'below');
+/* ch4: the adjudicator flies in from below; its amber labels stay hidden until it clears the bottom band */
+judgeLabels[2].band = true;
+adjCountLabel.band = true;
+/* Claude Code ships all three dial models at high effort out of the box
+   (code.claude.com/docs/en/model-config, "Adjust effort level"): a quiet
+   underline chip marks that cell when a dial model is picked in ch6 */
+var DEFAULT_EFFORT = 'high';
+var defLabel = addLabel('default','def', function(){
+  var u = selRow ? units.filter(function(x){ return x.key === selRow + '@' + DEFAULT_EFFORT; })[0] : null;
+  if (!u || !u.data) return _tmp.set(0, -60, 0);   /* parked offscreen when nothing applies */
+  var p = skillTopPos(u);
+  if (window.innerWidth <= 700 && activeChapter === 6) p.y -= 0.18 + (3.8 - u.z)*0.0355;
+  return p;
+}, 'below');
+var taskIdxLabels = tasks.map(function(n, i){
+  return addLabel(('0'+(i+1)).slice(-2),'idx', above(n, 0.62));
+});
+/* the 17 primary tasks, titles compressed from the frozen suite's own wording */
+var TASK_TITLES = [
+  "Review the payment integration before refunds work",
+  "Sign off a clinic scheduler's appointment-search PR",
+  "Trace cross-clinic data leaks in appointment lists",
+  "Plan parallel engineers through a findings backlog",
+  "Open a PR for a branch built on in-progress work",
+  "Find why nightly classifier accuracy fell to zero",
+  "Audit an LLM document pipeline before switch-on",
+  "Plan an overnight re-score of a full transcript set",
+  "Vet a new patient-reminder toggle and its config",
+  "Audit a reply grader's composite scores and rankings",
+  "Scope moving a FastAPI container to serverless edge",
+  "Debug tenant bleed and a broken local database rebuild",
+  "Check a copied-from-staging production setup before launch",
+  "Review patient-data batch jobs before they go live",
+  "Fact-check a release note against the repository",
+  "Vet a postmortem draft before customers see it",
+  "Judge a plan to refresh goldens so tests pass"
+];
+var TASK_HI = [7,10,12,15];   /* foregrounded titles */
+var taskTitleLabels = tasks.map(function(n, i){
+  var a = -Math.PI/2 + i*(Math.PI*2/17);
+  /* wide screens: right-arc titles hang inside the ring so the viewport's right clamp never
+     shoves them across their sphere, plus hand-tuned nudges clear the neighbouring spheres.
+     narrow screens keep the previous compact anchors (only the foregrounded titles show). */
+  var narrowPlace = Math.cos(a) > 0.35 ? 'right' : (Math.sin(a) < -0.2 ? 'below' : 'above');
+  var place = Math.cos(a) > 0.35 ? 'left' : narrowPlace;
+  var dx = ({0:0.85, 7:-0.95, 10:-0.5, 11:-0.2, 16:-0.45})[i] || 0;
+  var dy = ({7:-0.28})[i] || 0;
+  var wideAnchor = place === 'left' ? beside(n, -0.62 + dx, dy)
+    : (place === 'below' ? beside(n, dx, -0.72 + dy) : beside(n, dx, 0.68 + dy));
+  var narrowAnchor = above(n, 0.5);
+  var anchor = function(){ return (window.innerWidth <= 700 ? narrowAnchor : wideAnchor)(); };
+  var cls = 'ttl' + (TASK_HI.indexOf(i) !== -1 ? ' ttlhi' : '');
+  var L = addLabel(TASK_TITLES[i], cls, anchor, place);
+  L.placeNarrow = narrowPlace;
+  return L;
+});
+var calloutLabels = [
+  {i:1, text:'review a PR on a multi-tenant clinic scheduler', place:'right'},
+  {i:5, text:'debug a classifier whose accuracy fell to zero', place:'right'},
+  {i:9, text:'audit a pipeline that grades support replies', place:'below'}
+].map(function(c){
+  /* the top-of-ring callout hangs below its sphere so it never contends with the titles clamped to the top edge */
+  var belowAnchor = function(n){ return function(){ var p = n.mesh.position; return _tmp.set(p.x, p.y + (window.innerWidth <= 700 ? 1.3 : -1.8), p.z); }; };
+  return addLabel(c.text,'callout', c.place === 'below' ? belowAnchor(tasks[c.i]) : sPos(tasks[c.i]), c.place);
+});
+var CALLOUT_TASKS = [1,5,9];
+var exUnit = units.filter(function(u){ return u.key === 'sonnet@medium'; })[0];
+var coldTwinLabel = addLabel('cold · no skills','ink', coldTop(exUnit));
+var skillTwinLabel = addLabel('loaded · skills installed','acc', skillTop(exUnit));
+var gapLabels = [];
+units.forEach(function(u){
+  if (!u.data) return;
+  u.valLabel = addLabel(u.data.l.toFixed(1),'val', skillTop(u));
+  u.gapLabel = addLabel(fmtPP(u.data.d)+' points','val', skillTop(u));
+  gapLabels.push(u.gapLabel);
+});
+/* verdict chapter: the loaded-rate chips ride the front dial row */
+var ch5ValLabels = units.filter(function(u){ return u.model === 'sonnet' && u.data; }).map(function(u){ return u.valLabel; });
+function setLabelsOn(list){
+  LABELS.forEach(function(L){
+    L.on = list.indexOf(L) !== -1;
+    L.el.classList.toggle('on', L.on);
+    if (!L.on) L.el.style.opacity = '';
+  });
+}
+/* finale gaps view: dim the cold bases so the green added segments float visible */
+var gapsOn = false;
+var gapsBtn = document.getElementById('gapsbtn');
+function ch6Labels(){
+  var base = [rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,emptyLabel,axisNote].concat(colLabels);
+  /* phones: with a row picked, only that row's label shares the thin scene strip,
+     so the value chips have room to breathe */
+  if (window.innerWidth <= 700 && selRow && rowLabels[selRow]){
+    base = [rowLabels[selRow], emptyLabel, axisNote].concat(colLabels);
+  }
+  var sel = units.filter(function(u){
+    if (!u.data) return false;
+    if (selKey) return u.key === selKey;
+    return selRow && u.model === selRow;
+  });
+  if (selRow && ROW_Z[selRow] !== undefined && !(gapsOn && window.innerWidth <= 700)) base = base.concat([defLabel]);
+  if (gapsOn){
+    return base.concat((selRow || selKey) ? sel.map(function(u){ return u.gapLabel; }) : gapLabels);
+  }
+  return base.concat(sel.map(function(u){ return u.valLabel; }));
+}
+gapsBtn.addEventListener('click', function(){
+  gapsOn = !gapsOn;
+  gapsBtn.setAttribute('aria-pressed', String(gapsOn));
+  gapsBtn.classList.toggle('on', gapsOn);
+  if (activeChapter === 6) setLabelsOn(ch6Labels());
+});
+var hashEl = document.getElementById('hashstamp');
+var hashOn = false;
+var HASH_POS = new THREE.Vector3(0,-3.1,0);
+
+/* ---------- chapter 4 counters: the counts ride the mark flow, then land
+   exactly on the frozen values. Static and reduced-motion renderings never
+   run this: their markup already holds the final numbers. ---------- */
+var ctSpec = [
+  {el:document.getElementById('ct-a1'), n:85},
+  {el:document.getElementById('ct-b1'), n:1827},
+  {el:document.getElementById('ct-a2'), n:96},
+  {el:document.getElementById('ct-b2'), n:3654},
+  {el:document.getElementById('ct-s'), n:85}
+];
+var ctPcts = [document.getElementById('ct-p1'), document.getElementById('ct-p2')];
+function ctComma(n){ var s = String(n); return s.length > 3 ? s.slice(0,-3) + ',' + s.slice(-3) : s; }
+var ctClock = 0, CT_DUR = 4.6, ctLanded = true;
+function ctRender(k){
+  ctSpec.forEach(function(c){ c.el.textContent = ctComma(Math.round(c.n*k)); });
+  adjCountLabel.el.textContent = Math.round(85*k) + ' disputes settled';
+  adjCountLabel.w = 0;
+}
+function ctLand(){
+  if (ctLanded) return;
+  ctLanded = true;
+  ctRender(1);
+  ctPcts.forEach(function(p){ p.classList.remove('settling'); });
+  disputeLabel.el.classList.remove('settling');
+}
+function ctStart(){
+  ctClock = 0; ctLanded = false;
+  ctRender(0);
+  ctPcts.forEach(function(p){ p.classList.add('settling'); });
+  disputeLabel.el.classList.add('settling');
+}
+
+/* ============================================================
+   LAYOUT TARGETS PER CHAPTER
+   ============================================================ */
+var SUITE = {x:-15, y:4.2, z:-6.5};
+function scatterPos(i, n, rad){
+  var a = i*2.4, r = (rad||6) + (i*2.7)%6;
+  return {x:Math.cos(a)*r, y:Math.sin(a*1.3)*4.4, z:Math.sin(a)*r*0.6 - 2};
+}
+function fibSphere(i, n, r, cy){
+  var k = i + 0.5;
+  var phi = Math.acos(1 - 2*k/n);
+  var theta = Math.PI * (1 + Math.sqrt(5)) * k;
+  return {x:Math.cos(theta)*Math.sin(phi)*r, y:cy + Math.cos(phi)*r, z:Math.sin(theta)*Math.sin(phi)*r};
+}
+function benchSphere(n, delay){
+  twSet(n.tw, {s:0.001, o:0, y:-14}, delay||0);
+}
+function cellAnchor(u){
+  return function(){ return _tmp.set(u.x, 1.0, u.z); };
+}
+function coldTop(u){
+  return function(){ var c=u.cold.tw.cur; return _tmp.set(c.x, c.y+c.h, c.z); };
+}
+/* phones keep only a strip of scene above the bottom sheet in the finale, so the
+   value/gap chips ride a high band there (like the row labels), staggered per effort
+   column in two alternating rows, with the columns pulled inward so the outer ones
+   clear the row-label stack at the right edge */
+var CH6_CHIP_Y = {low:10.9, medium:10.35, high:10.9, xhigh:10.35, max:10.9, none:11.0};
+function skillTopPos(u){
+  var c = u.skill.tw.cur;
+  if (window.innerWidth <= 700 && activeChapter === 6){
+    /* the x factor widens toward the back rows so the chips keep clear of each other */
+    return _tmp.set(c.x*(0.38 + (3.8 - c.z)*0.008) - 2.0, CH6_CHIP_Y[u.effort], c.z);
+  }
+  return _tmp.set(c.x, c.y+c.h, c.z);
+}
+function skillTop(u){
+  return function(){ return skillTopPos(u); };
+}
+function sPos(n){ return function(){ return n.mesh.position; }; }
+function fixedV(x,y,z){ var v = new THREE.Vector3(x,y,z); return function(){ return v; }; }
+
+/* chapter camera table */
+var CAMS = [
+  {pos:[0,2,36],      look:[0,0,0]},
+  {pos:[0,1.0,19],    look:[0,-0.3,0]},
+  {pos:[12,12,26],    look:[-0.5,0,1.6]},
+  {pos:[-16,7,11],    look:[-1,0.8,-1.5]},
+  {pos:[0,5,32],      look:[0,2.6,7]},
+  {pos:[11,12.5,28],  look:[-1,1.4,1.2]},
+  {pos:[0,12,32],     look:[-1.6,1.0,0.6]}
+];
+
+/* per-chapter scene state */
+function chGridTiles(dim){
+  units.forEach(function(u, i){
+    if (!u.data) return;
+    var del = i*0.045;
+    twSet(u.cold.tw, {x:u.x, y:0, z:u.z, h:0.45, w:2.1, o:dim?0.18:0.6, eo:dim?0.1:0.45}, del);
+    twSet(u.skill.tw, {x:u.x, y:0.45, z:u.z, h:0.001, w:2.1, o:0, eo:0}, del);
+  });
+}
+function chBars(){
+  units.forEach(function(u, i){
+    if (!u.data) return;
+    var colDelay = (u.effort==='none') ? 0.5 : {low:0,medium:0.08,high:0.16,xhigh:0.24,max:0.32}[u.effort];
+    var ch = u.data.c/100*H100, lh = u.data.l/100*H100;
+    twSet(u.cold.tw, {x:u.x, y:0, z:u.z, h:ch, w:1.55, o:0.68, eo:0.22}, colDelay, 1.3);
+    twSet(u.skill.tw, {x:u.x, y:ch, z:u.z, h:Math.max(lh-ch, 0.05), w:1.62, o:0.97, eo:0.85}, colDelay+0.15, 1.3);
+  });
+}
+
+/* chapter 1 staging: cluster → readable ring with task indices → cluster + hash */
+var ch1Phase = -1;
+function ch1Ring(i){
+  var rr = Math.min(5.2, 7.29*camera.aspect*0.62);
+  var a = -Math.PI/2 + i*(Math.PI*2/17);
+  var r = rr*(0.94 + 0.09*Math.sin(i*2.3));
+  return {x:Math.cos(a)*r + 0.6, y:Math.sin(a)*r*0.82 + 0.5, z:1.2 + Math.sin(i*1.7)*0.5};
+}
+function ch1Apply(ph){
+  if (ph === 1){
+    tasks.forEach(function(n, i){
+      var p = ch1Ring(i);
+      twSet(n.tw, {x:p.x, y:p.y, z:p.z, s:n.r*1.25, o:1}, i*0.03, 0.9);
+    });
+    /* stagger the title reveal; narrow screens carry only the numbered spheres and the callouts,
+       since the full titles cannot ring a small viewport without covering the spheres */
+    taskTitleLabels.forEach(function(L, i){ L.el.style.transitionDelay = (i*0.11).toFixed(2)+'s'; });
+    var narrow = window.innerWidth <= 1020;
+    /* spheres carrying a callout chip skip their title: the chip tells the same story */
+    setLabelsOn((narrow ? taskIdxLabels
+      : taskTitleLabels.filter(function(L, i){ return CALLOUT_TASKS.indexOf(i) === -1; })).concat(calloutLabels));
+    hashOn = false;
+  } else {
+    taskTitleLabels.forEach(function(L){ L.el.style.transitionDelay = '0s'; });
+    tasks.forEach(function(n, i){
+      var p = fibSphere(i, 17, 1.95, 0.4);
+      twSet(n.tw, {x:p.x, y:p.y, z:p.z, s:n.r*0.9, o:1}, i*0.04, 0.9);
+    });
+    setLabelsOn([]);
+    hashOn = (ph === 2);
+  }
+  hashEl.classList.toggle('on', hashOn);
+}
+var ch3Token = 0;
+var CH = [
+  /* 0 · hero constellation */
+  function(){
+    tasks.forEach(function(n,i){
+      var p = scatterPos(i, 17, 5);
+      twSet(n.tw, {x:p.x, y:p.y, z:p.z, s:n.r, o:0.9}, i*0.03);
+    });
+    units.forEach(function(u,i){
+      if (!u.data) return;
+      var p = scatterPos(i+6, 16, 9);
+      twSet(u.cold.tw, {x:p.x*1.15, y:p.y-1, z:p.z-3, h:0.7, w:0.7, o:0.35, eo:0.5}, i*0.03);
+      twSet(u.skill.tw, {x:p.x*1.15, y:p.y-0.3, z:p.z-3, h:0.001, w:0.7, o:0, eo:0}, 0);
+    });
+    [judgeA,judgeB,adjud].forEach(benchSphere);
+    var es = [];
+    for (var i=0;i<6;i++){ es.push({a:sPos(tasks[i*2]), b:sPos(tasks[(i*2+5)%17]), kind:'watch'}); }
+    setEdges(es);
+    flow = {speed:0.5, density:0.3};
+    setWords(null);
+    setLabelsOn([]);
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0; emptyPulse = false;
+  },
+  /* 1 · the freeze: cluster → ring with indices → cluster + hash (frame-driven) */
+  function(){
+    units.forEach(function(u){
+      if (!u.data) return;
+      twSet(u.cold.tw, {o:0.05, eo:0.06}, 0);
+      twSet(u.skill.tw, {o:0, eo:0}, 0);
+    });
+    [judgeA,judgeB,adjud].forEach(benchSphere);
+    setEdges([]);
+    setWords(null);
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0; emptyPulse = false;
+  },
+  /* 2 · the 16-condition grid */
+  function(){
+    tasks.forEach(function(n,i){
+      var p = fibSphere(i, 17, 1.3, 0.2);
+      twSet(n.tw, {x:SUITE.x+p.x*0.7, y:SUITE.y+p.y*0.7, z:SUITE.z+p.z*0.7, s:n.r*0.55, o:0.5}, i*0.02);
+    });
+    chGridTiles(false);
+    [judgeA,judgeB,adjud].forEach(benchSphere);
+    var es = [];
+    ['fable','sonnet','opus'].forEach(function(mid){
+      var row = units.filter(function(u){return u.model===mid && u.data;});
+      for (var i=0;i<row.length-1;i++) es.push({a:cellAnchor(row[i]), b:cellAnchor(row[i+1]), kind:'watch'});
+    });
+    setEdges(es);
+    flow = {speed:0.5, density:0.25};
+    setWords(null);
+    /* mid widths sit the label under the copy card so Haiku still gets introduced */
+    var hlvW = window.innerWidth;
+    HLV.set(HAIKU_POS.x, (hlvW <= 700 ? 2.2 : (hlvW <= 900 ? -0.6 : 1.0)), HAIKU_POS.z);
+    setLabelsOn([rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,emptyLabel,suiteLabel,axisNote].concat(colLabels));
+    guideTarget = 1;
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0.85; emptyPulse = true;
+  },
+  /* 3 · the split into 32 arms: one cell fissions first, then the grid follows */
+  function(){
+    tasks.forEach(function(n,i){
+      var p = fibSphere(i, 17, 1.3, 0.2);
+      twSet(n.tw, {x:SUITE.x+p.x*0.7, y:SUITE.y+p.y*0.7, z:SUITE.z+p.z*0.7, s:n.r*0.55, o:0.8}, i*0.02);
+    });
+    units.forEach(function(u, i){
+      if (!u.data) return;
+      if (u === exUnit){
+        twSet(u.cold.tw, {x:-2.5, y:0.35, z:-1.2, h:2.6, w:1.7, o:0.08, eo:1.0}, 0.15, 0.9);
+        twSet(u.skill.tw, {x:0.4, y:0.35, z:-1.2, h:2.6, w:1.7, o:0.9, eo:0.5}, 0.3, 0.9);
+      } else {
+        var del = i*0.03;
+        twSet(u.cold.tw, {x:u.x, y:0, z:u.z, h:0.45, w:2.1, o:0.14, eo:0.25}, del);
+        twSet(u.skill.tw, {x:u.x, y:0.45, z:u.z, h:0.001, w:2.1, o:0, eo:0}, del);
+      }
+    });
+    [judgeA,judgeB,adjud].forEach(benchSphere);
+    setEdges([
+      {a:fixedV(SUITE.x,SUITE.y,SUITE.z), b:coldTop(exUnit), kind:'normal'},
+      {a:fixedV(SUITE.x,SUITE.y,SUITE.z), b:skillTop(exUnit), kind:'skill'}
+    ]);
+    flow = {speed:1.0, density:0.7};
+    setWords(null);
+    setLabelsOn([coldTwinLabel, skillTwinLabel]);
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0.4; emptyPulse = false;
+    var tok = ++ch3Token;
+    setTimeout(function(){
+      if (activeChapter !== 3 || tok !== ch3Token) return;
+      units.forEach(function(u, i){
+        if (!u.data) return;
+        var del = (u === exUnit) ? 0 : 0.1 + i*0.05;
+        twSet(u.cold.tw, {x:u.x-0.72, y:0, z:u.z, h:1.15, w:1.05, o:0.1, eo:0.9}, del);
+        twSet(u.skill.tw, {x:u.x+0.72, y:0, z:u.z, h:1.15, w:1.05, o:0.85, eo:0.4}, del+0.08);
+      });
+      var es = [];
+      units.filter(function(u){return u.model==='sonnet' && u.data;}).forEach(function(u){
+        es.push({a:fixedV(SUITE.x,SUITE.y,SUITE.z), b:coldTop(u), kind:'normal'});
+        es.push({a:fixedV(SUITE.x,SUITE.y,SUITE.z), b:skillTop(u), kind:'skill'});
+      });
+      var hk = units.filter(function(u){return u.model==='haiku';})[0];
+      es.push({a:fixedV(SUITE.x,SUITE.y,SUITE.z), b:coldTop(hk), kind:'normal'});
+      es.push({a:fixedV(SUITE.x,SUITE.y,SUITE.z), b:skillTop(hk), kind:'skill'});
+      setEdges(es);
+      setWords(SKILL_NAMES);
+    }, 2100);
+  },
+  /* 4 · blind judging: marks stream in, agreements settle, disputes rise amber */
+  function(){
+    tasks.forEach(function(n,i){ benchSphere(n, i*0.01); });
+    chGridTiles(true);
+    /* mid widths: the camera shift would otherwise cut judge B at the right edge */
+    var jx = (window.innerWidth > 700 && window.innerWidth <= 900) ? 3.4 : 4.6;
+    twSet(judgeA.tw, {x:-jx, y:2.1, z:10.5, s:judgeA.r, o:1}, 0.1);
+    twSet(judgeB.tw, {x:jx, y:2.1, z:10.5, s:judgeB.r, o:1}, 0.2);
+    twSet(adjud.tw, {x:0, y:6.6, z:11.5, s:adjud.r, o:1}, 0.35);
+    var gc = fixedV(0, 0.8, 0);
+    var pp = fixedV(POOL_POS.x, POOL_POS.y + 0.15, POOL_POS.z);
+    setEdges([
+      {a:gc, b:sPos(judgeA), kind:'normal', w:3, pulseB:judgeA},
+      {a:gc, b:sPos(judgeB), kind:'normal', w:3, pulseB:judgeB},
+      {a:sPos(judgeA), b:pp, kind:'skill', w:2.6, pulseB:pool},
+      {a:sPos(judgeB), b:pp, kind:'skill', w:2.6, pulseB:pool},
+      {a:sPos(judgeA), b:sPos(adjud), kind:'dispute', w:0.4, pulseB:adjud},
+      {a:sPos(judgeB), b:sPos(adjud), kind:'dispute', w:0.4, pulseB:adjud},
+      {a:sPos(adjud), b:pp, kind:'skill', w:0.6, pulseB:pool}
+    ]);
+    flow = {speed:0.9, density:0.85};
+    setWords(null);
+    setLabelsOn(judgeLabels.concat([disputeLabel, marksLabel, poolLabel, adjCountLabel]));
+    poolTarget = 1;
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0.15; emptyPulse = false;
+  },
+  /* 5 · the verdict crystallizes */
+  function(){
+    tasks.forEach(function(n,i){ benchSphere(n, i*0.01); });
+    chBars();
+    [judgeA,judgeB,adjud].forEach(benchSphere);
+    setEdges([]);
+    setWords(null);
+    if (window.innerWidth <= 700) HLV.set(-3.2, 9.9, HAIKU_POS.z); else HLV.set(HAIKU_POS.x, 7.3, HAIKU_POS.z);
+    setLabelsOn([rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,emptyLabel,axisNote].concat(colLabels).concat(ch5ValLabels));
+    guideTarget = 1; rimTarget = 1;
+    hashOn = false; ribbonTarget = 1; ribbonOpTarget = TH.additive ? 0.1 : 0.14; emptyTarget = 0.85; emptyPulse = false;
+  },
+  /* 6 · finale */
+  function(){
+    tasks.forEach(function(n,i){ benchSphere(n, i*0.01); });
+    chBars();
+    [judgeA,judgeB,adjud].forEach(benchSphere);
+    setEdges([]);
+    setWords(null);
+    if (window.innerWidth <= 700) HLV.set(-3.2, 11.2, HAIKU_POS.z); else HLV.set(HAIKU_POS.x, 7.3, HAIKU_POS.z);
+    setLabelsOn(ch6Labels());
+    guideTarget = 1; rimTarget = 0.8;
+    hashOn = false; ribbonTarget = 1; ribbonOpTarget = TH.additive ? 0.08 : 0.11; emptyTarget = 0.7; emptyPulse = false;
+  }
+];
+var N = CH.length;
+var RAIL_NAMES = ['Open','Freeze','Grid','Two arms','Judges','Verdict','Explore'];
+
+/* ---------- scroll rig ---------- */
+var track = document.getElementById('track');
+var vh = window.innerHeight;   /* captured, not CSS vh: stable under mobile chrome */
+function sizeTrack(){
+  vh = window.innerHeight;
+  var per = isTouch ? 1.02 : 1.3;   /* shorter pacing on mobile */
+  track.style.height = Math.round(N * per * vh) + 'px';
+}
+sizeTrack();
+
+var rail = document.getElementById('rail');
+RAIL_NAMES.forEach(function(name, i){
+  var b = document.createElement('button');
+  b.setAttribute('aria-label', name);
+  b.innerHTML = '<span>'+name+'</span><span class="tick"></span>';
+  b.addEventListener('click', function(){
+    var seg = (document.documentElement.scrollHeight - vh) / (N-1);
+    window.scrollTo({top:seg*i, behavior:'smooth'});
+  });
+  rail.appendChild(b);
+});
+var railBtns = rail.querySelectorAll('button');
+var legendEl = document.getElementById('legend');
+var cards = [];
+for (var ci=0; ci<N; ci++) cards.push(document.getElementById('card-'+ci));
+
+var chapterFloat = 0, activeChapter = -1;
+function enterChapter(i){
+  if (i === activeChapter) return;
+  activeChapter = i;
+  cards.forEach(function(c, j){ c.classList.toggle('on', j===i); });
+  activeCardEl = cards[i];
+  railBtns.forEach(function(b, j){ b.classList.toggle('on', j===i); });
+  document.getElementById('cue').classList.toggle('gone', i!==0);
+  legendEl.classList.toggle('on', i>=2 && i<=4);
+  guideTarget = 0; rimTarget = 0; poolTarget = 0; ch1Phase = -1;
+  CH[i]();
+  if (i === 4) ctStart(); else ctLand();
+  hashEl.classList.toggle('on', hashOn);
+}
+function onScroll(){
+  var max = document.documentElement.scrollHeight - vh;
+  var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  chapterFloat = p*(N-1);
+  enterChapter(Math.round(chapterFloat));
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('keydown', function(e){
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  var dir = (e.key==='ArrowDown'||e.key==='ArrowRight') ? 1 : -1;
+  var seg = (document.documentElement.scrollHeight - vh)/(N-1);
+  var next = Math.min(N-1, Math.max(0, Math.round(chapterFloat)+dir));
+  window.scrollTo({top:seg*next, behavior:'smooth'});
+  e.preventDefault();
+});
+
+/* ---------- pointer: drag-rotate + parallax ---------- */
+var px = 0, py = 0, tx = 0, ty = 0;
+var azimuth = 0, azVel = 0, dragging = false, lastX = 0;
+window.addEventListener('pointermove', function(e){
+  tx = (e.clientX/window.innerWidth)*2 - 1;
+  ty = (e.clientY/window.innerHeight)*2 - 1;
+  if (dragging && e.pointerType === 'mouse'){
+    azVel += (e.clientX - lastX)*0.00022;
+    lastX = e.clientX;
+  }
+});
+window.addEventListener('pointerdown', function(e){
+  if (e.pointerType !== 'mouse') return;
+  dragging = true; lastX = e.clientX;
+});
+window.addEventListener('pointerup', function(){ dragging = false; });
+
+/* ---------- theme application to the scene ---------- */
+function retint(){
+  scene.fog.color.setHex(TH.bg);
+  renderer.setClearColor(TH.bg, 1);
+  var B = TH.additive ? THREE.AdditiveBlending : THREE.NormalBlending;
+  dustPts.material.blending = B;
+  dustPts.material.color.setHex(TH.dust);
+  dustPts.material.opacity = TH.additive ? 0.14 : 0.2;
+  edgeMat.blending = B;
+  pMat.blending = B;
+  tasks.concat([judgeA,judgeB,adjud]).forEach(function(n){
+    n.mat.uniforms.uInk.value = TH.additive ? 0 : 1;
+    n.mat.uniforms.uColor.value.setHex(TH[n.colorKey]);
+    n.halo.material.color.setHex(TH[n.colorKey]);
+    n.halo.material.blending = B;
+  });
+  units.forEach(function(u){
+    if (!u.data) return;
+    u.cold.mat.color.setHex(TH.cold); u.cold.emat.color.setHex(TH.cold);
+    u.skill.mat.color.setHex(TH.acc); u.skill.emat.color.setHex(TH.accDim);
+    u.rim.material.color.setHex(TH.acc);
+  });
+  emptySlot.material.color.setHex(TH.faint);
+  guideLines.material.color.setHex(TH.faint);
+  pool.mesh.material.color.setHex(TH.acc);
+  pool.halo.material.color.setHex(TH.acc);
+  pool.halo.material.blending = B;
+  ribbons.forEach(function(r){ r.material.color.setHex(TH.acc); });
+  pickHalo.material.color.setHex(TH.acc);
+  pickHalo.material.blending = B;
+  recolorEdges();
+  recolorParticles();
+}
+function applySceneTheme(){
+  if (reduced) return; /* scene never initialized; CSS handles the theme */
+  TH = isLight() ? THEMES.light : THEMES.dark;
+  retint();
+}
+applySceneTheme();
+
+/* ---------- resize ---------- */
+function resize(){
+  var w = window.innerWidth, h = window.innerHeight;
+  renderer.setSize(w,h,false);
+  camera.aspect = w/h;
+  var shift = (w > 700) ? Math.round(w*0.13) : 0;
+  camera.setViewOffset(w, h, -shift, 0, w, h);
+  camera.updateProjectionMatrix();
+  sizeTrack();
+  resetLabelSizes();
+}
+window.addEventListener('resize', resize);
+window.addEventListener('orientationchange', resize);
+resize();
+
+/* ---------- frame loop ---------- */
+function smoothstep(t){ return t*t*(3-2*t); }
+var _ca = new THREE.Vector3(), _cb = new THREE.Vector3(), _la = new THREE.Vector3(), _lb = new THREE.Vector3();
+var _pv = new THREE.Vector3(), _pk = new THREE.Vector3();
+var _ea = new THREE.Vector3(), _eb = new THREE.Vector3(), _em = new THREE.Vector3();
+var _ec = new THREE.Color();
+var EDGE_CLIP_X = -0.05;   /* same screen edge where the flow particles fade out */
+function clipT(out, inn){
+  /* fraction along out->inn where the projected x crosses EDGE_CLIP_X */
+  var lo = 0, hi = 1;
+  for (var i=0;i<12;i++){
+    var mid = (lo+hi)/2;
+    _em.copy(out).lerp(inn, mid).project(camera);
+    if (_em.x < EDGE_CLIP_X) lo = mid; else hi = mid;
+  }
+  return hi;
+}
+var camPos = new THREE.Vector3(0,2,36);
+var camLook = new THREE.Vector3(0,0,0);
+var pickLeaderEl = document.getElementById('pickleader');
+var clock = new THREE.Clock();
+
+function frame(){
+  requestAnimationFrame(frame);
+  var dt = Math.min(clock.getDelta(), 0.05);
+  var T = clock.elapsedTime;
+
+  twStep(dt);
+
+  /* chapter 1 staging by scroll position within the chapter */
+  if (activeChapter === 1){
+    var p1 = Math.min(1, Math.max(0, chapterFloat - 0.5));
+    var ph1 = p1 < 0.3 ? 0 : (p1 < 0.74 ? 1 : 2);
+    if (ph1 !== ch1Phase){ ch1Phase = ph1; ch1Apply(ph1); }
+  }
+
+  /* chapter 4 counters: ease up over the chapter's dwell, never overshooting */
+  if (activeChapter === 4 && !ctLanded){
+    ctClock += dt;
+    var kc = Math.min(1, ctClock/CT_DUR);
+    if (kc >= 1) ctLand();
+    else ctRender(1 - Math.pow(1 - kc, 3));
+  }
+
+  tasks.forEach(function(n){ sphereFrame(n, dt, T); });
+  [judgeA,judgeB,adjud].forEach(function(n){ sphereFrame(n, dt, T); });
+  rimCur += (rimTarget - rimCur)*Math.min(1, dt*2.5);
+  units.forEach(function(u){
+    var dTgt = 1;
+    if (activeChapter === 6){
+      if (selKey) dTgt = (u.key === selKey) ? 1 : (selRow && u.model === selRow ? 0.55 : 0.3);
+      else if (selRow) dTgt = (u.model === selRow) ? 1 : 0.35;
+    }
+    u.dimCur += (dTgt - u.dimCur)*Math.min(1, dt*5);
+    var gTgt = (activeChapter === 6 && gapsOn) ? 0.1 : 1;
+    u.gapCur += (gTgt - u.gapCur)*Math.min(1, dt*4);
+    if (!u.data) return;
+    barFrame(u.cold, u.dimCur*u.gapCur); barFrame(u.skill, u.dimCur);
+    var cc = u.cold.tw.cur;
+    u.rim.position.set(cc.x, cc.y + cc.h, cc.z);
+    u.rim.scale.set(Math.max(cc.w,0.001), 1, Math.max(cc.w,0.001));
+    u.rim.material.opacity = rimCur * u.dimCur * (cc.o > 0.05 ? 0.95 : 0);
+    if (activeChapter === 6 && selKey === u.key){
+      var selP = 0.6 + 0.4*Math.sin(T*3.0);
+      u.skill.emat.opacity = Math.min(1, u.skill.tw.cur.eo + 0.3*selP);
+      u.rim.material.opacity = Math.min(1, u.rim.material.opacity + 0.5*selP);
+    }
+    u.rim.visible = u.rim.material.opacity > 0.02;
+  });
+
+  /* empty slot dash: pulses in the grid chapter, and when fable at max is picked */
+  var ePul = emptyPulse || (activeChapter === 6 && selKey === 'fable@max');
+  var eTgt = emptyTarget * (ePul ? (0.65 + Math.sin(T*1.8)*0.35) : 1);
+  emptySlot.material.opacity += (eTgt - emptySlot.material.opacity)*Math.min(1, dt*3);
+  emptySlot.visible = emptySlot.material.opacity > 0.02;
+
+  /* guide lines: effort axis + row leaders */
+  guideCur += (guideTarget - guideCur)*Math.min(1, dt*2.5);
+  guideLines.material.opacity = guideCur * 0.5;
+  guideLines.visible = guideCur > 0.01;
+
+  /* the settled pool */
+  poolCur += (poolTarget - poolCur)*Math.min(1, dt*2.2);
+  pool.pulse = Math.max(0, pool.pulse - dt*1.6);
+  var poolOp = poolCur*(0.2 + 0.05*Math.sin(T*1.2)) + pool.pulse*0.12;
+  pool.mesh.material.opacity = poolOp;
+  pool.mesh.visible = poolOp > 0.01;
+  pool.mesh.scale.setScalar(0.9 + poolCur*0.1 + pool.pulse*0.08);
+  pool.halo.material.opacity = poolCur*(TH.additive ? 0.18 : 0.1) + pool.pulse*0.12;
+  pool.halo.visible = pool.halo.material.opacity > 0.01;
+
+  /* ribbons */
+  ribbonCur += (ribbonTarget - ribbonCur)*Math.min(1, dt*1.6);
+  ribbons.forEach(function(r){
+    r.scale.y = Math.max(ribbonCur, 0.001);
+    r.material.opacity += (ribbonOpTarget*ribbonCur - r.material.opacity)*Math.min(1, dt*2);
+    r.visible = r.material.opacity > 0.005;
+  });
+
+  /* pick halo */
+  if (pickTarget && activeChapter === 6){
+    pickHalo.position.set(pickTarget.x, pickTarget.y, pickTarget.z);
+    var pkOp = 0.5 + 0.12*Math.sin(T*2.6);
+    pickHalo.material.opacity += (pkOp - pickHalo.material.opacity)*Math.min(1, dt*4);
+  } else {
+    pickHalo.material.opacity *= (1 - dt*5);
+  }
+  pickHalo.visible = pickHalo.material.opacity > 0.02;
+
+  /* edges */
+  edgeAlpha += (edgeAlphaTarget - edgeAlpha)*Math.min(1, dt*6);
+  edgeMat.opacity = edgeAlpha;
+  var fadeLeft = (activeChapter === 3 && window.innerWidth > 700);
+  var edgeColDirty = false;
+  for (var e=0; e<activeEdges.length; e++){
+    _ea.copy(activeEdges[e].a());
+    _eb.copy(activeEdges[e].b());
+    if (fadeLeft){
+      /* clip the static lines on the copy-panel side, matching the particle fade */
+      _em.copy(_ea).project(camera); var axn = _em.x;
+      _em.copy(_eb).project(camera); var bxn = _em.x;
+      var cutA = false, cutB = false;
+      if (axn < EDGE_CLIP_X && bxn < EDGE_CLIP_X){ _ea.copy(_eb); cutA = true; }
+      else if (axn < EDGE_CLIP_X){ _ea.lerp(_eb, clipT(_ea, _eb)); cutA = true; }
+      else if (bxn < EDGE_CLIP_X){ _eb.lerp(_ea, clipT(_eb, _ea)); cutB = true; }
+      _ec.setHex(cutA ? TH.bg : edgeHex(activeEdges[e].kind));
+      edgeCol[e*6]=_ec.r; edgeCol[e*6+1]=_ec.g; edgeCol[e*6+2]=_ec.b;
+      _ec.setHex(cutB ? TH.bg : edgeHex(activeEdges[e].kind));
+      edgeCol[e*6+3]=_ec.r; edgeCol[e*6+4]=_ec.g; edgeCol[e*6+5]=_ec.b;
+      edgeColDirty = true;
+    }
+    edgePos[e*6]=_ea.x; edgePos[e*6+1]=_ea.y; edgePos[e*6+2]=_ea.z;
+    edgePos[e*6+3]=_eb.x; edgePos[e*6+4]=_eb.y; edgePos[e*6+5]=_eb.z;
+  }
+  if (activeEdges.length){
+    edgeGeo.attributes.position.needsUpdate = true;
+    if (edgeColDirty) edgeGeo.attributes.color.needsUpdate = true;
+  }
+
+  /* particles */
+  var nE = activeEdges.length;
+  for (var i2=0; i2<P; i2++){
+    var ps = pState[i2];
+    if (ps.edge < 0 || ps.edge >= nE || !nE){ pAlp[i2] = 0; continue; }
+    var ed = activeEdges[ps.edge];
+    ps.t += dt * ps.speed * flow.speed;
+    if (ps.t > 1) ps.t = 0;
+    var t = easeInOut(ps.t);
+    var Av = ed.a(), fx=Av.x, fy=Av.y, fz=Av.z;
+    var Bv = ed.b();
+    pPos[i2*3]   = fx + (Bv.x-fx)*t;
+    pPos[i2*3+1] = fy + (Bv.y-fy)*t;
+    pPos[i2*3+2] = fz + (Bv.z-fz)*t;
+    var alpha = Math.sin(ps.t*Math.PI);
+    if (ed.kind === 'watch') alpha *= 0.3;
+    if (ed.kind === 'dispute') alpha *= 0.75;
+    if (fadeLeft){
+      /* keep the flow out of the copy panel on the left */
+      _pv.set(pPos[i2*3], pPos[i2*3+1], pPos[i2*3+2]).project(camera);
+      alpha *= Math.max(0, Math.min(1, (_pv.x + 0.05)/0.4));
+    }
+    pAlp[i2] = alpha;
+    pSize[i2] = ps.size;
+    if (ps.t > 0.985 && ed.pulseB){
+      ed.pulseB.pulse = Math.min(1, ed.pulseB.pulse + 0.5);
+    }
+  }
+  pGeo.attributes.position.needsUpdate = true;
+  pGeo.attributes.aAlpha.needsUpdate = true;
+  pGeo.attributes.aSize.needsUpdate = true;
+
+  /* word riders */
+  for (var wr=0; wr<riders.length; wr++){
+    var r = riders[wr];
+    if (!r.on){
+      r.sprite.material.opacity *= (1 - dt*5);
+      if (r.sprite.material.opacity < 0.02) r.sprite.visible = false;
+      r.delay -= dt;
+      if (r.delay <= 0){
+        if (spawnRider(r)) r.sprite.visible = true;
+        else r.delay = 0.6;
+      }
+      continue;
+    }
+    if (r.edge >= activeEdges.length){ r.on = false; r.delay = 0.6; continue; }
+    var edW = activeEdges[r.edge];
+    r.t += dt / r.dur;
+    if (r.t >= 1){ r.on = false; r.delay = 1.1 + Math.random()*2.4; continue; }
+    var tw2 = easeInOut(r.t);
+    var Aw = edW.a(), awx=Aw.x, awy=Aw.y, awz=Aw.z;
+    var Bw = edW.b();
+    r.sprite.position.set(awx + (Bw.x-awx)*tw2, awy + (Bw.y-awy)*tw2 + 0.72, awz + (Bw.z-awz)*tw2);
+    var rop = Math.sin(r.t*Math.PI) * 0.92;
+    if (fadeLeft){
+      /* keep the chips out of the copy panel, matching the particle fade */
+      _pv.copy(r.sprite.position).project(camera);
+      rop *= Math.max(0, Math.min(1, (_pv.x + 0.05)/0.4));
+    }
+    r.sprite.material.opacity = rop;
+  }
+
+  /* camera: blend between neighbouring chapters by scroll */
+  var i0 = Math.floor(chapterFloat), i1 = Math.min(N-1, i0+1);
+  var f = smoothstep(Math.min(1, Math.max(0, chapterFloat - i0)));
+  var cA = CAMS[i0], cB = CAMS[i1];
+  _ca.fromArray(cA.pos); _cb.fromArray(cB.pos); _ca.lerp(_cb, f);
+  _la.fromArray(cA.look); _lb.fromArray(cB.look); _la.lerp(_lb, f);
+  if (activeChapter === 6 && pickTarget){
+    _pk.set(pickTarget.x, pickTarget.y, pickTarget.z);
+    _la.lerp(_pk, 0.2);   /* ease the camera a few degrees toward the pick */
+  }
+
+  if (!dragging) azVel *= 0.92;
+  azimuth += azVel; azimuth *= 0.97;
+  azimuth += Math.sin(T*0.11)*0.00016;
+  var cosA = Math.cos(azimuth), sinA = Math.sin(azimuth);
+  var rx = _ca.x*cosA + _ca.z*sinA, rz = -_ca.x*sinA + _ca.z*cosA;
+  _ca.set(rx, _ca.y, rz);
+
+  px += (tx - px)*dt*3; py += (ty - py)*dt*3;
+  _ca.x += px*1.5; _ca.y += -py*0.9;
+
+  camPos.lerp(_ca, Math.min(1, dt*2.6));
+  camLook.lerp(_la, Math.min(1, dt*2.6));
+  camera.position.copy(camPos);
+  camera.lookAt(camLook);
+
+  /* labels */
+  layoutLabels();
+  if (hashEl.classList.contains('on')) projectEl(hashEl, HASH_POS);
+
+  /* leader line from the readout card to the picked cell */
+  if (activeChapter === 6 && pickTarget && window.innerWidth > 700 && cards[6].classList.contains('on')){
+    var crect = cellout.getBoundingClientRect();
+    _v.set(pickTarget.x, pickTarget.y, pickTarget.z).project(camera);
+    var lex = (_v.x*0.5+0.5)*window.innerWidth, ley = (-_v.y*0.5+0.5)*window.innerHeight;
+    var lsx = crect.right + 10, lsy = crect.top + crect.height/2;
+    var ldx = lex - lsx, ldy = ley - lsy;
+    var llen = Math.sqrt(ldx*ldx + ldy*ldy);
+    pickLeaderEl.style.transform = 'translate(' + lsx.toFixed(1) + 'px,' + lsy.toFixed(1) + 'px) rotate(' + Math.atan2(ldy,ldx).toFixed(4) + 'rad)';
+    pickLeaderEl.style.width = Math.max(0, llen - 16).toFixed(1) + 'px';
+    pickLeaderEl.style.opacity = '0.55';
+  } else {
+    pickLeaderEl.style.opacity = '0';
+  }
+
+  renderer.render(scene, camera);
+}
+
+/* ---------- boot ---------- */
+tasks.forEach(function(n, i){
+  var p = scatterPos(i, 17, 22);
+  n.tw.cur.x = p.x; n.tw.cur.y = p.y - 10; n.tw.cur.z = p.z;
+  n.tw.cur.s = 0.001; n.tw.cur.o = 0;
+});
+[judgeA,judgeB,adjud].forEach(function(n){ n.tw.cur.y = -14; n.tw.cur.s = 0.001; n.tw.cur.o = 0; });
+units.forEach(function(u){
+  if (!u.data) return;
+  u.cold.tw.cur.x = u.x; u.cold.tw.cur.z = u.z; u.cold.tw.cur.h = 0.001; u.cold.tw.cur.w = 1; u.cold.tw.cur.o = 0; u.cold.tw.cur.eo = 0;
+  u.skill.tw.cur.x = u.x; u.skill.tw.cur.z = u.z; u.skill.tw.cur.h = 0.001; u.skill.tw.cur.w = 1; u.skill.tw.cur.o = 0; u.skill.tw.cur.eo = 0;
+});
+onScroll();
+if (activeChapter === -1) enterChapter(0);
+frame();
+})();
+</script>
+</body>
+</html>

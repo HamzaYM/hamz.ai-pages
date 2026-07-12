@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
+<!--
+  hamz.ai/lab/proof · The proof
+  Serve this file statically (no client-side render step) so
+  crawlers, link unfurlers, and AI fetchers can read it.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The proof &middot; hamz.ai / lab</title>
+<meta name="description" content="The artifacts behind the lab: an open-source skills library with its eval harness, a working prototype, and a field guide on designing agentic systems, with a 3D walkthrough.">
+<link rel="canonical" href="https://www.hamz.ai/lab/proof/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hamz.ai">
+<meta property="og:title" content="The proof · hamz.ai / lab">
+<meta property="og:description" content="The artifacts behind the lab: an open-source skills library with its eval harness, a working prototype, and a field guide on designing agentic systems, with a 3D walkthrough.">
+<meta property="og:url" content="https://www.hamz.ai/lab/proof/">
+<meta property="og:image" content="https://www.hamz.ai/lab/og/lab.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "The proof",
+  "url": "https://www.hamz.ai/lab/proof/",
+  "dateModified": "2026-07-09",
+  "description": "The artifacts behind the lab: an open-source skills library with its eval harness, a working prototype, and a field guide on designing agentic systems, with a 3D walkthrough.",
+  "author": {
+    "@type": "Person",
+    "name": "Hamza Malik",
+    "url": "https://www.hamz.ai",
+    "sameAs": ["https://linkedin.com/in/hamzaymalik", "https://github.com/HamzaYM"]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "item": { "@type": "SoftwareSourceCode", "name": "Reliable AI Skills", "codeRepository": "https://github.com/HamzaYM/reliable-ai-skills", "description": "17 portable Claude Code skills distilled from two production codebases, shipped with the eval harness that graded them." } },
+      { "@type": "ListItem", "position": 2, "item": { "@type": "SoftwareSourceCode", "name": "Clara", "codeRepository": "https://github.com/HamzaYM/clara", "description": "A working prototype that reads dense official mail and explains it back in plain language." } },
+      { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Designing agentic systems", "description": "A field guide on the shape of agentic systems; the same page carries an interactive agent-topologies primer." } },
+      { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "The same guide, in 3D", "description": "The field guide made spatial, built as one self-contained Three.js file." } }
+    ]
+  }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%232BD7AF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0F0F;
+  --raised:#161616;
+  --raised-2:#1C1C1C;
+  --hover:#1C1C1C;
+  --line:#262626;
+  --line-strong:#333333;
+  --ink:#F2F2F0;
+  --dim:#9A9A94;
+  --faint:#85857F;
+  --teal:#2BD7AF;
+  --teal-dim:#1A6B58;
+  --teal-tint:rgba(43,215,175,0.08);
+  --teal-loud:#2BD7AF;
+  --tip-tt:#1A6B58; /* tooltip eyebrow sits on an inverted ink chip, so it counter-inverts */
+  --display:"Space Grotesk", system-ui, sans-serif;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --max:1080px;
+}
+@media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+  --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+  --line:#E7E3DC; --line-strong:#948C7F;
+  --ink:#14140F; --dim:#555C58; --faint:#646B67;
+  --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+  --tip-tt:#2BD7AF;
+} }
+:root[data-theme="light"]{
+  --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+  --line:#E7E3DC; --line-strong:#948C7F;
+  --ink:#14140F; --dim:#555C58; --faint:#646B67;
+  --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+  --tip-tt:#2BD7AF;
+}
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0 !important;}
+html{scroll-behavior:smooth;}
+body{ background:var(--bg); color:var(--dim); font-family:var(--sans);
+      font-size:17px; line-height:1.6; letter-spacing:-0.01em;
+      -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+a{ color:var(--teal); text-decoration:none; }
+strong{ color:var(--ink); font-weight:500; }
+::selection{ background:var(--teal-loud); color:#0F0F0F; }
+:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+.wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+#progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal-loud); z-index:70; transition:width .1s linear; }
+
+/* nav */
+nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+     padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); }
+nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
+nav.site-nav .brand b{ color:var(--teal); font-weight:500; }
+nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
+nav.site-nav .brand-lab:hover{ color:var(--teal); }
+nav.site-nav .nav-right{ margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.lab-links{ display:flex; gap:14px; flex-wrap:wrap; }
+.lab-links a{ font-family:var(--mono); font-size:12px; color:var(--faint); padding:4px 0; border-bottom:1px solid transparent; }
+.lab-links a:hover{ color:var(--ink); border-bottom-color:var(--line-strong); }
+.lab-links a[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--teal); }
+.theme-toggle{ display:flex; border:1px solid var(--line); }
+.theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+     font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+.theme-toggle button:last-child{ border-right:none; }
+.theme-toggle button:hover{ color:var(--dim); }
+.theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
+
+/* tooltip */
+#tip{ position:fixed; z-index:300; max-width:280px; background:var(--ink); color:var(--bg);
+     font-family:var(--sans); font-size:.86rem; line-height:1.45; padding:12px 14px;
+     box-shadow:0 10px 30px rgba(0,0,0,.22); pointer-events:none;
+     opacity:0; transform:translateY(4px); transition:opacity .14s ease, transform .14s ease; }
+#tip.show{ opacity:1; transform:none; }
+#tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+     color:var(--tip-tt); display:block; margin-bottom:5px; }
+.hot{ cursor:pointer; border-bottom:1px dashed var(--line-strong); }
+.hot:hover{ border-bottom-color:var(--teal); }
+
+/* hero */
+.hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+.crumbs{ font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; gap:18px; flex-wrap:wrap; margin-bottom:30px; }
+.crumbs a{ color:var(--faint); }
+.crumbs a:hover{ color:var(--teal); }
+.eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+          text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:24px; }
+.lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+.lede a{ border-bottom:1px solid var(--teal-dim); }
+.lede a:hover{ border-bottom-color:var(--teal); }
+
+/* sections */
+section{ padding:76px 0; border-bottom:1px solid var(--line); }
+section.final{ border-bottom:none; }
+.sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+              text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+.sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+section p{ max-width:66ch; }
+
+/* artifacts grid: hairline grid of card cells */
+.grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);
+       border:1px solid var(--line); margin-top:36px; }
+.cell{ background:var(--raised); display:flex; flex-direction:column; }
+.cell.featured{ grid-column:1 / -1; }
+a.card{ display:flex; flex-direction:column; gap:10px; padding:26px 24px; flex:1;
+        color:var(--dim); transition:background .15s; }
+a.card:hover{ background:var(--hover); }
+.card .tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); }
+.card b{ font-family:var(--display); font-size:20px; font-weight:600; color:var(--ink); transition:color .15s; }
+a.card:hover b{ color:var(--teal); }
+.card p{ font-size:14.5px; color:var(--dim); max-width:66ch; flex:1; }
+.card i{ font-style:normal; font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:0.04em; margin-top:6px; }
+.card-cross{ display:block; border-top:1px solid var(--line); padding:12px 24px;
+             font-family:var(--mono); font-size:12px; color:var(--dim); background:var(--raised); transition:color .15s,background .15s; }
+.card-cross:hover{ color:var(--teal); background:var(--hover); }
+
+/* closing */
+.close-line{ font-family:var(--display); font-size:clamp(20px,3vw,27px); font-weight:500;
+             letter-spacing:-0.01em; line-height:1.35; color:var(--ink); max-width:30ch; }
+.close-line a{ border-bottom:1px solid var(--teal-dim); }
+.close-line a:hover{ border-bottom-color:var(--teal); }
+
+/* footer */
+footer{ padding:40px 0 64px; }
+.foot{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap;
+       font-family:var(--mono); font-size:12px; color:var(--faint); }
+.foot a{ color:var(--dim); margin-left:16px; }
+.foot a:first-child{ margin-left:0; }
+.foot a:hover{ color:var(--teal); }
+
+/* reveal */
+.rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+.rv.in{ opacity:1; transform:none; }
+
+@media (max-width:820px){
+  .grid{ grid-template-columns:1fr; }
+}
+@media (max-width:520px){
+  .lab-links{ gap:10px; }
+  .lab-links a{ font-size:11px; }
+}
+@media (max-width:640px){
+  nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+  nav.site-nav .nav-right{ gap:8px 12px; }
+  .lab-links{ gap:6px 12px; }
+}
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .rv{ opacity:1; transform:none; transition:none; }
+  #tip{ transition:none; }
+  #progress{ transition:none; }
+  *{ animation:none !important; }
+}
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="site-nav" aria-label="Lab">
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../">/ lab</a>
+  <div class="nav-right">
+    <div class="lab-links">
+      <a href="../lattice/">Lattice</a>
+      <a href="../skills/">Skills</a>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </div>
+  </div>
+</nav>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:14px"><a href="../">part of the lab</a></div>
+    <div class="crumbs">
+      <a href="https://www.hamz.ai">&larr; hamz.ai</a>
+      <span>Updated July 2026</span>
+    </div>
+    <div class="eyebrow">The lab / the proof</div>
+    <h1>The proof</h1>
+    <p class="lede">Here is where the lab is public: working systems, open for review, and the instruments <a href="../chain/">the other pages</a> describe. Every claim on this site should trace to something on this page you can open, run, or break.</p>
+  </div>
+</header>
+
+<main>
+
+  <section id="artifacts">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">01</span>The artifacts</div>
+      <h2>Four things you can open today</h2>
+      <div class="grid">
+
+        <div class="cell featured">
+          <a class="card" href="https://github.com/HamzaYM/reliable-ai-skills">
+            <span class="tag">Library + harness</span>
+            <b>Reliable AI Skills</b>
+            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library, for 17 total.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the sources cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
+            <i>View on GitHub &rarr;</i>
+          </a>
+          <a class="card-cross" href="../evidence/">the study &rarr;</a>
+        </div>
+
+        <div class="cell">
+          <a class="card" href="https://github.com/HamzaYM/clara">
+            <span class="tag">Prototype</span>
+            <b><span class="hot" tabindex="0" data-tt="Origin" data-tip="Built at an MIT hackathon run by the Claude Builders Club, sponsored by Anthropic and Jane Street, then opened up.">Clara</span></b>
+            <p>A working prototype, open on GitHub, that reads dense official mail, government, health, financial, and explains it back in plain language.</p>
+            <i>View on GitHub &rarr;</i>
+          </a>
+        </div>
+
+        <div class="cell">
+          <a class="card" href="https://www.hamz.ai/designing-agentic-ai/">
+            <span class="tag">Field guide + interactive primer</span>
+            <b>Designing agentic systems</b>
+            <p>How we decide the shape of an agentic system: one agent or many, and where a step should stay plain code instead of a model. The same page maps context allocation, model routing, and orchestration as an interactive primer, built for a new MIT Sloan course on leading agentic AI transformation.</p>
+            <i>Read the field guide &rarr;</i>
+          </a>
+        </div>
+
+        <div class="cell">
+          <a class="card" href="https://www.hamz.ai/designing-agentic-ai/visual/">
+            <span class="tag">Single-file Three.js build</span>
+            <b>The same guide, in 3D</b>
+            <p>The field guide made spatial: walk the shapes instead of reading them top to bottom. Built as one self-contained <span class="hot" tabindex="0" data-tt="Definition" data-tip="Three.js is a JavaScript library for drawing interactive 3D scenes in the browser.">Three.js</span> file, because the format is the demo.</p>
+            <i>Walk it in 3D &rarr;</i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">02</span>Reproducibility</div>
+      <p class="close-line">The library ships <span class="hot" tabindex="0" data-tt="Definition" data-tip="MIT licensed: free to use, copy, and modify, with attribution.">MIT licensed</span> with the eval harness included. <a href="https://github.com/HamzaYM">If you run it and get different numbers, I want to know.</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
+    <span>
+      <a href="https://github.com/HamzaYM">GitHub</a>
+      <a href="https://linkedin.com/in/hamzaymalik">LinkedIn</a>
+      <a href="https://www.hamz.ai">hamz.ai &rarr;</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* theme toggle: persists to localStorage["hamz-theme"]; "system" removes the attribute */
+  var root=document.documentElement;
+  var btns=Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+  function paint(v){btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.themeSet===v?'true':'false');});}
+  function applyTheme(v){
+    if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+    else{root.removeAttribute('data-theme');}
+    try{localStorage.setItem('hamz-theme',v);}catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){applyTheme(b.dataset.themeSet);});});
+  paint(cur());
+
+  /* tooltip engine: cursor-follow, viewport clamp, focus, click-to-pin, Esc */
+  var tip = document.getElementById('tip');
+  var pinned = false;
+  function showTip(el, x, y){
+    var txt = el.getAttribute('data-tip'); if(!txt) return;
+    var tt = el.getAttribute('data-tt') || '';
+    tip.innerHTML = (tt ? '<span class="tt">'+tt+'</span>' : '') + txt;
+    tip.classList.add('show');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var r = tip.getBoundingClientRect();
+    var left = x + 14, top = y + 16;
+    if(left + r.width + 10 > vw) left = x - r.width - 14;
+    if(left < 8) left = 8;
+    if(top + r.height + 10 > vh) top = y - r.height - 14;
+    if(top < 8) top = 8;
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+  function hideTip(){ tip.classList.remove('show'); pinned = false; }
+  document.querySelectorAll('.hot').forEach(function(el){
+    el.addEventListener('mouseenter', function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mousemove',  function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', function(){ if(!pinned) tip.classList.remove('show'); });
+    el.addEventListener('focus', function(){ var b=el.getBoundingClientRect(); showTip(el, b.left+b.width/2, b.top+b.height-8); });
+    el.addEventListener('blur',  function(){ tip.classList.remove('show'); });
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); pinned=false; showTip(el, ev.clientX, ev.clientY); pinned=true; });
+  });
+  document.addEventListener('click',  function(ev){ if(!ev.target.closest('.hot')) hideTip(); });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') hideTip(); });
+
+  /* reveal on scroll */
+  var rvs = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduced){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0});
+    rvs.forEach(function(e){ io.observe(e); });
+  } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+
+  /* scroll progress bar */
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight;
+    bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>

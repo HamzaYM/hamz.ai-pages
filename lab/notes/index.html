@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
+<!--
+  hamz.ai/lab/notes . Field notes
+  Ledger entries carried verbatim from lab.html v1 (2026-07-09), numbers
+  already corrected against INVENTORY.md (26/50 and 46/50, 16 tasks).
+  Serve this file statically (no client-side render step) so crawlers,
+  link unfurlers, and AI fetchers can read it.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field notes · hamz.ai / lab</title>
+<meta name="description" content="Dated write-ups from the hamz.ai practice, newest first. Each note carries its actual position on the same review ladder the client work climbs.">
+<link rel="canonical" href="https://www.hamz.ai/lab/notes/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hamz.ai">
+<meta property="og:title" content="Field notes · hamz.ai / lab">
+<meta property="og:description" content="Dated write-ups from the hamz.ai practice, newest first. Each note carries its actual position on the same review ladder the client work climbs.">
+<meta property="og:url" content="https://www.hamz.ai/lab/notes/">
+<meta property="og:image" content="https://www.hamz.ai/lab/og/lab.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%232BD7AF'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Field notes",
+  "url": "https://www.hamz.ai/lab/notes/",
+  "dateModified": "2026-07-11",
+  "description": "Dated write-ups from the hamz.ai practice, newest first. Each note carries its actual position on the same review ladder the client work climbs.",
+  "author": { "@type": "Person", "name": "Hamza Malik", "url": "https://www.hamz.ai", "sameAs": ["https://linkedin.com/in/hamzaymalik", "https://github.com/HamzaYM"] },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "Does reasoning effort replace skills? A pre-registered 16-cell effort lattice", "dateCreated": "2026-07", "url": "https://www.hamz.ai/lab/lattice/" } },
+      { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Do Claude Code skills actually work? An order-blinded A/B across 16 tasks", "dateCreated": "2026-07", "url": "https://github.com/HamzaYM/reliable-ai-skills" } },
+      { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Moving a production eval harness onto Outcomes", "dateCreated": "2026-08" } },
+      { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "Case playtesting: a simulated classroom reads the case cold", "dateCreated": "2026-07" } },
+      { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "Running the cheap model in the shadows before letting it drive", "dateCreated": "2026-07" } },
+      { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "A feasibility engine that answers the dispatcher's questions, not mine", "dateCreated": "2026-07" } },
+      { "@type": "ListItem", "position": 7, "item": { "@type": "CreativeWork", "name": "Designing agentic systems", "dateCreated": "2026" } }
+    ]
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* surfaces */
+    --bg:#0F0F0F;
+    --raised:#161616;
+    --raised-2:#1C1C1C;
+    --hover:#1C1C1C;
+    /* lines */
+    --line:#262626;
+    --line-strong:#333333;
+    /* ink */
+    --ink:#F2F2F0;
+    --dim:#9A9A94;
+    --faint:#85857F;
+    /* accent */
+    --teal:#2BD7AF;
+    --teal-dim:#1A6B58;
+    --teal-tint:rgba(43,215,175,0.08);
+    --teal-loud:#2BD7AF;
+    --amber:#D9A441;
+    --tip-accent:#067A63;
+    /* type */
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    /* layout */
+    --max:1080px;
+  }
+  /* system prefers light, and the user has not explicitly chosen dark */
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --amber:#8A6420;
+    --tip-accent:#2BD7AF;
+  } }
+  /* explicit light toggle wins over everything */
+  :root[data-theme="light"]{
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --amber:#8A6420;
+    --tip-accent:#2BD7AF;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;border-radius:0;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans);
+        font-size:17px; line-height:1.6; letter-spacing:-0.01em;
+        -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  h1,h2,h3{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--teal); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  ::selection{ background:var(--teal); color:#0F0F0F; }
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+  p{ max-width:66ch; }
+
+  /* progress bar */
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
+
+  /* nav (opaque flavor, page ships the theme toggle) */
+  nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:12px;
+       padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
+  nav.site-nav .brand b{ color:var(--teal); font-weight:500; }
+  nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); }
+  nav.site-nav .brand-lab:hover{ color:var(--teal); }
+  nav.site-nav .nav-right{ margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .lab-nav{ display:flex; gap:14px; flex-wrap:wrap; }
+  .lab-nav a{ font-family:var(--mono); font-size:12px; color:var(--faint); padding:4px 0; border-bottom:1px solid transparent; transition:color .15s; }
+  .lab-nav a:hover{ color:var(--teal); }
+  .lab-nav a[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--teal); }
+
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+       font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+  .theme-toggle button:last-child{ border-right:none; }
+  .theme-toggle button:hover{ color:var(--dim); }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
+
+  /* tooltip host */
+  #tip{ position:fixed; z-index:300; max-width:280px; background:var(--ink); color:var(--bg);
+        font-family:var(--sans); font-size:.86rem; line-height:1.45; padding:12px 14px; letter-spacing:0;
+        box-shadow:0 10px 30px rgba(0,0,0,.22); pointer-events:none;
+        opacity:0; transform:translateY(4px); transition:opacity .14s ease, transform .14s ease; }
+  #tip.show{ opacity:1; transform:none; }
+  #tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+        color:var(--tip-accent); display:block; margin-bottom:5px; }
+
+  .hot{ cursor:pointer; }
+  .hot:not(.chip){ border-bottom:1px dotted var(--faint); }
+  .hot:not(.chip):hover, .hot:not(.chip):focus-visible{ color:var(--teal); border-bottom-color:var(--teal); }
+
+  /* hero */
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .crumbs{ font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; gap:14px; flex-wrap:wrap; margin-bottom:26px; }
+  .crumbs a{ color:var(--faint); }
+  .crumbs a:hover{ color:var(--teal); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
+  h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:24px; }
+  .lead{ font-size:20px; color:var(--ink); max-width:62ch; }
+  .lead .hot{ color:inherit; }
+  .lead a.hot{ color:var(--teal); }
+
+  /* sections */
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+  section p{ margin-bottom:16px; }
+  section p:last-child{ margin-bottom:0; }
+
+  /* the ledger (bordered stack) */
+  .notes{ margin-top:20px; border:1px solid var(--line); }
+  .note{ display:grid; grid-template-columns:96px 1fr auto; gap:20px; align-items:start;
+         padding:22px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .18s; }
+  .note:last-child{ border-bottom:none; }
+  .note:hover{ background:var(--hover); }
+  .note .date{ font-family:var(--mono); font-size:12px; color:var(--faint); padding-top:5px; white-space:nowrap; }
+  .nt{ display:block; font-family:var(--display); font-size:18px; font-weight:600; color:var(--ink);
+       line-height:1.25; margin-bottom:6px; transition:color .15s; }
+  a.nt:hover{ color:var(--teal); }
+  a.nt[aria-disabled="true"]{ cursor:default; }
+  a.nt[aria-disabled="true"]:hover{ color:var(--ink); }
+  .note .nbody p{ font-size:14px; color:var(--dim); max-width:60ch; margin:0; }
+  .nside{ display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+  .chip{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+         padding:6px 11px; border:1px solid var(--line); background:var(--raised); color:var(--dim); white-space:nowrap; }
+  .chip.shipped{ color:var(--teal); border-color:var(--teal-dim); }
+  .chip.review{ color:var(--amber); border-color:rgba(217,164,65,0.45); }
+  .chip.drafting{ color:var(--faint); border-color:var(--line-strong); }
+  .mini{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--teal); white-space:nowrap; }
+  .legend{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px; }
+
+  /* expandable field-note body (native <details>, no external deps) */
+  .nx > summary{ display:block; list-style:none; cursor:pointer; }
+  .nx > summary::-webkit-details-marker{ display:none; }
+  .nx > summary:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+  .nx > summary:hover .nt{ color:var(--teal); }
+  .nx-dates{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--faint); margin-bottom:8px; }
+  .nx-cue{ display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--teal); }
+  .nx-cue::after{ content:"Read the note \2192"; }
+  .nx[open] .nx-cue::after{ content:"Hide note \2191"; }
+  .nx-body{ margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+  .note .nx-body p{ font-size:14px; color:var(--dim); max-width:62ch; margin:0 0 12px; }
+  .note .nx-body p:last-child{ margin-bottom:0; }
+
+  /* footer */
+  footer{ padding:40px 0 64px; }
+  .foot{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap;
+         font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .foot a{ color:var(--dim); margin-left:16px; }
+  .foot a:first-child{ margin-left:0; }
+  .foot a:hover{ color:var(--teal); }
+
+  /* reveal */
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+  .rv.in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .rv{ opacity:1; transform:none; transition:none; }
+    #tip{ transition:none; }
+    #progress{ transition:none; }
+    .note, .nt, .lab-nav a{ transition:none; }
+  }
+
+  @media (max-width:640px){
+    nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+    nav.site-nav .nav-right{ gap:8px 12px; }
+    .lab-nav{ gap:6px 12px; }
+    .note{ grid-template-columns:1fr; gap:10px; }
+    .note .date{ padding-top:0; }
+    .nside{ flex-direction:row; align-items:center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="site-nav" aria-label="Lab">
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../">/ lab</a>
+  <div class="nav-right">
+    <div class="lab-nav" aria-label="Lab pages">
+      <a href="../lattice/">Lattice</a>
+      <a href="../skills/">Skills</a>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </div>
+  </div>
+</nav>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:14px"><a href="../">part of the lab</a></div>
+    <div class="crumbs">
+      <a href="https://www.hamz.ai">&larr; hamz.ai</a>
+      <span>Updated July 2026</span>
+    </div>
+    <div class="eyebrow">The lab / field notes</div>
+    <h1>Field notes</h1>
+    <p class="lead">Every note here climbs the same <a class="hot" tabindex="0" href="../chain/" data-tt="The chain" data-tip="Four stages every deliverable climbs before a client sees it: an adversarial review that argues against the work, a tiered escalation that sends it back until it holds, an evidence harness that settles decisions by measurement, and security controls built for production.">chain</a> the client work does. The chip on the right is not decoration. It is the note's actual position on the <span class="hot" tabindex="0" data-tt="The ladder" data-tip="Five steps from stage 02 of the chain: draft, checked against the standard, checked against intent, checked against the hardest edge case a first read would miss, then sign-off.">ladder</span>: drafting is step 1, in review means it is climbing, shipped means it passed.</p>
+  </div>
+</header>
+
+<main>
+
+  <section id="dates">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">01</span>The dates</div>
+      <h2>How to read the dates</h2>
+      <p>Every note has two dates that matter: the date of the work it describes, and the date the write-up ships. The column on the left of the ledger shows the second one, the write-up date. A note dated July 2026 is a note that ships in July 2026, whatever month the work behind it happened.</p>
+      <p>The work dates live inside the notes, stated exactly, because that is where the evidence weight sits. The skills study is the clean example: the measured runs happened on <span class="hot" tabindex="0" data-tt="The work date" data-tip="All times UTC, July 2, 2026: the plan was written at 07:52, before any skill file existed; the cold arm completed at 17:37; the loaded arm at 21:33; the judges at 21:36.">July 2, 2026</span>, timestamped to the minute, and the write-up carrying them is dated July 2026 and is still in review. The two dates land close there. They do not have to.</p>
+      <p>One note is dated ahead of today. That is the same convention: the date is when I expect the write-up to ship, and the chip stays Drafting until it actually does. A future date is a stated intention, not a record. And a write-up never borrows the work's date to look prompt, and never backdates itself.</p>
+    </div>
+  </section>
+
+  <section id="field-notes">
+    <div class="wrap rv">
+      <div class="sec-eyebrow"><span class="num">02</span>Newest first</div>
+      <h2>The ledger</h2>
+      <p>Dated write-ups from the practice, newest first.</p>
+      <div class="notes">
+
+        <!-- Lattice entry, drafted 2026-07-11. Verdicts sourced from the real matrix report
+             (results/matrix/MATRIX.md, all 15 cells complete and adjudicated, 0 unresolved).
+             opus-high and sonnet-xhigh have landed; both are descriptive interior cells
+             and did not change the H1/H2 verdicts. -->
+        <div class="note">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <a class="nt" href="../lattice/">Does reasoning effort replace skills? A pre-registered 16-cell effort lattice</a>
+            <p>Across three Claude models, higher effort reliably raised unaided performance, so H1 is supported, and it did not reliably shrink what skills add on top, so H2 is <span class="hot" tabindex="0" data-tt="The rule" data-tip="Verdicts are computed only on the cells at each model's lowest and top effort, each run three times, under a 3 percentage point minimum effect frozen before any run. No model's shrinkage cleared the bar.">not supported under the pre-registered rule</span>.</p>
+          </div>
+          <div class="nside">
+            <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+            <a class="mini" href="../lattice/">study &rarr;</a>
+          </div>
+        </div>
+
+        <div class="note">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <a class="nt" href="https://github.com/HamzaYM/reliable-ai-skills">Do Claude Code skills actually work? An order-blinded A/B across 16 tasks</a>
+            <p>26 candidate skills, a 14-agent discovery pipeline, and the harness that graded 8 of them <span class="hot" tabindex="0" data-tt="Definition" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span>. <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">Must-hits</span> went from <span class="hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">26/50 to 46/50</span>. The write-up ships with the library.</p>
+          </div>
+          <div class="nside">
+            <span class="chip review hot" tabindex="0" data-tt="In review" data-tip="Climbing the ladder: the note is being checked against the standard, against intent, and against the hardest edge case, and it can still be sent back down.">In review</span>
+            <a class="mini" href="../evidence/">study &rarr;</a>
+          </div>
+        </div>
+
+        <div class="note">
+          <span class="date">Aug 2026</span>
+          <div class="nbody">
+            <a class="nt" href="#field-notes" aria-disabled="true">Moving a production eval harness onto Outcomes</a>
+            <p>Rubric-graded agent loops just became a platform primitive. What holds up, what does not, and what we kept hand-rolled when we migrated ours.</p>
+          </div>
+          <div class="nside">
+            <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+          </div>
+        </div>
+
+        <!-- Case-playtesting field note integrated from field-notes-drafts.md (Note 3).
+             READY FOR REVIEW: prose ported verbatim, awaiting Hamza's eyeball before publish.
+             Title kept to match the head JSON-LD ItemList entry; date moved Fall 2026 -> Jul 2026
+             so the ledger column agrees with the drafted "Written up: July 2026". -->
+        <div class="note" id="note-case-playtesting">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <details class="nx">
+              <summary>
+                <span class="nt">Case playtesting: a simulated classroom reads the case cold</span>
+                <span class="nx-dates">Work: Jul 2026 (from commits) &middot; Written up: July 2026</span>
+                <span class="nx-cue"></span>
+              </summary>
+              <div class="nx-body">
+                <p>Before a case draft for a graduate course session went in front of real people, I ran it past a fake room first.</p>
+                <p>The setup: seventeen persona agents, each one seat. A risk officer, a CFO, a platform engineer, a policy staffer, and so on, each defined by a professional background, a temperament, and nothing else. What a seat knows is a design decision, not an accident of context. The seats are spread across three model tiers on purpose. Seventeen copies of the same model give you seventeen flavors of the same read; mixing tiers gives you the skimming executive and the person who checks the exhibits twice, which is what a real room contains.</p>
+                <p>The protocol is the part I'd defend hardest. Every seat reads the draft blind and returns a structured vote. No cross-talk, no anchoring on the loudest agent. Then the votes are revealed and the room votes again. The gap between round one and round two tells you whether the case moves a room or just survives one.</p>
+                <p>I ran the loop the way you'd playtest a board game: full run, read the transcript, revise the draft, run it again. The panel caught things I would have found out the hard way in class, like which exhibit the fast readers skipped and where the discussion stalled with nowhere to go.</p>
+                <p>The carry-away rule: any room where people read something and then decide is a topology. If you can cast the seats and wire the protocol, you can run the room before it exists, and revise while revision is still cheap.</p>
+              </div>
+            </details>
+          </div>
+          <div class="nside">
+            <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+          </div>
+        </div>
+
+        <!-- Field note integrated from field-notes-drafts.md (Note 1). READY FOR REVIEW.
+             New ledger entry (no prior placeholder existed); reflected in the head JSON-LD ItemList (position 5). -->
+        <div class="note" id="note-shadow-model">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <details class="nx">
+              <summary>
+                <span class="nt">Running the cheap model in the shadows before letting it drive</span>
+                <span class="nx-dates">Work: May 2026 (from commits) &middot; Written up: July 2026</span>
+                <span class="nx-cue"></span>
+              </summary>
+              <div class="nx-body">
+                <p>The intake conversation on a healthcare intake platform I work on runs on a mid-tier model. The cheap, fast tier costs a fraction as much, and the obvious question kept coming up: why not switch?</p>
+                <p>I didn't switch. I built a shadow lane instead. Every intake on staging kept its normal model, and a second extractor ran silently alongside it on the cheap tier. Both results landed in a durable log with agreement scoring, so I could see exactly where the small model matched the big one and where it drifted, on real conversations, at zero risk to anyone filling out a form.</p>
+                <p>Once the shadow data looked promising, I ran a proper trial: a generation by extraction matrix, four cells, about 48 fresh staging intakes. The mixed cells held up. The all-cheap cell did not; half its intakes got stuck or were abandoned. That one afternoon of evidence settled a debate that had been running on vibes for weeks. The default stayed where it was, documented as a decision rather than an assumption.</p>
+                <p>One piece did ship: a fast path on the cheap tier with an automatic cascade. If the small model repeats an identical question, the turn escalates to the bigger model. The small model gets the easy work and a tripwire, not the keys.</p>
+                <p>The rule I took away: never promote a cheaper model on benchmarks or price. Run it in shadow against production traffic, score the agreement, and let it earn each role separately.</p>
+              </div>
+            </details>
+          </div>
+          <div class="nside">
+            <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+          </div>
+        </div>
+
+        <!-- Field note integrated from field-notes-drafts.md (Note 2). READY FOR REVIEW.
+             Team work, uses "we" per the drafts. New ledger entry; reflected in the head JSON-LD ItemList (position 6). -->
+        <div class="note" id="note-feasibility-engine">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <details class="nx">
+              <summary>
+                <span class="nt">A feasibility engine that answers the dispatcher's questions, not mine</span>
+                <span class="nx-dates">Work: Dec 2025 to Feb 2026 (from commits) &middot; Written up: July 2026</span>
+                <span class="nx-cue"></span>
+              </summary>
+              <div class="nx-body">
+                <p>At a business-aviation operator, every trip request has to clear the same gauntlet before anyone commits an aircraft: can the passengers actually enter that country, is the airport open and staffed when they land, is the tail out for maintenance, does the crew have legal duty time left, will they arrive in daylight where that matters. Dispatchers carry this checklist in their heads. We built it into software.</p>
+                <p>The engine runs a set of process checks against each trip: customs and immigration (including the edge cases, like domestic legs where customs and visas don't apply), aerodrome status and clearance hours, maintenance downtime that overlaps the trip dates, scheduling conflicts, and crew duty time computed across all legs, adjusted for the regulatory category the flight operates under. The checks run in parallel, and each one comes back with a status and its reasoning, not just a red or green light.</p>
+                <p>Two design calls mattered more than any individual check. First, thresholds came from the operations floor, not from us; two legs of the same flight only count as a conflict when the gap is under 45 minutes, because above that the schedule absorbs it. Second, overrides are first-class. A dispatcher can wave a check through, and the engine reruns everything afterward so the override is a recorded decision on fresh data, not a silenced alarm.</p>
+                <p>The lesson: a feasibility engine earns trust by encoding the questions experts already ask, showing its work, and leaving the final call with the human.</p>
+              </div>
+            </details>
+          </div>
+          <div class="nside">
+            <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+          </div>
+        </div>
+
+        <div class="note">
+          <span class="date">2026</span>
+          <div class="nbody">
+            <a class="nt" href="https://www.hamz.ai/designing-agentic-ai/">Designing agentic systems</a>
+            <p>The field guide on how we decide the shape of an agentic system: one agent or many, and where a step should stay plain code instead of a model. The same page carries the interactive agent-topologies primer built for a new MIT Sloan course.</p>
+          </div>
+          <div class="nside">
+            <span class="chip shipped hot" tabindex="0" data-tt="Shipped" data-tip="Step 5 of the ladder: every review level signed off, and the note is public.">Shipped</span>
+          </div>
+        </div>
+
+      </div>
+      <p class="legend">shipped &middot; passed the chain &nbsp;/&nbsp; in review &middot; climbing it &nbsp;/&nbsp; drafting &middot; step 1</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
+    <span>
+      <a href="https://github.com/HamzaYM">GitHub</a>
+      <a href="https://linkedin.com/in/hamzaymalik">LinkedIn</a>
+      <a href="https://www.hamz.ai">hamz.ai &rarr;</a>
+    </span>
+  </div>
+</footer>
+
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* theme toggle */
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){ try{ return localStorage.getItem('hamz-theme') || 'system'; }catch(e){ return 'system'; } }
+  function paint(v){ btns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.themeSet===v ? 'true' : 'false'); }); }
+  function apply(v){
+    if(v==='light'||v==='dark'){ root.setAttribute('data-theme',v); }
+    else{ root.removeAttribute('data-theme'); }
+    try{ localStorage.setItem('hamz-theme',v); }catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){ b.addEventListener('click',function(){ apply(b.dataset.themeSet); }); });
+  paint(cur());
+
+  /* tooltip engine */
+  var tip = document.getElementById('tip');
+  var pinned = false;
+  function showTip(el, x, y){
+    var txt = el.getAttribute('data-tip'); if(!txt) return;
+    var tt = el.getAttribute('data-tt') || '';
+    tip.innerHTML = (tt ? '<span class="tt">'+tt+'</span>' : '') + txt;
+    tip.classList.add('show');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var r = tip.getBoundingClientRect();
+    var left = x + 14, top = y + 16;
+    if(left + r.width + 10 > vw) left = x - r.width - 14;
+    if(left < 8) left = 8;
+    if(top + r.height + 10 > vh) top = y - r.height - 14;
+    if(top < 8) top = 8;
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+  function hideTip(){ tip.classList.remove('show'); pinned = false; }
+  document.querySelectorAll('.hot').forEach(function(el){
+    el.addEventListener('mouseenter', function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mousemove',  function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', function(){ if(!pinned) tip.classList.remove('show'); });
+    el.addEventListener('focus', function(){ var b=el.getBoundingClientRect(); showTip(el, b.left+b.width/2, b.top+b.height-8); });
+    el.addEventListener('blur',  function(){ tip.classList.remove('show'); });
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); pinned=false; showTip(el, ev.clientX, ev.clientY); pinned=true; });
+  });
+  document.addEventListener('click',  function(ev){ if(!ev.target.closest('.hot')) hideTip(); });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') hideTip(); });
+
+  /* reveal on scroll */
+  var rv = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduced){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0});
+    rv.forEach(function(el){ io.observe(el); });
+  } else { rv.forEach(function(el){ el.classList.add('in'); }); }
+
+  /* scroll progress */
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight;
+    bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>

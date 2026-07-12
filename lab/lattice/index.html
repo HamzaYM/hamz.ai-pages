@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
+<!--
+  hamz.ai/lab/lattice · The effort lattice
+  NUMBERS: every figure on this page is sourced from results/matrix/MATRIX.md
+  (the reliable-ai-skills repo, adjudicated 2026-07-11), the pre-registration,
+  and the posted 2026-07-10 Fable endpoint amendment. No number was invented.
+  NOTE: the confirmatory tables and the grid-wide figures use two different
+  pre-registered task bases, so the same model can print two slightly
+  different numbers; a caption on the page explains why. Both are correct
+  as printed; do not make them match.
+  Serve this file statically (no client-side render step) so crawlers,
+  link unfurlers, and AI fetchers can read it.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The effort lattice &middot; hamz.ai / lab</title>
+<meta name="description" content="Skills or reasoning effort: which matters more? A pre-registered lattice across three Claude models at five effort levels each found the skill advantage held at every effort level.">
+<link rel="canonical" href="https://www.hamz.ai/lab/lattice/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hamz.ai">
+<meta property="og:title" content="The effort lattice · hamz.ai / lab">
+<meta property="og:description" content="Skills or reasoning effort: which matters more? A pre-registered lattice across three Claude models at five effort levels each found the skill advantage held at every effort level.">
+<meta property="og:url" content="https://www.hamz.ai/lab/lattice/">
+<meta property="og:image" content="https://www.hamz.ai/lab/og/lattice.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Does turning up reasoning effort replace skills?",
+  "name": "The effort lattice",
+  "url": "https://www.hamz.ai/lab/lattice/",
+  "dateModified": "2026-07-11",
+  "about": "AI agent evaluation",
+  "author": {
+    "@type": "Person",
+    "name": "Hamza Malik",
+    "url": "https://www.hamz.ai",
+    "sameAs": ["https://linkedin.com/in/hamzaymalik", "https://github.com/HamzaYM"]
+  },
+  "description": "Skills or reasoning effort: which matters more? A pre-registered lattice across three Claude models at five effort levels each found the skill advantage held at every effort level."
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230F0F0F'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%234ADE80'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* surfaces */
+    --bg:#0F0F0F;
+    --raised:#161616;
+    --raised-2:#1C1C1C;
+    --hover:#1C1C1C;
+    /* lines */
+    --line:#262626;
+    --line-strong:#333333;
+    /* ink */
+    --ink:#F2F2F0;
+    --dim:#9A9A94;
+    --faint:#85857F;
+    /* accent: the evidence-stage green from lab.html (--evd) */
+    --acc:#4ADE80;
+    --acc-dim:#1F6B3C;
+    --acc-tint:rgba(74,222,128,0.08);
+    --acc-loud:#4ADE80;
+    --amber:#D9A441;
+    /* tooltip chip (inverted ink) */
+    --tip-text:#0F0F0F;
+    --tt-accent:#15803D;
+    /* type */
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    /* layout */
+    --max:1080px;
+  }
+  /* system prefers light, and the user hasn't explicitly chosen dark */
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --acc:#15803D; --acc-dim:#166534; --acc-tint:rgba(21,128,61,0.10); --acc-loud:#4ADE80;
+    --amber:#8F6A1B;
+    --tip-text:#F7F5F2; --tt-accent:#4ADE80;
+  } }
+  /* explicit light toggle wins over everything */
+  :root[data-theme="light"]{
+    --bg:#F7F5F2; --raised:#FFFFFF; --raised-2:#EFEAE3; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --acc:#15803D; --acc-dim:#166534; --acc-tint:rgba(21,128,61,0.10); --acc-loud:#4ADE80;
+    --amber:#8F6A1B;
+    --tip-text:#F7F5F2; --tt-accent:#4ADE80;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;border-radius:0 !important;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--dim); font-family:var(--sans);
+        font-size:17px; line-height:1.6; letter-spacing:-0.01em;
+        -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
+  a{ color:var(--acc); text-decoration:none; }
+  strong{ color:var(--ink); font-weight:500; }
+  ::selection{ background:var(--acc); color:#0F0F0F; }
+  :focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  /* progress bar */
+  #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--acc); z-index:70; transition:width .1s linear; }
+
+  /* nav (opaque flavor, page ships the theme toggle) */
+  nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px;
+       padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
+  nav.site-nav .brand b{ color:var(--acc); font-weight:500; }
+  nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
+  nav.site-nav .brand-lab:hover{ color:var(--acc); }
+  nav.site-nav .nav-right{ margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .lab-nav{ display:flex; gap:14px; flex-wrap:wrap; }
+  .lab-nav a{ font-family:var(--mono); font-size:12px; color:var(--faint); padding:4px 2px; border-bottom:1px solid transparent; }
+  .lab-nav a:hover{ color:var(--acc); }
+  .lab-nav a[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--acc); }
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+       font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+  .theme-toggle button:last-child{ border-right:none; }
+  .theme-toggle button:hover{ color:var(--dim); }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--acc-loud); color:#0F0F0F; }
+  @media(max-width:520px){ .lab-nav{ gap:10px; } }
+  @media(max-width:640px){
+    nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+    nav.site-nav .nav-right{ gap:8px 12px; }
+    .lab-nav{ gap:6px 12px; }
+  }
+
+  /* tooltip */
+  #tip{ position:fixed; z-index:300; max-width:280px; background:var(--ink); color:var(--tip-text);
+        font-family:var(--sans); font-size:.86rem; line-height:1.45; padding:12px 14px;
+        box-shadow:0 10px 30px rgba(0,0,0,.22); pointer-events:none;
+        opacity:0; transform:translateY(4px); transition:opacity .14s ease, transform .14s ease; }
+  #tip.show{ opacity:1; transform:none; }
+  #tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+        color:var(--tt-accent); display:block; margin-bottom:5px; }
+  .hot{ cursor:pointer; border-bottom:1px dashed var(--line-strong); }
+  .hot:hover, .hot:focus-visible{ border-bottom-color:var(--acc); }
+  .hot:focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
+
+  /* hero */
+  .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
+  .crumbs{ font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; gap:16px; flex-wrap:wrap; margin-bottom:30px; }
+  .crumbs a{ color:var(--faint); }
+  .crumbs a:hover{ color:var(--acc); }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+            text-transform:uppercase; color:var(--acc); margin-bottom:22px; }
+  h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:26px; }
+  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+  .lede strong{ font-weight:500; }
+
+  /* in-page anchor nav */
+  .page-nav{ margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; }
+  .page-nav a{ font-family:var(--mono); font-size:12px; color:var(--dim); border:1px solid var(--line);
+               padding:8px 14px; letter-spacing:0.04em; }
+  .page-nav a:hover{ color:var(--ink); border-color:var(--acc); }
+  .page-nav a b{ color:var(--acc); font-weight:500; margin-right:8px; }
+
+  /* draft banner */
+  .draft{ margin-top:34px; max-width:760px; border:1px dashed var(--amber); padding:14px 18px;
+          font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.03em; }
+
+  /* sections */
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+                text-transform:uppercase; color:var(--acc); margin-bottom:16px; }
+  .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
+  h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+  h3{ font-size:20px; margin:40px 0 14px; }
+  section p{ max-width:66ch; margin-bottom:16px; }
+  .lead{ font-size:20px; color:var(--ink); max-width:62ch; }
+
+  /* callout (amber, honesty register) */
+  .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--amber);
+            background:var(--raised); padding:24px 26px; max-width:760px; }
+  .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); margin-bottom:12px; }
+  .callout p{ font-size:15px; margin-bottom:14px; }
+  .callout p:last-child{ margin-bottom:0; }
+
+  /* verdict box (green variant) */
+  .verdict-box{ margin:32px 0 8px; border:1px solid var(--line); border-left:2px solid var(--acc);
+            background:var(--raised); padding:24px 26px; max-width:760px; }
+  .verdict-box .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--acc); margin-bottom:12px; }
+  .verdict-box p{ font-size:16px; margin-bottom:14px; color:var(--dim); }
+  .verdict-box p:last-child{ margin-bottom:0; }
+
+  /* pending / need markers */
+  .pending{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.02em; white-space:nowrap; }
+  .needs{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.02em; }
+
+  /* tables */
+  .tbl-scroll{ overflow-x:auto; margin:28px 0 8px; max-width:900px; }
+  table.data{ border-collapse:collapse; width:100%; min-width:520px; border:1px solid var(--line); background:var(--raised); }
+  table.data caption{ text-align:left; font-family:var(--mono); font-size:12px; color:var(--faint);
+        padding:0 0 10px; letter-spacing:0.03em; caption-side:top; }
+  table.data th{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+        color:var(--faint); text-align:left; padding:12px 14px; border-bottom:1px solid var(--line-strong); font-weight:500; }
+  table.data td{ font-family:var(--mono); font-size:13px; color:var(--dim); padding:11px 14px; border-bottom:1px solid var(--line); }
+  table.data tr:last-child td{ border-bottom:none; }
+  table.data td b{ color:var(--ink); font-weight:500; }
+  table.data td.v-yes{ color:var(--acc); }
+  table.data td.v-no{ color:var(--amber); }
+  .tbl-note{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:12px; max-width:760px; letter-spacing:0.02em; }
+
+  /* the interior-curve lattice figure */
+  .lattice-fig{ margin:32px 0 8px; max-width:900px; }
+  .lattice-fig .fig-title{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+        color:var(--acc); margin-bottom:14px; }
+  .lat-scroll{ overflow-x:auto; }
+  table.lattice{ border-collapse:collapse; width:100%; min-width:640px; border:1px solid var(--line); background:var(--raised); }
+  table.lattice th{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+        color:var(--faint); padding:12px 14px; border-bottom:1px solid var(--line-strong); border-right:1px solid var(--line); text-align:left; font-weight:500; }
+  table.lattice td{ font-family:var(--mono); font-size:13px; padding:14px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); color:var(--dim); }
+  table.lattice th:last-child, table.lattice td:last-child{ border-right:none; }
+  table.lattice tr:last-child td{ border-bottom:none; }
+  table.lattice td .d{ color:var(--ink); font-weight:500; display:block; }
+  table.lattice td .m{ display:block; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); margin-top:4px; }
+  table.lattice td.rep{ background:var(--acc-tint); }
+  table.lattice td.na{ color:var(--faint); }
+
+  /* code-ish inline */
+  code{ font-family:var(--mono); font-size:0.85em; color:var(--ink); background:var(--raised-2);
+        padding:2px 6px; border:1px solid var(--line); word-break:break-all; }
+
+  /* explorer slot placeholder */
+  .slot{ margin-top:36px; border:1px dashed var(--line-strong); background:var(--raised);
+         padding:34px 28px; max-width:760px; }
+  .slot .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+             color:var(--amber); margin-bottom:12px; }
+  .slot p{ font-size:15px; margin-bottom:12px; }
+  .slot p:last-child{ margin-bottom:0; }
+
+  /* ===== exhibits E1-E6 (built to review/lattice-visuals-spec.md) ===== */
+  .exhibit{ margin:40px 0 8px; max-width:900px; }
+  .exhibit .ex-title{ font-family:var(--display); font-size:23px; color:var(--ink); font-weight:500;
+        letter-spacing:-0.02em; line-height:1.22; margin-bottom:10px; max-width:40ch; }
+  .exhibit .ex-sub{ font-family:var(--sans); font-size:14.5px; color:var(--dim); margin-bottom:16px; max-width:72ch; }
+  .fig-wrap{ overflow-x:auto; border:1px solid var(--line); background:var(--raised); padding:22px;
+        page-break-inside:avoid; }
+  .fig-wrap svg{ display:block; width:100%; height:auto; max-width:100%; }
+  .fig-cap{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px;
+        letter-spacing:0.02em; text-align:left; }
+  /* svg theme utility classes: everything routes through the page tokens */
+  .sv-t{ font-family:var(--mono); }
+  .sv-ink{ fill:var(--ink); } .sv-dim{ fill:var(--dim); } .sv-faint{ fill:var(--faint); }
+  .sv-acc{ fill:var(--acc); } .sv-amber{ fill:var(--amber); }
+  .sv-l{ stroke:var(--line); } .sv-ls{ stroke:var(--line-strong); } .sv-sd{ stroke:var(--dim); }
+  .sv-sa{ stroke:var(--acc); } .sv-sam{ stroke:var(--amber); } .sv-sf{ stroke:var(--faint); }
+  .sv-fr{ fill:var(--raised); } .sv-fr2{ fill:var(--raised-2); } .sv-fbg{ fill:var(--bg); }
+  .sv-ftint{ fill:var(--acc-tint); } .sv-fnone{ fill:none; }
+  /* E5 explorer: hidden until JS marks the document, table stays as fallback */
+  .eff-controls{ display:flex; flex-wrap:wrap; border:1px solid var(--line); width:max-content; max-width:100%; margin-bottom:8px; }
+  .eff-controls button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+        font-family:var(--mono); font-size:11px; letter-spacing:0.06em; padding:8px 12px; cursor:pointer;
+        transition:color .15s,background .15s; }
+  .eff-controls button:last-child{ border-right:none; }
+  .eff-controls button:hover{ color:var(--dim); }
+  .eff-controls button[aria-pressed="true"]{ background:var(--acc-loud); color:#0F0F0F; }
+  .eff-note{ font-family:var(--mono); font-size:11px; color:var(--faint); margin:8px 0 14px; max-width:72ch; }
+  #lattice3d{ display:none; }
+  html.js #lattice3d{ display:block; }
+  #lattice3d .fig-wrap{ touch-action:pan-y; cursor:grab; }
+  #lattice3d .fig-wrap.dragging{ cursor:grabbing; }
+  @media print{ #lattice3d{ display:none !important; } .fig-wrap{ overflow:visible; } }
+
+  /* pull quote / outro */
+  .final{ padding:88px 0; border-bottom:none; }
+  .pull{ margin:0; padding:4px 0 4px 28px; border-left:2px solid var(--acc);
+         font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25;
+         color:var(--ink); font-weight:500; max-width:28ch; letter-spacing:-0.02em; }
+
+  /* footer */
+  footer{ border-top:1px solid var(--line); padding:30px 0 56px; }
+  .foot{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .foot a{ color:var(--dim); margin-right:16px; }
+  .foot a:last-child{ margin-right:0; }
+  .foot a:hover{ color:var(--acc); }
+
+  /* ===== calm motion layer (motion-design-language.md section 1) =====
+     One-time entrances only. Hidden states exist solely under html.js AND
+     prefers-reduced-motion: no-preference, so no-JS, reduced-motion, and
+     print renderings are complete and instant. Verdict sentences, tables,
+     and methodology text carry no entrance of any kind. */
+  @media (prefers-reduced-motion: no-preference){
+    html.js .fx{ opacity:0; transform:translateY(20px);
+      transition:opacity .5s cubic-bezier(0,0,0.2,1), transform .5s cubic-bezier(0,0,0.2,1); }
+    html.js .fx-lg{ transform:translateY(36px); transition-duration:.6s; }
+    html.js .fx.in{ opacity:1; transform:none; }
+    html.js .wf-s{ opacity:0; transform:translateY(10px);
+      transition:opacity .55s cubic-bezier(0,0,0.2,1), transform .55s cubic-bezier(0,0,0.2,1); }
+    html.js .wf-s.in{ opacity:1; transform:none; }
+    html.js polyline.draw{ transition:stroke-dashoffset .8s cubic-bezier(0,0,0.2,1); }
+  }
+  @media print{ .fx, .wf-s{ opacity:1 !important; transform:none !important; } }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    #tip{ transition:none; }
+  }
+
+  /* ===== tab architecture + hero strip (2026-07-11 restructure) ===== */
+  .stats{ display:flex; flex-wrap:wrap; border:1px solid var(--line); margin-top:36px; max-width:920px; background:var(--raised); }
+  .stats .st{ flex:1 1 auto; min-width:132px; padding:16px 20px; border-right:1px solid var(--line); }
+  .stats .st:last-child{ border-right:none; }
+  .stats .v{ font-family:var(--display); font-size:22px; color:var(--ink); font-weight:500; letter-spacing:-0.01em; }
+  .stats .l{ font-family:var(--mono); font-size:10.5px; color:var(--faint); letter-spacing:0.06em; text-transform:uppercase; margin-top:4px; line-height:1.5; }
+  @media(max-width:640px){ .stats .st{ min-width:46%; border-top:1px solid var(--line); } }
+  .prov{ margin-top:16px; font-family:var(--mono); font-size:12px; color:var(--faint); letter-spacing:0.03em; }
+  .prov a{ color:var(--dim); }
+  .prov a:hover{ color:var(--acc); }
+
+  .tabs-bar{ border-bottom:1px solid var(--line); background:var(--bg); }
+  .tabs{ display:none; }
+  html.js .tabs{ display:flex; flex-wrap:wrap; }
+  .tabs button{ background:none; border:none; border-right:1px solid var(--line); color:var(--dim);
+       font-family:var(--mono); font-size:12.5px; letter-spacing:0.04em; padding:14px 22px; cursor:pointer;
+       border-bottom:2px solid transparent; transition:color .15s, background .15s; }
+  .tabs button:first-child{ border-left:1px solid var(--line); }
+  .tabs button:hover{ color:var(--ink); }
+  .tabs button[aria-selected="true"]{ color:var(--ink); border-bottom-color:var(--acc); background:var(--raised); }
+  html.js .tab-panel{ display:none; }
+  html.js .tab-panel.active{ display:block; }
+  @media print{
+    html.js .tab-panel{ display:block !important; }
+    .tabs-bar{ display:none !important; }
+  }
+
+  .cardrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; max-width:920px; margin:36px 0 8px; }
+  .mini-card{ border:1px solid var(--line); background:var(--raised); padding:22px 24px; }
+  .mini-card .ct{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--acc); margin-bottom:10px; }
+  .mini-card p{ font-size:15px; margin-bottom:10px; max-width:none; }
+  .mini-card p:last-child{ margin-bottom:0; }
+
+  .takeaways{ margin-top:8px; max-width:760px; }
+  .takeaways .tk{ border:1px solid var(--line); border-left:2px solid var(--acc); background:var(--raised); padding:18px 22px; margin-bottom:14px; }
+  .takeaways .tk p{ font-size:15.5px; margin:0; max-width:none; }
+  .takeaways .tk b{ color:var(--ink); font-weight:500; display:block; margin-bottom:4px; }
+
+  h4{ font-size:15.5px; margin:26px 0 8px; }
+  ul.plain-list{ list-style:none; max-width:70ch; margin:0 0 16px; }
+  ul.plain-list li{ padding:8px 0 8px 16px; border-left:2px solid var(--line-strong); margin-bottom:10px; font-size:15px; }
+  .skill-groups{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 32px; max-width:920px; }
+  .skill-groups ul{ list-style:none; margin:0 0 6px; }
+  .skill-groups li{ font-size:14px; padding:7px 0; border-bottom:1px solid var(--line); }
+  .skill-groups li:last-child{ border-bottom:none; }
+  .skill-groups li b{ color:var(--ink); font-weight:500; font-family:var(--mono); font-size:12.5px; }
+
+  table.data.fit{ min-width:0; }
+  table.data td .q{ display:block; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); margin-top:3px; font-weight:400; }
+  table.data td.ghost, table.data tr.ghost td{ color:var(--faint); }
+  table.data tr.ghost td{ border-top:1px dashed var(--line-strong); }
+
+  /* ===== 2026-07-11 visuals build: model palette, figure cards, chart toggles ===== */
+  :root{
+    --c-fable:#E8734A; --c-opus:#27A37A; --c-sonnet:#7B6FE0; --c-haiku:#8A8A85;
+  }
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --c-fable:#C4552E; --c-opus:#1B8763; --c-sonnet:#5B4FC8; --c-haiku:#6E6E68;
+  } }
+  :root[data-theme="light"]{
+    --c-fable:#C4552E; --c-opus:#1B8763; --c-sonnet:#5B4FC8; --c-haiku:#6E6E68;
+  }
+  /* figure plates: the page chrome stays square; soft radius is allowed inside figures only */
+  .vz-card{ border:1px solid var(--line); background:var(--raised); border-radius:14px !important;
+        padding:20px 18px 12px; overflow-x:auto; }
+  .vz-card svg{ display:block; width:100%; height:auto; min-width:640px; }
+  .vz-legend{ display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:center; align-items:center;
+        font-family:var(--mono); font-size:12px; color:var(--dim); margin:2px 0 14px; }
+  .vz-legend .dot{ display:inline-block; width:9px; height:9px; border-radius:50% !important; margin-right:7px; }
+  .vz-legend .ln{ display:inline-block; width:22px; height:0; border-top:2px solid var(--dim); margin-right:7px; vertical-align:middle; }
+  .vz-legend .ln.dash{ border-top-style:dashed; }
+  table.data td.hero, table.data th.hero{ background:var(--acc-tint); }
+  table.data tr.grp td, table.data tr.grp th{ border-top:1px solid var(--line-strong); }
+  /* series toggles: with JS off no data-view attribute exists, so every series stays visible */
+  [data-view="loaded"] .ser-cold{ display:none; }
+  [data-view="cold"] .ser-loaded{ display:none; }
+  /* cost-chart model switcher: one model at a time by default, or the
+     with-skills-only "All models" view. With JS off no data-view attribute
+     exists, so everything stays visible with every label. */
+  #cost-fig[data-view="fable"] .cm-opus, #cost-fig[data-view="fable"] .cm-sonnet, #cost-fig[data-view="fable"] .cm-haiku,
+  #cost-fig[data-view="opus"] .cm-fable, #cost-fig[data-view="opus"] .cm-sonnet, #cost-fig[data-view="opus"] .cm-haiku,
+  #cost-fig[data-view="sonnet"] .cm-fable, #cost-fig[data-view="sonnet"] .cm-opus, #cost-fig[data-view="sonnet"] .cm-haiku,
+  #cost-fig[data-view="all"] .ser-cold{ display:none; }
+  #cost-fig[data-view="fable"] .lbls text:not(.lbl-end),
+  #cost-fig[data-view="opus"] .lbls text:not(.lbl-end),
+  #cost-fig[data-view="sonnet"] .lbls text:not(.lbl-end),
+  #cost-fig[data-view="all"] .lbls text,
+  #cost-fig[data-view="all"] .lbl{ display:none; }
+  #cost-fig[data-view] g[class*="ser-"]:hover .lbls text{ display:inline; }
+  /* data-cell hovers */
+  .cellhot{ cursor:help; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="site-nav" aria-label="Lab">
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../">/ lab</a>
+  <div class="nav-right">
+    <div class="lab-nav">
+      <a href="./" aria-current="page">Lattice</a>
+      <a href="../skills/">Skills</a>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </div>
+  </div>
+</nav>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>document.documentElement.classList.add('js');</script>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="crumbs">
+      <a href="../evidence/">&larr; the skills study</a>
+      <a href="https://www.hamz.ai">&larr; hamz.ai</a>
+      <span>Updated July 2026</span>
+    </div>
+    <div class="eyebrow">The lab / the effort lattice</div>
+    <h1>Skills or reasoning effort: which matters more?</h1>
+    <p class="lede">Every Claude model now ships a reasoning dial. Turn it up and the model thinks longer and scores higher. So can more thinking replace expertise (the packaged skills an agent loads before it works)? I wanted the answer without fooling myself. So I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, ran the whole grid, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
+    <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. Keep going to see if I was right.</p>
+    <div class="stats" aria-label="The study at a glance" data-fx-stagger>
+      <div class="st fx"><div class="v">4</div><div class="l">Claude models</div></div>
+      <div class="st fx"><div class="v">5</div><div class="l">effort levels, low to max</div></div>
+      <div class="st fx"><div class="v" data-count="17">17</div><div class="l">tasks, frozen before any run</div></div>
+      <div class="st fx"><div class="v" data-count="1827">1,827</div><div class="l">checklist marks judged blind</div></div>
+      <div class="st fx"><div class="v">$965.22</div><div class="l">what the experiment cost, all in &middot; $791.57 running + $173.65 judging &middot; building it excluded</div></div>
+    </div>
+    <p class="prov">From <a href="https://www.hamz.ai">hamz.ai</a>, an AI implementation studio.</p>
+    <p class="prov">Prefer to watch it happen? <a href="visual/">The three-minute visual story</a></p>
+  </div>
+</header>
+
+<div class="tabs-bar">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Page sections">
+      <button type="button" role="tab" id="tab-result" aria-controls="result" aria-selected="true">The result</button>
+      <button type="button" role="tab" id="tab-how" aria-controls="how" aria-selected="false" tabindex="-1">How it worked</button>
+      <button type="button" role="tab" id="tab-methodology" aria-controls="methodology" aria-selected="false" tabindex="-1">The full methodology</button>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ TAB 1 · THE RESULT ============ -->
+  <section class="tab-panel active" id="result" role="tabpanel" aria-labelledby="tab-result" tabindex="-1">
+    <div class="wrap">
+      <div class="sec-eyebrow"><span class="num">01</span>The result</div>
+      <h2>Both levers work. They do different jobs.</h2>
+
+      <p class="lead">More reasoning effort made every model better on its own. Comparing the lowest effort setting against the highest (high on Fable, whose max runs never finished), scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.6 on Sonnet. Each cleared the 3-point bar fixed before the first run. More thinking buys better work, reliably.</p>
+
+      <p>It did not buy back what the skills add. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.7 points, and on Opus the skill advantage actually grew as effort went up. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26 points, the largest gap in the study.</p>
+
+      <p>There is a ceiling story in the grid too. The skills helped every model, and they helped Fable the least, because Fable starts from the highest floor. With the library installed, Fable never scored below 99.5. Opus reached 100.0 at max effort. Sonnet, which starts cold in the 80s, reached 99.5 at max. Less headroom means less to add, not nothing to add.</p>
+
+      <p>Two terms before the numbers. Each task carries a short checklist of things a correct answer must do, and a score is the share of checklist items hit. Blinded means the two Claude judges marking each item were never told which answer ran with the skills installed; a fixed third judge settled any disagreement.</p>
+
+      <div class="exhibit" id="matrix-table">
+        <div class="ex-title" style="text-align:center">Scores with and without the skills, across the whole grid</div>
+        <p class="ex-sub" style="text-align:center">Share of checklist items hit, on the 16 tasks every setup completed. The highlighted column is what installing the skills added, in percentage points. The two ends of each model's effort range were run three times for stability; the middle levels once.</p>
+        <div class="tbl-scroll">
+          <table class="data fit" id="tbl-results">
+            <thead><tr><th>Model</th><th>Effort</th><th>Without skills</th><th>With skills</th><th class="hero">What the skills added</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>Haiku 4.5</b></td><td><span class="hot" tabindex="0" data-tt="no effort dial" data-tip="Haiku does not expose a reasoning-effort setting, so it runs one way; it is here as a baseline.">no effort dial</span><span class="q">runs one way</span></td>
+                <td><b>66.2%</b><span class="q">1 run</span></td>
+                <td><b>92.3%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+26.2</b><span class="q">points</span></td>
+              </tr>
+              <tr class="grp">
+                <td rowspan="5"><b>Sonnet 5</b></td><td>low</td>
+                <td><b>85.1%</b><span class="q">avg of 3 runs</span></td>
+                <td><b>96.9%</b><span class="q">avg of 3 runs</span></td>
+                <td class="hero"><b>+11.8</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>medium</td>
+                <td><b>86.2%</b><span class="q">1 run</span></td>
+                <td><b>98.5%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+12.3</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>high</td>
+                <td><b>89.2%</b><span class="q">1 run</span></td>
+                <td><b>100.0%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+10.8</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>xhigh (extra high)</td>
+                <td><b>86.2%</b><span class="q">1 run</span></td>
+                <td><b>98.5%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+12.3</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>max</td>
+                <td><b>89.7%</b><span class="q">avg of 3 runs</span></td>
+                <td><b>99.5%</b><span class="q">avg of 3 runs</span></td>
+                <td class="hero"><b>+9.7</b><span class="q">points</span></td>
+              </tr>
+              <tr class="grp">
+                <td rowspan="5"><b>Opus 4.8</b></td><td>low</td>
+                <td><b>88.2%</b><span class="q">avg of 3 runs</span></td>
+                <td><b>96.9%</b><span class="q">avg of 3 runs</span></td>
+                <td class="hero"><b>+8.7</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>medium</td>
+                <td><b>83.1%</b><span class="q">1 run</span></td>
+                <td><b>96.9%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+13.8</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>high</td>
+                <td><b>87.7%</b><span class="q">1 run</span></td>
+                <td><b>98.5%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+10.8</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>xhigh</td>
+                <td><b>89.2%</b><span class="q">1 run</span></td>
+                <td><b>98.5%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+9.2</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>max</td>
+                <td><b>91.3%</b><span class="q">avg of 3 runs</span></td>
+                <td><b>100.0%</b><span class="q">avg of 3 runs</span></td>
+                <td class="hero"><b>+8.7</b><span class="q">points</span></td>
+              </tr>
+              <tr class="grp">
+                <td rowspan="5"><b>Fable 5</b></td><td>low</td>
+                <td><b>95.4%</b><span class="q">avg of 3 runs</span></td>
+                <td><b>99.5%</b><span class="q">avg of 3 runs</span></td>
+                <td class="hero"><b>+4.1</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>medium</td>
+                <td><b>92.3%</b><span class="q">1 run</span></td>
+                <td><b>100.0%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+7.7</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>high</td>
+                <td><b>97.4%</b><span class="q">avg of 3 runs</span></td>
+                <td><b>100.0%</b><span class="q">avg of 3 runs</span></td>
+                <td class="hero"><b>+2.6</b><span class="q">points</span></td>
+              </tr>
+              <tr>
+                <td>xhigh</td>
+                <td><b>96.9%</b><span class="q">1 run</span></td>
+                <td><b>100.0%</b><span class="q">1 run</span></td>
+                <td class="hero"><b>+3.1</b><span class="q">points</span></td>
+              </tr>
+              <tr class="ghost">
+                <td>max</td>
+                <td colspan="3">did not finish &middot; it got too expensive<span class="q">slot open &middot; one run is still quietly going</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tbl-note">Methodology: each score is the share of checklist items hit across the 16 tasks every setup completed, scored by two blinded Claude judges with a third settling disagreements. The suite has 17 tasks; one of them, mmar-t1, the pull-request review on the multi-tenant clinic scheduler, had one with-skills run on Sonnet at max effort cut off by the harness before it finished. An interrupted run does not count, so that task drops from every cross-setup comparison, leaving the 16 tasks that finished everywhere. Rows marked avg of 3 runs average three runs per side; 1-run rows are single runs, so read the direction, not the decimals. The headline gains quoted above use a slightly stricter task basis fixed in advance, so they can differ from these cells by a few tenths; both bases are spelled out in <a href="#methodology">the full methodology</a>. Source: MATRIX.md in the repo.</p>
+      </div>
+
+      <div id="perf-figs">
+      <div class="eff-controls" id="perf-controls" role="group" aria-label="Which lines to show on the two performance charts">
+        <button type="button" data-pv="all" aria-pressed="true">Everything</button>
+        <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
+        <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
+      </div>
+      <p class="eff-note">One control for both charts below. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
+
+      <div class="exhibit fx fx-lg" id="fig-perf-full">
+        <div class="ex-title" style="text-align:center">Skills lifted every model at every effort level</div>
+        <p class="ex-sub" style="text-align:center">Share of checklist items hit (%), by effort level. Full 0 to 100 scale.</p>
+        <div class="vz-card">
+          <div class="vz-legend">
+            <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
+            <span><span class="dot" style="background:var(--c-opus)"></span>Opus 4.8</span>
+            <span><span class="dot" style="background:var(--c-sonnet)"></span>Sonnet 5</span>
+            <span><span class="dot" style="background:var(--c-haiku)"></span>Haiku 4.5</span>
+            <span><span class="ln"></span>with the skills installed</span>
+            <span><span class="ln dash"></span>without</span>
+          </div>
+          <svg viewBox="0 0 920 560" role="img"
+               aria-label="Line chart of checklist score by effort level, 0 to 100 percent scale. On every model the solid line, runs with the skills installed, sits above the dashed line, runs without, at every effort level. Haiku is a detached pair of reference dots at 92.3 percent with the skills and 66.2 percent without.">
+            <desc>With skills: Fable 99.5, 100.0, 100.0, 100.0 over low to xhigh; Opus 96.9, 96.9, 98.5, 98.5, 100.0 over low to max; Sonnet 96.9, 98.5, 100.0, 98.5, 99.5. Without skills: Fable 95.4, 92.3, 97.4, 96.9; Opus 88.2, 83.1, 87.7, 89.2, 91.3; Sonnet 85.1, 86.2, 89.2, 86.2, 89.7. Haiku, no effort dial: 92.3 with, 66.2 without. Fable at max never finished.</desc>
+            <g class="sv-l">
+              <line x1="70" y1="480" x2="890" y2="480" stroke-width="1"/>
+              <line x1="70" y1="370" x2="890" y2="370" stroke-width="1"/>
+              <line x1="70" y1="260" x2="890" y2="260" stroke-width="1"/>
+              <line x1="70" y1="150" x2="890" y2="150" stroke-width="1"/>
+              <line x1="70" y1="40"  x2="890" y2="40"  stroke-width="1"/>
+            </g>
+            <g class="sv-t sv-faint" font-size="11" text-anchor="end">
+              <text x="58" y="484">0</text><text x="58" y="374">25</text><text x="58" y="264">50</text><text x="58" y="154">75</text><text x="58" y="44">100</text>
+            </g>
+            <text class="sv-t sv-faint" x="70" y="20" font-size="11">Share of checklist items hit, %</text>
+            <g class="sv-t sv-dim" font-size="11" text-anchor="middle">
+              <text x="135" y="507">Haiku</text>
+              <text x="290" y="507">low</text><text x="425" y="507">medium</text><text x="560" y="507">high</text><text x="695" y="507">xhigh</text><text x="830" y="507">max</text>
+            </g>
+            <text class="sv-t sv-faint" x="135" y="524" font-size="9.5" text-anchor="middle">no effort dial</text>
+            <text class="sv-t sv-faint" x="560" y="545" font-size="11" text-anchor="middle">Reasoning effort level</text>
+            <g class="ser-cold" data-model="fable" data-arm="cold" style="stroke:var(--c-fable)">
+              <polyline points="290,60.2 425,73.9 560,51.4 695,53.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="290" cy="60.2" r="4"/><circle cx="425" cy="73.9" r="4"/><circle cx="560" cy="51.4" r="4"/><circle cx="695" cy="53.6" r="4"/>
+              </g>
+            </g>
+            <g class="ser-cold" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
+              <polyline points="290,91.9 425,114.4 560,94.1 695,87.5 830,78.3" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="290" cy="91.9" r="4"/><circle cx="425" cy="114.4" r="4"/><circle cx="560" cy="94.1" r="4"/><circle cx="695" cy="87.5" r="4"/><circle cx="830" cy="78.3" r="4"/>
+              </g>
+            </g>
+            <g class="ser-cold" data-model="sonnet" data-arm="cold" style="stroke:var(--c-sonnet)">
+              <polyline points="290,105.6 425,100.7 560,87.5 695,100.7 830,85.3" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="290" cy="105.6" r="4"/><circle cx="425" cy="100.7" r="4"/><circle cx="560" cy="87.5" r="4"/><circle cx="695" cy="100.7" r="4"/><circle cx="830" cy="85.3" r="4"/>
+              </g>
+            </g>
+            <g class="ser-cold" data-model="haiku" data-arm="cold">
+              <circle cx="135" cy="188.7" r="4" fill="var(--raised)" stroke="var(--c-haiku)" stroke-width="1.6"/>
+              <text class="sv-t sv-faint" x="149" y="192.7" font-size="10">without &#183; 66.2%</text>
+            </g>
+            <g class="ser-loaded" data-model="fable" data-arm="loaded" style="stroke:var(--c-fable)">
+              <polyline points="290,42.2 425,40 560,40 695,40" fill="none" stroke-width="2.5"/>
+              <g fill="var(--c-fable)" stroke="none">
+                <circle cx="290" cy="42.2" r="4.5"/><circle cx="425" cy="40" r="4.5"/><circle cx="560" cy="40" r="4.5"/><circle cx="695" cy="40" r="4.5"/>
+              </g>
+            </g>
+            <g class="ser-loaded" data-model="opus" data-arm="loaded" style="stroke:var(--c-opus)">
+              <polyline points="290,53.6 425,53.6 560,46.6 695,46.6 830,40" fill="none" stroke-width="2.5"/>
+              <g fill="var(--c-opus)" stroke="none">
+                <circle cx="290" cy="53.6" r="4.5"/><circle cx="425" cy="53.6" r="4.5"/><circle cx="560" cy="46.6" r="4.5"/><circle cx="695" cy="46.6" r="4.5"/><circle cx="830" cy="40" r="4.5"/>
+              </g>
+            </g>
+            <g class="ser-loaded" data-model="sonnet" data-arm="loaded" style="stroke:var(--c-sonnet)">
+              <polyline points="290,53.6 425,46.6 560,40 695,46.6 830,42.2" fill="none" stroke-width="2.5"/>
+              <g fill="var(--c-sonnet)" stroke="none">
+                <circle cx="290" cy="53.6" r="4.5"/><circle cx="425" cy="46.6" r="4.5"/><circle cx="560" cy="40" r="4.5"/><circle cx="695" cy="46.6" r="4.5"/><circle cx="830" cy="42.2" r="4.5"/>
+              </g>
+            </g>
+            <g class="ser-loaded" data-model="haiku" data-arm="loaded">
+              <circle cx="135" cy="73.9" r="4.5" fill="var(--c-haiku)"/>
+              <text class="sv-t sv-faint" x="149" y="77.9" font-size="10">with &#183; 92.3%</text>
+            </g>
+          </svg>
+        </div>
+        <p class="tbl-note">Methodology: share of checklist items hit on the 16 tasks every setup completed, scored by two blinded Claude judges with a third settling disagreements. Each point sits on its labeled effort column; low and top-setting points average 3 runs per side, the rest are single runs. Fable's lines stop at xhigh because its max runs got too expensive to finish. Source: MATRIX.md in the repo.</p>
+      </div>
+
+      <div class="exhibit fx fx-lg" id="fig-perf-zoom">
+        <div class="ex-title" style="text-align:center">The same picture, up close</div>
+        <p class="ex-sub" style="text-align:center">Same data as above, y-axis zoomed to 80 to 100 to show the differences.</p>
+        <div class="vz-card">
+          <div class="vz-legend">
+            <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
+            <span><span class="dot" style="background:var(--c-opus)"></span>Opus 4.8</span>
+            <span><span class="dot" style="background:var(--c-sonnet)"></span>Sonnet 5</span>
+            <span><span class="ln"></span>with the skills installed</span>
+            <span><span class="ln dash"></span>without</span>
+          </div>
+          <svg viewBox="0 0 920 560" role="img"
+               aria-label="The same line chart zoomed to the 80 to 100 percent range. The gap between each model's solid with-skills line and its dashed without-skills line stays open at every effort level.">
+            <desc>Identical data to the chart above, y axis windowed to 80 to 100 percent. Haiku is omitted because its 66.2 percent score without skills falls below the window.</desc>
+            <g class="sv-l">
+              <line x1="70" y1="480" x2="890" y2="480" stroke-width="1"/>
+              <line x1="70" y1="370" x2="890" y2="370" stroke-width="1"/>
+              <line x1="70" y1="260" x2="890" y2="260" stroke-width="1"/>
+              <line x1="70" y1="150" x2="890" y2="150" stroke-width="1"/>
+              <line x1="70" y1="40"  x2="890" y2="40"  stroke-width="1"/>
+            </g>
+            <g class="sv-t sv-faint" font-size="11" text-anchor="end">
+              <text x="58" y="484">80</text><text x="58" y="374">85</text><text x="58" y="264">90</text><text x="58" y="154">95</text><text x="58" y="44">100</text>
+            </g>
+            <text class="sv-t sv-faint" x="70" y="20" font-size="11">Share of checklist items hit, % &#183; zoomed, 80 to 100</text>
+            <g class="sv-t sv-dim" font-size="11" text-anchor="middle">
+              <text x="290" y="507">low</text><text x="425" y="507">medium</text><text x="560" y="507">high</text><text x="695" y="507">xhigh</text><text x="830" y="507">max</text>
+            </g>
+            <text class="sv-t sv-faint" x="560" y="545" font-size="11" text-anchor="middle">Reasoning effort level</text>
+            <g class="ser-cold" data-model="fable" data-arm="cold" style="stroke:var(--c-fable)">
+              <polyline points="290,141.2 425,209.4 560,97.2 695,108.2" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="290" cy="141.2" r="4"/><circle cx="425" cy="209.4" r="4"/><circle cx="560" cy="97.2" r="4"/><circle cx="695" cy="108.2" r="4"/>
+              </g>
+            </g>
+            <g class="ser-cold" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
+              <polyline points="290,299.6 425,411.8 560,310.6 695,277.6 830,231.4" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="290" cy="299.6" r="4"/><circle cx="425" cy="411.8" r="4"/><circle cx="560" cy="310.6" r="4"/><circle cx="695" cy="277.6" r="4"/><circle cx="830" cy="231.4" r="4"/>
+              </g>
+            </g>
+            <g class="ser-cold" data-model="sonnet" data-arm="cold" style="stroke:var(--c-sonnet)">
+              <polyline points="290,367.8 425,343.6 560,277.6 695,343.6 830,266.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="290" cy="367.8" r="4"/><circle cx="425" cy="343.6" r="4"/><circle cx="560" cy="277.6" r="4"/><circle cx="695" cy="343.6" r="4"/><circle cx="830" cy="266.6" r="4"/>
+              </g>
+            </g>
+            <g class="ser-loaded" data-model="fable" data-arm="loaded" style="stroke:var(--c-fable)">
+              <polyline points="290,51 425,40 560,40 695,40" fill="none" stroke-width="2.5"/>
+              <g fill="var(--c-fable)" stroke="none">
+                <circle cx="290" cy="51" r="4.5"/><circle cx="425" cy="40" r="4.5"/><circle cx="560" cy="40" r="4.5"/><circle cx="695" cy="40" r="4.5"/>
+              </g>
+            </g>
+            <g class="ser-loaded" data-model="opus" data-arm="loaded" style="stroke:var(--c-opus)">
+              <polyline points="290,108.2 425,108.2 560,73 695,73 830,40" fill="none" stroke-width="2.5"/>
+              <g fill="var(--c-opus)" stroke="none">
+                <circle cx="290" cy="108.2" r="4.5"/><circle cx="425" cy="108.2" r="4.5"/><circle cx="560" cy="73" r="4.5"/><circle cx="695" cy="73" r="4.5"/><circle cx="830" cy="40" r="4.5"/>
+              </g>
+            </g>
+            <g class="ser-loaded" data-model="sonnet" data-arm="loaded" style="stroke:var(--c-sonnet)">
+              <polyline points="290,108.2 425,73 560,40 695,73 830,51" fill="none" stroke-width="2.5"/>
+              <g fill="var(--c-sonnet)" stroke="none">
+                <circle cx="290" cy="108.2" r="4.5"/><circle cx="425" cy="73" r="4.5"/><circle cx="560" cy="40" r="4.5"/><circle cx="695" cy="73" r="4.5"/><circle cx="830" cy="51" r="4.5"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <p class="tbl-note">Methodology: identical data, sources, and run counts to the chart above, y-axis windowed to 80 to 100. Haiku is omitted here because its score without the skills, 66.2%, sits below the window.</p>
+      </div>
+      </div><!-- /perf-figs -->
+
+      <div class="exhibit fx fx-lg" id="fig-cost-chart">
+        <div class="ex-title" style="text-align:center">Effort costs dollars per run. The skills cost cents.</div>
+        <p class="ex-sub" style="text-align:center">Checklist score against the average recorded cost of one run, USD. Each point is one model at one effort level.</p>
+        <div class="eff-controls" id="cost-controls" role="group" aria-label="Which model to show on the cost chart">
+          <button type="button" data-cv="fable" aria-pressed="true">Claude Fable 5</button>
+          <button type="button" data-cv="opus" aria-pressed="false">Claude Opus 4.8</button>
+          <button type="button" data-cv="sonnet" aria-pressed="false">Claude Sonnet 5</button>
+          <button type="button" data-cv="all" aria-pressed="false">All models</button>
+        </div>
+        <p class="eff-note">One model at a time keeps the chart readable: solid is with the skills installed, dashed is without. &ldquo;All models&rdquo; shows the with-skills lines side by side; hover any point for its numbers.</p>
+        <div id="cost-fig">
+        <div class="vz-card">
+          <div class="vz-legend">
+            <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
+            <span><span class="dot" style="background:var(--c-opus)"></span>Opus 4.8</span>
+            <span><span class="dot" style="background:var(--c-sonnet)"></span>Sonnet 5</span>
+            <span><span class="dot" style="background:var(--c-haiku)"></span>Haiku 4.5</span>
+            <span><span class="ln"></span>with the skills installed</span>
+            <span><span class="ln dash"></span>without</span>
+          </div>
+          <svg viewBox="0 0 920 560" role="img"
+               aria-label="Scatter chart of checklist score against average cost per run in dollars, on a log cost scale, with a switcher showing one model at a time or all with-skills lines together. With the skills installed the three model lines sit in the top band, 96.9 to 100 percent, between 43 cents and 1 dollar 62 per run. Without the skills the same runs cost about the same and score 83.1 to 97.4 percent. Haiku is a low-cost reference pair at about 21 cents per run.">
+            <desc>With skills, cost and score by effort: Sonnet 0.49 at 96.9, 0.43 at 98.5, 0.62 at 100.0, 0.80 at 98.5, 1.18 at 99.5. Opus 0.67 at 96.9, 0.70 at 96.9, 0.59 at 98.5, 0.75 at 98.5, 1.00 at 100.0. Fable 1.07 at 99.5, 1.22 at 100.0, 1.50 at 100.0, 1.62 at 100.0. Haiku 0.22 at 92.3. Without skills: Sonnet 0.44 at 85.1, 0.39 at 86.2, 0.49 at 89.2, 0.81 at 86.2, 1.20 at 89.7. Opus 0.59 at 88.2, 0.66 at 83.1, 0.53 at 87.7, 0.72 at 89.2, 0.89 at 91.3. Fable 0.89 at 95.4, 1.05 at 92.3, 1.21 at 97.4, 1.41 at 96.9. Haiku 0.21 at 66.2.</desc>
+            <g class="sv-l">
+              <line x1="110" y1="470" x2="870" y2="470" stroke-width="1"/>
+              <line x1="110" y1="362.5" x2="870" y2="362.5" stroke-width="1"/>
+              <line x1="110" y1="255" x2="870" y2="255" stroke-width="1"/>
+              <line x1="110" y1="147.5" x2="870" y2="147.5" stroke-width="1"/>
+              <line x1="110" y1="40" x2="870" y2="40" stroke-width="1"/>
+            </g>
+            <g class="sv-t sv-faint" font-size="11" text-anchor="end">
+              <text x="98" y="474">60</text><text x="98" y="366.5">70</text><text x="98" y="259">80</text><text x="98" y="151.5">90</text><text x="98" y="44">100</text>
+            </g>
+            <text class="sv-t sv-faint" x="110" y="20" font-size="11">Share of checklist items hit, %</text>
+            <g class="sv-t sv-faint" font-size="11" text-anchor="middle">
+              <text x="144.8" y="496">$0.20</text><text x="278.6" y="496">$0.30</text><text x="447.2" y="496">$0.50</text><text x="581" y="496">$0.75</text><text x="676" y="496">$1.00</text><text x="809.8" y="496">$1.50</text>
+            </g>
+            <text class="sv-t sv-faint" x="490" y="530" font-size="11" text-anchor="middle">Average cost of one run, USD &#183; log scale</text>
+            <g class="ser-cold cm-sonnet" data-model="sonnet" data-arm="cold" style="stroke:var(--c-sonnet)">
+              <polyline points="403.2,200.2 366.2,188.4 440.8,156.1 606.2,188.4 736.9,150.7" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="403.2" cy="200.2" r="4"/><circle cx="366.2" cy="188.4" r="4"/><circle cx="440.8" cy="156.1" r="4"/><circle cx="606.2" cy="188.4" r="4"/><circle cx="736.9" cy="150.7" r="4"/>
+              </g>
+              <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
+                <text class="lbl-end" x="403.2" y="218" text-anchor="middle">low</text>
+                <text x="366.2" y="176" text-anchor="middle">medium</text>
+                <text x="440.8" y="144" text-anchor="middle">high</text>
+                <text x="606.2" y="206" text-anchor="middle">xhigh</text>
+                <text class="lbl-end" x="736.9" y="168" text-anchor="middle">max</text>
+              </g>
+            </g>
+            <g class="ser-cold cm-opus" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
+              <polyline points="503.1,166.9 539.2,221.7 469.2,172.2 566.5,156.1 636.8,133.5" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="503.1" cy="166.9" r="4"/><circle cx="539.2" cy="221.7" r="4"/><circle cx="469.2" cy="172.2" r="4"/><circle cx="566.5" cy="156.1" r="4"/><circle cx="636.8" cy="133.5" r="4"/>
+              </g>
+              <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
+                <text class="lbl-end" x="493" y="171" text-anchor="end">low</text>
+                <text x="539.2" y="239" text-anchor="middle">medium</text>
+                <text x="469.2" y="190" text-anchor="middle">high</text>
+                <text x="566.5" y="144" text-anchor="middle">xhigh</text>
+                <text class="lbl-end" x="636.8" y="121" text-anchor="middle">max</text>
+              </g>
+            </g>
+            <g class="ser-cold cm-fable" data-model="fable" data-arm="cold" style="stroke:var(--c-fable)">
+              <polyline points="637.5,89.5 691.7,122.8 737.8,68 789.6,73.3" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
+              <g fill="var(--raised)" stroke-width="1.6">
+                <circle cx="637.5" cy="89.5" r="4"/><circle cx="691.7" cy="122.8" r="4"/><circle cx="737.8" cy="68" r="4"/><circle cx="789.6" cy="73.3" r="4"/>
+              </g>
+              <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
+                <text class="lbl-end" x="637.5" y="107" text-anchor="middle">low</text>
+                <text x="691.7" y="140.8" text-anchor="middle">medium</text>
+                <text x="747.8" y="72" text-anchor="start">high</text>
+                <text class="lbl-end" x="789.6" y="91" text-anchor="middle">xhigh</text>
+              </g>
+            </g>
+            <g class="ser-cold cm-haiku" data-model="haiku" data-arm="cold">
+              <circle cx="153.2" cy="403.4" r="4" fill="var(--raised)" stroke="var(--c-haiku)" stroke-width="1.6"/>
+              <text class="sv-t sv-faint lbl" x="153.2" y="421" font-size="10" text-anchor="middle">no effort dial</text>
+            </g>
+            <g class="ser-loaded cm-sonnet" data-model="sonnet" data-arm="loaded" style="stroke:var(--c-sonnet)">
+              <polyline points="439.5,73.3 399.8,56.1 520.4,40 602.3,56.1 731.8,45.4" fill="none" stroke-width="2.2"/>
+              <g fill="var(--c-sonnet)" stroke="none">
+                <circle cx="439.5" cy="73.3" r="4.5"/><circle cx="399.8" cy="56.1" r="4.5"/><circle cx="520.4" cy="40" r="4.5"/><circle cx="602.3" cy="56.1" r="4.5"/><circle cx="731.8" cy="45.4" r="4.5"/>
+              </g>
+              <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
+                <text class="lbl-end" x="439.5" y="91" text-anchor="middle">low</text>
+                <text x="389" y="60" text-anchor="end">medium</text>
+                <text x="520.4" y="28" text-anchor="middle">high</text>
+                <text x="612" y="60" text-anchor="start">xhigh</text>
+                <text class="lbl-end" x="731.8" y="63" text-anchor="middle">max</text>
+              </g>
+            </g>
+            <g class="ser-loaded cm-opus" data-model="opus" data-arm="loaded" style="stroke:var(--c-opus)">
+              <polyline points="543.4,73.3 557.6,73.3 503.4,56.1 580.5,56.1 677.5,40" fill="none" stroke-width="2.2"/>
+              <g fill="var(--c-opus)" stroke="none">
+                <circle cx="543.4" cy="73.3" r="4.5"/><circle cx="557.6" cy="73.3" r="4.5"/><circle cx="503.4" cy="56.1" r="4.5"/><circle cx="580.5" cy="56.1" r="4.5"/><circle cx="677.5" cy="40" r="4.5"/>
+              </g>
+              <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
+                <text class="lbl-end" x="533" y="86" text-anchor="end">low</text>
+                <text x="568" y="86" text-anchor="start">medium</text>
+                <text x="493" y="52" text-anchor="end">high</text>
+                <text x="572" y="74" text-anchor="end">xhigh</text>
+                <text class="lbl-end" x="677.5" y="28" text-anchor="middle">max</text>
+              </g>
+            </g>
+            <g class="ser-loaded cm-fable" data-model="fable" data-arm="loaded" style="stroke:var(--c-fable)">
+              <polyline points="698.9,45.4 740.9,40 810.3,40 834.7,40" fill="none" stroke-width="2.2"/>
+              <g fill="var(--c-fable)" stroke="none">
+                <circle cx="698.9" cy="45.4" r="4.5"/><circle cx="740.9" cy="40" r="4.5"/><circle cx="810.3" cy="40" r="4.5"/><circle cx="834.7" cy="40" r="4.5"/>
+              </g>
+              <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
+                <text class="lbl-end" x="698.9" y="63" text-anchor="middle">low</text>
+                <text x="740.9" y="28" text-anchor="middle">medium</text>
+                <text x="804" y="58" text-anchor="middle">high</text>
+                <text class="lbl-end" x="838" y="28" text-anchor="middle">xhigh</text>
+              </g>
+            </g>
+            <g class="ser-loaded cm-haiku" data-model="haiku" data-arm="loaded">
+              <circle cx="170.9" cy="122.8" r="4.5" fill="var(--c-haiku)"/>
+              <text class="sv-t sv-faint lbl" x="170.9" y="140.8" font-size="10" text-anchor="middle">no effort dial</text>
+            </g>
+          </svg>
+        </div>
+        </div><!-- /cost-fig -->
+        <p class="tbl-note">Methodology: the horizontal axis is each cell's average recorded cost of one run, on a log scale; the vertical axis is the share of checklist items hit on the shared 16 tasks. Costs are observed spend per run on subscription pricing, not list-price API rates, and the run counts behind each average are small: 51 runs per side at the low and top settings (50 with skills on Sonnet max), 17 elsewhere. Turning effort up multiplied per-run cost by up to 2.7x. Loading the skills cost between $0.01 and $0.30 per run, and on Sonnet's two highest settings the runs with the skills installed averaged slightly cheaper than the runs without. Sources: cost-per-run-dataset.json, published next to this page, and MATRIX.md in the repo.</p>
+      </div>
+
+      <div class="cardrow" data-fx-stagger>
+        <div class="mini-card fx" id="codex-card">
+          <div class="ct">Checked by a second vendor</div>
+          <p>Every judge in this study is a Claude model scoring Claude outputs, which is a fair thing to be skeptical of. As a check, Codex 5.6, a model from a different vendor, re-scored 50 sampled comparisons in a single run and agreed with the final marks 97.2% of the time. Full detail in <a href="#methodology">the full methodology</a>.</p>
+        </div>
+        <div class="mini-card fx" id="costs-card">
+          <div class="ct">What it cost</div>
+          <p>All in, the experiment cost $965.22: $791.57 running the arms and $173.65 judging them, with the cost of building the harness excluded. Every run recorded its own cost as it ran, so these are sums of real records, not estimates.</p>
+          <p>Effort is the expensive dial. Going from low to max multiplied the cost of a run by up to 2.7x; a Sonnet run went from about $0.44 to about $1.20. Loading the skills cost between $0.01 and $0.30 per run.</p>
+          <p>At Sonnet's two highest settings, runs with the skills installed actually averaged slightly cheaper than runs without. The exact per-cell numbers are in <a href="#cost-table">the cost table</a>.</p>
+        </div>
+      </div>
+
+      <h3 id="takeaways">What this means for how you use AI</h3>
+      <div class="takeaways" data-fx-stagger>
+        <div class="tk fx"><p><b>Pick the model and effort for the floor you need.</b> Effort reliably raises the baseline, and you pay for it on every run. Buy as much of it as the job actually requires, and no more.</p></div>
+        <div class="tk fx"><p><b>Install skills for the failure modes that matter to you.</b> They kept paying at every effort level, on every model, for cents per run. A skill is built once and rides along for free on every run after that.</p></div>
+        <div class="tk fx"><p><b>Measure both instead of guessing.</b> The two levers moved separately here, and nothing about your tasks is settled by someone else's benchmark. The whole instrument is open if you want to run it on your own work.</p></div>
+      </div>
+
+      <p>How the grid, the judging, and the costs worked is in <a href="#how">How it worked</a>. Every rule, bug, and disclosure is in <a href="#methodology">The full methodology</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2 · HOW IT WORKED ============ -->
+  <section class="tab-panel" id="how" role="tabpanel" aria-labelledby="tab-how" tabindex="-1">
+    <div class="wrap">
+      <div class="sec-eyebrow"><span class="num">02</span>How it worked</div>
+      <h2>How it worked</h2>
+
+      <p class="lead">Seventeen engineering tasks, a library of seventeen skills, and sixteen model-and-effort setups. Every setup answered every task twice, once with the skill library installed and once without, and <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which answer ran with the skills installed, and the answer order was randomized.">blinded judges</span> scored all of it.</p>
+
+      <h3 id="tasks">What was tested: the tasks</h3>
+      <p>The tasks are realistic, hands-on engineering scenarios, each set in a small purpose-built codebase. The suite of 17 was frozen before the first run. Three examples, straight from the suite:</p>
+      <ul class="plain-list">
+        <li>Review a teammate's pull request that adds appointment search to a multi-tenant clinic scheduler, and decide whether it is safe to merge.</li>
+        <li>Work out why a nightly ticket-classifying job's accuracy fell from about 0.91 to zero and stayed there, even though individual predictions still look fine when spot-checked.</li>
+        <li>Audit a pipeline that grades customer-support replies on three axes and ranks agents by their combined score.</li>
+      </ul>
+
+      <h3 id="skills-library">What was tested: the skill library</h3>
+      <p>A skill is a short, packaged playbook the agent loads before it starts working: the traps to check, the order to work in, the things a finished answer must contain. All seventeen are open source in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>. The full library:</p>
+      <div class="skill-groups">
+        <div>
+          <h4>Review and quality</h4>
+          <ul>
+            <li><b>multi-model-adversarial-review</b> &middot; runs a second, independently vendored model against your own review pass and reconciles the findings.</li>
+            <li><b>tiered-consultancy-review</b> &middot; a five-tier review ladder that takes a deliverable from rough draft to genuinely finished.</li>
+            <li><b>pre-merge-validation-gate</b> &middot; defines what &ldquo;done&rdquo; actually means for a change and how to report test results without overstating them.</li>
+          </ul>
+          <h4>Systems and architecture</h4>
+          <ul>
+            <li><b>architecture-contracts-as-law</b> &middot; keeps one merge-blocking source of truth for system invariants in sync with the code.</li>
+            <li><b>multi-tenant-auth-reference</b> &middot; a ground-truth pattern for token kinds, role checks, and tenant isolation.</li>
+            <li><b>llm-eval-harness-and-scoring-pipeline</b> &middot; locked scoring math, partial-failure handling, and prompt versioning for pipelines that grade LLM output.</li>
+          </ul>
+          <h4>Cost and safety</h4>
+          <ul>
+            <li><b>ai-cost-tracking-and-guardrails</b> &middot; enforced call tracking, safe cross-provider fallover, and fail-closed rate limiting for LLM calls touching money or sensitive data.</li>
+            <li><b>budget-aware-model-allocation</b> &middot; how to work deliberately when a token or rate budget is running low.</li>
+            <li><b>config-and-secrets-hygiene</b> &middot; picking the right config layer and adding feature flags without precedence traps.</li>
+          </ul>
+          <h4>Deploy and infrastructure</h4>
+          <ul>
+            <li><b>staging-to-prod-cutover-campaign</b> &middot; first-apply traps, the do-not-inherit config scrub, and separating go-live gates from infra bring-up.</li>
+            <li><b>environment-and-build-hazards</b> &middot; the two-role database model, seed-data idempotency, and cloud-auth preflight for local development.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Debugging</h4>
+          <ul>
+            <li><b>systematic-debugging-playbook</b> &middot; establishes ground truth before hypothesizing, plus the regression rule for multi-round fix loops.</li>
+            <li><b>failure-archaeology</b> &middot; a &ldquo;settled battles&rdquo; record so nobody re-attempts an approach already tried and deliberately abandoned.</li>
+          </ul>
+          <h4>Process and change management</h4>
+          <ul>
+            <li><b>git-change-control-for-agents</b> &middot; state verification before any git work, the dead-base PR trap, and working-tree discipline.</li>
+            <li><b>multi-agent-batch-campaigns</b> &middot; wave planning and file-contention mapping for running a large backlog across parallel agents.</li>
+          </ul>
+          <h4>Documentation and compliance</h4>
+          <ul>
+            <li><b>docs-of-record-and-arbitration</b> &middot; an explicit arbitration order for when project documents disagree.</li>
+            <li><b>consent-and-regulated-data-reference</b> &middot; fail-closed defaults for consent, retention, and audit trails around regulated personal data.</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:20px">Every skill here has its own card, with real excerpts from the skill file and a search box, on <a href="../skills/">the skills library page</a>.</p>
+
+      <h3 id="conditions">The grid</h3>
+      <p>Four Claude models. Three of them expose a reasoning-effort dial with five steps; Haiku runs at one fixed setting and serves as the small-model baseline.</p>
+      <div class="tbl-scroll">
+        <table class="data fit">
+          <thead><tr><th>Model</th><th>Effort settings tested</th></tr></thead>
+          <tbody>
+            <tr><td><b>Haiku 4.5</b></td><td><span class="hot" tabindex="0" data-tt="no effort dial" data-tip="Haiku does not expose a reasoning-effort setting, so it runs one way; it is here as a baseline.">no effort dial</span><span class="q">runs one way</span></td></tr>
+            <tr><td><b>Sonnet 5</b></td><td>low &middot; medium &middot; high &middot; xhigh (extra high) &middot; max<span class="q">5 settings</span></td></tr>
+            <tr><td><b>Opus 4.8</b></td><td>low &middot; medium &middot; high &middot; xhigh &middot; max<span class="q">5 settings</span></td></tr>
+            <tr><td><b>Fable 5</b></td><td>low &middot; medium &middot; high &middot; xhigh<span class="q">4 settings completed</span></td></tr>
+            <tr class="ghost"><td>Fable 5 at max</td><td>did not finish<span class="q">slot open &middot; see below</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-note">Methodology: every setting above ran the full 17-task suite twice, with the skills installed and without.</p>
+
+      <h3 id="pipeline">The pipeline, start to finish</h3>
+      <div class="exhibit" id="fig-workflow">
+        <div class="ex-title" style="text-align:center">One frozen suite, every setup, one blinded panel</div>
+        <p class="ex-sub" style="text-align:center">From the frozen task suite to the final scored grid. Every setup walks the same path.</p>
+        <div class="vz-card">
+          <svg viewBox="0 0 760 790" role="img" style="min-width:560px"
+               aria-label="Flow diagram. A frozen suite of 17 tasks with pass checklists, locked and hash-stamped, feeds 16 model-and-effort setups: Haiku with no effort dial, Sonnet five levels, Opus five levels, Fable four levels plus an unfinished max slot. Every setup ran twice, without the skills and with the 17-skill library installed. Two blinded Claude judges score every checklist item without knowing which run had skills; when they disagree, Claude Fable 5 decides, 2.6 percent of marks. The output is the matrix of scores on this page.">
+            <desc>Vertical pipeline with six stages: frozen suite, setups table, the with and without skills split, the blinded two-judge panel, the disagreement branch to Claude Fable 5, and the final matrix.</desc>
+            <defs>
+              <marker id="wfa" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L8,4L0,8z" class="sv-dim"/></marker>
+            </defs>
+            <g class="wf-s">
+              <rect class="sv-fr2 sv-ls" x="90" y="14" width="580" height="68" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-ink" x="380" y="42" font-size="13" text-anchor="middle">The frozen suite</text>
+              <text class="sv-t sv-faint" x="380" y="62" font-size="10.5" text-anchor="middle">17 real engineering tasks, each with a pass checklist, locked and hash-stamped</text>
+            </g>
+            <g class="wf-s">
+              <line class="sv-sd" x1="380" y1="82" x2="380" y2="108" stroke-width="1" marker-end="url(#wfa)"/>
+              <rect class="sv-fr2 sv-ls" x="205" y="112" width="350" height="152" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-ink" x="380" y="138" font-size="12" text-anchor="middle">16 model-and-effort setups</text>
+              <text class="sv-t sv-dim" x="380" y="163" font-size="10.5" text-anchor="middle">Haiku 4.5 &#183; no effort dial</text>
+              <text class="sv-t sv-dim" x="380" y="183" font-size="10.5" text-anchor="middle">Sonnet 5 &#183; low to max, five levels</text>
+              <text class="sv-t sv-dim" x="380" y="203" font-size="10.5" text-anchor="middle">Opus 4.8 &#183; low to max, five levels</text>
+              <text class="sv-t sv-dim" x="380" y="223" font-size="10.5" text-anchor="middle">Fable 5 &#183; low to xhigh, four levels</text>
+              <rect class="sv-fnone sv-sam" x="248" y="232" width="264" height="22" rx="6" stroke-width="1" stroke-dasharray="4 3"/>
+              <text class="sv-t sv-amber" x="380" y="247" font-size="10" text-anchor="middle">+ Fable 5 at max &#183; did not finish</text>
+            </g>
+            <g class="wf-s">
+              <line class="sv-sd" x1="300" y1="264" x2="207" y2="314" stroke-width="1" marker-end="url(#wfa)"/>
+              <line class="sv-sd" x1="460" y1="264" x2="553" y2="314" stroke-width="1" marker-end="url(#wfa)"/>
+              <rect class="sv-fr2 sv-ls" x="40" y="318" width="330" height="86" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-ink" x="205" y="350" font-size="12.5" text-anchor="middle">Without skills</text>
+              <text class="sv-t sv-faint" x="205" y="374" font-size="10.5" text-anchor="middle">each model ran every task bare</text>
+              <rect class="sv-ftint sv-sa" x="390" y="318" width="330" height="86" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-ink" x="555" y="346" font-size="12.5" text-anchor="middle">With skills</text>
+              <text class="sv-t sv-faint" x="555" y="368" font-size="10.5" text-anchor="middle">the same runs, with the</text>
+              <text class="sv-t sv-faint" x="555" y="384" font-size="10.5" text-anchor="middle">17-skill library installed</text>
+            </g>
+            <g class="wf-s">
+              <line class="sv-sd" x1="205" y1="404" x2="298" y2="454" stroke-width="1" marker-end="url(#wfa)"/>
+              <line class="sv-sd" x1="555" y1="404" x2="462" y2="454" stroke-width="1" marker-end="url(#wfa)"/>
+              <rect class="sv-fr2 sv-ls" x="110" y="458" width="540" height="86" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-ink" x="380" y="488" font-size="12" text-anchor="middle">Two blinded Claude judges score every checklist item</text>
+              <text class="sv-t sv-faint" x="380" y="512" font-size="10.5" text-anchor="middle">they never know which run had skills</text>
+            </g>
+            <g class="wf-s">
+              <polyline class="sv-sd sv-fnone" points="650,501 700,501 700,558" stroke-width="1" marker-end="url(#wfa)"/>
+              <rect class="sv-fr sv-sam" x="440" y="562" width="290" height="92" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-amber" x="585" y="592" font-size="10.5" text-anchor="middle">When the two judges disagree,</text>
+              <text class="sv-t sv-amber" x="585" y="608" font-size="10.5" text-anchor="middle">Claude Fable 5 decides</text>
+              <text class="sv-t sv-faint" x="585" y="632" font-size="10" text-anchor="middle">2.6% of all marks</text>
+            </g>
+            <g class="wf-s">
+              <line class="sv-sd" x1="330" y1="544" x2="330" y2="688" stroke-width="1" marker-end="url(#wfa)"/>
+              <line class="sv-sd" x1="585" y1="654" x2="490" y2="688" stroke-width="1" marker-end="url(#wfa)"/>
+              <rect class="sv-fr2 sv-sa" x="170" y="692" width="420" height="70" rx="10" stroke-width="1"/>
+              <text class="sv-t sv-ink" x="380" y="722" font-size="13" text-anchor="middle">The matrix</text>
+              <text class="sv-t sv-faint" x="380" y="744" font-size="10.5" text-anchor="middle">every score on this page</text>
+            </g>
+          </svg>
+        </div>
+        <p class="tbl-note">Methodology: the low and top effort settings ran three times per side, everything else once. Across the study the two judges disagreed on 4.7% of marks, 2.6% of marks went to the deciding judge, and none were left unresolved. The suite hash and every per-setup rate are in MATRIX.md in the repo.</p>
+      </div>
+
+      <h3 id="scoring">How scoring works</h3>
+      <p>Each task carries a short checklist of things a correct answer must do; a score is the share of checklist items hit. The study calls these checklist items must-hits. There are no style points: an answer either did each thing or it did not.</p>
+      <p>Every answer was scored blind by two Claude judges, one Sonnet-class and one Opus-class. They saw the two answers to a task in a random order and were never told which one had the skills installed. When the two judges disagreed on a checklist item, a fixed third judge, Claude Fable 5, settled it. Across the study the two judges disagreed on 4.7% of marks, 2.6% of marks went to the third judge, and none were left unresolved.</p>
+
+      <h3 id="cost-table">What each cell cost</h3>
+      <p>Every run recorded its own cost as it ran. All in, the experiment cost $965.22: $791.57 running the arms and $173.65 judging them, with the cost of building the harness excluded. The table shows the average cost of one run, in dollars, for each model and effort setting: without the skills, with them, and the difference.</p>
+      <script type="application/json" id="cost-per-run-dataset">
+{"lattice-fable-high":{"n_cold":51,"avg_cold_usd":1.2061,"n_loaded":51,"avg_loaded_usd":1.5022,"skill_marginal_usd":0.2961},"lattice-fable-low":{"n_cold":51,"avg_cold_usd":0.8901,"n_loaded":51,"avg_loaded_usd":1.0719,"skill_marginal_usd":0.1818},"lattice-fable-medium":{"n_cold":17,"avg_cold_usd":1.0487,"n_loaded":17,"avg_loaded_usd":1.2175,"skill_marginal_usd":0.1688},"lattice-fable-xhigh":{"n_cold":17,"avg_cold_usd":1.4109,"n_loaded":17,"avg_loaded_usd":1.6177,"skill_marginal_usd":0.2068},"lattice-haiku":{"n_cold":17,"avg_cold_usd":0.2052,"n_loaded":17,"avg_loaded_usd":0.2165,"skill_marginal_usd":0.0113},"lattice-opus-high":{"n_cold":17,"avg_cold_usd":0.5344,"n_loaded":17,"avg_loaded_usd":0.5928,"skill_marginal_usd":0.0585},"lattice-opus-low":{"n_cold":51,"avg_cold_usd":0.5924,"n_loaded":51,"avg_loaded_usd":0.6693,"skill_marginal_usd":0.077},"lattice-opus-max":{"n_cold":51,"avg_cold_usd":0.888,"n_loaded":51,"avg_loaded_usd":1.0045,"skill_marginal_usd":0.1164},"lattice-opus-medium":{"n_cold":17,"avg_cold_usd":0.6608,"n_loaded":17,"avg_loaded_usd":0.6986,"skill_marginal_usd":0.0378},"lattice-opus-xhigh":{"n_cold":17,"avg_cold_usd":0.7176,"n_loaded":17,"avg_loaded_usd":0.7489,"skill_marginal_usd":0.0313},"lattice-sonnet-high":{"n_cold":17,"avg_cold_usd":0.4904,"n_loaded":17,"avg_loaded_usd":0.6242,"skill_marginal_usd":0.1337},"lattice-sonnet-low":{"n_cold":51,"avg_cold_usd":0.4377,"n_loaded":51,"avg_loaded_usd":0.4885,"skill_marginal_usd":0.0508},"lattice-sonnet-max":{"n_cold":51,"avg_cold_usd":1.2029,"n_loaded":50,"avg_loaded_usd":1.1844,"skill_marginal_usd":-0.0185},"lattice-sonnet-medium":{"n_cold":17,"avg_cold_usd":0.3912,"n_loaded":17,"avg_loaded_usd":0.4331,"skill_marginal_usd":0.0419},"lattice-sonnet-xhigh":{"n_cold":17,"avg_cold_usd":0.8094,"n_loaded":17,"avg_loaded_usd":0.7999,"skill_marginal_usd":-0.0095}}
+      </script>
+      <div class="tbl-scroll">
+        <table class="data fit" id="tbl-costs">
+          <thead><tr><th>Model</th><th>Effort</th><th>Without skills</th><th>With skills</th><th class="hero">Skill cost per run</th></tr></thead>
+          <tbody>
+            <tr><td><b>Haiku 4.5</b></td><td><span class="hot" tabindex="0" data-tt="no effort dial" data-tip="Haiku does not expose a reasoning-effort setting, so it runs one way; it is here as a baseline.">no effort dial</span><span class="q">17 runs per side</span></td><td><b>$0.21</b></td><td><b>$0.22</b></td><td class="hero"><b>+$0.01</b></td></tr>
+            <tr class="grp"><td rowspan="5"><b>Sonnet 5</b></td><td>low<span class="q">51 runs per side</span></td><td><b>$0.44</b></td><td><b>$0.49</b></td><td class="hero"><b>+$0.05</b></td></tr>
+            <tr><td>medium<span class="q">17 runs per side</span></td><td><b>$0.39</b></td><td><b>$0.43</b></td><td class="hero"><b>+$0.04</b></td></tr>
+            <tr><td>high<span class="q">17 runs per side</span></td><td><b>$0.49</b></td><td><b>$0.62</b></td><td class="hero"><b>+$0.13</b></td></tr>
+            <tr><td>xhigh<span class="q">17 runs per side</span></td><td><b>$0.81</b></td><td><b>$0.80</b></td><td class="hero"><b>-$0.01</b><span class="q">cheaper with skills</span></td></tr>
+            <tr><td>max<span class="q">51 / 50 runs</span></td><td><b>$1.20</b></td><td><b>$1.18</b></td><td class="hero"><b>-$0.02</b><span class="q">cheaper with skills</span></td></tr>
+            <tr class="grp"><td rowspan="5"><b>Opus 4.8</b></td><td>low<span class="q">51 runs per side</span></td><td><b>$0.59</b></td><td><b>$0.67</b></td><td class="hero"><b>+$0.08</b></td></tr>
+            <tr><td>medium<span class="q">17 runs per side</span></td><td><b>$0.66</b></td><td><b>$0.70</b></td><td class="hero"><b>+$0.04</b></td></tr>
+            <tr><td>high<span class="q">17 runs per side</span></td><td><b>$0.53</b></td><td><b>$0.59</b></td><td class="hero"><b>+$0.06</b></td></tr>
+            <tr><td>xhigh<span class="q">17 runs per side</span></td><td><b>$0.72</b></td><td><b>$0.75</b></td><td class="hero"><b>+$0.03</b></td></tr>
+            <tr><td>max<span class="q">51 runs per side</span></td><td><b>$0.89</b></td><td><b>$1.00</b></td><td class="hero"><b>+$0.12</b></td></tr>
+            <tr class="grp"><td rowspan="5"><b>Fable 5</b></td><td>low<span class="q">51 runs per side</span></td><td><b>$0.89</b></td><td><b>$1.07</b></td><td class="hero"><b>+$0.18</b></td></tr>
+            <tr><td>medium<span class="q">17 runs per side</span></td><td><b>$1.05</b></td><td><b>$1.22</b></td><td class="hero"><b>+$0.17</b></td></tr>
+            <tr><td>high<span class="q">51 runs per side</span></td><td><b>$1.21</b></td><td><b>$1.50</b></td><td class="hero"><b>+$0.30</b></td></tr>
+            <tr><td>xhigh<span class="q">17 runs per side</span></td><td><b>$1.41</b></td><td><b>$1.62</b></td><td class="hero"><b>+$0.21</b></td></tr>
+            <tr class="ghost"><td>max</td><td colspan="3">did not finish<span class="q">slot open</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-note">Methodology: real recorded spend averaged per run, not list-price estimates, computed from cost-per-run-dataset.json, which ships next to this page. Loading the skills added between $0.01 and $0.30 to a run, and on Sonnet's two highest settings the runs with skills installed came out slightly cheaper than the runs without. The machine mix varied between runs, so treat these as observed spend, not a price benchmark. The full per-call ledger is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
+
+      <h3 id="fable-max">The cell that got away</h3>
+      <p>Fable at max effort is the one empty cell in the grid. It got too expensive to finish: the subscription pool it ran on expired before it did. The slot stays open, part of it is still quietly running, and if it ever completes the cell gets filled in. Nothing else on this page waits for it; the rules already cover the gap, as laid out in <a href="#methodology">the full methodology</a>.</p>
+
+      <h3 id="grid-3d">The whole grid at once</h3>
+      <div class="exhibit" id="fig-matrix3d">
+        <div class="ex-title" style="text-align:center">Every model, every effort level, one picture</div>
+        <p class="ex-sub" style="text-align:center">Bar height is the score with the skills installed, on the shared 16 tasks. Drag to rotate; hover a bar for its numbers and run count. The toggles first add the runs without skills, then highlight what the skills added.</p>
+        <div id="lattice3d">
+          <div class="eff-controls" id="l3d-controls" role="group" aria-label="Layers on the grid figure">
+            <button type="button" id="l3d-pair" aria-pressed="false">Add runs without skills</button>
+            <button type="button" id="l3d-delta" aria-pressed="false">Highlight what the skills added</button>
+          </div>
+          <p class="eff-note">Hovering a bar highlights its effort level across models; scores are only comparable at the same effort level. The dashed square on the floor is Fable 5 at max, the run that got too expensive to finish.</p>
+          <div class="fig-wrap" id="lat3d-stage">
+            <svg id="lat3d" viewBox="0 0 760 520" role="img" style="min-width:600px"
+                 aria-label="Rotatable 3D grid of 15 model-and-effort setups plus Haiku. Each setup shows a colored bar rising to its score with the skills installed; toggles add an open point for the score without skills and highlight the gap between the two. Fable 5 at max is an open, not-run slot.">
+              <desc>Effort runs along one floor axis, low to max; the models Fable 5, Opus 4.8 and Sonnet 5 run along the other; bar height is the share of checklist items hit, windowed 60 to 100 percent. Haiku 4.5 sits detached at its single setting. The full values are in the data table below this figure.</desc>
+            </svg>
+          </div>
+        </div>
+        <div class="lattice-fig">
+          <div class="fig-title">The grid as a table &middot; what the skills added, in points</div>
+          <div class="lat-scroll">
+            <table class="lattice" id="tbl-lattice-delta">
+              <thead>
+                <tr><th>Effort</th><th>Fable 5</th><th>Opus 4.8</th><th>Sonnet 5</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>low</th>
+                  <td class="rep"><span class="d">+4.1</span><span class="m">avg of 3 runs</span></td>
+                  <td class="rep"><span class="d">+8.7</span><span class="m">avg of 3 runs</span></td>
+                  <td class="rep"><span class="d">+11.8</span><span class="m">avg of 3 runs</span></td>
+                </tr>
+                <tr>
+                  <th>medium</th>
+                  <td><span class="d">+7.7</span><span class="m">1 run</span></td>
+                  <td><span class="d">+13.8</span><span class="m">1 run</span></td>
+                  <td><span class="d">+12.3</span><span class="m">1 run</span></td>
+                </tr>
+                <tr>
+                  <th>high</th>
+                  <td class="rep"><span class="d">+2.6</span><span class="m">avg of 3 runs</span></td>
+                  <td><span class="d">+10.8</span><span class="m">1 run</span></td>
+                  <td><span class="d">+10.8</span><span class="m">1 run</span></td>
+                </tr>
+                <tr>
+                  <th>xhigh</th>
+                  <td><span class="d">+3.1</span><span class="m">1 run</span></td>
+                  <td><span class="d">+9.2</span><span class="m">1 run</span></td>
+                  <td><span class="d">+12.3</span><span class="m">1 run</span></td>
+                </tr>
+                <tr>
+                  <th>max</th>
+                  <td class="na">not run &middot; it got too expensive to finish</td>
+                  <td class="rep"><span class="d">+8.7</span><span class="m">avg of 3 runs</span></td>
+                  <td class="rep"><span class="d">+9.7</span><span class="m">avg of 3 runs</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="tbl-note">Haiku 4.5, the one model with no effort dial, gets a single cell: the skills added +26.2 points (1 run per side). Highlighted cells average three runs per side; the rest are single runs, so read the direction, not the decimals.</p>
+        </div>
+        <p class="tbl-note">Methodology: all 15 completed setups plus the open Fable-max slot, scored on the 16 tasks every setup completed. The scores with and without the skills behind every bar are in the big table in <a href="#matrix-table">The result</a>. Source: MATRIX.md in the repo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 3 · THE FULL METHODOLOGY ============ -->
+  <section class="tab-panel" id="methodology" role="tabpanel" aria-labelledby="tab-methodology" tabindex="-1">
+    <div class="wrap">
+      <div class="sec-eyebrow"><span class="num">03</span>The full methodology</div>
+      <h2>The full methodology</h2>
+
+      <p class="lead">If you came to check my work, this section was written for you. The design in three sentences: three Claude models at five reasoning-effort levels each, plus an effort-invariant Haiku baseline, every configuration run cold and loaded (without the skill library installed, and with it) on the same frozen 17-task suite. Endpoints, each model's lowest and top effort settings, replicated three times; interiors, the levels in between, single-run. Two confirmatory hypotheses, frozen before any run, and one of them lost.</p>
+
+      <h3>The lattice, fully specified</h3>
+      <p>3 models &times; 5 effort levels + Haiku = 16 model-effort conditions &times; {cold, loaded} = 32 arms. The suite is 17 frozen primary tasks, hash-pinned at freeze: <code>b378c79644280bb93fb8ac71d0cadcfe301fd15b226dfaec852b619a2aa1c890</code>. Endpoint cells ran at 3 consumer repeats (three full runs of the model under test, per side), every repeat persisted independently with no shared session state; interior cells are single-run descriptive. Plots and tables distinguish replicated means from single points, and interior points get no uncertainty bars, on purpose: one run is one run, and an error bar around a single sample would read as precision the data does not have. Effort defaults were verified in smoke runs, never assumed; the values recorded in run-meta are authoritative.</p>
+
+      <h3>Pre-registration mechanics</h3>
+      <p>The hypotheses first, since the shorthand recurs from here on. H1: raising effort alone lifts a model's cold score by at least 3 percentage points (pp) between its endpoints. H2: the skill delta, the loaded score minus the cold score, shrinks by at least 3 points from the low endpoint to the top one. H1 and H2 are the only confirmatory hypotheses; H3 (whether skill value varies across task visibility tags) and H4 (the cross-model shrinkage comparison) are explicitly exploratory.</p>
+      <p>Frozen before any official run: those hypotheses, the 3pp minimum effect, endpoint-only decision rules (interiors can never touch H1 or H2 under any circumstance), paired exclusion (either arm invalid kills the whole cold-loaded comparison), a common complete-case set per model column over endpoint cells only (each model's two endpoints are scored on exactly the tasks valid in both, so nothing else can shift the comparison), blocked randomization stratified within model column (run order shuffled in blocks, separately for each model), identical max_tokens across all 32 arms, truncation invalidates the run (one retry, then excluded), frontmatter preflight (the metadata headers of the task and skill files validated before any run), cold-arm isolation checks (the cold runs must not be able to see any skill file), and cross-model-fallback invalidation (a run that silently fell back to a different model is thrown out).</p>
+      <p>I declared my prior at freeze: H1 and H2 supported, H3 uncertain. H2 then failed everywhere. I could not have fit the rule to the result: the rule predates the result and says so in a public hash.</p>
+
+      <h3>The judging stack, mechanism by mechanism</h3>
+      <p>Every mark is scored by a blinded, order-randomized two-judge panel: one Sonnet-class and one Opus-class model, IDs pinned, both at medium effort, never varying across cells. When the two judges disagree on a mark, it goes to a pinned third <span class="hot" tabindex="0" data-tt="adjudicator" data-tip="A fixed third judge that scores a mark only when the two primary judges disagree; the two-of-three majority is final.">adjudicator</span>, claude-fable-5 at medium, which sees only the disputed criterion and the two blinded report slots, a narrower input than a full judge gets. It scores the binary mark independently, the two-of-three majority is final, and disputed marks never leave denominators. Everything persists: both original marks, evidence quotes, the adjudicator's mark, the majority result.</p>
+      <p>The rates, published: 85 of 1827 marks disagreed (4.7%); 96 of 3654 report-slot marks were adjudicated (2.6%); 0 unresolved. The per-cell breakdown is in the repo's MATRIX.md; Haiku's cell was the noisiest at 13.2% mark disagreement.</p>
+      <p>The residual limitation is that Claude models judge Claude outputs. The pre-registered mitigation: the committed judge inputs are public, plus an exploratory Codex cross-vendor concordance sample of 50 comparisons, which has now been run: Codex (gpt-5.6-terra at high reasoning effort) agreed with the panel-final marks on 97.2% of marks (383 of 394), 0 unscorable. It is exploratory only and moves no verdict.</p>
+
+      <h3>Disclosures</h3>
+      <p>One blinding exception exists in the committed data, found by a post-run audit and disclosed rather than papered over. The scrubber banned every form of a task's own skill name but not the names of sibling skills, and skills sometimes cross-reference each other in their own text. Exactly one of the 456 committed judge inputs was affected: the Haiku cell, task aicg-t2, report 1, where the loaded answer quoted its skill's cross-reference to a sibling skill and the sibling's name survived the scrub. A judge reading that one input could infer which arm was loaded. The scrubber and its leak verifier now ban all seventeen skill names in every separator and concatenation variant, with a test covering the exact committed case. The impact is bounded: one judge input of 456, in the contextual Haiku cell, outside every confirmatory hypothesis. No H1 or H2 number moves.</p>
+      <p><strong>Concordance selection wording.</strong> The pre-registration named the Codex sample's selection only loosely as &ldquo;hash-parity&rdquo;, without a full construction. The implemented rule is deterministic and is disclosed in the repo's concordance report as the implemented interpretation rather than claimed as literal pre-registered wording: digest = SHA256(suite hash + cell + filename), sort all committed judge-input comparisons across the 15 scored cells by digest, take the first 50. Rerunning the selection reproduces the identical 50.</p>
+      <p><strong>Sanitization.</strong> Before the repository's first public release, nine committed results files had absolute local filesystem paths redacted by mechanical, byte-level string replacement; no mark, judgment, score, task content, or model output beyond those path strings was altered. One affected file is a blinded judge input that had already been scored before the redaction, so the recorded marks were produced against the pre-redaction text, which differs only in the redacted path bytes. The full record is <code>results/SANITIZATION.md</code> in the repo.</p>
+
+      <h3>The floor-exclusion rule</h3>
+      <p>The rule, exactly: if more than one third of a comparison's marks are knocked out through the judge-failure path (after the adjudicator amendment made disagreement itself non-destructive), the entire paired cell is excluded and reported, so no verdict can rest on a task judged only on its easiest surviving marks. It exists as the failure backstop, not the disagreement path. It tripped zero times in the final data. There is also a pre-registered column-level degradation threshold: if more than 10% of a column's endpoint comparisons are excluded, the column reports degraded and issues no verdict. Honesty note: that threshold was never implemented in harness code; it was checked by hand on the final data, and the check came back clean. No column degraded: the worst was Sonnet, with 3 of 102 endpoint comparisons excluded (2.94%, the three repeats of the one sonnet-max task exclusion, mmar-t1, whose loaded run the harness cut off), far under the 10% rule; Fable and Opus were each at 0 of 102. A second pre-registered hand check, flagging any endpoint task with fewer than 2 surviving repeats, was also performed: zero tasks tripped it on any endpoint cell.</p>
+
+      <h3>The two harness bugs</h3>
+      <p>Both were found the night before the final sweep, by stacked adversarial review passes: a Sonnet recon pass, then an Opus-high verification pass, then an Opus-xhigh (extra high) completeness critic. Both were fixed and tested in commit <code>27d44f8</code>, with 255/255 tests green plus a live matrix-report smoke over the 10 then-complete cells before any real report was generated.</p>
+      <p><strong>Bug 1, the Fable endpoint override.</strong> The publicly posted amendment moved Fable's confirmatory endpoint from low-vs-max to low-vs-high, because fable-max could not finish on the expiring pool (2 of 102 consumers). But report.py's <code>_endpoint_cells()</code> hardcoded low-vs-max for every model. Here is the failure mode. The harness would never have crashed. It would have silently reported Fable's H1 and H2 as "not evaluable", or scored the wrong pair, forever, while every test stayed green. The fix is a per-model confirmatory-endpoint override plus disclosure notes wherever the amended pair renders, including the H4 table, where the first version of the fix itself introduced an undisclosed relabeling that the third review pass caught. A fix that quietly mislabels one table is exactly the kind of thing that ships when only one model looks at it.</p>
+      <p><strong>Bug 2, complete-case scoping.</strong> The complete-case set feeding H1, H2, and retention was computed as one global intersection across every cell passed to <code>--matrix-report</code>, contradicting the frozen prereg text ("within that model column... endpoint cells only, interior cells never enter this set"). The consequence is worth spelling out: one model's task exclusion could silently shrink another model's confirmatory delta, and including the empty fable-max directory would have collapsed every model's H1 and H2 to "not evaluable". The fix is a per-model-column endpoint-only intersection (<code>_endpoint_complete_case</code>), with the global set retained where it is legitimately the right denominator, the cross-model descriptive views.</p>
+      <p>The process point: neither bug was found by tests. Both were found by paying a second and a third model to re-read the code against the frozen prose. Budget for that.</p>
+
+      <h3>The gate that already existed, and where it came from</h3>
+      <p>Before every column, the harness required a live-smoke-green gate: a one-task end-to-end smoke run, judges included, green before the column could start. That gate is itself a process correction. It was born earlier in the campaign, when a judge-path bug slipped past testing and was caught late; the reporting commitment made at the time was to present that correction prominently rather than bury it, so here it is. The bug: the judge invocation was broken on the live CLI path in two ways at once. judge.py handed the CLI a file path where it needed the JSON schema inline, and the schema file carried a <code>$schema</code> key the CLI rejected. Every unit test stayed green through both, because green unit tests say nothing about the CLI contract; a live run would have burned the full consumer spend and then died at judging. The verify stage of the harness review found both bugs, the fix stage was never given the verify stage's findings, and the breakage survived two consecutive "all fixed" reports before it was fixed, before the freeze, with the live smoke green after. Since then, every findings source feeds the fix stage, and no "all fixed" claim stands without a live one-task smoke, judges included.</p>
+
+      <h3>Execution engineering</h3>
+      <p>Two machines, expiring weekly pools. Consumers, the model runs under test, raced first with <code>--defer-adjudication</code> (finish the runs now, settle judge disagreements later); judging lagged on committed inputs. Handoff discipline: raw artifacts only (consumer outputs, judge inputs and outputs, order keys, run-state, run-meta), never the second machine's own scores.json, always recomputed centrally, suite hash verified on every merge. Idempotent resume semantics (skip-if-persisted at the consumer, judge, and adjudication layers) meant account-wide usage-limit pauses cost wasted call attempts and nothing else.</p>
+      <p>One disclosure, the resume-identity trap: on the opus-medium merged directory, a same-config rerun against a directory whose run-state only knew 8 of 17 tasks would have silently rebuilt the summary down to 8 tasks. The workaround ran adjudication in scratch directories and copied only the new adjudication files in.</p>
+      <p>Costs: all in, the experiment cost $965.22, of which $791.57 went to running the arms and $173.65 to judging them ($138.16 for the two-judge panel, $35.49 for adjudication). Every figure is computed directly from the recorded cost of every API call on disk, not estimated. One cell's records exist in two overlapping ledgers (a handoff merged onto the primary disk for central scoring), so the total deduplicates per run before summing: $979.00 of gross ledger entries minus $13.78 of double-counted records lands on $965.22 exactly. Building the harness is not in that number. The per-cell penny math is in results/matrix/NUMBERS.md in the repo.</p>
+
+      <h3>Full results</h3>
+      <div class="tbl-scroll">
+        <table class="data">
+          <caption>H1 (cold-arm endpoint gain), copied from MATRIX.md. cold(x) is the score without the skills at effort x. Rule: supported only when cold(max) - cold(low) &ge; 3pp. Fable = low vs high per the posted amendment.</caption>
+          <thead><tr><th>Model</th><th>cold(low)</th><th>cold(max)</th><th>Difference (pp)</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td><b>claude-fable-5</b></td><td>94.1%</td><td>97.6%</td><td>+3.5</td><td class="v-yes">directionally supported under the pre-registered rule</td></tr>
+            <tr><td><b>claude-opus-4-8</b></td><td>87.3%</td><td>91.2%</td><td>+3.9</td><td class="v-yes">directionally supported under the pre-registered rule</td></tr>
+            <tr><td><b>claude-sonnet-5</b></td><td>85.1%</td><td>89.7%</td><td>+4.6</td><td class="v-yes">directionally supported under the pre-registered rule</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tbl-scroll">
+        <table class="data">
+          <caption>H2 (delta shrinkage low to max), copied from MATRIX.md. D(x) is the skill delta at effort x: the with-skills score minus the without-skills score, in percentage points. Rule: supported only when D(low) - D(max) &ge; 3pp.</caption>
+          <thead><tr><th>Model</th><th>D(low) pp</th><th>D(max) pp</th><th>Shrinkage (pp)</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td><b>claude-fable-5</b></td><td>+4.9</td><td>+2.4</td><td>+2.5</td><td class="v-no">not supported under the pre-registered rule</td></tr>
+            <tr><td><b>claude-opus-4-8</b></td><td>+8.3</td><td>+8.8</td><td>-0.5</td><td class="v-no">not supported under the pre-registered rule</td></tr>
+            <tr><td><b>claude-sonnet-5</b></td><td>+11.8</td><td>+9.7</td><td>+2.1</td><td class="v-no">not supported under the pre-registered rule</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tbl-scroll">
+        <table class="data">
+          <caption>Retention ratios (exploratory, small-n directional), copied from MATRIX.md. R = D(top endpoint) / D(low): the share of the low-effort skill delta still present at the top endpoint. R above 1 means the delta grew.</caption>
+          <thead><tr><th>Model</th><th>R</th></tr></thead>
+          <tbody>
+            <tr><td><b>claude-fable-5</b></td><td>0.490</td></tr>
+            <tr><td><b>claude-sonnet-5</b></td><td>0.822</td></tr>
+            <tr><td><b>claude-opus-4-8</b></td><td>1.060</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-note">Fable rows are low vs high per the posted endpoint amendment, everywhere they appear. All figures complete-case (the shared task set), must-hit weighted (every checklist item counts once, equally), small-n directional. Full cell tables, the per-skill matrix, invalidation rates, and the task-cluster bootstrap (a descriptive spread check that resamples whole tasks) live in MATRIX.md and matrix.json in the repo.</p>
+      <p class="tbl-note">Basis note: the confirmatory H1/H2 tables above use the pre-registered endpoint-only complete-case task set. Grid-wide tables and charts on this page use a broader matrix-wide complete-case set instead, needed to show a consistent task set across all five effort levels, not only the two endpoints. That is why the same model can print two slightly different numbers on this page, for example Opus's +8.3 to +8.8 in the tables above versus +8.7 to +8.7 on the matrix-wide basis. Neither number is wrong, and the verdicts are identical either way.</p>
+      <p>H3 (visibility-tag heterogeneity) is exploratory prose only; no computed contrast exists in the harness. H4 is a directional-only cross-tier shrinkage comparison, carrying the same Fable low-vs-high disclosure. Haiku's +26.2pp is contextual, outside all effort-trend hypotheses. The interior curve is now complete; the last two interior cells, opus-high and sonnet-xhigh, landed with the final adjudication sweep, and by construction they could not have moved either verdict.</p>
+
+      <h3>Limitations, once each</h3>
+      <p>Small n everywhere: 17 tasks, 3 repeats at endpoints, 1 elsewhere; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample (exploratory; now run, n=50, 97.2% concordance with the panel-final marks, 0 unscorable). The suite was authored by the skill author, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
+
+      <h3>What did not run</h3>
+      <p>fable-max is the single open cell: 2 of 102 planned consumer runs completed before the pool expired, so it holds no scored data, and Fable's confirmatory endpoint moved to high per the posted amendment. One arm is still running, and the cell may be filled in later. Beyond that, the parked items named in the limitations above, out-of-distribution tasks authored skill-blind and a placebo-document arm, did not run either.</p>
+
+      <!-- SLOT-LATTICE-EXPLORER: wired 2026-07-11. The built explorer
+           (results/matrix/explorer.html, self-contained, data inlined) now
+           ships at explorer/ and the slot below links to it. Default call at
+           port; Hamza can veto. Contract kept below for reference.
+
+           DATA CONTRACT (verified against the real emitted artifact,
+           the reliable-ai-skills repo, results/matrix/matrix.json, read 2026-07-11):
+
+           Source of truth : results/matrix/matrix.json, emitted by the
+                             harness's matrix-report step. The explorer reads
+                             this file; it never computes results itself.
+
+           Top-level keys  : bootstrap, cell_order, cells, complete_case_tasks,
+                             hypothesis_verdicts, invalidation_note,
+                             judge_panel_overall, per_skill_note, retention,
+                             skills, views
+
+           Cell keying     : cells and bootstrap.cells are keyed
+                             "<model>@<effort>", e.g. "claude-fable-5@high".
+                             cell_order gives the display order.
+
+           EFFORT DIMENSION (required per post-run queue item 14): effort is a
+           first-class axis in the explorer, including the max column. Effort
+           values present in the artifact: low, medium, high, xhigh, max
+           (and "none" for the Haiku reference cell). Which efforts exist
+           varies by model; the explorer renders absent cells as absent, never
+           as zero. Per the task-24 fix, h1/h2/retention entries each carry an
+           "endpoint_effort" field; the explorer MUST read that field for a
+           model's confirmatory endpoint instead of assuming low-vs-max.
+
+           Per-cell fields : model, effort, n_tasks, repeats, replicated,
+                             preregistered, run_id, run_dir, excluded_tasks,
+                             judge_repeats, judge_disagreement{n_marks,
+                             n_disagreed, disagreement_rate_pct, adjudication},
+                             invalidation{arms, judging, planned_tasks},
+                             and three aggregate blocks (aggregate,
+                             aggregate_complete_case,
+                             aggregate_endpoint_complete_case), each with
+                             basis, label, cold_hits, cold_rate_pct,
+                             loaded_hits, loaded_rate_pct, delta_pp,
+                             delta_pp_equal_skill, headroom_recovered_pct,
+                             ceiling_tasks.
+
+           Uncertainty     : bootstrap.cells["<model>@<effort>"] carries
+                             delta_pp_p2_5 / delta_pp_p50 / delta_pp_p97_5 and
+                             n_resamples (basis: complete-case).
+
+           Verdicts        : hypothesis_verdicts.h1 and .h2 are keyed by model
+                             and carry basis, endpoint_effort, difference_pp,
+                             and verdict. retention is a per-model list, also
+                             with endpoint_effort.
+
+           Suppression rule: per_skill_note in the artifact states per-skill
+                             PASS/FAIL verdicts are deliberately suppressed in
+                             lattice outputs; the explorer honors that and does
+                             not surface per-skill verdicts.
+
+           Pending cells   : none remain. opus-high and sonnet-xhigh landed
+                             in the final adjudication sweep; matrix.json now
+                             carries all 15 cells, the 14 five-level
+                             model-effort cells plus Haiku.
+
+           Bootstrap/CI percentiles, invalidation rates, and disagreement
+           rates are workbench numbers; they belong in the explorer's
+           technical view, not in this page's section 01 copy. -->
+      <div class="slot" id="slot-lattice-explorer">
+        <div class="ct">The lattice explorer</div>
+        <p>A per-cell explorer for this study is built from the same machine-readable matrix file the report is generated from, with every cell browsable by model and by reasoning-effort level, including the max column.</p>
+        <p><a href="explorer/">Open the lattice explorer &rarr;</a></p>
+        <p>The harness that emits the matrix is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>, so you can grade your own.</p>
+      </div>
+
+      <h3>Reproduce it</h3>
+      <p>The repo carries the frozen pre-registration, the committed judge inputs, and matrix.json. Run the suite on your own keys. Re-judge my judge inputs on a model I do not control. Tell me where it breaks: <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>.</p>
+
+      <p>One more thing worth saying plainly. This entire experiment, the harness that ran it, the judging panel that scored it, and the orchestration across two machines that kept it moving, was built and run on Claude Code, by Claude models, with me directing. The judge inputs are public on purpose: anyone (and that includes anyone at Anthropic) can re-score them with a different model and check whether the results hold up. The instrument can also run against models I have not tested, to check whether the skills hold their effectiveness as effort scales past what I can measure. If you have ideas, reach out. If you want to extend the library or the task suite, pull requests are open. And if you run this against your own stack, send me your results and I will add them here.</p>
+
+      <h3>The paper trail</h3>
+      <ul class="plain-list">
+        <li><a href="https://github.com/HamzaYM/reliable-ai-skills">The repo</a>: the harness, the 17 skills, the frozen task suite (<code>eval/tasks/golden-suite.jsonl</code>), and the committed judge inputs.</li>
+        <li>The full matrix report: <code>results/matrix/MATRIX.md</code> and <code>matrix.json</code> in the repo.</li>
+        <li>The pre-registration (<code>effort-sweep-preregistration.md</code>) and the posted 2026-07-10 endpoint amendment (<code>effort-sweep-amendment-2026-07-10-fable-endpoint.md</code>).</li>
+        <li>The Codex concordance report: <code>results/concordance/CONCORDANCE.md</code>.</li>
+        <li>The per-cell explorer: <a href="explorer/">explorer/</a>, built from the same matrix.json the report is generated from.</li>
+        <li>The publicly posted pre-registration hash: <a href="https://gist.github.com/HamzaYM/3554b04c78b918d152cdaa8b3c705987">gist.github.com/HamzaYM/3554b04c78b918d152cdaa8b3c705987</a>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="final">
+    <div class="wrap">
+      <p class="pull">I predicted the skill advantage would shrink at higher effort. It held the entire way up.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
+    <span>
+      <a href="https://github.com/HamzaYM">GitHub</a>
+      <a href="https://linkedin.com/in/hamzaymalik">LinkedIn</a>
+      <a href="https://www.hamz.ai">hamz.ai &rarr;</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* theme toggle */
+  var root=document.documentElement;
+  var btns=Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+  function paint(v){btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.themeSet===v?'true':'false');});}
+  function apply(v){
+    if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+    else{root.removeAttribute('data-theme');}
+    try{localStorage.setItem('hamz-theme',v);}catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.themeSet);});});
+  paint(cur());
+
+  /* scroll progress */
+  var bar = document.getElementById('progress');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight;
+    bar.style.width = max>0 ? (h.scrollTop/max*100)+'%' : '0%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* tooltip engine */
+  var tip = document.getElementById('tip');
+  var pinned = false;
+  function showTip(el, x, y){
+    var txt = el.getAttribute('data-tip'); if(!txt) return;
+    var tt = el.getAttribute('data-tt') || '';
+    tip.innerHTML = (tt ? '<span class="tt">'+tt+'</span>' : '') + txt;
+    tip.classList.add('show');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var r = tip.getBoundingClientRect();
+    var left = x + 14, top = y + 16;
+    if(left + r.width + 10 > vw) left = x - r.width - 14;
+    if(left < 8) left = 8;
+    if(top + r.height + 10 > vh) top = y - r.height - 14;
+    if(top < 8) top = 8;
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+  function hideTip(){ tip.classList.remove('show'); pinned = false; }
+  document.querySelectorAll('.hot').forEach(function(el){
+    el.addEventListener('mouseenter', function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mousemove',  function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', function(){ if(!pinned) tip.classList.remove('show'); });
+    el.addEventListener('focus', function(){ var b=el.getBoundingClientRect(); showTip(el, b.left+b.width/2, b.top+b.height-8); });
+    el.addEventListener('blur',  function(){ tip.classList.remove('show'); });
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); pinned=false; showTip(el, ev.clientX, ev.clientY); pinned=true; });
+  });
+  document.addEventListener('click',  function(ev){ if(!ev.target.closest('.hot')) hideTip(); });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') hideTip(); });
+})();
+</script>
+<script>
+/* The grid figure: hand-rolled orthographic projection, no libraries, no
+   network. Data baked from MATRIX.md (shared 16-task basis), adjudicated
+   2026-07-11. Default view shows only the with-skills bars in model colors;
+   the toggles add the runs without skills, then the skill-gain highlight.
+   Run counts live in the hover tooltip. */
+(function(){
+  var svg=document.getElementById('lat3d');
+  if(!svg) return;
+  var NS='http://www.w3.org/2000/svg';
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var EFF=['low','medium','high','xhigh','max'];
+  var EFFSHORT={low:'low',medium:'med',high:'high',xhigh:'xhigh',max:'max'};
+  var MOD=['fable','opus','sonnet'];
+  var NAME={fable:'Fable 5',opus:'Opus 4.8',sonnet:'Sonnet 5',haiku:'Haiku 4.5'};
+  var COL={fable:'var(--c-fable)',opus:'var(--c-opus)',sonnet:'var(--c-sonnet)',haiku:'var(--c-haiku)'};
+  var CELLS=[
+    {m:'fable',e:'low',c:95.4,l:99.5,d:'+4.1',r:1},
+    {m:'fable',e:'medium',c:92.3,l:100.0,d:'+7.7',r:0},
+    {m:'fable',e:'high',c:97.4,l:100.0,d:'+2.6',r:1},
+    {m:'fable',e:'xhigh',c:96.9,l:100.0,d:'+3.1',r:0},
+    {m:'opus',e:'low',c:88.2,l:96.9,d:'+8.7',r:1},
+    {m:'opus',e:'medium',c:83.1,l:96.9,d:'+13.8',r:0},
+    {m:'opus',e:'high',c:87.7,l:98.5,d:'+10.8',r:0},
+    {m:'opus',e:'xhigh',c:89.2,l:98.5,d:'+9.2',r:0},
+    {m:'opus',e:'max',c:91.3,l:100.0,d:'+8.7',r:1},
+    {m:'sonnet',e:'low',c:85.1,l:96.9,d:'+11.8',r:1},
+    {m:'sonnet',e:'medium',c:86.2,l:98.5,d:'+12.3',r:0},
+    {m:'sonnet',e:'high',c:89.2,l:100.0,d:'+10.8',r:0},
+    {m:'sonnet',e:'xhigh',c:86.2,l:98.5,d:'+12.3',r:0},
+    {m:'sonnet',e:'max',c:89.7,l:99.5,d:'+9.7',r:1,note:'one with-skills run was cut off and excluded'},
+    {m:'haiku',e:'none',c:66.2,l:92.3,d:'+26.2',r:0}
+  ];
+  var OPEN_TIP='Fable 5 at max never finished: it got too expensive. The slot stays open and may be filled in later.';
+  var CX=380,CY=400,U=95,TILT=0.42,YS=3.4;
+  var az=-0.62, vel=0, hovEff='', pairOn=false, deltaOn=false;
+  function wxy(cell){
+    if(cell.e==='none') return {wx:-330,wz:0};
+    return {wx:(EFF.indexOf(cell.e)-2)*U, wz:(MOD.indexOf(cell.m)-1)*U};
+  }
+  function el(name,cls,parent){var n=document.createElementNS(NS,name);if(cls)n.setAttribute('class',cls);parent.appendChild(n);return n;}
+  var gGrid=el('g','',svg), gPlane=el('g','',svg), gTiles=el('g','',svg),
+      gCells=el('g','',svg), gAxis=el('g','',svg), gLabels=el('g','',svg);
+  /* floor grid */
+  var gridLines=[];
+  MOD.forEach(function(m,mi){gridLines.push({a:{wx:-2*U-20,wz:(mi-1)*U},b:{wx:2*U+20,wz:(mi-1)*U}});});
+  EFF.forEach(function(e,ei){gridLines.push({a:{wx:(ei-2)*U,wz:-U-20},b:{wx:(ei-2)*U,wz:U+20}});});
+  gridLines.forEach(function(gl){gl.el=el('line','sv-l',gGrid);gl.el.setAttribute('stroke-width','1');});
+  /* effort band, shown while hovering a bar */
+  var plane=el('polygon','',gPlane);
+  plane.setAttribute('style','fill:var(--line-strong);fill-opacity:.12;stroke:none');
+  plane.setAttribute('visibility','hidden');
+  /* fable-max open slot marker */
+  var openTile=el('polygon','sv-fnone sv-sam',gTiles);
+  openTile.setAttribute('stroke-width','1');openTile.setAttribute('stroke-dasharray','4 3');
+  openTile.setAttribute('data-open','1');openTile.setAttribute('pointer-events','all');
+  var openPos={wx:2*U,wz:-U};
+  /* cells: a bar to the with-skills score; the pair toggle adds the
+     without-skills point, the gain toggle recolors and labels the gap */
+  CELLS.forEach(function(c,i){
+    var g=el('g','',gCells); g.setAttribute('data-i',i); c.g=g;
+    c.bar=el('line','',g); c.bar.setAttribute('style','stroke:'+COL[c.m]); c.bar.setAttribute('stroke-width','3.5');
+    c.gap=el('line','',g);
+    c.cold=el('circle','',g); c.cold.setAttribute('style','fill:var(--bg);stroke:'+COL[c.m]); c.cold.setAttribute('stroke-width','1.6');
+    c.load=el('circle','',g); c.load.setAttribute('style','fill:'+COL[c.m]);
+    c.dtag=el('text','sv-t sv-acc',g); c.dtag.setAttribute('font-size','10');
+    c.dtag.textContent=c.d;
+  });
+  /* score axis, back-left, windowed 60-100 (said in the table note) */
+  var axisLine=el('line','sv-sf',gAxis); axisLine.setAttribute('stroke-width','1');
+  var axisTicks=[60,80,100].map(function(v){
+    var t=el('text','sv-t sv-faint',gAxis);t.setAttribute('font-size','10');t.setAttribute('text-anchor','end');t.textContent=v;return {v:v,el:t};});
+  /* labels */
+  var effLabels=EFF.map(function(e,ei){
+    var t=el('text','sv-t sv-faint',gLabels);t.setAttribute('font-size','10');t.setAttribute('text-anchor','middle');t.textContent=EFFSHORT[e];
+    return {wx:(ei-2)*U,wz:U+58,el:t};});
+  var modLabels=MOD.map(function(m,mi){
+    var t=el('text','sv-t sv-dim',gLabels);t.setAttribute('font-size','11');t.setAttribute('text-anchor','middle');t.textContent=NAME[m];
+    return {wx:-2*U-62,wz:(mi-1)*U,el:t};});
+  var haikuLabel=el('text','sv-t sv-faint',gLabels);
+  haikuLabel.setAttribute('font-size','10');haikuLabel.setAttribute('text-anchor','middle');
+  haikuLabel.textContent='Haiku 4.5 · no effort dial';
+  function render(){
+    var cos=Math.cos(az),sin=Math.sin(az);
+    function P(wx,wz,wy){var d=wx*sin+wz*cos;return {x:CX+wx*cos-wz*sin,y:CY-wy+d*TILT,d:d};}
+    gridLines.forEach(function(gl){
+      var a=P(gl.a.wx,gl.a.wz,0),b=P(gl.b.wx,gl.b.wz,0);
+      gl.el.setAttribute('x1',a.x);gl.el.setAttribute('y1',a.y);gl.el.setAttribute('x2',b.x);gl.el.setAttribute('y2',b.y);});
+    function quad(wx,wz,s,wy){
+      return [P(wx-s,wz-s,wy),P(wx+s,wz-s,wy),P(wx+s,wz+s,wy),P(wx-s,wz+s,wy)]
+        .map(function(p){return p.x+','+p.y;}).join(' ');}
+    openTile.setAttribute('points',quad(openPos.wx,openPos.wz,26,0));
+    if(hovEff && EFF.indexOf(hovEff)>=0){
+      var wx=(EFF.indexOf(hovEff)-2)*U;
+      var c1=P(wx,-U-30,-4),c2=P(wx,U+30,-4),c3=P(wx,U+30,146),c4=P(wx,-U-30,146);
+      plane.setAttribute('points',c1.x+','+c1.y+' '+c2.x+','+c2.y+' '+c3.x+','+c3.y+' '+c4.x+','+c4.y);
+      plane.setAttribute('visibility','visible');
+    } else { plane.setAttribute('visibility','hidden'); }
+    var order=[];
+    CELLS.forEach(function(c){
+      var w=wxy(c);
+      var p0=P(w.wx,w.wz,0), pc=P(w.wx,w.wz,(c.c-60)*YS), pl=P(w.wx,w.wz,(c.l-60)*YS);
+      var dn=Math.max(0,Math.min(1,(pc.d+340)/680));
+      var rs=0.8+0.4*dn, op=0.45+0.55*dn;
+      var barTop=pairOn?pc:pl;
+      c.bar.setAttribute('x1',p0.x);c.bar.setAttribute('y1',p0.y);
+      c.bar.setAttribute('x2',barTop.x);c.bar.setAttribute('y2',barTop.y);
+      if(pairOn){
+        c.gap.setAttribute('visibility','visible');
+        c.gap.setAttribute('style','stroke:'+(deltaOn?'var(--acc)':COL[c.m]));
+        c.gap.setAttribute('stroke-width', deltaOn?'4.5':'2');
+        c.gap.setAttribute('x1',pc.x);c.gap.setAttribute('y1',pc.y);
+        c.gap.setAttribute('x2',pl.x);c.gap.setAttribute('y2',pl.y);
+        c.cold.setAttribute('visibility','visible');
+        c.cold.setAttribute('cx',pc.x);c.cold.setAttribute('cy',pc.y);c.cold.setAttribute('r',4*rs);
+      } else {
+        c.gap.setAttribute('visibility','hidden');
+        c.cold.setAttribute('visibility','hidden');
+      }
+      c.load.setAttribute('cx',pl.x);c.load.setAttribute('cy',pl.y);c.load.setAttribute('r',4.5*rs);
+      if(deltaOn){
+        c.dtag.setAttribute('visibility','visible');
+        c.dtag.setAttribute('x',pl.x+8*rs);c.dtag.setAttribute('y',pl.y-7*rs);
+      } else {
+        c.dtag.setAttribute('visibility','hidden');
+      }
+      var dimmed=hovEff && c.e!==hovEff;
+      c.g.setAttribute('opacity', dimmed?0.18:op);
+      order.push({d:pc.d,g:c.g});
+    });
+    order.sort(function(a,b){return a.d-b.d;}).forEach(function(o){gCells.appendChild(o.g);});
+    openTile.setAttribute('opacity', (hovEff && hovEff!=='max')?0.18:1);
+    var a0=P(-235,-140,0),a1=P(-235,-140,136);
+    axisLine.setAttribute('x1',a0.x);axisLine.setAttribute('y1',a0.y);
+    axisLine.setAttribute('x2',a1.x);axisLine.setAttribute('y2',a1.y);
+    axisTicks.forEach(function(t){var p=P(-235,-140,(t.v-60)*YS);t.el.setAttribute('x',p.x-6);t.el.setAttribute('y',p.y+3);});
+    effLabels.forEach(function(l){var p=P(l.wx,l.wz,0);l.el.setAttribute('x',p.x);l.el.setAttribute('y',p.y+4);});
+    modLabels.forEach(function(l){var p=P(l.wx,l.wz,0);l.el.setAttribute('x',p.x);l.el.setAttribute('y',p.y+4);});
+    var hp=P(-330,0,0);haikuLabel.setAttribute('x',hp.x);haikuLabel.setAttribute('y',hp.y+22);
+  }
+  /* hover detail, reusing the page tip chip; hovering also highlights the
+     bar's effort level across models */
+  var tip=document.getElementById('tip');
+  function moveTip(x,y){
+    var vw=window.innerWidth,vh=window.innerHeight,r=tip.getBoundingClientRect();
+    var left=x+14,top=y+16;
+    if(left+r.width+10>vw)left=x-r.width-14; if(left<8)left=8;
+    if(top+r.height+10>vh)top=y-r.height-14; if(top<8)top=8;
+    tip.style.left=left+'px';tip.style.top=top+'px';
+  }
+  function cellTip(c){
+    var head=NAME[c.m]+(c.e==='none'?' · no effort dial':(c.e==='xhigh'?' · xhigh (extra high) effort':' · '+c.e+' effort'));
+    return '<span class="tt">'+head+'</span>'
+      +'without skills '+c.c.toFixed(1)+'% · with skills '+c.l.toFixed(1)+'%<br>'
+      +'skills added '+c.d+' points<br>'
+      +(c.r?'avg of 3 runs per side':'1 run per side')
+      +(c.note?('<br>'+c.note):'');
+  }
+  svg.addEventListener('pointerover',function(ev){
+    var g=ev.target.closest ? ev.target.closest('[data-i],[data-open]') : null;
+    if(!g) return;
+    if(g.hasAttribute('data-open')){
+      tip.innerHTML='<span class="tt">Fable 5 at max · open slot, not run</span>'+OPEN_TIP;
+      hovEff='max';
+    } else {
+      var c=CELLS[+g.getAttribute('data-i')];
+      tip.innerHTML=cellTip(c);
+      hovEff=c.e;
+    }
+    render();
+    tip.classList.add('show'); moveTip(ev.clientX,ev.clientY);
+  });
+  svg.addEventListener('pointermove',function(ev){
+    if(tip.classList.contains('show') && (ev.target.closest && ev.target.closest('[data-i],[data-open]'))) moveTip(ev.clientX,ev.clientY);
+  });
+  svg.addEventListener('pointerout',function(ev){
+    if(ev.target.closest && ev.target.closest('[data-i],[data-open]')){
+      tip.classList.remove('show');
+      hovEff=''; render();
+    }
+  });
+  /* drag to rotate with velocity damping, mouse and touch */
+  var stage=document.getElementById('lat3d-stage');
+  var dragging=false,lastX=0,raf=0;
+  svg.addEventListener('pointerdown',function(ev){
+    dragging=true;lastX=ev.clientX;vel=0;stage.classList.add('dragging');
+    if(svg.setPointerCapture)svg.setPointerCapture(ev.pointerId);
+    if(raf){cancelAnimationFrame(raf);raf=0;}
+  });
+  svg.addEventListener('pointermove',function(ev){
+    if(!dragging)return;
+    var d=(ev.clientX-lastX)*0.006;lastX=ev.clientX;az+=d;vel=d;render();
+  });
+  function release(){
+    if(!dragging)return; dragging=false; stage.classList.remove('dragging');
+    if(reduced)return;
+    function spin(){ if(Math.abs(vel)<0.0004){raf=0;return;} az+=vel; vel*=0.92; render(); raf=requestAnimationFrame(spin); }
+    if(Math.abs(vel)>0.0004) raf=requestAnimationFrame(spin);
+  }
+  svg.addEventListener('pointerup',release);
+  svg.addEventListener('pointercancel',release);
+  /* the two layer toggles */
+  var bp=document.getElementById('l3d-pair'), bd=document.getElementById('l3d-delta');
+  function paintBtns(){
+    bp.setAttribute('aria-pressed', pairOn?'true':'false');
+    bd.setAttribute('aria-pressed', deltaOn?'true':'false');
+  }
+  if(bp&&bd){
+    bp.addEventListener('click',function(){ pairOn=!pairOn; if(!pairOn) deltaOn=false; paintBtns(); render(); });
+    bd.addEventListener('click',function(){ deltaOn=!deltaOn; if(deltaOn) pairOn=true; paintBtns(); render(); });
+  }
+  render();
+})();
+</script>
+<script>
+/* tab mechanics: real tabs, hash-linkable, everything visible with JS off or in print */
+(function(){
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+  var panels=Array.prototype.slice.call(document.querySelectorAll('.tab-panel'));
+  if(!tabs.length||!panels.length) return;
+  function activate(id, scrollTarget){
+    panels.forEach(function(p){ p.classList.toggle('active', p.id===id); });
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===id;
+      t.setAttribute('aria-selected', on?'true':'false');
+      t.tabIndex=on?0:-1;
+    });
+    if(scrollTarget) scrollTarget.scrollIntoView();
+  }
+  function fromHash(){
+    var h=location.hash.replace('#','');
+    if(!h){ activate('result'); return; }
+    var el=document.getElementById(h);
+    if(!el){ activate('result'); return; }
+    var panel=el.closest?el.closest('.tab-panel'):null;
+    if(panel){ activate(panel.id, el===panel?null:el); }
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var id=t.getAttribute('aria-controls');
+      if(location.hash!=='#'+id){
+        if(history.pushState){ history.pushState(null,'','#'+id); } else { location.hash=id; }
+      }
+      activate(id);
+    });
+  });
+  window.addEventListener('hashchange', fromHash);
+  window.addEventListener('popstate', fromHash);
+  var list=document.querySelector('.tabs');
+  list.addEventListener('keydown', function(ev){
+    var i=tabs.indexOf(document.activeElement); if(i<0) return;
+    var j=null;
+    if(ev.key==='ArrowRight'||ev.key==='ArrowDown') j=(i+1)%tabs.length;
+    if(ev.key==='ArrowLeft'||ev.key==='ArrowUp') j=(i-1+tabs.length)%tabs.length;
+    if(ev.key==='Home') j=0;
+    if(ev.key==='End') j=tabs.length-1;
+    if(j===null) return;
+    ev.preventDefault(); tabs[j].focus(); tabs[j].click();
+  });
+  fromHash();
+})();
+</script>
+<script>
+/* series toggles for the performance charts (one strip drives both) and the
+   cost chart. With JS off, no data-view attribute is ever set, so every
+   series stays visible. */
+(function(){
+  function strip(ctrlId, wrapId, attr, def){
+    var ctrl=document.getElementById(ctrlId), wrap=document.getElementById(wrapId);
+    if(!ctrl||!wrap) return;
+    var btns=Array.prototype.slice.call(ctrl.querySelectorAll('button'));
+    function set(v){
+      wrap.setAttribute('data-view', v);
+      btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute(attr)===v?'true':'false'); });
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ set(b.getAttribute(attr)); }); });
+    set(def);
+  }
+  strip('perf-controls','perf-figs','data-pv','all');
+  strip('cost-controls','cost-fig','data-cv','fable');
+})();
+</script>
+<script>
+/* ===== 2026-07-11 polish: hover everything =====
+   Chart points, table cells, and run-count qualifiers all get the page tip.
+   Every figure the tips draw on is already printed statically on this page
+   (the tables and the SVG desc blocks); nothing here introduces a number. */
+(function(){
+try{
+  var tip=document.getElementById('tip');
+  function place(x,y){
+    var vw=window.innerWidth,vh=window.innerHeight,r=tip.getBoundingClientRect();
+    var left=x+14,top=y+16;
+    if(left+r.width+10>vw)left=x-r.width-14; if(left<8)left=8;
+    if(top+r.height+10>vh)top=y-r.height-14; if(top<8)top=8;
+    tip.style.left=left+'px';tip.style.top=top+'px';
+  }
+  function show(el,x,y){
+    var txt=el.getAttribute('data-tip'); if(!txt) return;
+    var tt=el.getAttribute('data-tt')||'';
+    tip.innerHTML=(tt?'<span class="tt">'+tt+'</span>':'')+txt;
+    tip.classList.add('show'); place(x,y);
+  }
+  function hide(){ tip.classList.remove('show'); }
+  function bind(el){
+    el.addEventListener('mouseenter',function(ev){show(el,ev.clientX,ev.clientY);});
+    el.addEventListener('mousemove',function(ev){show(el,ev.clientX,ev.clientY);});
+    el.addEventListener('mouseleave',hide);
+    el.addEventListener('focus',function(){var b=el.getBoundingClientRect();show(el,b.left+b.width/2,b.top+b.height-8);});
+    el.addEventListener('blur',hide);
+  }
+  var JUDGED='judged by two blinded Claude judges';
+  var REPEATS='The two ends of each model’s effort range were run three times for stability; the middle levels once.';
+
+  /* chart points: data mirrors the results table, the cost table, and
+     cost-per-run-dataset.json on this page, all pinned to MATRIX.md */
+  var LD={
+    fable:{name:'Fable 5',eff:['low','medium','high','xhigh'],
+      cold:[95.4,92.3,97.4,96.9],loaded:[99.5,100.0,100.0,100.0],
+      ccost:[0.89,1.05,1.21,1.41],lcost:[1.07,1.22,1.50,1.62],runs:[51,17,51,17]},
+    opus:{name:'Opus 4.8',eff:['low','medium','high','xhigh','max'],
+      cold:[88.2,83.1,87.7,89.2,91.3],loaded:[96.9,96.9,98.5,98.5,100.0],
+      ccost:[0.59,0.66,0.53,0.72,0.89],lcost:[0.67,0.70,0.59,0.75,1.00],runs:[51,17,17,17,51]},
+    sonnet:{name:'Sonnet 5',eff:['low','medium','high','xhigh','max'],
+      cold:[85.1,86.2,89.2,86.2,89.7],loaded:[96.9,98.5,100.0,98.5,99.5],
+      ccost:[0.44,0.39,0.49,0.81,1.20],lcost:[0.49,0.43,0.62,0.80,1.18],
+      runs:[51,17,17,17,51],lruns:[51,17,17,17,50]},
+    haiku:{name:'Haiku 4.5',eff:['none'],cold:[66.2],loaded:[92.3],
+      ccost:[0.21],lcost:[0.22],runs:[17]}
+  };
+  var EFFL={none:'no effort dial',low:'low effort',medium:'medium effort',high:'high effort',
+            xhigh:'xhigh (extra high) effort',max:'max effort'};
+  function runNote(n){
+    if(n===51) return '51 runs (3 repeats of the 17 tasks)';
+    if(n===50) return '50 runs (3 repeats, one run cut off and excluded)';
+    return n+' runs (1 per task)';
+  }
+  Array.prototype.forEach.call(
+    document.querySelectorAll('#fig-perf-full g[data-model], #fig-perf-zoom g[data-model], #fig-cost-chart g[data-model]'),
+    function(g){
+      var d=LD[g.getAttribute('data-model')]; if(!d) return;
+      var arm=g.getAttribute('data-arm');
+      Array.prototype.forEach.call(g.querySelectorAll('circle'),function(c,i){
+        var e=d.eff[i]; if(!e) return;
+        var score=(arm==='loaded'?d.loaded:d.cold)[i];
+        var cost=(arm==='loaded'?d.lcost:d.ccost)[i];
+        var n=((arm==='loaded'&&d.lruns)?d.lruns:d.runs)[i];
+        c.setAttribute('data-tt',d.name+' · '+EFFL[e]);
+        c.setAttribute('data-tip',
+          (arm==='loaded'?'with the skills installed':'without skills')
+          +' · '+score.toFixed(1)+'% of checklist items<br>avg $'+cost.toFixed(2)
+          +' per run · '+runNote(n)+'<br>'+JUDGED);
+        c.setAttribute('tabindex','0');
+        bind(c);
+      });
+    });
+
+  /* results-table and cost-table cells: tips are read from the row itself */
+  function cellText(td){
+    var clone=td.cloneNode(true);
+    Array.prototype.forEach.call(clone.querySelectorAll('.q'),function(q){q.parentNode.removeChild(q);});
+    return clone.textContent.trim();
+  }
+  function effHead(t){
+    if(t.indexOf('xhigh')===0) return 'xhigh (extra high) effort';
+    if(t==='no effort dial') return t;
+    return t+' effort';
+  }
+  function qText(td){ var q=td.querySelector('.q'); return q?q.textContent.trim():''; }
+  function decorateRows(tbl, buildTip){
+    if(!tbl) return;
+    var model='';
+    Array.prototype.forEach.call(tbl.querySelectorAll('tbody tr'),function(tr){
+      var tds=Array.prototype.filter.call(tr.children,function(c){return c.tagName==='TD';});
+      if(!tds.length) return;
+      var i=0;
+      if(tds[0].querySelector('b')){ model=tds[0].querySelector('b').textContent.trim(); i=1; }
+      if(tds.length-i<4 || (tds[i]&&tds[i].hasAttribute('colspan'))) return; /* open slot row */
+      var eff=cellText(tds[i]);
+      var built=buildTip(tds,i);
+      if(!built) return;
+      var head=model+' · '+effHead(eff);
+      tds.forEach(function(td){
+        td.setAttribute('data-tt',head);
+        td.setAttribute('data-tip',built);
+        td.setAttribute('tabindex','0');
+        td.classList.add('cellhot');
+        bind(td);
+      });
+    });
+  }
+  decorateRows(document.getElementById('tbl-results'),function(tds,i){
+    var b1=tds[i+1].querySelector('b'),b2=tds[i+2].querySelector('b'),b3=tds[i+3].querySelector('b');
+    if(!b1||!b2||!b3) return null;
+    return 'without skills '+b1.textContent+' · with skills '+b2.textContent
+      +'<br>skills added '+b3.textContent+' points · '+(qText(tds[i+1])||'')
+      +'<br>'+JUDGED;
+  });
+  decorateRows(document.getElementById('tbl-costs'),function(tds,i){
+    var b1=tds[i+1].querySelector('b'),b2=tds[i+2].querySelector('b'),b3=tds[i+3].querySelector('b');
+    if(!b1||!b2||!b3) return null;
+    return 'without skills '+b1.textContent+' · with skills '+b2.textContent
+      +' per run<br>skill cost '+b3.textContent+' per run · '+(qText(tds[i])||'')
+      +'<br>scores '+JUDGED;
+  });
+  /* the tab-2 skill-gain grid */
+  var lat=document.getElementById('tbl-lattice-delta');
+  if(lat){
+    var heads=Array.prototype.map.call(lat.querySelectorAll('thead th'),function(th){return th.textContent.trim();});
+    Array.prototype.forEach.call(lat.querySelectorAll('tbody tr'),function(tr){
+      var eff=tr.querySelector('th')?tr.querySelector('th').textContent.trim():'';
+      Array.prototype.forEach.call(tr.querySelectorAll('td'),function(td,ci){
+        if(td.classList.contains('na')) return;
+        var d=td.querySelector('.d'),m=td.querySelector('.m');
+        if(!d) return;
+        td.setAttribute('data-tt',heads[ci+1]+' · '+effHead(eff));
+        td.setAttribute('data-tip','skills added '+d.textContent+' points · '+(m?m.textContent:'')+'<br>'+JUDGED);
+        td.setAttribute('tabindex','0');
+        td.classList.add('cellhot');
+        bind(td);
+      });
+    });
+  }
+  /* run-count qualifiers */
+  Array.prototype.forEach.call(document.querySelectorAll('span.q, span.m'),function(sp){
+    var t=sp.textContent.trim();
+    if(t==='avg of 3 runs'||t==='1 run'){
+      sp.setAttribute('data-tt','run counts');
+      sp.setAttribute('data-tip',REPEATS);
+      sp.setAttribute('tabindex','0');
+      sp.classList.add('cellhot');
+      bind(sp);
+    }
+  });
+}catch(e){}
+})();
+</script>
+<script>
+/* ===== 2026-07-11 polish: calm motion layer =====
+   One-time entrances per motion-design-language.md section 1. Everything is
+   presentational: reduced-motion, no-JS, and print render the identical
+   content instantly (the .fx hidden state only exists under html.js AND
+   prefers-reduced-motion: no-preference). Count-ups run only on the hero's
+   scale numbers (tasks, marks) and land on their exact printed values. */
+(function(){
+  function showAll(){
+    Array.prototype.forEach.call(document.querySelectorAll('.fx, .wf-s'),function(e){e.classList.add('in');});
+  }
+  try{
+    var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduced || !('IntersectionObserver' in window)){ showAll(); return; }
+
+    /* stagger assignment within groups (60-90ms per sibling) */
+    Array.prototype.forEach.call(document.querySelectorAll('[data-fx-stagger]'),function(gr){
+      Array.prototype.forEach.call(gr.querySelectorAll('.fx'),function(k,i){
+        k.style.transitionDelay=Math.min(i,7)*75+'ms';
+      });
+    });
+    var wfStages=document.querySelectorAll('#fig-workflow .wf-s');
+    Array.prototype.forEach.call(wfStages,function(s,i){ s.style.transitionDelay=(i*90)+'ms'; });
+
+    function countUp(el){
+      var end=parseInt(el.getAttribute('data-count'),10);
+      if(!end){ return; }
+      var t0=null, dur=1100;
+      function fmt(v){ return v.toLocaleString('en-US'); }
+      function step(ts){
+        if(t0===null) t0=ts;
+        var k=Math.min(1,(ts-t0)/dur); k=1-Math.pow(1-k,3);
+        el.textContent=fmt(Math.round(end*k));
+        if(k<1){ requestAnimationFrame(step); } else { el.textContent=fmt(end); }
+      }
+      requestAnimationFrame(step);
+    }
+
+    function drawLines(svg){
+      Array.prototype.forEach.call(svg.querySelectorAll('polyline:not([stroke-dasharray])'),function(p){
+        try{
+          var L=p.getTotalLength(); if(!L) return;
+          p.style.strokeDasharray=L; p.style.strokeDashoffset=L;
+          p.getBoundingClientRect();
+          p.classList.add('draw');
+          requestAnimationFrame(function(){ p.style.strokeDashoffset='0'; });
+          setTimeout(function(){
+            p.classList.remove('draw'); p.style.strokeDasharray=''; p.style.strokeDashoffset='';
+          },950);
+        }catch(e){}
+      });
+    }
+
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var el=en.target; io.unobserve(el);
+        if(el.hasAttribute('data-fx-stagger')){
+          Array.prototype.forEach.call(el.querySelectorAll('.fx'),function(k){k.classList.add('in');});
+          Array.prototype.forEach.call(el.querySelectorAll('[data-count]'),countUp);
+        } else if(el.id==='fig-workflow'){
+          Array.prototype.forEach.call(el.querySelectorAll('.wf-s'),function(s){s.classList.add('in');});
+        } else if(el.tagName==='svg'||el.tagName==='SVG'){
+          drawLines(el);
+        } else {
+          el.classList.add('in');
+        }
+      });
+    },{threshold:0.15, rootMargin:'0px 0px -50px 0px'});
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-fx-stagger]'),function(e){io.observe(e);});
+    Array.prototype.forEach.call(document.querySelectorAll('.fx'),function(e){
+      if(!e.closest('[data-fx-stagger]')) io.observe(e);
+    });
+    var wf=document.getElementById('fig-workflow'); if(wf) io.observe(wf);
+    Array.prototype.forEach.call(
+      document.querySelectorAll('#fig-perf-full svg, #fig-perf-zoom svg, #fig-cost-chart svg'),
+      function(s){ io.observe(s); });
+  }catch(e){ showAll(); }
+})();
+</script>
+</body>
+</html>
