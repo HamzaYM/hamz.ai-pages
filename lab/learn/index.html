@@ -235,9 +235,9 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">01</span>What a skill is</div>
       <h2>What a skill is</h2>
-      <p class="lead">A skill here means one very specific thing: a Claude Code skill. It's a written instruction file, a SKILL.md, that changes how Claude behaves while it's writing or reviewing code for me. Think of it like a pilot's checklist: the pilot already knows how to fly, the checklist just makes sure nothing gets skipped under pressure. A skill does that for an AI coding agent.</p>
-      <p>It isn't a general "AI skill," and it has nothing to do with your job or your own tools. If you don't use Claude Code, nothing here installs anywhere for you. This is about how I make my own coding assistant behave more reliably, not a product for marketing platforms or anything else.</p>
-      <p>The library of 17 skills built this way is at <a href="../skills/">/lab/skills/</a>, each one a short, packaged playbook the agent loads before it starts working: the traps to check, the order to work in, the things a finished answer must contain.</p>
+      <p class="lead">A skill here means one very specific thing: a Claude Code skill. It's a written instruction file, a SKILL.md, that changes how Claude behaves while it's writing or reviewing code for me. It works like a pilot's checklist: the pilot already knows how to fly, the checklist just makes sure nothing gets skipped under pressure. A skill does that for an AI coding agent.</p>
+      <p>It isn't a general "AI skill," and nothing here installs anywhere for you. This is how I make my own coding assistant behave more reliably.</p>
+      <p>The library of 17 skills built this way is at <a href="../skills/">/lab/skills/</a>, each one a short, packaged playbook the agent loads before it starts working: which traps to check, and what a finished answer has to contain.</p>
       <p>Here's a real one, exactly as it's written. Every skill starts with two lines that matter more than anything below them:</p>
       <pre class="skel"><span class="k">name:</span> pre-merge-validation-gate
 <span class="k">description:</span> Use before declaring any change "done," before opening or updating a PR, after any UI-touching change, or whenever you're about to report test results. Defines what "done" actually means and how to report it without overstating what was checked.</pre>
@@ -251,9 +251,9 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">02</span>How a skill gets tested</div>
       <h2>How a skill gets tested</h2>
-      <p class="lead">A claim that a skill "helps" is cheap on its own, so every skill on this site is graded, not just described. The method is an order-blinded A/B: every task ran twice, once with the skill loaded and once without. Judges graded both reports without being told which was which, shown in an alternating order.</p>
-      <p>Each task carries its own short list of things a correct answer must do, called a <strong>must-hit</strong>: a pre-registered pass/fail expectation a task output either meets or does not. A task's score is just the share of its must-hits the output actually hit. No style points.</p>
-      <p>The grading itself is done by a model acting as judge, not by me reading the two answers and picking a favorite. A judge grades each pair of reports against the task's written must-hits, one judge run per task, with the arm order withheld, so the judge has no way to know which answer came from the skill-loaded run. When two judges disagree, a fixed third judge, an adjudicator, breaks the tie: it scores a mark only when the two primary judges disagree, and the two-of-three majority is final.</p>
+      <p class="lead">A claim that a skill "helps" is cheap on its own, so every skill on this site is graded, not just described. The method is an order-blinded A/B: every task ran twice, once with the skill loaded and once without. Judges graded both reports without being told which was which, and the two versions were shown in alternating order.</p>
+      <p>Each task carries its own short list of things a correct answer must do, called <strong>must-hits</strong>: pass/fail checks written before any run. A task's score is just the share of its must-hits the output actually hit. No style points.</p>
+      <p>The grading itself is done by a model acting as judge, not by me reading the two answers and picking a favorite. Two judges grade each pair of reports against the task's written must-hits, never knowing which answer came from the skill-loaded run. When they disagree on a mark, a fixed third judge breaks the tie, and the two-of-three majority is final.</p>
       <p>The full run of this method against the skills library is <a href="../evidence/">the skills study</a>, and the version of it that gates client work before it ships is <a href="../chain/#evidence">stage 03 of the Assurance Chain</a>.</p>
     </div>
   </section>
@@ -262,8 +262,8 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">03</span>The effort lattice study</div>
       <h2>What the effort lattice study is</h2>
-      <p class="lead">Newer Claude models expose a reasoning effort dial: a setting that controls how long the model thinks before it answers. Higher settings buy more thinking per run, at a higher cost. The obvious question is whether just turning that dial up makes a packaged skill unnecessary, if the model can think its way to the same result on its own.</p>
-      <p>The effort lattice study ran three Claude models at five effort levels each, cold and loaded, with the rules and pass criteria locked before any run. The short answer: turning up the dial made every model better on its own, but it never closed the gap a skill added on top, at any effort level, on any model. The full study, with the numbers, is at <a href="../lattice/">/lab/lattice/</a>.</p>
+      <p class="lead">Newer Claude models expose a reasoning effort dial: a setting that controls how long the model thinks before it answers. Higher settings buy more thinking per run, at a higher cost. The obvious question is whether turning that dial up makes a packaged skill unnecessary, since the model might think its way to the same result on its own.</p>
+      <p>The effort lattice study ran three Claude models at five effort levels each, once cold (no skill) and once with the skill loaded, with the rules and pass criteria locked before any run. The short answer: turning up the dial made every model better on its own, but it never closed the gap a skill added on top, at any effort level, on any model. The full study, with the numbers, is at <a href="../lattice/">/lab/lattice/</a>.</p>
     </div>
   </section>
 
@@ -271,7 +271,7 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">04</span>Glossary</div>
       <h2>The remaining terms</h2>
-      <p>A few more words show up across the lab. Here's what each one means, in the same wording used everywhere else on the site.</p>
+      <p>A few more words show up across the lab. Here's what each one means.</p>
       <dl class="gloss">
         <div class="gterm">
           <dt>Eval harness</dt>
@@ -283,7 +283,7 @@
         </div>
         <div class="gterm">
           <dt>Complete-case set</dt>
-          <dd>A common complete-case set per model column over endpoint cells only: each model's two endpoints are scored on exactly the tasks valid in both, so nothing else can shift the comparison.</dd>
+          <dd>Each model's two endpoints are scored on exactly the same tasks, only the tasks valid in both runs, so a missing task can't tilt the comparison one way or the other.</dd>
         </div>
         <div class="gterm">
           <dt>MIT licensed</dt>

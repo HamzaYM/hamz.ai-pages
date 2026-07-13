@@ -1077,7 +1077,7 @@
       <p class="tbl-note">Methodology: real recorded spend averaged per run, not list-price estimates, computed from cost-per-run-dataset.json, which ships next to this page. Loading the skills added between $0.01 and $0.30 to a run, and on Sonnet's two highest settings the runs with skills installed came out slightly cheaper than the runs without. The machine mix varied between runs, so treat these as observed spend, not a price benchmark. The full per-call ledger is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
 
       <h3 id="fable-max">The cell that got away</h3>
-      <p>Fable at max effort is the one empty cell in the grid. It got too expensive to finish: the subscription pool it ran on expired before it did. The slot stays open, part of it is still quietly running, and if it ever completes the cell gets filled in. Nothing else on this page waits for it; the rules already cover the gap, as laid out in <a href="#methodology">the full methodology</a>.</p>
+      <p>Fable at max effort is the one empty cell in the grid. It got too expensive to finish: the subscription pool it ran on expired before it did. The slot stays open by design: it is the pre-registered exploratory cell, permanently excluded from the confirmatory 15-cell matrix regardless of whether more of its runs ever complete. Nothing else on this page waits for it; the rules already cover the gap, as laid out in <a href="#methodology">the full methodology</a>.</p>
 
       <h3 id="grid-3d">The whole grid at once</h3>
       <div class="exhibit" id="fig-matrix3d">
@@ -1229,7 +1229,7 @@
       <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample (exploratory; now run, n=50, 97.2% concordance with the panel-final marks, 0 unscorable). The suite was authored by the skill author, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
 
       <h3>What did not run</h3>
-      <p>fable-max is the single open cell: 2 of 102 planned consumer runs completed before the pool expired, so it holds no scored data, and Fable's confirmatory endpoint moved to high per the posted amendment. One arm is still running, and the cell may be filled in later. Beyond that, the parked items named in the limitations above, out-of-distribution tasks authored skill-blind and a placebo-document arm, did not run either.</p>
+      <p>fable-max is the pre-registered open/exploratory cell: it holds no scored data, by design it never joins the confirmatory 15-cell matrix regardless of outcome, and Fable's confirmatory endpoint moved to high per the posted amendment. Beyond that, the parked items named in the limitations above, out-of-distribution tasks authored skill-blind and a placebo-document arm, did not run either.</p>
 
       <!-- Lattice explorer: the built explorer (results/matrix/explorer.html,
            self-contained, data inlined) ships at explorer/, and the slot below
@@ -1418,7 +1418,7 @@
     {m:'sonnet',e:'max',c:89.7,l:99.5,d:'+9.8',r:1},
     {m:'haiku',e:'none',c:64.7,l:91.2,d:'+26.5',r:0}
   ];
-  var OPEN_TIP='Fable 5 at max never finished: it got too expensive. The slot stays open and may be filled in later.';
+  var OPEN_TIP='Fable 5 at max never finished: it got too expensive. It is the pre-registered open/exploratory cell, permanently excluded from the confirmatory matrix by design, not something still being waited on.';
   var CX=380,CY=400,U=95,TILT=0.42,YS=3.4;
   var az=-0.62, vel=0, hovEff='', pairOn=false, deltaOn=false;
   function wxy(cell){

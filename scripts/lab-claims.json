@@ -1,0 +1,229 @@
+{
+  "meta": {
+    "purpose": "Self-auditing manifest for concrete numeric/factual claims on the hamz.ai lab pages and builder page. Each machine-checkable claim maps to an evidence source in one of the two repo checkouts; claims with no in-repo source are listed under 'attested' with a reason. Consumed by verify-lab-claims.py.",
+    "generated": "2026-07-11",
+    "pages_audited": [
+      "lab/index.html",
+      "lab/evidence/index.html",
+      "lab/chain/index.html",
+      "lab/notes/index.html",
+      "lab/proof/index.html",
+      "builder/index.html"
+    ],
+    "note_on_matrix": "The public pages currently carry the ORIGINAL July-2 study numbers (26/50 -> 46/50 over 16 tasks). The completed effort matrix (results/matrix/matrix.json) is a later, separate multi-model study whose numbers are pre-registered to land on lab/evidence/ section 05 ('when its numbers exist, they will land on this page') and are NOT yet quoted on any page. matrix.json therefore backs exactly one live claim today: the released-library count of 17 (len(skills)). Extraction rules against matrix.json are wired and exercised so they are ready the moment its numbers go public."
+  },
+  "roots": {
+    "evidence_repo": {
+      "default": "/Users/hamza/repos/hamza-skills-oss",
+      "env": "HAMZ_EVIDENCE_REPO"
+    },
+    "website": {
+      "default": "/Users/hamza/repos/hamz-ai-website",
+      "env": "HAMZ_WEBSITE"
+    }
+  },
+  "tables": {
+    "study_table": {
+      "repo": "evidence_repo",
+      "file": "README.md",
+      "parser": "per_task_table",
+      "desc": "The recovered per-task judge table (rows S1..S8, two tasks each) in the Reliable AI Skills README. Rows read 'cold/denom -> loaded/denom'. This is the machine-readable form of the 'recovered per-task judge data' cited in the page tooltips."
+    }
+  },
+  "checks": [
+    {
+      "id": "cold-total",
+      "claim": "Baseline (no skills) hit 26 of 50 must-hits.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/notes/index.html", "builder/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "cold_total"},
+      "expect": 26
+    },
+    {
+      "id": "loaded-total",
+      "claim": "With the library loaded, 46 of 50 must-hits hit.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/notes/index.html", "builder/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "loaded_total"},
+      "expect": 46
+    },
+    {
+      "id": "expectations-total",
+      "claim": "50 pre-registered must-hits across the suite.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/chain/index.html", "lab/proof/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "exp_total"},
+      "expect": 50
+    },
+    {
+      "id": "task-count",
+      "claim": "16 tasks.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/chain/index.html", "lab/notes/index.html", "lab/proof/index.html", "builder/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "n_tasks"},
+      "expect": 16
+    },
+    {
+      "id": "skills-tested",
+      "claim": "8 skills went through the A/B (two tasks each).",
+      "pages": ["lab/evidence/index.html", "lab/notes/index.html", "lab/proof/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "n_skills"},
+      "expect": 8
+    },
+    {
+      "id": "must-hit-shape-3",
+      "claim": "14 tasks carried 3 expectations (tooltip: '14 tasks of 3 expectations plus 2 of 4').",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/notes/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "n_tasks_of_3"},
+      "expect": 14
+    },
+    {
+      "id": "must-hit-shape-4",
+      "claim": "2 tasks carried 4 expectations (tooltip: '14 tasks of 3 expectations plus 2 of 4').",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/notes/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "n_tasks_of_4"},
+      "expect": 2
+    },
+    {
+      "id": "cold-pct",
+      "claim": "Baseline rate 52%.",
+      "pages": ["lab/evidence/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "cold_pct"},
+      "expect": 52.0
+    },
+    {
+      "id": "loaded-pct",
+      "claim": "Loaded rate 92%.",
+      "pages": ["lab/evidence/index.html"],
+      "source": {"kind": "table_field", "table": "study_table", "field": "loaded_pct"},
+      "expect": 92.0
+    },
+    {
+      "id": "cold-pct-literal",
+      "claim": "'52%' appears verbatim beside 26/50 in the canonical README.",
+      "pages": ["lab/evidence/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "README.md", "needle": "26/50 (52%)"},
+      "expect": true
+    },
+    {
+      "id": "loaded-pct-literal",
+      "claim": "'92%' appears verbatim beside 46/50 in the canonical README.",
+      "pages": ["lab/evidence/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "README.md", "needle": "46/50 (92%)"},
+      "expect": true
+    },
+    {
+      "id": "all-eight-passed",
+      "claim": "All 8 tested skills cleared the pre-registered rule.",
+      "pages": ["lab/evidence/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "README.md", "needle": "All 8 tested skills passed"},
+      "expect": true
+    },
+    {
+      "id": "source-skill-count",
+      "claim": "26 candidate/source skills distilled from two production codebases.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/proof/index.html", "builder/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "README.md", "needle": "distilled 26 skills from two production codebases"},
+      "expect": true
+    },
+    {
+      "id": "released-skill-count-matrix",
+      "claim": "17 portable skills released (cross-checked against the completed matrix study's skill set).",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/proof/index.html", "builder/index.html"],
+      "source": {"kind": "matrix", "repo": "evidence_repo", "file": "results/matrix/matrix.json", "path": ["skills"], "op": "len"},
+      "expect": 17
+    },
+    {
+      "id": "released-skill-count-literal",
+      "claim": "'17 portable skills' stated in the canonical README.",
+      "pages": ["lab/index.html", "lab/proof/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "README.md", "needle": "17 portable skills"},
+      "expect": true
+    },
+    {
+      "id": "consolidation-arithmetic",
+      "claim": "15 consolidated from the 26 plus 2 promoted from personal tooling = 17 released.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/proof/index.html"],
+      "source": {"kind": "arith", "expr": "15 + 2"},
+      "expect": 17
+    },
+    {
+      "id": "consolidation-literal",
+      "claim": "'Fifteen of the 17 ... consolidated from those 26' stated in the canonical README.",
+      "pages": ["lab/evidence/index.html", "lab/proof/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "README.md", "needle": "Fifteen of the 17 portable skills here were consolidated from those 26"},
+      "expect": true
+    },
+    {
+      "id": "mit-license",
+      "claim": "The library ships MIT licensed.",
+      "pages": ["lab/evidence/index.html", "lab/proof/index.html", "builder/index.html"],
+      "source": {"kind": "literal", "repo": "evidence_repo", "file": "LICENSE", "needle": "MIT License"},
+      "expect": true
+    }
+  ],
+  "attested": [
+    {
+      "id": "prod-test-files",
+      "claim": "689 automated test files in production.",
+      "pages": ["lab/index.html", "lab/chain/index.html", "builder/index.html"],
+      "reason": "Counted 2026-07-09 in the private Lyna Health production codebase, which is neither of the two public checkouts. No in-repo source to grade against; provenance is the page tooltip's own measurement note."
+    },
+    {
+      "id": "ai-call-expressions",
+      "claim": "32 tracked AI call expressions across 20 modules.",
+      "pages": ["lab/index.html", "lab/chain/index.html", "builder/index.html"],
+      "reason": "Measured 2026-07-09 by grepping the private Lyna Health codebase's AI provider wrappers. Not present in either public checkout."
+    },
+    {
+      "id": "review-timestamps",
+      "claim": "Chain stage-02 review timestamps 18:53, 00:25, 00:42, merged 07:28.",
+      "pages": ["lab/chain/index.html"],
+      "reason": "Recorded times from a sanitized client-work review log (private run record), not a committed artifact in either checkout."
+    },
+    {
+      "id": "study-timeline",
+      "claim": "Study ran 2026-07-02 with completion times 07:52 (plan), 17:37 (cold), 21:33 (loaded), 21:36 (judges), all UTC.",
+      "pages": ["lab/evidence/index.html"],
+      "reason": "Recorded completion times live in the discovery/eval workflow run logs (narrative record). README dates the study only as 'July 2026'; the exact day and per-stage timestamps are not in either checkout."
+    },
+    {
+      "id": "discovery-pipeline",
+      "claim": "A 14-agent discovery pipeline pulled the 26 candidate skills.",
+      "pages": ["lab/evidence/index.html", "lab/notes/index.html", "builder/index.html"],
+      "reason": "Documented in the discovery workflow run log (narrative record, not a public artifact per the page tooltip); no committed agent-count artifact in either checkout."
+    },
+    {
+      "id": "consolidation-breakdown",
+      "claim": "Fine consolidation split: 19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges.",
+      "pages": ["lab/index.html", "lab/evidence/index.html", "lab/proof/index.html"],
+      "reason": "The top-line (26 sources -> 15 consolidated + 2 promoted = 17) is machine-checked above; this per-skill routing split lives only in the INVENTORY narrative, not in a structured file in either checkout."
+    },
+    {
+      "id": "forbidden-override-patterns",
+      "claim": "~25 forbidden-override patterns, English and French, matched negation-aware.",
+      "pages": ["lab/chain/index.html"],
+      "reason": "Security-control receipt from the private client codebase; no source in either public checkout."
+    },
+    {
+      "id": "case-playtesting-personas",
+      "claim": "17 simulated student personas across three Claude model tiers read an MBA case.",
+      "pages": ["lab/notes/index.html", "builder/index.html"],
+      "reason": "Unpublished study pending co-author sign-off; aggregate-only, no public artifact in either checkout."
+    },
+    {
+      "id": "builder-bio",
+      "claim": "Biographical/teaching figures: ~100 workshop attendees each at three universities, three Concordia guest lectures, 14 client workshops in 7 weeks, 80 students at peak, business founded at 14, Malik Tutoring 2012-2025, MBA class of 2027, available June 2027, SF through July 22 then Aug 6-17.",
+      "pages": ["builder/index.html"],
+      "reason": "Personal/biographical facts with no repository evidence source; not machine-checkable from either checkout."
+    },
+    {
+      "id": "sloan-course",
+      "claim": "MIT Sloan 15.S50 (Fall 2026) with Prof. Kate Kellogg; drafted Session 3 and Session 8/9 monitoring block.",
+      "pages": ["builder/index.html"],
+      "reason": "Course/teaching fact with no repository evidence source in either checkout."
+    },
+    {
+      "id": "clara-origin",
+      "claim": "Clara built at an MIT hackathon run by the Claude Builders Club, sponsored by Anthropic and Jane Street.",
+      "pages": ["lab/proof/index.html"],
+      "reason": "Event-provenance narrative; no source artifact in either checkout (Clara's own repo is separate and not one of the two)."
+    }
+  ]
+}

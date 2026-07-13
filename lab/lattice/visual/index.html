@@ -1189,10 +1189,32 @@ function projectEl(el, wp){
 }
 var _rects = [];
 var activeCardEl = null;   /* set by enterChapter: labels dim under the copy card */
+var hudTopEl = document.querySelector('.hud-top');
 function layoutLabels(){
   var W = window.innerWidth, H = window.innerHeight;
   var mR = (W > 700) ? 140 : 18;   /* keep clear of the chapter rail on desktop */
   var cr = activeCardEl ? activeCardEl.getBoundingClientRect() : null;
+  /* on phones the fixed header wraps to 2-3 lines, tall enough to sit over the
+     'row' label group (chapters 5-6); measure its live height and, if the group's
+     topmost member would land under it, shift the whole group down by the same
+     amount so their relative spacing is untouched */
+  var rowShift = 0;
+  var hudBottom = (W <= 700 && hudTopEl) ? hudTopEl.getBoundingClientRect().bottom : 0;
+  if (W <= 700 && hudTopEl){
+    var wantTop = hudBottom;
+    var minRowTop = Infinity;
+    for (var gi=0; gi<LABELS.length; gi++){
+      var GL = LABELS[gi];
+      if (!GL.on || GL.grp !== 'row') continue;
+      _v.copy(GL.get()).project(camera);
+      if (_v.z > 1) continue;
+      if (!GL.w){ GL.w = GL.el.offsetWidth || 40; GL.h = GL.el.offsetHeight || 14; }
+      var gy = (-_v.y*0.5+0.5)*H;
+      var gtop = (GL.place === 'right') ? gy - GL.h/2 : gy - GL.h - 9;
+      if (gtop < minRowTop) minRowTop = gtop;
+    }
+    if (minRowTop < wantTop) rowShift = wantTop - minRowTop;
+  }
   _rects.length = 0;
   for (var li=0; li<LABELS.length; li++){
     var L = LABELS[li];
@@ -1211,19 +1233,26 @@ function layoutLabels(){
     else if (plc === 'below'){ tx = x - w/2; ty = y + 10; }
     else if (plc === 'center'){ tx = x - w/2; ty = y - h/2; }
     else { tx = x - w/2; ty = y - h - 9; }
+    if (L.grp === 'row' && rowShift) ty += rowShift;
+    /* phones: the fixed header owns the top band, so no non-row label may sit under
+       it (row labels keep their group shift). This floor is enforced at the initial
+       clamp, the collision pass, and the final clamp so nothing lands over the header */
+    var loY = (hudBottom && L.grp !== 'row') ? hudBottom + 4 : 8;
     /* centered labels ride the scene itself, so only the viewport clamps them,
        not the rail margin: a number pulled off its sphere reads worse than one near the rail */
     tx = Math.max(8, Math.min(W - (plc === 'center' ? 8 : mR) - w, tx));
-    ty = Math.max(8, Math.min(H - 8 - h, ty));
+    ty = Math.max(loY, Math.min(H - 8 - h, ty));
     for (var pass=0; pass<2; pass++){
       for (var rj=0; rj<_rects.length; rj++){
         var R = _rects[rj];
         if (tx < R.x + R.w + 6 && tx + w + 6 > R.x && ty < R.y + R.h + 4 && ty + h + 4 > R.y){
-          ty = (L.down || y >= R.cy) ? (R.y + R.h + 5) : (R.y - h - 5);
+          var down = R.y + R.h + 5, up = R.y - h - 5;
+          /* on a phone 'up' heads into the header, so when it would cross the floor stack below instead */
+          ty = (L.down || y >= R.cy || up < loY) ? down : up;
         }
       }
     }
-    ty = Math.max(8, Math.min(H - 8 - h, ty));
+    ty = Math.max(loY, Math.min(H - 8 - h, ty));
     if (cr && tx < cr.right + 6 && tx + w > cr.left - 6 && ty < cr.bottom + 6 && ty + h > cr.top - 6){
       /* mid widths, finale: the value chips ride the card's top edge instead of vanishing */
       if (activeChapter === 6 && (L.down || L === defLabel) && W > 700 && W <= 900){
@@ -1258,6 +1287,10 @@ var rowLabels = {
   opus:   addLabel('Opus 4.8','model', rowAnchor(ROW_Z.opus), 'right'),
   haiku:  addLabel('Haiku 4.5 · no dial','model', function(){ return HLV; })
 };
+/* on phones these four stack near the top of the scene in chapters 5-6, which is
+   also where the fixed header wraps to multiple lines; tagged so layoutLabels can
+   drop the whole group below it without disturbing their spacing relative to each other */
+[rowLabels.fable, rowLabels.sonnet, rowLabels.opus, rowLabels.haiku].forEach(function(L){ L.grp = 'row'; });
 var colLabels = DATA.efforts.map(function(e){
   return addLabel(e,'axis', fixed(EFF_X[e], 0, AXIS_Z), 'below');
 });
