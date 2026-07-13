@@ -156,6 +156,11 @@
   .sec-go{ display:inline-block; margin-top:22px; font-family:var(--mono); font-size:13px; color:var(--teal); }
   .sec-go:hover{ border-bottom:1px solid var(--teal); }
 
+  /* skill anatomy example */
+  .skel{ margin:24px 0; border:1px solid var(--line); background:var(--raised); padding:20px 22px;
+         font-family:var(--mono); font-size:13.5px; line-height:1.7; color:var(--dim); overflow-x:auto; white-space:pre-wrap; }
+  .skel .k{ color:var(--teal); }
+
   /* footer */
   footer{ padding:40px 0 64px; }
   .foot{ display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap;
@@ -232,6 +237,12 @@
       <p class="lead">A skill here means one very specific thing: a Claude Code skill. It's a written instruction file, a SKILL.md, that changes how Claude behaves while it's writing or reviewing code for me. Think of it like a pilot's checklist: the pilot already knows how to fly, the checklist just makes sure nothing gets skipped under pressure. A skill does that for an AI coding agent.</p>
       <p>It isn't a general "AI skill," and it has nothing to do with your job or your own tools. If you don't use Claude Code, nothing here installs anywhere for you. This is about how I make my own coding assistant behave more reliably, not a product for marketing platforms or anything else.</p>
       <p>The library of 17 skills built this way is at <a href="../skills/">/lab/skills/</a>, each one a short, packaged playbook the agent loads before it starts working: the traps to check, the order to work in, the things a finished answer must contain.</p>
+      <p>Here's a real one, exactly as it's written. Every skill starts with two lines that matter more than anything below them:</p>
+      <pre class="skel"><span class="k">name:</span> pre-merge-validation-gate
+<span class="k">description:</span> Use before declaring any change "done," before opening or updating a PR, after any UI-touching change, or whenever you're about to report test results. Defines what "done" actually means and how to report it without overstating what was checked.</pre>
+      <p>That <strong>description</strong> line is the whole mechanism for how a skill gets picked. Claude reads every skill's description before starting a task, decides which ones actually apply, and only then loads the full file. Nobody switches a skill on by hand: the agent reads a one- or two-sentence pitch and decides for itself whether this particular checklist is relevant to what it's about to do. Write the description too narrow and the skill never fires when it should; too broad and it fires on everything, which is its own kind of unreliable.</p>
+      <p>Below that is the body: the actual instructions, written the way you'd brief a very capable but very literal new hire. This one opens with the core rule in one sentence (build passing plus tests passing is necessary, never sufficient, for anything a user actually sees), then a table scaling how much checking a change needs to its size, then the specific traps: gate paid test suites behind an explicit switch, don't assume a stale baseline is still true, recapture a snapshot fixture only when the change is real. Nothing abstract. Every line is there because skipping it once caused a real problem.</p>
+      <p>Writing one is just that: notice a mistake worth not repeating, write down the rule that would have caught it, and give it a description specific enough that the agent reaches for it at the right moment. The full file for this one, and the other 16, is at <a href="../skills/">/lab/skills/</a>.</p>
     </div>
   </section>
 
