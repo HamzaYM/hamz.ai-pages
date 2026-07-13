@@ -10,12 +10,16 @@ hamz.ai builds multi-model Claude architectures, eval harnesses, production reli
 
 ## The lab
 
-- [The Lab](https://www.hamz.ai/lab/): The public proof room of the hamz.ai studio: the standard every deliverable passes, the receipts behind each stage, and the experiments run on the studio's own tools.
+- [The Lab](https://www.hamz.ai/lab/): The public proof room of the hamz.ai studio, and where I, Hamza, test how AI systems actually behave: the standard every deliverable passes, the receipts behind each stage, and the experiments run on the studio's own tools.
+- [The effort lattice](https://www.hamz.ai/lab/lattice/): Does turning up reasoning effort replace skills? A pre-registered lattice across three Claude models at five effort levels each, plus Haiku as a fixed baseline, run cold and loaded. Effort bought capability; it did not buy back what the skills add.
+- [The effort lattice, guided tour](https://www.hamz.ai/lab/lattice/visual/): The same study as a scrollytelling 3D walkthrough: the suite gets built, the matrix runs, the judges score it, the verdict settles.
+- [The effort lattice, explorer](https://www.hamz.ai/lab/lattice/explorer/): An interactive per-cell explorer over the same matrix data. Noindex by design (a tool, not an article).
+- [The skills library](https://www.hamz.ai/lab/skills/): The 17 released Claude Code skills, searchable, each with its own SKILL.md and its evidence note where one exists.
+- [How this works](https://www.hamz.ai/lab/learn/): What a Claude Code skill actually is, how a skill gets tested, and a glossary of the other terms used across the lab, written for a reader without the technical background.
 - [The Assurance Chain](https://www.hamz.ai/lab/chain/): The standard every deliverable passes before it reaches a client, with the public receipt behind each stage. Adversarial review, tiered escalation, evidence harness, security controls.
 - [The skills study](https://www.hamz.ai/lab/evidence/): Do Claude Code skills change agent behavior? An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. Baseline 26 of 50; with the library, 46 of 50.
 - [Field notes](https://www.hamz.ai/lab/notes/): Dated write-ups from the hamz.ai practice, newest first. Each note carries its position on the same review ladder the client work climbs.
 - [The proof](https://www.hamz.ai/lab/proof/): The artifacts behind the lab: the open-source skills library with its eval harness, a working prototype, and the field guide with its 3D walkthrough.
-- [The effort lattice](https://www.hamz.ai/lab/lattice/): Does turning up reasoning effort replace skills? A pre-registered lattice across three Claude models at five effort levels each, run cold and loaded. Effort bought capability; it did not buy back what the skills add. Draft, noindex.
 
 ## Guides
 
@@ -36,7 +40,6 @@ hamz.ai builds multi-model Claude architectures, eval harnesses, production reli
 
 ## People
 
-- [Hamza Malik, builder page](https://www.hamz.ai/builder/): First-person page for the engineering audience. What gets built, the artifacts, the numbers, and what is being worked on this month.
 - [Hamza Malik, resume](https://www.hamz.ai/resume/): A living resume. Builder, founder, teacher. Production LLM systems from discovery to deployment.
 
 ## Optional
