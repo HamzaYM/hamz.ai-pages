@@ -1216,6 +1216,7 @@ function layoutLabels(){
     if (minRowTop < wantTop) rowShift = wantTop - minRowTop;
   }
   _rects.length = 0;
+  var emptyRectIdx = -1;
   for (var li=0; li<LABELS.length; li++){
     var L = LABELS[li];
     if (!L.on) continue;
@@ -1262,7 +1263,34 @@ function layoutLabels(){
       }
     }
     L.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px)';
+    if (L === emptyLabel) emptyRectIdx = _rects.length;
     _rects.push({x:tx, y:ty, w:w, h:h, cy:y});
+  }
+  /* the 'not run' marker is a fixed-anchor chip that can end up near value/gap
+     chips whose own position tracks a live, camera-dependent bar height -- a
+     3-way conflict (this marker plus two or more chips at once) can outrun the
+     2-pass resolution above. Re-settle it once more here, now that every other
+     visible label already has its FINAL rect in _rects, always pushing down
+     for a deterministic result. Width-independent: phones never populate
+     value/gap chips in the same frame as this marker (narrow ch6Labels()
+     swaps them out), so this is a no-op there. */
+  if (emptyRectIdx !== -1){
+    var EB = _rects[emptyRectIdx];
+    var ety = EB.y;
+    for (var epass=0; epass<3; epass++){
+      for (var erj=0; erj<_rects.length; erj++){
+        if (erj === emptyRectIdx) continue;
+        var ER = _rects[erj];
+        if (EB.x < ER.x + ER.w + 6 && EB.x + EB.w + 6 > ER.x && ety < ER.y + ER.h + 4 && ety + EB.h + 4 > ER.y){
+          ety = ER.y + ER.h + 5;
+        }
+      }
+    }
+    ety = Math.max(8, Math.min(H - 8 - EB.h, ety));
+    if (ety !== EB.y){
+      emptyLabel.el.style.transform = 'translate(' + EB.x.toFixed(1) + 'px,' + ety.toFixed(1) + 'px)';
+      EB.y = ety;
+    }
   }
 }
 function resetLabelSizes(){ LABELS.forEach(function(L){ L.w = 0; L.h = 0; }); }
