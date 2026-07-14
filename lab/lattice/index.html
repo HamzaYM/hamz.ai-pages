@@ -245,7 +245,7 @@
   .slot p:last-child{ margin-bottom:0; }
 
   /* ===== exhibits E1-E6 (built to review/lattice-visuals-spec.md) ===== */
-  .exhibit{ margin:40px 0 8px; max-width:900px; }
+  .exhibit{ margin:40px auto 8px; max-width:900px; }
   .exhibit .ex-title{ font-family:var(--display); font-size:23px; color:var(--ink); font-weight:500;
         letter-spacing:-0.02em; line-height:1.22; margin-bottom:10px; max-width:40ch; }
   .exhibit .ex-sub{ font-family:var(--sans); font-size:14.5px; color:var(--dim); margin-bottom:16px; max-width:100%; }
@@ -483,9 +483,9 @@
       <div class="sec-eyebrow"><span class="num">01</span>The result</div>
       <h2>Both levers work. They do different jobs.</h2>
 
-      <p class="lead">More reasoning effort made every model better on its own. Comparing the lowest effort setting against the highest (high on Fable, whose max runs never finished), scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.9 on Sonnet. Each cleared the 3-point bar fixed before the first run. More thinking buys better work, reliably.</p>
+      <p class="lead">More reasoning effort made every model better on its own. Comparing the lowest effort setting against the highest (high on Fable, whose max runs never finished), scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.9 on Sonnet. Each cleared the 3-point bar fixed before the first run. More test-time compute leads to better work, reliably.</p>
 
-      <p>It did not buy back what the skills add. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26.5 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
+      <p>It does not replace skills. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26.5 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
 
       <p>There is a headroom story in the grid too. The skills helped every model, and they helped Fable the least, because Fable starts from the highest floor. With the library installed, Fable never scored below 99.0%. Opus reached 100.0% at max effort. Sonnet, which starts in the 80s without the skills, reached 99.5% at max. Less headroom means less to add, not nothing to add.</p>
 
