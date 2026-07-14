@@ -155,6 +155,13 @@ def evaluate(check, tables, roots):
         present = src["needle"] in text
         return present, present == expect, f"{src['file']} contains needle: {present}"
 
+    if kind == "page_literal":
+        # Grades the published page itself, not just the evidence source. expect:false
+        # pins a stale figure as forbidden, so a number cannot silently rot back onto a page.
+        text = read_file(roots, "website", src["file"])
+        present = src["needle"] in text
+        return present, present == expect, f"{src['file']} contains {src['needle']!r}: {present}"
+
     if kind == "arith":
         actual = eval_arith(src["expr"])
         return actual, actual == expect, f"{src['expr']}={actual}"

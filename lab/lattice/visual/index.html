@@ -7,21 +7,21 @@ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matc
 <!--
   hamz.ai/lab/lattice/visual · The effort lattice, the guided tour
 
-  This is the cinematic companion to /lab/lattice/ (the evidence page). The
-  evidence page is the record; this page is the optional tour, linked from
-  the evidence page's hero.
+  This is the cinematic companion to /lab/lattice/ (the lattice study). The
+  lattice study is the record; this page is the optional tour, linked from
+  the lattice study's hero.
 
   NUMBERS: every rate, delta, count, and label on this page was generated at
   build time from results/matrix/matrix.json and MATRIX.md (the reliable-ai-skills repo,
-  adjudicated 2026-07-11), the same file the evidence page's explorer reads.
+  adjudicated 2026-07-11), the same file the lattice study's explorer reads.
   No number was re-typed by hand. The freeze hash is quoted from the staged
-  evidence page (it also matches results/matrix/NUMBERS.md). The evidence
+  lattice study (it also matches results/matrix/NUMBERS.md). The lattice
   page's 917-run count is not shown here: it does not appear in matrix.json
   or MATRIX.md, so it fails this page's single-source rule. No dollar
   figures appear here by design.
 
   The Fable-5-at-max cell is shown as an honestly empty slot (it got too
-  expensive to finish), matching the evidence page's treatment.
+  expensive to finish), matching the lattice study's treatment.
 
   Self-contained: three.min.js r128 is vendored next to this file; no CDN,
   no font requests, zero third-party calls. prefers-reduced-motion and no-JS
@@ -30,7 +30,7 @@ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matc
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The effort lattice &middot; the tour &middot; hamz.ai / lab</title>
-<meta name="description" content="A guided tour of the effort lattice: seventeen frozen tasks, sixteen conditions, two arms each, judged blind. The companion to the evidence page.">
+<meta name="description" content="A guided tour of the effort lattice: seventeen frozen tasks, sixteen conditions, two arms each, judged blind. The companion to the lattice study.">
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAMAAAD8CC+4AAAADFBMVEVMaXEq2K8q164r16/NCOJgAAAAA3RSTlMAQrYaO//gAAAACXBIWXMAAAsSAAALEgHS3X78AAAEiklEQVR42u3dAWrjQAxA0Ui+/53bLcsWdglL3Blbit4/QDrkVbLjQvN4SJIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkaWyR5/PudUU/TgcduqALuqALuqALuqALuqALuqALOnTo0KFDhw4dOnRBF3RBF3RBF3RBF3RBF3RBF3To0KFDhw4dOnTogi7ogi7ogi7ogi7ogi7ogi7o0KFDhw4dOnTo0AVd0AVd0AVd0AVd0AVd0AVd0KFDhw4dOnTo0KELuqALuqALuqALuqALuqALuqALOnTo0KFDhw4dOnRBF3RBF3RBF3T1RY/P8rP4nTf/jdG/rJ+8xK9fAQhvhf5c+69XIv8e6JEvvhr45uiviv+BB9IU/aQ497boPxLn3hB9gTj2XuhxLIx7B/Sl5Ng7oC8nx14dfdW1HHsf9F3k/qpTFj2OvRn2euh57M6Or4a+39yOL4Yex0UZ9jLol5lTr4N+XJgVXwM9j0sz7AXQL4/6QHQrfiI69Yno1CeiHweygehu5yaiU5+ITn0iOvWJ6NQnoruHn4ju8/pAdOoT0alPRHczNxGd+kR0t/AT0V3WB6Jb8BPRqU9Ed1mfiO6yPhDdgp+IbsFPRLfgB6Jb8BPRLfiJ6Bb8QHQLfiK6UR+IbtQnohv1gehGfSK6UR+IbtQnohv1gehGfSK6UR+IbtQLoud3Rn0Aev77vaqx4WsBWFZBz+f/t3s1vFEvgf7ff9S+lh3m/eh59c93K3c3elx/Avv9XvTXhi7t9/7oedMh7Pfb0E99z07a753R48Zz4LwF/fzXaYX93hQ97z2J/X4D+g8nzX5viB63n8V+7/dELOz3ZuhR4TRAL0Vfs1nTfm+EvurdTvu9DXoUOQ/069CzzIGIXoa+8kTpot4CPeqcyH7v+cg7oddHz1JHQnoJ+vLLaLqoV0ePWmeC3vRxt4t6cfQdk5XQa6OXOxTT7eh7LqHpol4Z/QF9HHrUOxX0rn/fcCdXF33bG5zQy6JHwWNB7/qgO3xmq4q+caigV0XfeKOcbt+hQx/wxDOg10RP6NB9ZhuAvnWkoEOHPuEpSEKHDn3ADRN06J7DQocOHfp7oAd06J7DQocOHTp0QRd06NChQ4cOHTp06NChQ4cOHTp06NChQ4cOHTp06NChQ4cOHbqgCzp06NChQ4cOHTp06NChQ4cOHTp06NChQ4cOHTp06NChQxd0QYcOHTp06NChQ4cOHTp06NChQ4cOHTp06NChQ4cOHTp06IIu6NChQ4cOHTp06NChQ4cOHTp06NChQ4cOHTp06NChQ4cOXdAFHTp06NChQ4cOHTp06NChQ4cOHTp06NChQ4cOHTp06NChC7qgQ4cOHTp06NChQ4cOHTp06NChQ4cOHTp06NChr31v83xVD0ZVkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiQ97wOg8pfExNqvwwAAAABJRU5ErkJggg==">
 <style>
 :root{
@@ -394,7 +394,7 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
       <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
       <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
     </span>
-    <a href="../">Read the evidence page <b>&#8599;</b></a>
+    <a href="../">Read the lattice study <b>&#8599;</b></a>
     <a href="../../learn/">Learn how this works</a>
   </span>
 </div>
@@ -473,7 +473,7 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
     <div class="head" style="color:var(--faint);font-size:.95rem;">Pick a model. An effort level is optional.</div>
   </div>
   <div class="footlink">
-    <a href="../">The evidence page carries the full record &#8599;</a>
+    <a href="../">The lattice study carries the full record &#8599;</a>
     <a href="https://github.com/HamzaYM/reliable-ai-skills">The harness, tasks, and judge inputs: github.com/HamzaYM/reliable-ai-skills &#8599;</a>
   </div>
 </section>
@@ -484,7 +484,7 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
 <div id="static">
   <div class="eyebrow"><span style="text-transform:none">hamz.ai</span> / lab / lattice &middot; the guided tour &middot; static version</div>
   <h1>Does turning up reasoning effort replace skills?</h1>
-  <p>One experiment answered that. This is the same story the animated tour tells, as plain sections with identical facts. The full record lives on <a href="../">the evidence page</a>.</p>
+  <p>One experiment answered that. This is the same story the animated tour tells, as plain sections with identical facts. The full record lives on <a href="../">the lattice study</a>.</p>
   <div class="stats">
     <div class="st"><div class="v">17</div><div class="l">tasks frozen first</div></div>
     <div class="st"><div class="v">16</div><div class="l">conditions</div></div>
@@ -572,7 +572,7 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
     <div class="tblwrap">
     <table><thead><tr><th>Model</th><th>Effort</th><th>Cold</th><th>Loaded</th><th>Skill delta</th><th>Runs</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td>no dial</td><td>64.7%</td><td>91.2%</td><td><i>+26.5 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>low</td><td>84.8%</td><td>96.1%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>medium</td><td>90.7%</td><td>99.0%</td><td><i>+8.4 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>high</td><td>87.8%</td><td>99.0%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>xhigh</td><td>87.3%</td><td>98.5%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>max</td><td>89.7%</td><td>99.5%</td><td><i>+9.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>low</td><td>87.3%</td><td>95.6%</td><td><i>+8.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>medium</td><td>85.8%</td><td>97.6%</td><td><i>+11.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>high</td><td>88.2%</td><td>98.0%</td><td><i>+9.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>xhigh</td><td>91.2%</td><td>99.0%</td><td><i>+7.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>max</td><td>91.2%</td><td>100.0%</td><td><i>+8.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>low</td><td>94.1%</td><td>99.0%</td><td><i>+4.9 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>medium</td><td>92.6%</td><td>100.0%</td><td><i>+7.4 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>high</td><td>97.6%</td><td>100.0%</td><td><i>+2.4 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>xhigh</td><td>97.1%</td><td>100.0%</td><td><i>+2.9 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>max</td><td colspan="4" class="na">not run &middot; it got too expensive to finish</td></tr></tbody></table>
     </div>
-    <p style="margin-top:16px;">The full record lives on <a href="../">the evidence page</a>. The harness, tasks, and judge inputs are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
+    <p style="margin-top:16px;">The full record lives on <a href="../">the lattice study</a>. The harness, tasks, and judge inputs are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
   </section>
 </div>
 
@@ -653,7 +653,7 @@ function renderCellOut(){
   if (!c){
     cellout.innerHTML = '<div class="head">'+m.name+' at '+selEffort+'</div>'
       +'<div class="nums">not run &middot; it got too expensive to finish</div>'
-      +'<div class="basis">the slot stays open on the evidence page too</div>';
+      +'<div class="basis">the slot stays open on the lattice study too</div>';
     highlightRow(selModel);
     highlightCell(key);
     onExplorerChange();
@@ -668,7 +668,7 @@ function renderCellOut(){
 }
 var modelChipsEl = document.getElementById('modelchips');
 var effortChipsEl = document.getElementById('effortchips');
-/* chips in ascending capability, matching the evidence page's table order */
+/* chips in ascending capability, matching the lattice study's table order */
 var MODEL_VIEW = ['haiku','sonnet','opus','fable'].map(function(id){
   return MODELS.filter(function(m){return m.id===id;})[0];
 });
