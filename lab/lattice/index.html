@@ -267,7 +267,7 @@
      itself an .exhibit; matching its width/centering keeps the toggle and its
      note flush with the same left edge as the charts they govern */
   #perf-figs{ max-width:900px; margin:0 auto; }
-  .eff-controls{ display:flex; flex-wrap:wrap; border:1px solid var(--line); width:max-content; max-width:100%; margin-bottom:8px; }
+  .eff-controls{ display:flex; flex-wrap:wrap; justify-content:center; border:1px solid var(--line); width:max-content; max-width:100%; margin:0 auto 8px; }
   .eff-controls button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
         font-family:var(--mono); font-size:11px; letter-spacing:0.06em; padding:8px 12px; cursor:pointer;
         transition:color .15s,background .15s; }
@@ -603,16 +603,15 @@
       </div>
 
       <div id="perf-figs">
-      <div class="eff-controls" id="perf-controls" role="group" aria-label="Which lines to show on the two performance charts">
-        <button type="button" data-pv="all" aria-pressed="true">Everything</button>
-        <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
-        <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
-      </div>
-      <p class="eff-note">One control for both charts below. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
-
       <div class="exhibit fx fx-lg" id="fig-perf-full">
         <div class="ex-title" style="text-align:center">Skills lifted every model at every effort level</div>
         <p class="ex-sub" style="text-align:center">Share of checklist items hit (%), by effort level. Full 0 to 100 scale.</p>
+        <div class="eff-controls" id="perf-controls-full" role="group" aria-label="Which lines to show on this chart and the zoomed one below it">
+          <button type="button" data-pv="all" aria-pressed="true">Everything</button>
+          <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
+          <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
+        </div>
+        <p class="eff-note">One control drives both charts on this page. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -694,6 +693,12 @@
       <div class="exhibit fx fx-lg" id="fig-perf-zoom">
         <div class="ex-title" style="text-align:center">The same picture, up close</div>
         <p class="ex-sub" style="text-align:center">Same data as above, y-axis zoomed to 80 to 100 to show the differences.</p>
+        <div class="eff-controls" id="perf-controls-zoom" role="group" aria-label="Which lines to show on this chart and the full one above it">
+          <button type="button" data-pv="all" aria-pressed="true">Everything</button>
+          <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
+          <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
+        </div>
+        <p class="eff-note">One control drives both charts on this page. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -1668,10 +1673,13 @@
    cost chart. With JS off, no data-view attribute is ever set, so every
    series stays visible. */
 (function(){
-  function strip(ctrlId, wrapId, attr, def){
-    var ctrl=document.getElementById(ctrlId), wrap=document.getElementById(wrapId);
-    if(!ctrl||!wrap) return;
-    var btns=Array.prototype.slice.call(ctrl.querySelectorAll('button'));
+  function strip(ctrlIds, wrapId, attr, def){
+    var ids=Array.isArray(ctrlIds)?ctrlIds:[ctrlIds];
+    var ctrls=ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+    var wrap=document.getElementById(wrapId);
+    if(!ctrls.length||!wrap) return;
+    var btns=[];
+    ctrls.forEach(function(ctrl){ btns=btns.concat(Array.prototype.slice.call(ctrl.querySelectorAll('button'))); });
     function set(v){
       wrap.setAttribute('data-view', v);
       btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute(attr)===v?'true':'false'); });
@@ -1679,7 +1687,7 @@
     btns.forEach(function(b){ b.addEventListener('click', function(){ set(b.getAttribute(attr)); }); });
     set(def);
   }
-  strip('perf-controls','perf-figs','data-pv','all');
+  strip(['perf-controls-full','perf-controls-zoom'],'perf-figs','data-pv','all');
   strip('cost-controls','cost-fig','data-cv','fable');
 })();
 </script>
