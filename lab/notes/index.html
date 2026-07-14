@@ -264,7 +264,7 @@
     </div>
     <div class="eyebrow">The lab / field notes</div>
     <h1>Field notes</h1>
-    <p class="lead">Every note here climbs the same <a class="hot" tabindex="0" href="../chain/" data-tt="The chain" data-tip="Four stages every deliverable climbs before a client sees it: an adversarial review that argues against the work, a tiered escalation that sends it back until it holds, an evidence harness that settles decisions by measurement, and security controls built for production.">chain</a> the client work does. The chip on the right is not decoration. It is the note's actual position on the <span class="hot" tabindex="0" data-tt="The ladder" data-tip="Five steps from stage 02 of the chain: draft, checked against the standard, checked against intent, checked against the hardest edge case a first read would miss, then sign-off.">ladder</span>: drafting is step 1, in review means it is climbing, shipped means it passed.</p>
+    <p class="lead">Every note here climbs the same <a class="hot" tabindex="0" href="../chain/" data-tt="The chain" data-tip="Four stages every deliverable climbs before a client sees it: an adversarial review that argues against the work, a tiered escalation that sends it back until it holds, an evidence harness that settles decisions by measurement, and security controls built for production.">chain</a> the client work does. The chip on the right is not decoration. It is the note's actual position on the <span class="hot" tabindex="0" data-tt="The ladder" data-tip="Five steps from stage 02 of the chain: draft, checked against the standard, checked against intent, checked against the hardest edge case a first read would miss, then sign-off.">ladder</span>.</p>
   </div>
 </header>
 
@@ -274,9 +274,9 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">01</span>The dates</div>
       <h2>How to read the dates</h2>
-      <p>Every note has two dates that matter: the date of the work it describes, and the date the write-up ships. The column on the left of the ledger shows the second one, the write-up date. A note dated July 2026 is a note that ships in July 2026, whatever month the work behind it happened.</p>
+      <p>Every note has two dates that matter: the date of the work it describes, and the date the write-up ships. The column on the left shows the write-up date, whatever month the work behind it happened.</p>
       <p>The work dates live inside the notes, stated exactly, because that is where the evidence weight sits. The skills study is the clean example: the measured runs happened on <span class="hot" tabindex="0" data-tt="The work date" data-tip="All times UTC, July 2, 2026: the plan was written at 07:52, before any skill file existed; the cold arm completed at 17:37; the loaded arm at 21:33; the judges at 21:36.">July 2, 2026</span>, timestamped to the minute, and the write-up carrying them is dated July 2026 and is still in review. The two dates land close there. They do not have to.</p>
-      <p>One note is dated ahead of today. That is the same convention: the date is when I expect the write-up to ship, and the chip stays Drafting until it actually does. A future date is a stated intention, not a record. And a write-up never borrows the work's date to look prompt, and never backdates itself.</p>
+      <p>One note is dated ahead of today. Same convention: the date is when I expect the write-up to ship, and the chip stays Drafting until it does. A write-up never borrows the work's date to look prompt.</p>
     </div>
   </section>
 
@@ -284,7 +284,6 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">02</span>Newest first</div>
       <h2>The ledger</h2>
-      <p>Dated write-ups from the practice, newest first.</p>
       <div class="notes">
 
         <!-- Lattice entry, drafted 2026-07-11. Verdicts sourced from the real matrix report
@@ -341,7 +340,7 @@
               </summary>
               <div class="nx-body">
                 <p>Before a case draft for a graduate course session went in front of real people, I ran it past a fake room first.</p>
-                <p>The setup: seventeen persona agents, each one seat. A risk officer, a CFO, a platform engineer, a policy staffer, and so on, each defined by a professional background, a temperament, and nothing else. What a seat knows is a design decision, not an accident of context. The seats are spread across three model tiers on purpose. Seventeen copies of the same model give you seventeen flavors of the same read; mixing tiers gives you the skimming executive and the person who checks the exhibits twice, which is what a real room contains.</p>
+                <p>The setup: seventeen persona agents, each one seat. A risk officer, a CFO, a platform engineer, a policy staffer, and so on, each defined by a professional background, a temperament, and nothing else. What a seat knows is a design decision, not an accident of context. The seats are spread across three model tiers. Seventeen copies of the same model give you seventeen flavors of the same read; mixing tiers gives you the skimming executive and the person who checks the exhibits twice, which is what a real room contains.</p>
                 <p>The protocol is the part I'd defend hardest. Every seat reads the draft blind and returns a structured vote. No cross-talk, no anchoring on the loudest agent. Then the votes are revealed and the room votes again. The gap between round one and round two tells you whether the case moves a room or just survives one.</p>
                 <p>I ran the loop the way you'd playtest a board game: full run, read the transcript, revise the draft, run it again. The panel caught things I would have found out the hard way in class, like which exhibit the fast readers skipped and where the discussion stalled with nowhere to go.</p>
                 <p>The carry-away rule: any room where people read something and then decide is a topology. If you can cast the seats and wire the protocol, you can run the room before it exists, and revise while revision is still cheap.</p>
@@ -350,6 +349,7 @@
           </div>
           <div class="nside">
             <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+            <a class="mini" href="https://www.hamz.ai/case-playtesting/">the case study &rarr;</a>
           </div>
         </div>
 
@@ -365,7 +365,7 @@
                 <span class="nx-cue"></span>
               </summary>
               <div class="nx-body">
-                <p>The intake conversation on a healthcare intake platform I work on runs on a mid-tier model. The cheap, fast tier costs a fraction as much, and the obvious question kept coming up: why not switch?</p>
+                <p>The intake conversation on a healthcare platform I work on runs on a mid-tier model. The cheap, fast tier costs a fraction as much, and the obvious question kept coming up: why not switch?</p>
                 <p>I didn't switch. I built a shadow lane instead. Every intake on staging kept its normal model, and a second extractor ran silently alongside it on the cheap tier. Both results landed in a durable log with agreement scoring, so I could see exactly where the small model matched the big one and where it drifted, on real conversations, at zero risk to anyone filling out a form.</p>
                 <p>Once the shadow data looked promising, I ran a proper trial: a generation by extraction matrix, four cells, about 48 fresh staging intakes. The mixed cells held up. The all-cheap cell did not; half its intakes got stuck or were abandoned. That one afternoon of evidence settled a debate that had been running on vibes for weeks. The default stayed where it was, documented as a decision rather than an assumption.</p>
                 <p>One piece did ship: a fast path on the cheap tier with an automatic cascade. If the small model repeats an identical question, the turn escalates to the bigger model. The small model gets the easy work and a tripwire, not the keys.</p>
@@ -391,7 +391,7 @@
               </summary>
               <div class="nx-body">
                 <p>At a business-aviation operator, every trip request has to clear the same gauntlet before anyone commits an aircraft: can the passengers actually enter that country, is the airport open and staffed when they land, is the tail out for maintenance, does the crew have legal duty time left, will they arrive in daylight where that matters. Dispatchers carry this checklist in their heads. We built it into software.</p>
-                <p>The engine runs a set of process checks against each trip: customs and immigration (including the edge cases, like domestic legs where customs and visas don't apply), aerodrome status and clearance hours, maintenance downtime that overlaps the trip dates, scheduling conflicts, and crew duty time computed across all legs, adjusted for the regulatory category the flight operates under. The checks run in parallel, and each one comes back with a status and its reasoning, not just a red or green light.</p>
+                <p>The engine runs those checks in parallel against each trip, down to the details: domestic legs where customs and visas don't apply, aerodrome clearance hours, maintenance downtime that overlaps the trip dates, scheduling conflicts, and crew duty time computed across all legs, adjusted for the regulatory category the flight operates under. Each check comes back with a status and its reasoning, not just a red or green light.</p>
                 <p>Two design calls mattered more than any individual check. First, thresholds came from the operations floor, not from us; two legs of the same flight only count as a conflict when the gap is under 45 minutes, because above that the schedule absorbs it. Second, overrides are first-class. A dispatcher can wave a check through, and the engine reruns everything afterward so the override is a recorded decision on fresh data, not a silenced alarm.</p>
                 <p>The lesson: a feasibility engine earns trust by encoding the questions experts already ask, showing its work, and leaving the final call with the human.</p>
               </div>
@@ -399,6 +399,7 @@
           </div>
           <div class="nside">
             <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="Step 1 of the ladder: a first version exists and has not entered review.">Drafting</span>
+            <a class="mini" href="https://www.hamz.ai/work/aviation-operations/">the case study &rarr;</a>
           </div>
         </div>
 

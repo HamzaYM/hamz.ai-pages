@@ -208,7 +208,7 @@
     <div class="sec-eyebrow"><span class="num">01</span>The problem</div>
     <h2>Feasibility lived in a dozen places, and in one person's head</h2>
     <p class="lead">Before anyone could quote a private or charter trip, someone on the operations team had to assemble the entire feasibility picture by hand. Is the runway long and strong enough for this aircraft, fully loaded, wet? Are there NOTAMs closing anything? Are customs and immigration open at those hours? Is the crew inside its duty limits? Do we have permits to overfly and land?</p>
-    <p>Each answer lived in a different system, and no system talked to the next. A single trip meant hopping between maintenance records, flight planning, NOTAM feeds, security advisories, passport and visa data, and noise rules, then holding all of it in your head long enough to make a call. It was slow, it did not scale past the people who knew it cold, and the knowledge walked out the door at the end of the day.</p>
+    <p>A single trip meant hopping between maintenance records, flight planning, NOTAM feeds, security advisories, passport and visa data, and noise rules, then holding all of it in your head long enough to make a call. It was slow, it did not scale past the people who knew it cold, and the knowledge walked out the door at the end of the day.</p>
     <div class="pile rv">
       <div class="p">Runway strength</div>
       <div class="p">NOTAMs</div>
@@ -276,7 +276,7 @@
 
     <div class="callout warn rv">
       <div class="ct">When an AI check fails, it gets louder, not quieter</div>
-      <p>If an AI-assisted check cannot complete, say a source times out, the system does not crash the trip and it does not quietly wave the check through. It converts the failure into <strong>Manual Review Required, confidence zero</strong>, and the interface renders that state more prominently than a pass. A gap in knowledge is surfaced, never swallowed.</p>
+      <p>If an AI-assisted check cannot complete, say a source times out, the system does not crash the trip and it does not quietly wave the check through. It converts the failure into <strong>Manual Review Required, confidence zero</strong>, and the interface renders that state more prominently than a pass.</p>
       <p style="margin-bottom:0">That is the whole safety model in one rule: a failed check can never silently look like a passed one.</p>
     </div>
   </section>
@@ -285,14 +285,14 @@
   <section>
     <div class="sec-eyebrow"><span class="num">04</span>How it shipped</div>
     <h2>Architected, built, and delivered into production</h2>
-    <p>I architected the system and personally built it on a managed cloud, while hiring and leading a small delivery team. The engagement started with a round of discovery interviews before a line of production code was written, moved through an agile delivery cycle into production, and went live across multiple teams and users, handed over with a developer guide, a user manual, and an operations runbook. It was built to be handed over, not babysat.</p>
+    <p>I architected the system and personally built it on a managed cloud, while hiring and leading a small delivery team. The engagement started with a round of discovery interviews, moved through an agile delivery cycle, and went live across multiple teams and users, handed over with a developer guide, a user manual, and an operations runbook.</p>
   </section>
 
   <!-- ARCHITECTURE -->
   <section>
     <div class="sec-eyebrow"><span class="num">05</span>Architecture</div>
     <h2>A hub-and-spoke over a unified copy of every source</h2>
-    <p>The operations portal sits at the center. Around it, the four check modules run as spokes, each reading from a local store that a data-ingestion engine keeps in sync with the outside sources on an hourly job. The checks run against that unified copy, so a trip is evaluated in one place instead of ten.</p>
+    <p>The operations portal sits at the center. Around it, the four check modules run as spokes, each reading from a local store that a data-ingestion engine keeps in sync with the outside sources on an hourly job, so a trip is evaluated in one place instead of ten.</p>
     <div class="arch rv">
       <div class="layers">
         <div class="layer"><span class="lk">Frontend</span><span class="lv">TypeScript and React, <span>component-based UI</span></span></div>
@@ -320,7 +320,7 @@
             <text x="45" y="123">M3</text><text x="155" y="123">M4</text>
           </g>
         </svg>
-        <p>The four modules read from a unified store, not from ten live systems on every click. The design questions were which sources to trust fresh and which to cache on the hourly sync.</p>
+        <p>The design questions were which sources to trust fresh and which to cache on the hourly sync.</p>
       </aside>
     </div>
   </section>
@@ -329,7 +329,7 @@
   <section>
     <div class="sec-eyebrow"><span class="num">06</span>Outcome</div>
     <h2>What changed for the operator</h2>
-    <p>The engine collapsed a manual, hours-long, dozen-system feasibility check into a single reviewed screen, with the human firmly in the loop on anything the system flags. In my experience, that is the kind of change that reliably delivers meaningful time and cost savings: a large drop in manual workload and materially faster decisions on trip feasibility. I'll publish headline results and nothing under them. A client's cost lines, their contract terms, and the numbers behind any single check aren't mine to put on a public page.</p>
+    <p>The engine collapsed a manual, hours-long, dozen-system feasibility check into a single reviewed screen, with the human firmly in the loop on anything the system flags. In my experience, that is the kind of change that cuts manual workload and speeds up decisions. I'll publish headline results and nothing under them. A client's cost lines, their contract terms, and the numbers behind any single check aren't mine to put on a public page.</p>
     <div class="callout rv">
       <div class="ct">A note on outcomes</div>
       <p style="margin-bottom:0">What's verifiable in the build is the scope: sixteen checks across four modules, five of them AI-assisted and confidence-scored, over ten-plus unified data sources, with human override and a full audit trail.</p>

@@ -244,7 +244,7 @@
         <div class="pipe-stage pipe-gate">
           <div class="pn">BY MORNING</div>
           <div class="ph">Drafts queue</div>
-          <div class="pd">Everything waits behind a human approval gate. Nothing is sent, nothing is visible to a client, until the advisor approves it.</div>
+          <div class="pd">Nothing is sent, nothing is visible to a client, until the advisor approves it.</div>
         </div>
       </div>
     </div>
@@ -292,7 +292,7 @@
   <section>
     <div class="sec-eyebrow"><span class="num">05</span>Outcome</div>
     <h2>Per-meeting admin becomes a review-and-approve step</h2>
-    <p>The notes, the tasks, and the client drafts that an advisor used to produce by hand after every meeting are waiting for them in the morning, already drafted, gated on their approval. The firm's stated success metric for the engagement was advisor hours saved, and the per-meeting admin is where those hours were.</p>
+    <p>The notes, the tasks, and the client drafts that an advisor used to produce by hand after every meeting are waiting for them in the morning, already drafted, gated on their approval.</p>
     <figure class="tbar rv">
       <figcaption>where the per-meeting admin went &middot; documented current state &middot; minutes</figcaption>
       <svg viewBox="0 0 640 132" role="img" aria-label="Per-meeting admin in the documented current-state workflow: 5 to 15 minutes of prep before the meeting and 5 to 10 minutes of wrap-up after it, so 10 to 25 minutes per meeting in total. Roughly 15 minutes of that comes back when the admin collapses to reviewing pre-drafted work.">
@@ -319,7 +319,7 @@
     <div class="basis rv">
       <b>Basis:</b> documented current-state workflow, 5&ndash;15 min of prep plus 5&ndash;10 min of wrap-up per meeting, collapsed to a review-and-approve step. The client's stated success metric is advisor hours saved. This is a derived per-meeting figure with its basis stated, not a client-outcome claim.
     </div>
-    <p class="mult rv">That is ~15 minutes back on <b>every</b> meeting, not once. An advisor running a weekly cadence across a book of clients gets it back on each one, so the yearly figure is their meeting load multiplied by a quarter of an hour. I am giving the per-meeting number rather than an annual headline because the per-meeting number is the one I can show the basis for.</p>
+    <p class="mult rv">That is ~15 minutes back on <b>every</b> meeting, not once. I am giving the per-meeting number rather than an annual headline because it is the one I can show the basis for.</p>
   </section>
 
   <!-- WHAT I'D DO DIFFERENTLY -->
@@ -327,8 +327,8 @@
     <div class="sec-eyebrow"><span class="num">06</span>What I'd do differently</div>
     <h2>The 15 minutes is still a derived number, not a measured one</h2>
     <p class="lead">The mock-first build proved the pipeline works top to bottom. It did not prove the pipeline works on a real book of clients, over a real week, against a real email account.</p>
-    <p>The riskiest join in the whole system, matching a recorded meeting back to the right client, was named as the top build risk early and designed around. That was the right call for a 25-client seeded demo. It also means the hardest part of the system has not yet met the messiness of a live calendar, a live CRM, and a live Zoom account. I would want that join running against real data before I trusted the rest of the pipeline the way the demo does.</p>
-    <p>The invariants that keep the system safe, the approval gate, the sourced claims, the flagged gaps, also set a ceiling on how much time they save. A system that never fills a gap and never sends without sign-off is a system an advisor still has to read closely every morning. That tradeoff was deliberate and I would make it again. But it means the ~15 minutes is a derived figure from a documented current-state workflow, not a number pulled from advisors actually using the queue week over week. The next thing to build is not a feature. It is the measurement that turns that estimate into a fact.</p>
+    <p>The riskiest join in the whole system, matching a recorded meeting back to the right client, was designed around from the start. That was the right call for a 25-client seeded demo. It also means the hardest part of the system has not yet met the messiness of a live calendar, a live CRM, and a live Zoom account. I would want that join running against real data before I trusted the rest of the pipeline the way the demo does.</p>
+    <p>The invariants that keep the system safe, the approval gate, the sourced claims, the flagged gaps, also set a ceiling on how much time they save. A system that never fills a gap and never sends without sign-off is a system an advisor still has to read closely every morning. That tradeoff was deliberate. But it means the ~15 minutes is a derived figure from a documented current-state workflow, not a number pulled from advisors actually using the queue week over week. The next thing to build is not a feature. It is the measurement that turns that estimate into a fact.</p>
   </section>
 
   <!-- WHAT I TOOK AWAY -->
@@ -336,10 +336,10 @@
     <div class="sec-eyebrow"><span class="num">07</span>What I took away</div>
     <h2>Four things I would carry into the next build</h2>
     <ol class="lessons rv">
-      <li><b>The gate was the product.</b> The drafting was the part everyone expected to be hard, and it was not. What made the system usable was the guarantee that nothing reaches a client the advisor did not sign. Take the gate out and the drafting is a liability instead of a feature.</li>
-      <li><b>Name the riskiest join before you build around it.</b> Matching a recorded meeting back to the right client was called out as the top risk early, so the architecture was designed around it instead of discovering it late. That one call is why the build did not stall.</li>
-      <li><b>Mock-first bought the demo and postponed the proof.</b> Building it demoable end to end without touching a client system meant it could be shown and argued with from the first week. It also means the hardest join has still not met a live calendar, a live CRM, and a live mailbox.</li>
-      <li><b>Safety caps the savings, and that is the trade I would make again.</b> A system that never fills a gap and never sends without sign-off is one the advisor still reads every morning. That ceiling on time saved is the price of the guarantee, and the guarantee is the reason they trust it.</li>
+      <li><b>The gate was the product.</b> The drafting was the part everyone expected to be hard, and it was not. Take the gate out and the drafting is a liability instead of a feature.</li>
+      <li><b>Name the riskiest join before you build around it.</b> Calling the meeting-to-client match the top risk early meant the architecture was designed around it instead of discovering it late. That one call is why the build did not stall.</li>
+      <li><b>Mock-first bought the demo and postponed the proof.</b> Building it demoable end to end without touching a client system meant it could be shown and argued with from the first week. The proof against live systems is still owed.</li>
+      <li><b>Safety caps the savings, and that is the trade I would make again.</b> The ceiling on time saved is the price of the guarantee, and the guarantee is the reason they trust it.</li>
     </ol>
   </section>
 

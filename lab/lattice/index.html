@@ -77,6 +77,7 @@
     --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
     /* layout */
     --max:1080px;
+    --measure:80ch;
   }
   /* system prefers light, and the user hasn't explicitly chosen dark */
   @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
@@ -114,8 +115,8 @@
   #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--acc); z-index:70; transition:width .1s linear; }
 
   /* nav (opaque flavor, page ships the theme toggle) */
-  nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px;
-       padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  nav.site-nav{ position:sticky; top:0; z-index:60; background:var(--bg); border-bottom:1px solid var(--line); }
+  nav.site-nav .nav-inner{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; padding-top:13px; padding-bottom:13px; }
   nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
   nav.site-nav .brand b{ color:var(--acc); font-weight:500; }
   nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
@@ -133,7 +134,8 @@
   .theme-toggle button[aria-pressed="true"]{ background:var(--acc-loud); color:#0F0F0F; }
   @media(max-width:520px){ .lab-nav{ gap:10px; } }
   @media(max-width:640px){
-    nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+    nav.site-nav{ position:static; }
+    nav.site-nav .nav-inner{ gap:8px 14px; padding-top:11px; padding-bottom:11px; }
     nav.site-nav .nav-right{ gap:8px 12px; }
     .lab-nav{ gap:6px 12px; }
   }
@@ -158,7 +160,7 @@
   .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
             text-transform:uppercase; color:var(--acc); margin-bottom:22px; }
   h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:26px; }
-  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:var(--measure); line-height:1.5; }
   .lede strong{ font-weight:500; }
 
   /* in-page anchor nav */
@@ -177,10 +179,10 @@
   .sec-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
                 text-transform:uppercase; color:var(--acc); margin-bottom:16px; }
   .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
-  h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:24ch; }
+  h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; }
   h3{ font-size:20px; margin:40px 0 14px; }
-  section p{ max-width:66ch; margin-bottom:16px; }
-  .lead{ font-size:20px; color:var(--ink); max-width:62ch; }
+  section p{ max-width:var(--measure); margin-bottom:16px; }
+  .lead{ font-size:20px; color:var(--ink); max-width:var(--measure); }
 
   /* callout (amber, honesty register) */
   .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--amber);
@@ -246,7 +248,7 @@
   .exhibit{ margin:40px 0 8px; max-width:900px; }
   .exhibit .ex-title{ font-family:var(--display); font-size:23px; color:var(--ink); font-weight:500;
         letter-spacing:-0.02em; line-height:1.22; margin-bottom:10px; max-width:40ch; }
-  .exhibit .ex-sub{ font-family:var(--sans); font-size:14.5px; color:var(--dim); margin-bottom:16px; max-width:72ch; }
+  .exhibit .ex-sub{ font-family:var(--sans); font-size:14.5px; color:var(--dim); margin-bottom:16px; max-width:100%; }
   .fig-wrap{ overflow-x:auto; border:1px solid var(--line); background:var(--raised); padding:22px;
         page-break-inside:avoid; }
   .fig-wrap svg{ display:block; width:100%; height:auto; max-width:100%; }
@@ -337,7 +339,7 @@
     .tabs-bar{ display:none !important; }
   }
 
-  .cardrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; max-width:920px; margin:36px 0 8px; }
+  .cardrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; max-width:920px; margin:36px 0 8px; align-items:start; }
   .mini-card{ border:1px solid var(--line); background:var(--raised); padding:22px 24px; }
   .mini-card .ct{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--acc); margin-bottom:10px; }
   .mini-card p{ font-size:15px; margin-bottom:10px; max-width:none; }
@@ -391,8 +393,13 @@
      exists, so everything stays visible with every label. */
   #cost-fig[data-view="fable"] .cm-opus, #cost-fig[data-view="fable"] .cm-sonnet, #cost-fig[data-view="fable"] .cm-haiku,
   #cost-fig[data-view="opus"] .cm-fable, #cost-fig[data-view="opus"] .cm-sonnet, #cost-fig[data-view="opus"] .cm-haiku,
-  #cost-fig[data-view="sonnet"] .cm-fable, #cost-fig[data-view="sonnet"] .cm-opus, #cost-fig[data-view="sonnet"] .cm-haiku,
-  #cost-fig[data-view="all"] .ser-cold{ display:none; }
+  #cost-fig[data-view="sonnet"] .cm-fable, #cost-fig[data-view="sonnet"] .cm-opus, #cost-fig[data-view="sonnet"] .cm-haiku{ display:none; }
+  /* "All models": keep the without-skills lines in the mix instead of hiding them,
+     but fade and thin them so the with-skills lines stay the visual lead. Hovering
+     a faded line brings it back to full strength. */
+  #cost-fig[data-view="all"] .ser-cold{ opacity:0.38; }
+  #cost-fig[data-view="all"] .ser-cold polyline{ stroke-width:1.3; }
+  #cost-fig[data-view="all"] .ser-cold:hover{ opacity:1; }
   #cost-fig[data-view="fable"] .lbls text:not(.lbl-end),
   #cost-fig[data-view="opus"] .lbls text:not(.lbl-end),
   #cost-fig[data-view="sonnet"] .lbls text:not(.lbl-end),
@@ -408,6 +415,7 @@
 <div id="progress"></div>
 
 <nav class="site-nav" aria-label="Lab">
+  <div class="wrap nav-inner">
   <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
   <a class="brand-lab" href="../">/ lab</a>
   <div class="nav-right">
@@ -426,6 +434,7 @@
       <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
     </div>
   </div>
+  </div>
 </nav>
 
 <div id="tip" role="status" aria-live="polite"></div>
@@ -443,7 +452,7 @@
     <h1>Skills or reasoning effort: which matters more?</h1>
     <p class="lede">Every Claude model now ships a reasoning dial. Turn it up and the model thinks longer and scores higher. So can more thinking replace expertise (the packaged <a href="../skills/">skills</a> an agent loads before it works)? I wanted the answer without fooling myself. So I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, ran the whole grid, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
     <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. Keep going to see if I was right.</p>
-    <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:62ch">A skill here means a Claude Code skill, a written instruction file that changes how Claude behaves while it works, nothing to do with your own tools. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
+    <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:100%">A skill here means a Claude Code skill, a written instruction file that changes how Claude behaves while it works, nothing to do with your own tools. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
     <div class="stats" aria-label="The study at a glance" data-fx-stagger>
       <div class="st fx"><div class="v">16</div><div class="l">model-effort conditions across 4 models</div></div>
       <div class="st fx"><div class="v">5</div><div class="l">effort levels per dialed model, low to max</div></div>
@@ -476,15 +485,15 @@
 
       <p class="lead">More reasoning effort made every model better on its own. Comparing the lowest effort setting against the highest (high on Fable, whose max runs never finished), scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.9 on Sonnet. Each cleared the 3-point bar fixed before the first run. More thinking buys better work, reliably.</p>
 
-      <p>It did not buy back what the skills add. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low, the one model where the skills ended up adding more at the top of the dial than at the bottom. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
+      <p>It did not buy back what the skills add. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26.5 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
 
-      <p>There is a headroom story in the grid too. The skills helped every model, and they helped Fable the least, because Fable starts from the highest floor. With the library installed, Fable never scored below 99.0. Opus reached 100.0 at max effort. Sonnet, which starts cold in the 80s, reached 99.5 at max. Less headroom means less to add, not nothing to add.</p>
+      <p>There is a headroom story in the grid too. The skills helped every model, and they helped Fable the least, because Fable starts from the highest floor. With the library installed, Fable never scored below 99.0%. Opus reached 100.0% at max effort. Sonnet, which starts in the 80s without the skills, reached 99.5% at max. Less headroom means less to add, not nothing to add.</p>
 
-      <p>Two terms before the numbers. Each task carries a short checklist of things a correct answer must do, and a score is the share of checklist items hit. Blinded means the two Claude judges marking each item were never told which answer ran with the skills installed; a fixed third judge settled any disagreement.</p>
+      <p>A score is just the share of checklist items an answer actually hits, nothing fancier. And blind means what it sounds like: the two Claude judges marking each item never knew which answer ran with the skills installed, and a fixed third judge broke any tie.</p>
 
       <div class="exhibit" id="matrix-table">
         <div class="ex-title" style="text-align:center">Scores with and without the skills, across the whole grid</div>
-        <p class="ex-sub" style="text-align:center">Share of checklist items hit, on the 17 tasks every setup completed. The highlighted column is what installing the skills added, in percentage points. Most cells were run three times per side for stability; the single runs are Fable at medium and extra-high and the Haiku baseline.</p>
+        <p class="ex-sub" style="text-align:center">Share of checklist items hit, on the 17 tasks every setup completed. The highlighted column is what installing the skills added, in percentage points.</p>
         <div class="tbl-scroll">
           <table class="data fit" id="tbl-results">
             <thead><tr><th>Model</th><th>Effort</th><th>Without skills</th><th>With skills</th><th class="hero">What the skills added</th></tr></thead>
@@ -586,7 +595,7 @@
             </tbody>
           </table>
         </div>
-        <p class="tbl-note">Methodology: each score is the share of checklist items hit across all 17 tasks, scored by two blinded Claude judges with a third settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Rows marked avg of 3 runs average three runs per side; rows marked 1 run are single runs, so on those read the direction, not the decimals. Source: MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Rows marked avg of 3 runs average three runs per side; rows marked 1 run are single runs, so on those read the direction, not the decimals. Source: MATRIX.md in the repo.</p>
       </div>
 
       <div id="perf-figs">
@@ -675,7 +684,7 @@
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: share of checklist items hit on the 17 tasks every setup completed, scored by two blinded Claude judges with a third settling disagreements. Each point sits on its labeled effort column; most points average three runs per side, with Fable at medium and extra-high and the Haiku baseline the single runs. Fable's lines stop at xhigh because its max runs got too expensive to finish. Source: MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: share of checklist items hit on the 17 tasks every setup completed, scored blind by two Claude judges, with a third to break ties. Most points average three runs per side; the single runs are Fable at medium and extra-high and the Haiku baseline. Fable stops at xhigh because its max runs got too expensive to finish. Source: MATRIX.md in the repo.</p>
       </div>
 
       <div class="exhibit fx fx-lg" id="fig-perf-zoom">
@@ -758,7 +767,7 @@
           <button type="button" data-cv="sonnet" aria-pressed="false">Claude Sonnet 5</button>
           <button type="button" data-cv="all" aria-pressed="false">All models</button>
         </div>
-        <p class="eff-note">One model at a time keeps the chart readable: solid is with the skills installed, dashed is without. &ldquo;All models&rdquo; shows the with-skills lines side by side; hover any point for its numbers.</p>
+        <p class="eff-note">One model at a time keeps the chart readable: solid is with the skills installed, dashed is without. &ldquo;All models&rdquo; shows every line at once, with the without-skills lines faded so the with-skills lines stay easy to follow; hover any point for its numbers.</p>
         <div id="cost-fig">
         <div class="vz-card">
           <div class="vz-legend">
@@ -770,7 +779,7 @@
             <span><span class="ln dash"></span>without</span>
           </div>
           <svg viewBox="0 0 920 560" role="img"
-               aria-label="Scatter chart of checklist score against average cost per run in dollars, on a log cost scale, with a switcher showing one model at a time or all with-skills lines together. With the skills installed the three model lines sit in the top band, 96.1 to 100 percent, between 43 cents and 1 dollar 62 per run. Without the skills the same runs cost about the same and score 84.8 to 97.6 percent. Haiku is a low-cost reference pair at about 21 cents per run.">
+               aria-label="Scatter chart of checklist score against average cost per run in dollars, on a log cost scale, with a switcher showing one model at a time or all models together, without-skills lines faded. With the skills installed the three model lines sit in the top band, 96.1 to 100 percent, between 43 cents and 1 dollar 62 per run. Without the skills the same runs cost about the same and score 84.8 to 97.6 percent. Haiku is a low-cost reference pair at about 21 cents per run.">
             <desc>With skills, cost and score by effort: Sonnet 0.49 at 96.1, 0.43 at 99.0, 0.62 at 99.0, 0.80 at 98.5, 1.18 at 99.5. Opus 0.67 at 95.6, 0.70 at 97.6, 0.59 at 98.0, 0.75 at 99.0, 1.00 at 100.0. Fable 1.07 at 99.0, 1.22 at 100.0, 1.50 at 100.0, 1.62 at 100.0. Haiku 0.22 at 91.2. Without skills: Sonnet 0.44 at 84.8, 0.39 at 90.7, 0.49 at 87.8, 0.81 at 87.3, 1.20 at 89.7. Opus 0.59 at 87.3, 0.66 at 85.8, 0.53 at 88.2, 0.72 at 91.2, 0.89 at 91.2. Fable 0.89 at 94.1, 1.05 at 92.6, 1.21 at 97.6, 1.41 at 97.1. Haiku 0.21 at 64.7.</desc>
             <g class="sv-l">
               <line x1="110" y1="470" x2="870" y2="470" stroke-width="1"/>
@@ -874,7 +883,7 @@
           </svg>
         </div>
         </div><!-- /cost-fig -->
-        <p class="tbl-note">Methodology: the horizontal axis is each cell's average recorded cost of one run, on a log scale; the vertical axis is the share of checklist items hit on the shared 17 tasks. Costs are observed spend per run on subscription pricing, not list-price API rates, and the run counts behind each average are small: 51 runs per side on the replicated cells (three repeats of the 17 tasks), and 17 on Fable's medium and extra-high settings and the Haiku baseline, the study's only single runs. Turning effort up multiplied per-run cost by up to 2.7x. Loading the skills cost between $0.01 and $0.30 per run, and on Sonnet's two highest settings the runs with the skills installed averaged slightly cheaper than the runs without. Sources: cost-per-run-dataset.json, published next to this page, and MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: horizontal axis is each cell's average cost per run, log scale; vertical axis is the share of checklist items hit on the shared 17 tasks. Costs are API-price equivalents reported by the Claude CLI, not observed subscription spend. Sources: cost-per-run-dataset.json, published next to this page, and MATRIX.md in the repo.</p>
       </div>
 
       <div class="cardrow" data-fx-stagger>
@@ -884,7 +893,7 @@
         </div>
         <div class="mini-card fx" id="costs-card">
           <div class="ct">What it cost</div>
-          <p>All in, the experiment cost $1,296.94: $1,034.05 running the arms and $262.89 judging them, with the cost of building the harness excluded. Every run recorded its own cost as it ran, so these are sums of real records, not estimates.</p>
+          <p>All in, the experiment cost $1,296.94: $1,034.05 running the arms and $262.89 judging them, with the cost of building the harness excluded. Every run recorded its own cost as it ran; these are API-price equivalents from the Claude CLI, summed directly, not modeled after the fact.</p>
           <p>Effort is the expensive dial. Going from low to max multiplied the cost of a run by up to 2.7x; a Sonnet run went from about $0.44 to about $1.20. Loading the skills cost between $0.01 and $0.30 per run.</p>
           <p>At Sonnet's two highest settings, runs with the skills installed actually averaged slightly cheaper than runs without. The exact per-cell numbers are in <a href="#cost-table">the cost table</a>.</p>
         </div>
@@ -893,7 +902,7 @@
       <h3 id="takeaways">What this means for how you use AI</h3>
       <div class="takeaways" data-fx-stagger>
         <div class="tk fx"><p><b>Pick the model and effort for the floor you need.</b> Effort reliably raises the baseline, and you pay for it on every run. Buy as much of it as the job actually requires, and no more.</p></div>
-        <div class="tk fx"><p><b>Install skills for the failure modes that matter to you.</b> They kept paying at every effort level, on every model, for cents per run. A skill is built once and rides along for free on every run after that.</p></div>
+        <div class="tk fx"><p><b>Install skills for the failure modes that matter to you.</b> They kept paying at every effort level, on every model, for cents per run. A skill is built once and rides along on every run after that.</p></div>
         <div class="tk fx"><p><b>Measure both instead of guessing.</b> The two levers moved separately here, and nothing about your tasks is settled by someone else's benchmark. The whole instrument is open if you want to run it on your own work.</p></div>
       </div>
 
@@ -1042,7 +1051,7 @@
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: most cells ran three times per side, with Fable's medium and extra-high settings and the Haiku baseline the single runs. Across the study the two judges disagreed on 4.6% of marks, 2.5% of marks went to the deciding judge, and none were left unresolved. The suite hash and every per-setup rate are in MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: most cells ran three times per side; the single runs are Fable at medium and extra-high and the Haiku baseline. The two judges disagreed on 4.6% of marks; the deciding judge settled 2.5%, and none were left unresolved. The suite hash and every per-setup rate are in MATRIX.md in the repo.</p>
       </div>
 
       <h3 id="scoring">How scoring works</h3>
@@ -1050,7 +1059,7 @@
       <p>Every answer was scored blind by two Claude judges, one Sonnet-class and one Opus-class. They saw the two answers to a task in a random order and were never told which one had the skills installed. When the two judges disagreed on a checklist item, a fixed third judge, Claude Fable 5, settled it. Across the study the two judges disagreed on 4.6% of marks, 2.5% of marks went to the third judge, and none were left unresolved.</p>
 
       <h3 id="cost-table">What each cell cost</h3>
-      <p>Every run recorded its own cost as it ran. All in, the experiment cost $1,296.94: $1,034.05 running the arms and $262.89 judging them, with the cost of building the harness excluded. The table shows the average cost of one run, in dollars, for each model and effort setting: without the skills, with them, and the difference.</p>
+      <p>Every run recorded its own cost as it ran; the whole experiment came to $1,296.94. The table shows the average cost of one run, in dollars, for each model and effort setting: without the skills, with them, and the difference.</p>
       <script type="application/json" id="cost-per-run-dataset">
 {"lattice-fable-high":{"n_cold":51,"avg_cold_usd":1.2061,"n_loaded":51,"avg_loaded_usd":1.5022,"skill_marginal_usd":0.2961},"lattice-fable-low":{"n_cold":51,"avg_cold_usd":0.8901,"n_loaded":51,"avg_loaded_usd":1.0719,"skill_marginal_usd":0.1818},"lattice-fable-medium":{"n_cold":17,"avg_cold_usd":1.0487,"n_loaded":17,"avg_loaded_usd":1.2175,"skill_marginal_usd":0.1688},"lattice-fable-xhigh":{"n_cold":17,"avg_cold_usd":1.4109,"n_loaded":17,"avg_loaded_usd":1.6177,"skill_marginal_usd":0.2068},"lattice-haiku":{"n_cold":17,"avg_cold_usd":0.2052,"n_loaded":17,"avg_loaded_usd":0.2165,"skill_marginal_usd":0.0113},"lattice-opus-high":{"n_cold":51,"avg_cold_usd":0.5344,"n_loaded":51,"avg_loaded_usd":0.5928,"skill_marginal_usd":0.0585},"lattice-opus-low":{"n_cold":51,"avg_cold_usd":0.5924,"n_loaded":51,"avg_loaded_usd":0.6693,"skill_marginal_usd":0.077},"lattice-opus-max":{"n_cold":51,"avg_cold_usd":0.888,"n_loaded":51,"avg_loaded_usd":1.0045,"skill_marginal_usd":0.1164},"lattice-opus-medium":{"n_cold":51,"avg_cold_usd":0.6608,"n_loaded":51,"avg_loaded_usd":0.6986,"skill_marginal_usd":0.0378},"lattice-opus-xhigh":{"n_cold":51,"avg_cold_usd":0.7176,"n_loaded":51,"avg_loaded_usd":0.7489,"skill_marginal_usd":0.0313},"lattice-sonnet-high":{"n_cold":51,"avg_cold_usd":0.4904,"n_loaded":51,"avg_loaded_usd":0.6242,"skill_marginal_usd":0.1337},"lattice-sonnet-low":{"n_cold":51,"avg_cold_usd":0.4377,"n_loaded":51,"avg_loaded_usd":0.4885,"skill_marginal_usd":0.0508},"lattice-sonnet-max":{"n_cold":51,"avg_cold_usd":1.2029,"n_loaded":51,"avg_loaded_usd":1.1844,"skill_marginal_usd":-0.0185},"lattice-sonnet-medium":{"n_cold":51,"avg_cold_usd":0.3912,"n_loaded":51,"avg_loaded_usd":0.4331,"skill_marginal_usd":0.0419},"lattice-sonnet-xhigh":{"n_cold":51,"avg_cold_usd":0.8094,"n_loaded":51,"avg_loaded_usd":0.7999,"skill_marginal_usd":-0.0095}}
       </script>
@@ -1077,7 +1086,7 @@
           </tbody>
         </table>
       </div>
-      <p class="tbl-note">Methodology: real recorded spend averaged per run, not list-price estimates, computed from cost-per-run-dataset.json, which ships next to this page. Loading the skills added between $0.01 and $0.30 to a run, and on Sonnet's two highest settings the runs with skills installed came out slightly cheaper than the runs without. The machine mix varied between runs, so treat these as observed spend, not a price benchmark. The full per-call ledger is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
+      <p class="tbl-note">Methodology: cost per run is the API-price-equivalent figure the Claude CLI reports for each run, averaged per cell from cost-per-run-dataset.json, which ships next to this page; this holds whether a run actually billed against the API or a subscription. Loading the skills added between $0.01 and $0.30 to a run, and on Sonnet's two highest settings the runs with skills installed came out slightly cheaper than the runs without. The machine mix varied between runs, so treat these as directional, not exact. The full per-call ledger is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
 
       <h3 id="fable-max">The cell that got away</h3>
       <p>Fable at max effort is the one empty cell in the grid. It got too expensive to finish: the subscription pool it ran on expired before it did. The slot stays open by design: it is the pre-registered exploratory cell, permanently excluded from the confirmatory 15-cell matrix regardless of whether more of its runs ever complete. Nothing else on this page waits for it; the rules already cover the gap, as laid out in <a href="#methodology">the full methodology</a>.</p>
@@ -1085,7 +1094,7 @@
       <h3 id="grid-3d">The whole grid at once</h3>
       <div class="exhibit" id="fig-matrix3d">
         <div class="ex-title" style="text-align:center">Every model, every effort level, one picture</div>
-        <p class="ex-sub" style="text-align:center">Bar height is the score with the skills installed, on the shared 17 tasks. Drag to rotate; hover a bar for its numbers and run count. The toggles first add the runs without skills, then highlight what the skills added.</p>
+        <p class="ex-sub" style="text-align:center">Bar height is the score with the skills installed, on the shared 17 tasks. Drag to rotate; hover a bar for its numbers and run count.</p>
         <div id="lattice3d">
           <div class="eff-controls" id="l3d-controls" role="group" aria-label="Layers on the grid figure">
             <button type="button" id="l3d-pair" aria-pressed="false">Add runs without skills</button>
@@ -1226,13 +1235,13 @@
       </div>
       <p class="tbl-note">Fable rows are low vs high per the posted endpoint amendment, everywhere they appear. All figures complete-case (the shared task set), must-hit weighted (every checklist item counts once, equally), small-n directional. Full cell tables, the per-skill matrix, invalidation rates, and the task-cluster bootstrap (a descriptive spread check that resamples whole tasks) live in MATRIX.md and matrix.json in the repo.</p>
       <p class="tbl-note">Basis note: every table and chart on this page is scored on one task set, the 17 tasks valid in every cell, so the confirmatory tables and the grid-wide tables read the same numbers for a given model. An earlier version of this page split them across two slightly different task sets; that gap closed when a censored run was recovered, and the two now coincide.</p>
-      <p>H3 (visibility-tag heterogeneity) is exploratory prose only; no computed contrast exists in the harness. H4 is a directional-only cross-tier shrinkage comparison, carrying the same Fable low-vs-high disclosure. Haiku's +26.5pp is contextual, outside all effort-trend hypotheses. The interior levels are complete: on Sonnet and Opus every effort level now carries three repeats per side, so the medium, high, and extra-high cells are replicated means rather than the single runs they began as. By construction none of them can move H1 or H2 anyway, since both verdicts read only each model's two endpoints.</p>
+      <p>H3 (visibility-tag heterogeneity) is exploratory prose only; no computed contrast exists in the harness. H4 is a directional-only cross-tier shrinkage comparison, carrying the same Fable low-vs-high disclosure. Haiku's +26.5pp is contextual, outside all effort-trend hypotheses. The interior levels on Sonnet and Opus are replicated means rather than the single runs they began as; by construction they cannot move H1 or H2 anyway, since both verdicts read only each model's two endpoints.</p>
 
       <h3>Limitations, once each</h3>
-      <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample (exploratory; now run, n=50, 97.2% concordance with the panel-final marks, 0 unscorable). The suite was authored by the skill author, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
+      <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample described above. The suite was authored by the skill author, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. The loaded arm always names the skill to load; whether a model would find and load it unprompted, autonomous skill selection, was not tested here. Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
 
       <h3>What did not run</h3>
-      <p>fable-max is the pre-registered open/exploratory cell: it holds no scored data, by design it never joins the confirmatory 15-cell matrix regardless of outcome, and Fable's confirmatory endpoint moved to high per the posted amendment. Beyond that, the parked items named in the limitations above, out-of-distribution tasks authored skill-blind and a placebo-document arm, did not run either.</p>
+      <p>fable-max is the pre-registered open/exploratory cell: it holds no scored data, by design it never joins the confirmatory 15-cell matrix regardless of outcome, and Fable's confirmatory endpoint moved to high per the posted amendment. Beyond that, the two parked items named in the limitations above did not run either.</p>
 
       <!-- Lattice explorer: the built explorer (results/matrix/explorer.html,
            self-contained, data inlined) ships at explorer/, and the slot below
