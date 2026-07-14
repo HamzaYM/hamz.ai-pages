@@ -263,6 +263,10 @@
   .sv-fr{ fill:var(--raised); } .sv-fr2{ fill:var(--raised-2); } .sv-fbg{ fill:var(--bg); }
   .sv-ftint{ fill:var(--acc-tint); } .sv-fnone{ fill:none; }
   /* E5 explorer: hidden until JS marks the document, table stays as fallback */
+  /* #perf-figs holds a control shared by two exhibits below it, so it isn't
+     itself an .exhibit; matching its width/centering keeps the toggle and its
+     note flush with the same left edge as the charts they govern */
+  #perf-figs{ max-width:900px; margin:0 auto; }
   .eff-controls{ display:flex; flex-wrap:wrap; border:1px solid var(--line); width:max-content; max-width:100%; margin-bottom:8px; }
   .eff-controls button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
         font-family:var(--mono); font-size:11px; letter-spacing:0.06em; padding:8px 12px; cursor:pointer;
@@ -492,8 +496,8 @@
       <p>A score is just the share of checklist items an answer actually hits, nothing fancier. And blind means what it sounds like: the two Claude judges marking each item never knew which answer ran with the skills installed, and a fixed third judge broke any tie.</p>
 
       <div class="exhibit" id="matrix-table">
-        <div class="ex-title">Scores with and without the skills, across the whole grid</div>
-        <p class="ex-sub">Share of checklist items hit, on the 17 tasks every setup completed. The highlighted column is what installing the skills added, in percentage points.</p>
+        <div class="ex-title" style="text-align:center">Scores with and without the skills, across the whole grid</div>
+        <p class="ex-sub" style="text-align:center">Share of checklist items hit, on the 17 tasks every setup completed. The highlighted column is what installing the skills added, in percentage points.</p>
         <div class="tbl-scroll">
           <table class="data fit" id="tbl-results">
             <thead><tr><th>Model</th><th>Effort</th><th>Without skills</th><th>With skills</th><th class="hero">What the skills added</th></tr></thead>
@@ -607,8 +611,8 @@
       <p class="eff-note">One control for both charts below. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
 
       <div class="exhibit fx fx-lg" id="fig-perf-full">
-        <div class="ex-title">Skills lifted every model at every effort level</div>
-        <p class="ex-sub">Share of checklist items hit (%), by effort level. Full 0 to 100 scale.</p>
+        <div class="ex-title" style="text-align:center">Skills lifted every model at every effort level</div>
+        <p class="ex-sub" style="text-align:center">Share of checklist items hit (%), by effort level. Full 0 to 100 scale.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -688,8 +692,8 @@
       </div>
 
       <div class="exhibit fx fx-lg" id="fig-perf-zoom">
-        <div class="ex-title">The same picture, up close</div>
-        <p class="ex-sub">Same data as above, y-axis zoomed to 80 to 100 to show the differences.</p>
+        <div class="ex-title" style="text-align:center">The same picture, up close</div>
+        <p class="ex-sub" style="text-align:center">Same data as above, y-axis zoomed to 80 to 100 to show the differences.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -759,8 +763,8 @@
       </div><!-- /perf-figs -->
 
       <div class="exhibit fx fx-lg" id="fig-cost-chart">
-        <div class="ex-title">Effort costs dollars per run. The skills cost cents.</div>
-        <p class="ex-sub">Checklist score against the average recorded cost of one run, USD. Each point is one model at one effort level.</p>
+        <div class="ex-title" style="text-align:center">Effort costs dollars per run. The skills cost cents.</div>
+        <p class="ex-sub" style="text-align:center">Checklist score against the average recorded cost of one run, USD. Each point is one model at one effort level.</p>
         <div class="eff-controls" id="cost-controls" role="group" aria-label="Which model to show on the cost chart">
           <button type="button" data-cv="fable" aria-pressed="true">Claude Fable 5</button>
           <button type="button" data-cv="opus" aria-pressed="false">Claude Opus 4.8</button>
@@ -992,8 +996,8 @@
 
       <h3 id="pipeline">The pipeline, start to finish</h3>
       <div class="exhibit" id="fig-workflow">
-        <div class="ex-title">One frozen suite, every setup, one blinded panel</div>
-        <p class="ex-sub">From the frozen task suite to the final scored grid. Every setup walks the same path.</p>
+        <div class="ex-title" style="text-align:center">One frozen suite, every setup, one blinded panel</div>
+        <p class="ex-sub" style="text-align:center">From the frozen task suite to the final scored grid. Every setup walks the same path.</p>
         <div class="vz-card">
           <svg viewBox="0 0 760 790" role="img" style="min-width:560px"
                aria-label="Flow diagram. A frozen suite of 17 tasks with pass checklists, locked and hash-stamped, feeds 16 model-and-effort setups: Haiku with no effort dial, Sonnet five levels, Opus five levels, Fable four levels plus an unfinished max slot. Every setup ran twice, without the skills and with the 17-skill library installed. Two blinded Claude judges score every checklist item without knowing which run had skills; when they disagree, Claude Fable 5 decides, 2.5 percent of marks. The output is the matrix of scores on this page.">
@@ -1093,8 +1097,8 @@
 
       <h3 id="grid-3d">The whole grid at once</h3>
       <div class="exhibit" id="fig-matrix3d">
-        <div class="ex-title">Every model, every effort level, one picture</div>
-        <p class="ex-sub">Bar height is the score with the skills installed, on the shared 17 tasks. Drag to rotate; hover a bar for its numbers and run count.</p>
+        <div class="ex-title" style="text-align:center">Every model, every effort level, one picture</div>
+        <p class="ex-sub" style="text-align:center">Bar height is the score with the skills installed, on the shared 17 tasks. Drag to rotate; hover a bar for its numbers and run count.</p>
         <div id="lattice3d">
           <div class="eff-controls" id="l3d-controls" role="group" aria-label="Layers on the grid figure">
             <button type="button" id="l3d-pair" aria-pressed="false">Add runs without skills</button>
