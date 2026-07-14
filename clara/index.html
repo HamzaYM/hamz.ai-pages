@@ -43,6 +43,16 @@
   .caption p{color:var(--ink-body);max-width:52ch;font-size:0.98rem;margin-top:6px;}
   .note{border-top:1px solid var(--line);margin-top:20px;padding-top:26px;color:var(--ink-body);font-size:0.98rem;max-width:64ch;}
   .note strong{color:var(--ink);font-weight:600;}
+  .note p + p{margin-top:14px;}
+  .who{margin-top:26px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+  .who div{border:1px solid var(--line);border-radius:6px;background:var(--bg-raised);padding:20px;}
+  .who strong{display:block;color:var(--ink);font-weight:600;margin-bottom:8px;}
+  .who p{font-size:0.95rem;color:var(--ink-body);}
+  .steps{list-style:none;margin-top:26px;border-top:1px solid var(--line);max-width:64ch;}
+  .steps li{display:flex;gap:18px;align-items:baseline;border-bottom:1px solid var(--line);padding:18px 0;}
+  .steps .n{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;color:var(--accent);flex:0 0 auto;}
+  .steps strong{display:block;color:var(--ink);font-weight:600;}
+  .steps p{font-size:0.98rem;color:var(--ink-body);}
   footer{border-top:1px solid var(--line);padding:34px 0 60px;}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);letter-spacing:0.04em;}
   footer a:hover{color:var(--accent);}
@@ -65,24 +75,60 @@
 
 <section><div class="wrap">
   <div class="caption">
-    <div><span class="label dim">01 / The letter view</span><p>The core screen: a scanned notice becomes a spoken summary, a plain-language explanation, and a numbered list of what to do next.</p></div>
+    <div><span class="label dim">01 / The idea</span><p>Official mail is written for the institution that sends it, not the person who has to act on it.</p></div>
+  </div>
+  <div class="note">
+    <p>A benefits renewal, an insurance statement, a bank notice. Each one is written in the language of the organisation that sent it, and each one hides the two things the reader actually needs: what this means, and what happens if I do nothing. Miss the date buried in the third paragraph and you lose a benefit or pay a penalty.</p>
+    <p>Clara takes a photo of the letter and answers those two questions first. Claude classifies it, rewrites it in plain language, reads it aloud, and pulls the deadlines out into a list you can act on. The letter stays available underneath if you want it, but you no longer have to start there.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="caption">
+    <div><span class="label dim">02 / Who it's for</span><p>Two readers, one screen. The person the mail is addressed to, and whoever helps them open it.</p></div>
+  </div>
+  <div class="who">
+    <div><strong>Older adults</strong><p>The people most likely to be handed dense government, health, and financial mail, and least well served by how it is written. Clara reads it out in their own language, at a size they can see.</p></div>
+    <div><strong>The family member who helps</strong><p>A caregiver can photograph a parent's mail and know within seconds whether it needs attention today, next week, or not at all. That is the whole job most of the time.</p></div>
+    <div><strong>Anyone facing a deadline they cannot find</strong><p>The deadline is the part that costs you. Clara extracts it, says what happens if it passes, and can turn it into a reminder.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="caption">
+    <div><span class="label dim">03 / The letter view</span><p>The core screen: a scanned notice becomes a spoken summary, a plain-language explanation, and a numbered list of what to do next.</p></div>
   </div>
   <div class="shot"><img src="clara-letter.png" alt="Clara letter view: a Medicaid Renewal Notice with an audio player, a plain-language summary, and a numbered list of steps"></div>
 </div></section>
 
 <section><div class="wrap">
   <div class="caption">
-    <div><span class="label dim">02 / Eight screens, one shared state</span><p>Profile picker, setup, upload, the letter, a filing cabinet of past mail, reminders, and account. The layout, accent, and language switches follow you across every page.</p></div>
+    <div><span class="label dim">04 / How it works</span><p>Four steps from a photograph to a decision.</p></div>
   </div>
-  <div class="shot"><img src="clara-overview.png" alt="Clara screen overview: profile picker, setup, upload, letter view, my letters, account, and reminders"></div>
-  <p class="note"><strong>Under the hood.</strong> A React prototype with Claude doing the classification and plain-language rewriting, browser text-to-speech for the read-aloud, and a small local store behind it. Reduced-motion and large-type friendly throughout.</p>
+  <ol class="steps">
+    <li><span class="n">01</span><div><strong>Photograph the letter</strong><p>A photo or a PDF. Nothing to type in.</p></div></li>
+    <li><span class="n">02</span><div><strong>Claude reads and sorts it</strong><p>It decides whether the letter is government, health, or financial, then pulls out the sender, the amounts, and any case or claim numbers.</p></div></li>
+    <li><span class="n">03</span><div><strong>It gets rewritten and read aloud</strong><p>A plain-language summary of what the letter actually says, spoken back through ElevenLabs in the reader's own language.</p></div></li>
+    <li><span class="n">04</span><div><strong>The deadlines come out</strong><p>Each date, what it is for, and what happens if it passes. They collect on a reminders screen instead of staying buried in the page.</p></div></li>
+  </ol>
 </div></section>
 
 <section><div class="wrap">
   <div class="caption">
-    <div><span class="label dim">03 / Build log</span><p>Started at an MIT hackathon. Built in a weekend, and still being taken further from there.</p></div>
+    <div><span class="label dim">05 / Seven screens, one shared state</span><p>Profile picker, setup, upload, the letter, a filing cabinet of past mail, reminders, and account. The layout, accent, and language switches follow you across every page.</p></div>
   </div>
-  <p class="note">Clara started at an MIT hackathon run by the Claude Builders Club, sponsored by Anthropic and Jane Street. The idea came from a simple observation: the people who most need help with dense official mail (older adults) are the least served by how that mail is written. It was built in a weekend. It's useful today, but expect rough edges, and it's being taken further from here.</p>
+  <div class="shot"><img src="clara-overview.png" alt="Clara screen overview: profile picker, setup, upload, letter view, my letters, account, and reminders"></div>
+  <p class="note"><strong>Under the hood.</strong> Next.js and React with TypeScript. Claude does the classification and the plain-language rewrite, ElevenLabs speaks the summary out loud, and everything is kept in a local SQLite file, so it runs on one machine as it stands.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="caption">
+    <div><span class="label dim">06 / Build log</span><p>An MIT hackathon, one sitting, under two hours. Still being taken further from there.</p></div>
+  </div>
+  <div class="note">
+    <p>Clara started at an MIT hackathon run by the Claude Builders Club, sponsored by Anthropic and Jane Street. The idea came from a simple observation: the people who most need help with dense official mail are the least served by how that mail is written.</p>
+    <p>The whole thing went in inside two hours, in one sitting. It is useful today, but there is lots of work to be done: it keeps everything in a local SQLite file, so as it stands it runs on one machine. Expect rough edges. The source is on <a href="https://github.com/HamzaYM/clara" style="color:var(--accent)">GitHub</a>.</p>
+  </div>
 </div></section>
 
 <footer><div class="wrap"><span>Clara · a hamz.ai prototype</span><a href="https://www.hamz.ai/">www.hamz.ai →</a></div></footer>
