@@ -159,10 +159,10 @@
   .fcard p:last-of-type{ margin-bottom:0; }
 
   /* lattice card chart + links */
-  .lat-fig{ margin:18px 0 0; max-width:500px; }
+  .lat-fig{ margin:18px 0 0; max-width:620px; }
   .lat-fig svg{ display:block; width:100%; height:auto; }
-  .lat-conv{ font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:0.02em; margin-bottom:10px; }
-  .lat-note{ font-family:var(--mono); font-size:10px; color:var(--faint); line-height:1.6; margin-top:8px; max-width:62ch; }
+  .lat-conv{ font-family:var(--mono); font-size:13px; color:var(--faint); letter-spacing:0.02em; margin-bottom:10px; }
+  .lat-note{ font-family:var(--mono); font-size:12px; color:var(--faint); line-height:1.6; margin-top:8px; max-width:62ch; }
   .card-links{ margin-top:auto; padding-top:18px; display:flex; flex-wrap:wrap; gap:10px; }
   .card-links a{ font-family:var(--mono); font-size:12px; color:var(--dim); border:1px solid var(--line-strong);
                  padding:10px 14px; transition:color .15s, border-color .15s; }
@@ -334,7 +334,7 @@
           <h3><a href="skills/">The skills library</a></h3>
           <p>I use Claude Code every day, and these 17 skills are the habits I got tired of re-teaching it. Distilled from two production codebases, they ship as an open instrument with an <span class="hot" tabindex="0" data-tt="Evaluation harness" data-tip="The program that runs a model on fixed tasks and scores the answers against pre-written checklists, so claims get measured instead of asserted.">evaluation harness</span> included. <span class="hot" tabindex="0" data-tt="MIT licensed" data-tip="Free to use, copy, modify, and ship commercially. Just keep the license notice.">MIT licensed</span>.</p>
           <p>A few by name: <strong>multi-model adversarial review</strong> sets a second vendor's model loose on your own review pass, so no model ever grades its own work; the <strong>systematic debugging playbook</strong> makes you pin down ground truth before you reach for a hypothesis; and the <strong>pre-merge validation gate</strong> fixes what "done" has to mean before a change is allowed to land.</p>
-          <p>The evidence behind it: an <span class="hot" tabindex="0" data-tt="Order-blinded A/B" data-tip="Every task ran twice, once with the skill loaded and once without. Judges graded both reports without being told which was which, shown in an alternating order.">order-blinded A/B</span> across 50 pre-registered <span class="hot" tabindex="0" data-tt="Must-hit" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Baseline, 26 of 50. With the library, 46 of 50. The sharpest single case: on a regulated-data consent scenario the cold agent missed every must-hit and the loaded agent hit all three.</p>
+          <p>The evidence behind it: an <span class="hot" tabindex="0" data-tt="Order-blinded A/B" data-tip="Every task ran twice, once with the skill loaded and once without. Judges graded both reports without being told which was which, shown in an alternating order.">order-blinded A/B</span> across 50 pre-registered <span class="hot" tabindex="0" data-tt="Must-hit" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Baseline, 26 of 50. With the library, 46 of 50. On the regulated-data consent task, which has four must-hits, the loaded agent caught all four on every run; the cold agent usually did too, but slipped to three on some runs.</p>
           <figure class="lat-fig" style="max-width:300px">
             <figcaption class="lat-conv">share of 50 must-hits hit &middot; outline: without skills &middot; solid: with skills</figcaption>
             <svg viewBox="0 0 300 172" role="img" aria-label="Bar chart of the share of 50 pre-registered must-hits hit across 16 tasks, without and with the skills library. Cold, without skills: 26 of 50, 52 percent. Loaded, with skills: 46 of 50, 92 percent.">
@@ -377,58 +377,58 @@
             </li>
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
-              A lower reasoning effort paired with skills, almost ALWAYS outperforms high reasoning effort without skills. Two exceptions: Haiku has no effort dial to turn down, and Fable's cold runs at high and xhigh (97.6% and 97.1%) still edge past Sonnet's and Opus's low-effort-with-skills scores (96.1% and 95.6%).
+              A lower reasoning effort paired with skills, almost <span class="hot" tabindex="0" data-tt="Two exceptions" data-tip="Haiku has no effort dial to turn down. Fable's cold runs at high and xhigh (97.6% and 97.1%) still edge past Sonnet's and Opus's low-effort-with-skills scores (96.1% and 95.6%).">always</span> outperforms high reasoning effort without skills.
             </li>
           </ul>
           <figure class="lat-fig">
-            <figcaption class="lat-conv">each model's score at top effort &middot; outline: without skills &middot; solid: with skills</figcaption>
-            <svg viewBox="0 0 620 380" role="img" aria-label="Bar chart of each model's score, the share of checklist items hit, at top effort, without and with skills. Haiku 4.5, no effort dial: 64.7 percent without, 91.2 percent with. Sonnet 5: 89.7 percent without, 99.5 percent with. Opus 4.8: 91.2 percent without, 100 percent with. Fable 5: 97.6 percent without, 100 percent with.">
+            <figcaption class="lat-conv">each model's average score across every effort level tested &middot; outline: without skills &middot; solid: with skills</figcaption>
+            <svg viewBox="0 0 620 380" role="img" aria-label="Bar chart of each model's average score, the share of checklist items hit, averaged across every effort level tested, without and with skills. Haiku 4.5, no effort dial: 64.7 percent without, 91.2 percent with. Sonnet 5: 88.1 percent without, 98.4 percent with. Opus 4.8: 88.7 percent without, 98.0 percent with. Fable 5: 95.3 percent without, 99.8 percent with.">
               <!-- 2x2 grid; each cell reuses the same y-scale: height = value/100 * 122, baseline row1 y=140 / row2 y=342 -->
 
               <!-- TOP-LEFT: Haiku 4.5 (no effort dial): cold 64.7, loaded 91.2 -->
               <line x1="44" y1="18" x2="296" y2="18" stroke="var(--line)" stroke-dasharray="2 3"/>
-              <text x="38" y="21" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">100%</text>
-              <text x="38" y="143" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">0</text>
+              <text x="38" y="21" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">100%</text>
+              <text x="38" y="143" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">0</text>
               <rect x="109" y="61.1" width="56" height="78.9" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
               <rect x="175" y="28.7" width="56" height="111.3" fill="var(--teal)"/>
-              <text x="137" y="55.1" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">64.7</text>
-              <text x="203" y="22.7" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">91.2</text>
+              <text x="137" y="55.1" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">64.7</text>
+              <text x="203" y="22.7" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">91.2</text>
               <line x1="44" y1="140" x2="296" y2="140" stroke="var(--line-strong)"/>
-              <text x="170" y="158" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--faint)">Haiku 4.5</text>
-              <text x="170" y="170" text-anchor="middle" font-family="var(--mono)" font-size="8.5" fill="var(--faint)">no effort dial</text>
+              <text x="170" y="158" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--faint)">Haiku 4.5</text>
+              <text x="170" y="174" text-anchor="middle" font-family="var(--mono)" font-size="11.5" fill="var(--faint)">no effort dial</text>
 
-              <!-- TOP-RIGHT: Sonnet 5: cold 89.7, loaded 99.5 -->
+              <!-- TOP-RIGHT: Sonnet 5: cold 88.1 (avg across low/medium/high/xhigh/max), loaded 98.4 -->
               <line x1="354" y1="18" x2="606" y2="18" stroke="var(--line)" stroke-dasharray="2 3"/>
-              <text x="348" y="21" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">100%</text>
-              <text x="348" y="143" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">0</text>
-              <rect x="419" y="30.6" width="56" height="109.4" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
-              <rect x="485" y="18.6" width="56" height="121.4" fill="var(--teal)"/>
-              <text x="447" y="24.6" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">89.7</text>
-              <text x="513" y="12.6" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">99.5</text>
+              <text x="348" y="21" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">100%</text>
+              <text x="348" y="143" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">0</text>
+              <rect x="419" y="32.5" width="56" height="107.5" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+              <rect x="485" y="20.0" width="56" height="120.0" fill="var(--teal)"/>
+              <text x="447" y="26.5" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">88.1</text>
+              <text x="513" y="14.0" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">98.4</text>
               <line x1="354" y1="140" x2="606" y2="140" stroke="var(--line-strong)"/>
-              <text x="480" y="158" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--faint)">Sonnet 5</text>
+              <text x="480" y="158" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--faint)">Sonnet 5</text>
 
-              <!-- BOTTOM-LEFT: Opus 4.8: cold 91.2, loaded 100.0 -->
+              <!-- BOTTOM-LEFT: Opus 4.8: cold 88.7 (avg across low/medium/high/xhigh/max), loaded 98.0 -->
               <line x1="44" y1="220" x2="296" y2="220" stroke="var(--line)" stroke-dasharray="2 3"/>
-              <text x="38" y="223" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">100%</text>
-              <text x="38" y="345" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">0</text>
-              <rect x="109" y="230.7" width="56" height="111.3" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
-              <rect x="175" y="220" width="56" height="122" fill="var(--teal)"/>
-              <text x="137" y="224.7" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">91.2</text>
-              <text x="203" y="214" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">100</text>
+              <text x="38" y="223" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">100%</text>
+              <text x="38" y="345" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">0</text>
+              <rect x="109" y="233.8" width="56" height="108.2" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+              <rect x="175" y="222.4" width="56" height="119.6" fill="var(--teal)"/>
+              <text x="137" y="227.8" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">88.7</text>
+              <text x="203" y="216.4" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">98.0</text>
               <line x1="44" y1="342" x2="296" y2="342" stroke="var(--line-strong)"/>
-              <text x="170" y="360" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--faint)">Opus 4.8</text>
+              <text x="170" y="360" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--faint)">Opus 4.8</text>
 
-              <!-- BOTTOM-RIGHT: Fable 5: cold 97.6, loaded 100.0 -->
+              <!-- BOTTOM-RIGHT: Fable 5: cold 95.3 (avg across low/medium/high/xhigh), loaded 99.8 -->
               <line x1="354" y1="220" x2="606" y2="220" stroke="var(--line)" stroke-dasharray="2 3"/>
-              <text x="348" y="223" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">100%</text>
-              <text x="348" y="345" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--faint)">0</text>
-              <rect x="419" y="222.9" width="56" height="119.1" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
-              <rect x="485" y="220" width="56" height="122" fill="var(--teal)"/>
-              <text x="447" y="216.9" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">97.6</text>
-              <text x="513" y="214" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink)">100</text>
+              <text x="348" y="223" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">100%</text>
+              <text x="348" y="345" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">0</text>
+              <rect x="419" y="225.7" width="56" height="116.3" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+              <rect x="485" y="220.2" width="56" height="121.8" fill="var(--teal)"/>
+              <text x="447" y="219.7" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">95.3</text>
+              <text x="513" y="214.2" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">99.8</text>
               <line x1="354" y1="342" x2="606" y2="342" stroke="var(--line-strong)"/>
-              <text x="480" y="360" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--faint)">Fable 5</text>
+              <text x="480" y="360" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--faint)">Fable 5</text>
             </svg>
           </figure>
           <p style="margin-top:14px">If you're on a desktop, <a href="lattice/visual/">click here to see the three-minute visual story in 3D</a>.</p>
