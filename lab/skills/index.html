@@ -18,10 +18,11 @@
       against the campaign records this session
   Numbers follow the frozen canon: 26 distilled, 8 tested (all passed),
   consolidated to 17; July 2026 study 26/50 -> 46/50 (92%), denominator 50.
-  NAV NOTE: this page ships the 3-item lab nav per Hamza's IA decision
-  2026-07-12 (brand "/ lab" is the way back to the landing; only the two
-  flagship pages, Lattice and Skills, sit in the nav). Same nav as the
-  other lab pages.
+  NAV NOTE: updated 2026-07-13 per Hamza -- Chain and Proof were each
+  reachable from only one place in the site and not in any nav bar, so
+  they (and Notes, found in the same broader pass) were added to the
+  standard lab nav row alongside Lattice/Skills/Learn/Builder. Same nav
+  as the other lab pages.
   Serve this file statically (no client-side render step) so
   crawlers, link unfurlers, and AI fetchers can read it.
 -->
@@ -354,12 +355,13 @@
   <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
   <a class="brand-lab" href="../">/ lab</a>
   <div class="nav-right">
-    <!-- 3-item lab nav per Hamza's IA decision 2026-07-12: brand /lab is the
-         way back to the landing; only the two flagship pages sit in the nav. -->
     <div class="lab-nav">
       <a href="../lattice/">Lattice</a>
       <a href="./" aria-current="page">Skills</a>
+      <a href="../evidence/">The skills study</a>
       <a href="../learn/">Learn</a>
+      <a href="../chain/">Chain</a>
+      <a href="../notes/">Notes</a>
       <a href="../../builder/">Builder</a>
     </div>
     <div class="theme-toggle" role="group" aria-label="Colour theme">
@@ -380,7 +382,7 @@
     </div>
     <div class="eyebrow">The lab / the skills library</div>
     <h1>The skills library</h1>
-    <p class="lede">I use Claude Code every day, and these 17 <span class="hot" tabindex="0" data-tt="Skill" data-tip="A short packaged playbook an agent loads before working: the traps to check, the order to work in, what a finished answer must contain.">skills</span> are the habits I got tired of re-teaching it. The library covers building and operating AI systems in production: adversarial and tiered review, validation gates, cost and safety guardrails, deploy campaigns, debugging playbooks, and change control. In July 2026 I distilled 26 skills from two production codebases I run Claude Code against, and every one went through four review passes plus an adversarial pass by <span class="hot" tabindex="0" data-tt="Codex" data-tip="A coding model from a different vendor than Claude, brought in so the review does not share Claude's blind spots.">Codex</span> at extra-high effort, run twice. Eight were then <span class="hot" tabindex="0" data-tt="A/B tested" data-tip="Each task ran twice, once with the skill loaded and once without, and judges compared the two results.">A/B tested</span> against <span class="hot" tabindex="0" data-tt="Pre-registered" data-tip="The pass rule and every expectation were written down before any skill file existed, so the test could not drift toward a wanted result.">pre-registered</span> <span class="hot" tabindex="0" data-tt="Must-hit" data-tip="A pass/fail expectation written in advance. A task output either meets it or it does not.">must-hits</span> and all eight passed, and the library was consolidated into the 17 portable skills on this page, an open instrument that ships with its own <a class="hot" tabindex="0" data-tt="Eval harness" data-tip="The program that runs a model on fixed tasks and scores the answers against pre-written checklists, so claims get measured instead of asserted." href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/eval">eval harness</a>.</p>
+    <p class="lede">I use Claude Code every day, and these 17 <span class="hot" tabindex="0" data-tt="Skill" data-tip="A short packaged playbook an agent loads before working: the traps to check, the order to work in, what a finished answer must contain.">skills</span> are the habits I got tired of re-teaching it. The library covers building and operating AI systems in production: adversarial and tiered review, validation gates, cost and safety guardrails, deploy campaigns, debugging playbooks, and change control. In July 2026 I distilled 26 skills from two production codebases I run Claude Code against, and every one went through four review passes plus an adversarial pass by <span class="hot" tabindex="0" data-tt="Codex" data-tip="A coding model from a different vendor than Claude, brought in so the review does not share Claude's blind spots.">Codex</span> at extra-high effort, run twice. Eight were then <span class="hot" tabindex="0" data-tt="A/B tested" data-tip="Each task ran twice, once with the skill loaded and once without, and judges compared the two results.">A/B tested</span> against <span class="hot" tabindex="0" data-tt="Pre-registered" data-tip="The pass rule and every expectation were written down before any skill file existed, so the test could not drift toward a wanted result.">pre-registered</span> <span class="hot" tabindex="0" data-tt="Must-hit" data-tip="A pass/fail expectation written in advance. A task output either meets it or it does not.">must-hits</span> and all eight passed, and the library was consolidated into the 17 portable skills on this page, an open instrument that ships with its own <a class="hot" tabindex="0" data-tt="Evaluation harness" data-tip="The program that runs a model on fixed tasks and scores the answers against pre-written checklists, so claims get measured instead of asserted." href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/eval">evaluation harness</a>.</p>
     <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:62ch">A skill here means a Claude Code skill, a written instruction file that changes how Claude behaves while it works, nothing to do with your own tools. <a href="../learn/">Learn more &rarr;</a></p>
     <p class="hook">The evidence behind them is measured, not asserted: the July 2026 study and <a href="../lattice/">the effort lattice</a> both graded these skills against pre-registered criteria, and the whole library is open source at <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>.</p>
   </div>

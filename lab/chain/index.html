@@ -226,7 +226,11 @@
   <div class="nav-right">
     <a class="nl" href="../lattice/">Lattice</a>
     <a class="nl" href="../skills/">Skills</a>
+    <a class="nl" href="../evidence/">The skills study</a>
     <a class="nl" href="../learn/">Learn</a>
+    <a class="nl" href="./" aria-current="page">Chain</a>
+    <a class="nl" href="../notes/">Notes</a>
+    <a class="nl" href="../../builder/">Builder</a>
     <div class="theme-toggle" role="group" aria-label="Colour theme">
       <button type="button" data-theme-set="system" aria-pressed="true" title="Match system" aria-label="System theme">◐</button>
       <button type="button" data-theme-set="light" aria-pressed="false" title="Light" aria-label="Light theme">☀</button>
@@ -247,13 +251,13 @@
     </div>
     <div class="kicker">The lab / the chain</div>
     <h1>The Assurance Chain</h1>
-    <p>This is the standard we hold every deliverable to before it reaches a client: an independent panel that argues against the work, a tiered sign-off that mirrors how a real firm reviews finished material, an evidence harness that settles what ships by evidence instead of opinion, and production security controls that hold once the system is actually live. It runs on more than one model on purpose, and a human still reads every disagreement, not just the verdict: mine is the sign-off that counts. The architecture underneath all of it is not a fixed system either; I am still actively building and revising it. What follows is how each stage works, and the receipt behind it. Not a description of the proof. The proof.</p>
+    <p>This is the standard every deliverable climbs before it reaches a client: an independent panel that argues against the work, a tiered sign-off that mirrors how a real firm reviews finished material, an evidence harness that settles what ships by evidence instead of opinion, and production security controls that hold once the system is actually live. It runs on more than one model on purpose, and a human still reads every disagreement, not just the verdict: mine is the sign-off that counts. The architecture underneath all of it is not a fixed system either; I am still actively building and revising it. What follows is how each stage works, and the receipt behind it. Not a description of the proof. The proof.</p>
     <nav class="chain" aria-label="The chain">
       <a href="#adversarial"><i>01</i>Adversarial review</a>
       <a href="#escalation"><i>02</i>Tiered escalation</a>
       <a href="../evidence/"><i>03</i>Evidence harness</a>
       <a href="#security"><i>04</i>Security controls</a>
-      <a href="../proof/"><i>05</i>The proof</a>
+      <a href="../#proof"><i>05</i>The proof</a>
     </nav>
   </div>
 </header>
@@ -276,7 +280,7 @@
 <div class="receipt">
   <div class="receipt-bar"><span class="dot"></span><b>The receipt &middot; four objections, one day, sanitized</b></div>
   <div class="receipt-body">
-    <div class="rline"><span class="ok">&#10003;</span><span>This pass runs as an open-source skill: <a href="https://github.com/HamzaYM/reliable-ai-skills">multi-model adversarial review</a>, part of the Reliable AI Skills library. Here it is on a real day.</span></div>
+    <div class="rline"><span class="ok">&#10003;</span><span>This pass runs as an open-source skill: <a href="https://github.com/HamzaYM/reliable-ai-skills">multi-model adversarial review</a>, part of the <a href="../skills/">Reliable AI Skills library</a>. Here it is on a real day.</span></div>
     <div class="rline"><span class="no">&#10007;</span><span>A marketing opt-in was heading into a healthcare product. The adversarial pass forced a kill-switch, default OFF, so consent could never be captured against unapproved wording. A second-vendor review (Codex) then refused the fix as incomplete: a pre-existing route still captured opt-ins, so the feature was not actually dark. A blind spot my own review missed by reading only the changed code. <em>Objection sustained, sign-off refused.</em></span></div>
     <div class="rline"><span class="no">&#10007;</span><span>A third pass caught the switch gating what users could see but not what the system could send. A fourth refused sign-off again: the fixes were correct and nothing in the test suite would catch their reversal.</span></div>
     <div class="rline"><span class="ok">&#10003;</span><span>Regression locks landed. 5,600 backend tests green. Four caught objections, one day, merged that night. <em>Objections waved through: 0.</em></span></div>

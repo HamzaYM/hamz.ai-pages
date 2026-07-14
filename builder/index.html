@@ -55,7 +55,7 @@
   *{margin:0;padding:0;box-sizing:border-box;border-radius:0 !important;}
   html{scroll-behavior:smooth;}
   @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
-  body{ background:var(--bg); color:var(--dim); font-family:var(--sans);
+  body{ background:var(--bg); color:var(--ink); font-family:var(--sans);
         font-size:17px; line-height:1.6; letter-spacing:-0.01em;
         -webkit-font-smoothing:antialiased; overflow-x:hidden; }
   h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
@@ -90,7 +90,7 @@
   .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
             text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
   h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:24px; }
-  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; margin-bottom:16px; }
+  .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--ink); max-width:62ch; line-height:1.5; margin-bottom:16px; }
   .lede:last-of-type{ margin-bottom:0; }
   .hero-links{ margin-top:34px; display:flex; flex-wrap:wrap; gap:10px; }
   .hero-links a{ font-family:var(--mono); font-size:13px; color:var(--dim); border:1px solid var(--line-strong);
@@ -116,7 +116,7 @@
   .stat b{ display:block; font-size:22px; font-weight:500; color:var(--ink); letter-spacing:-0.01em; }
   .stat span{ display:block; font-size:12px; color:var(--faint); line-height:1.5; margin-top:8px; letter-spacing:0.01em; }
   .stat a{ color:var(--teal); }
-  .strip-note{ margin-top:20px; font-family:var(--mono); font-size:12px; color:var(--faint); max-width:66ch; }
+  .strip-note{ margin-top:20px; font-family:var(--mono); font-size:13px; color:var(--faint); max-width:none; line-height:1.7; }
 
   /* flagship cards (hairline pair), reused for "things I build" */
   .flag{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line);
@@ -127,7 +127,7 @@
   .fcard h3{ font-size:20px; font-weight:600; margin-bottom:10px; }
   .fcard h3 a{ color:var(--ink); transition:color .15s; }
   .fcard h3 a:hover{ color:var(--teal); }
-  .fcard p{ font-size:14.5px; color:var(--dim); max-width:66ch; margin-bottom:14px; }
+  .fcard p{ font-size:14.5px; color:var(--ink); max-width:66ch; margin-bottom:14px; }
   .fcard p:last-of-type{ margin-bottom:0; }
   .card-links{ margin-top:auto; padding-top:18px; display:flex; flex-wrap:wrap; gap:10px; }
   .card-links a{ font-family:var(--mono); font-size:12px; color:var(--dim); border:1px solid var(--line-strong);
@@ -143,7 +143,7 @@
   .now-body{ background:var(--raised); padding:22px 24px; display:grid; gap:14px; }
   .now-row{ display:flex; gap:14px; font-size:14.5px; }
   .now-row i{ font-style:normal; font-family:var(--mono); font-size:13px; color:var(--teal); flex-shrink:0; width:16px; }
-  .now-row span{ color:var(--dim); }
+  .now-row span{ color:var(--ink); }
   .now-row em{ color:var(--ink); font-style:normal; font-weight:500; }
 
   /* footer */
@@ -203,7 +203,7 @@
   <div class="wrap">
     <div class="eyebrow">The builder behind hamz.ai</div>
     <h1>Hamza Malik</h1>
-    <p class="lede">hamz.ai is the AI implementation studio. This page is the person behind it: I build production Claude systems, and I hold my own work to the same standard the studio's <a href="../lab/">lab</a> holds client work to. Verified numbers, open repos, and what I'm actually building this month.</p>
+    <p class="lede">I build production Claude systems, and I put my own work through the same panel, tiered sign-off, and evidence harness the <a href="../lab/">lab</a> runs on client work. Verified numbers, open repos, and what I'm actually building this month.</p>
     <div class="hero-links">
       <a class="primary" href="https://github.com/HamzaYM/reliable-ai-skills">Reliable AI Skills &rarr;</a>
       <a href="../lab/">The Lab &rarr;</a>
@@ -219,13 +219,14 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">01</span>Now</div>
       <h2>What I'm building this month</h2>
-      <p class="sub">Updated monthly. The date stamp is the point.</p>
+      <p class="sub">Updated monthly, and dated so you can see it's current.</p>
       <div class="now">
         <div class="now-bar"><span class="dot"></span><b>Changelog</b><span>2026-07</span></div>
         <div class="now-body">
-          <div class="now-row"><i>+</i><span><em>Reliable AI Skills</em> is public: 17 open-source Claude Code skills, MIT licensed, shipped with the harness and pre-registration that graded them.</span></div>
-          <div class="now-row"><i>+</i><span>In San Francisco through July 22, then back August 6-17. Say hi if that's you.</span></div>
-          <div class="now-row"><i>~</i><span>MIT Sloan MBA, graduating May 2027. Research and Teaching Assistant with Prof. Kate Kellogg on a new Fall 2026 course, <em>Leading Agentic AI Transformation in Organizations</em>. I'm working on three sessions: interviews with domain and technical experts, building the cases and exhibits, and defining the class workflow and learning outcomes.</span></div>
+          <div class="now-row"><i>+</i><span><em>Reliable AI Skills</em> is public: 17 open-source <a href="../lab/skills/">Claude Code skills</a>, MIT licensed, shipped with the harness and pre-registration that graded them.</span></div>
+          <div class="now-row"><i>+</i><span>Most months this page changes because <em>cubicleapp.com</em> or <em>lynahealth.ai</em> did first. Those are the two production apps I'm actively building.</span></div>
+          <div class="now-row"><i>+</i><span>In San Francisco through July 22, then back August 6-17. Say hi if you're around.</span></div>
+          <div class="now-row"><i>~</i><span>MIT Sloan MBA, graduating May 2027. Research and Teaching Assistant with Prof. Kate Kellogg on a new Fall 2026 course, <em>Leading Agentic AI Transformation in Organizations</em>. Right now I'm interviewing domain and technical experts, building the cases and exhibits, and defining the class workflow and learning outcomes.</span></div>
           <div class="now-row"><i>~</i><span>Available full-time June 2027.</span></div>
         </div>
       </div>
@@ -235,17 +236,17 @@
   <section id="proof">
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">02</span>Proof</div>
-      <h2>Only numbers I can point at</h2>
-      <p class="sub">No ROI slides. Each of these traces to a repo, a test run, or a dated measurement.</p>
+      <h2>The numbers I'm free to publish</h2>
+      <p class="sub">No ROI slides. Each one comes from a repo you can clone, a dated count, or the pre-registered A/B behind the skills.</p>
       <div class="strip">
-        <div class="stat"><b>26/50 &rarr; 46/50</b><span>task must-hits, order-blinded skills A/B across 16 tasks (2026-07-02)</span></div>
+        <div class="stat"><b>26/50 &rarr; 46/50</b><span>In a blind test, an AI using my skills passed 46 of 50 pre-set checks, up from 26 without them. Order-blinded must-hit A/B across 16 tasks (2026-07-02).</span></div>
         <div class="stat"><b>689</b><span>automated test files behind Lyna Health, measured 2026-07-09</span></div>
         <div class="stat"><b>32</b><span>tracked AI call expressions across 20 modules</span></div>
         <div class="stat"><b>17</b><span>open-source skills, consolidated from 26</span></div>
-        <div class="stat"><b>$965.22</b><span>total cost of the effort-lattice study &middot; <a href="../lab/lattice/">full write-up &rarr;</a></span></div>
+        <div class="stat"><b>$1,296.94</b><span>total cost of the effort-lattice study &middot; <a href="../lab/lattice/">full write-up &rarr;</a></span></div>
         <div class="stat"><b>2</b><span>production repos Claude Code runs in</span></div>
       </div>
-      <p class="strip-note">689 and 32 are from Lyna Health, one of the two production repos below. 17 skills: 26 repo-specific skills consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library. Only 5 of the 17 carry measured behavioral lineage from the original A/B; the rest are unmeasured or net-new.</p>
+      <p class="strip-note">689 and 32 are from Lyna Health, one of the two production repos below. 26 repo-specific skills consolidated into 17 generalized ones. Only 5 of the 17 carry measured behavioral lineage from the original A/B; the rest are unmeasured or net-new.</p>
     </div>
   </section>
 

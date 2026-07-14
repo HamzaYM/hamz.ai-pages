@@ -6,7 +6,7 @@
 <title>Trip-feasibility engine for a business-aviation operator - hamz.ai</title>
 <meta name="description" content="An anonymized case study. A dispatcher spent hours per trip checking feasibility across a dozen systems. I built a 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.">
 <meta property="og:title" content="Trip-feasibility engine for a business-aviation operator">
-<meta property="og:description" content="An anonymized case study. 16 automated feasibility checks over 10+ enterprise data sources, built into production with a 5-person team.">
+<meta property="og:description" content="An anonymized case study. 16 automated feasibility checks over 10+ enterprise data sources, built into production with a small dedicated team.">
 <meta property="og:type" content="article">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,8 +162,7 @@
       <span class="chip"><b>16</b> automated checks</span>
       <span class="chip"><b>5</b> AI-assisted, confidence-scored</span>
       <span class="chip"><b>10+</b> data sources unified</span>
-      <span class="chip"><b>15</b>-week delivery to production</span>
-      <span class="chip">team of <b>5</b>, hired and led</span>
+      <span class="chip">hired and led the team</span>
     </div>
   </header>
 
@@ -171,7 +170,7 @@
   <section>
     <div class="sec-eyebrow"><span class="num">01</span>The problem</div>
     <h2>Feasibility lived in a dozen places, and in one person's head</h2>
-    <p class="lead">Before anyone could quote a private or charter trip, someone on the concierge team had to assemble the entire feasibility picture by hand. Is the runway long and strong enough for this aircraft, fully loaded, wet? Are there NOTAMs closing anything? Are customs and immigration open at those hours? Is the crew inside its duty limits? Do we have permits to overfly and land?</p>
+    <p class="lead">Before anyone could quote a private or charter trip, someone on the operations team had to assemble the entire feasibility picture by hand. Is the runway long and strong enough for this aircraft, fully loaded, wet? Are there NOTAMs closing anything? Are customs and immigration open at those hours? Is the crew inside its duty limits? Do we have permits to overfly and land?</p>
     <p>Each answer lived in a different system, and no system talked to the next. A single trip meant hopping between maintenance records, flight planning, NOTAM feeds, security advisories, passport and visa data, and noise rules, then holding all of it in your head long enough to make a call. It was slow, it did not scale past the people who knew it cold, and the knowledge walked out the door at the end of the day.</p>
     <div class="pile rv">
       <div class="p">Runway strength</div>
@@ -194,7 +193,7 @@
   <section>
     <div class="sec-eyebrow"><span class="num">02</span>What I built</div>
     <h2>One engine that runs 16 feasibility checks per flight leg</h2>
-    <p>I designed and built a flight-operations portal around a single idea: the concierge builds a trip, and the system runs the whole feasibility check for them, per leg, against a unified copy of every source that used to be checked by hand. Each check returns a clear status, and the ones that call for interpretation carry a confidence score so the operator knows how much to trust them.</p>
+    <p>I designed and built an operations portal around a single idea: the team builds a trip, and the system runs the whole feasibility check for them, per leg, against a unified copy of every source that used to be checked by hand. Each check returns a clear status, and the ones that call for interpretation carry a confidence score so the operator knows how much to trust them.</p>
     <p>The checks are organized into four modules. Tap through them.</p>
 
     <div class="engine rv" id="engine">
@@ -236,7 +235,7 @@
     <div class="sec-eyebrow"><span class="num">03</span>The design principle</div>
     <h2>The human stays in command, and every override is on the record</h2>
     <p>An automated feasibility check is only trustworthy if a person can overrule it and if the system is honest about what it does not know. Both were first-class from day one.</p>
-    <p>An operator can <strong>bypass</strong> a check or <strong>force-fail</strong> it, and every change is attributed and logged. A read-only workflow history shows every field that moved, old value to new, who changed it, and why. Concierge, admin, and super-admin roles see different slices of that trail by design.</p>
+    <p>An operator can <strong>bypass</strong> a check or <strong>force-fail</strong> it, and every change is attributed and logged. A read-only workflow history shows every field that moved, old value to new, who changed it, and why. Operations, admin, and super-admin roles see different slices of that trail by design.</p>
 
     <div class="callout warn rv">
       <div class="ct">When an AI check fails, it gets louder, not quieter</div>
@@ -249,32 +248,26 @@
   <section>
     <div class="sec-eyebrow"><span class="num">04</span>How it shipped</div>
     <h2>Architected, built, and delivered into production</h2>
-    <p>I architected the system and personally built it on Azure, while hiring and leading a five-person team. We went from ten discovery interviews, through a fifteen-week agile delivery, into production, live for four teams and twenty-five users, and handed over with a developer guide, a user manual, and an operations runbook. It was built to be handed over, not babysat.</p>
-    <div class="stats rv">
-      <div class="stat"><div class="sv">10</div><div class="sl">discovery interviews before a line of production code</div></div>
-      <div class="stat"><div class="sv">15 wk</div><div class="sl">agile delivery from discovery to production</div></div>
-      <div class="stat"><div class="sv">4 / 25</div><div class="sl">teams and users live on it in production</div></div>
-      <div class="stat"><div class="sv">5</div><div class="sl">person team, hired and led through the build</div></div>
-    </div>
+    <p>I architected the system and personally built it on Azure, while hiring and leading a small delivery team. The engagement started with a round of discovery interviews before a line of production code was written, moved through an agile delivery cycle into production, and went live across multiple teams and users, handed over with a developer guide, a user manual, and an operations runbook. It was built to be handed over, not babysat.</p>
   </section>
 
   <!-- ARCHITECTURE -->
   <section>
     <div class="sec-eyebrow"><span class="num">05</span>Architecture</div>
     <h2>A hub-and-spoke over a unified copy of every source</h2>
-    <p>The concierge portal sits at the center. Around it, the four check modules run as spokes, each reading from a local store that a data-ingestion engine keeps in sync with the outside sources on an hourly job. The checks run against that unified copy, so a trip is evaluated in one place instead of ten.</p>
+    <p>The operations portal sits at the center. Around it, the four check modules run as spokes, each reading from a local store that a data-ingestion engine keeps in sync with the outside sources on an hourly job. The checks run against that unified copy, so a trip is evaluated in one place instead of ten.</p>
     <div class="arch rv">
       <div class="layers">
-        <div class="layer"><span class="lk">Frontend</span><span class="lv">Next.js and React, <span>Mantine UI, TypeScript</span></span></div>
-        <div class="layer"><span class="lk">Backend</span><span class="lv">ASP.NET Core 9, <span>REST API</span></span></div>
-        <div class="layer"><span class="lk">Data</span><span class="lv">Azure SQL, <span>Entity Framework Core migrations</span></span></div>
-        <div class="layer"><span class="lk">AI</span><span class="lv">Azure OpenAI, <span>confidence-scored assessments</span></span></div>
-        <div class="layer"><span class="lk">Cloud</span><span class="lv">Azure App Service, Key Vault, AD, <span>DevOps CI/CD</span></span></div>
-        <div class="layer"><span class="lk">Ingestion</span><span class="lv">hourly sync of 10+ sources <span>into a unified store</span></span></div>
+        <div class="layer"><span class="lk">Frontend</span><span class="lv">TypeScript and React, <span>component-based UI</span></span></div>
+        <div class="layer"><span class="lk">Backend</span><span class="lv">C# and .NET, <span>REST API</span></span></div>
+        <div class="layer"><span class="lk">Data</span><span class="lv">A managed cloud database, <span>schema-migrated</span></span></div>
+        <div class="layer"><span class="lk">AI</span><span class="lv">A hosted LLM layer, <span>confidence-scored assessments</span></span></div>
+        <div class="layer"><span class="lk">Cloud</span><span class="lv">Azure, <span>managed secrets and CI/CD</span></span></div>
+        <div class="layer"><span class="lk">Ingestion</span><span class="lv">Scheduled sync of 10+ sources <span>into a unified store</span></span></div>
       </div>
       <aside class="arch-aside">
         <div class="cap">Hub and spoke</div>
-        <svg viewBox="0 0 200 150" aria-label="A hub-and-spoke diagram: the concierge portal at the center, four check modules around it, and external sources feeding in.">
+        <svg viewBox="0 0 200 150" aria-label="A hub-and-spoke diagram: the operations portal at the center, four check modules around it, and external sources feeding in.">
           <g fill="#0D0D0D" stroke="#333" stroke-width="1.2">
             <line x1="100" y1="75" x2="45" y2="30" stroke="#262626"/>
             <line x1="100" y1="75" x2="155" y2="30" stroke="#262626"/>
@@ -298,16 +291,11 @@
   <!-- OUTCOME -->
   <section>
     <div class="sec-eyebrow"><span class="num">06</span>Outcome</div>
-    <h2>What the operator reports</h2>
-    <p>The engine collapsed a manual, hours-long, dozen-system feasibility check into a single reviewed screen, with the human firmly in the loop on anything the system flags. The headline figures below are what the operator reports from running it.</p>
-    <div class="outcome-grid rv">
-      <div class="oc"><div class="ov">~75%</div><div class="ol">less manual concierge workload, operator-reported</div></div>
-      <div class="oc"><div class="ov">~90%</div><div class="ol">faster time-to-decision on trip feasibility, operator-reported</div></div>
-      <div class="oc"><div class="ov">$250K+</div><div class="ol">saved annually, operator-reported</div></div>
-    </div>
+    <h2>What changed for the operator</h2>
+    <p>The engine collapsed a manual, hours-long, dozen-system feasibility check into a single reviewed screen, with the human firmly in the loop on anything the system flags. In my experience, that is the kind of change that reliably delivers meaningful time and cost savings: a large drop in manual workload and materially faster decisions on trip feasibility. I keep the specific figures for any one engagement out of a public writeup like this.</p>
     <div class="callout rv">
-      <div class="ct">A note on these numbers</div>
-      <p style="margin-bottom:0">These are figures the operator reports, not measurements taken from inside the system. I keep them labeled that way on purpose. What is verifiable in the build is the scope: sixteen checks across four modules, five of them AI-assisted and confidence-scored, over ten-plus unified data sources, in production for four teams, with human override and a full audit trail.</p>
+      <div class="ct">A note on outcomes</div>
+      <p style="margin-bottom:0">What's verifiable in the build is the scope: sixteen checks across four modules, five of them AI-assisted and confidence-scored, over ten-plus unified data sources, with human override and a full audit trail.</p>
     </div>
   </section>
 

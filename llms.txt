@@ -19,7 +19,7 @@ hamz.ai builds multi-model Claude architectures, eval harnesses, production reli
 - [The Assurance Chain](https://www.hamz.ai/lab/chain/): The standard every deliverable passes before it reaches a client, with the public receipt behind each stage. Adversarial review, tiered escalation, evidence harness, security controls.
 - [The skills study](https://www.hamz.ai/lab/evidence/): Do Claude Code skills change agent behavior? An order-blinded A/B across 50 pre-registered must-hits in 16 tasks. Baseline 26 of 50; with the library, 46 of 50.
 - [Field notes](https://www.hamz.ai/lab/notes/): Dated write-ups from the hamz.ai practice, newest first. Each note carries its position on the same review ladder the client work climbs.
-- [The proof](https://www.hamz.ai/lab/proof/): The artifacts behind the lab: the open-source skills library with its eval harness, a working prototype, and the field guide with its 3D walkthrough.
+- [Artifacts](https://www.hamz.ai/lab/#proof): The artifacts behind the lab: the open-source skills library with its eval harness, a working prototype, and the field guide with its 3D walkthrough.
 
 ## Guides
 
