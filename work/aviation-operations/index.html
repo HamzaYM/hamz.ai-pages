@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trip-feasibility engine for a business-aviation operator - hamz.ai</title>
 <meta name="description" content="An anonymized case study. A dispatcher spent hours per trip checking feasibility across a dozen systems. I built a 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.">
@@ -23,6 +24,21 @@
     --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
     --max:1080px;
   }
+  :root{ --nav-bg:rgba(15,15,15,0.82); --teal-loud:#2BD7AF; }
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --bg:#F7F5F2; --raised:#FFFFFF; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --nav-bg:rgba(247,245,242,0.82);
+  } }
+  :root[data-theme="light"]{
+    --bg:#F7F5F2; --raised:#FFFFFF; --hover:#EFEAE3;
+    --line:#E7E3DC; --line-strong:#948C7F;
+    --ink:#14140F; --dim:#555C58; --faint:#646B67;
+    --teal:#05705B; --teal-dim:#0B5F4C; --teal-tint:rgba(6,122,99,0.10); --teal-loud:#2BD7AF;
+    --nav-bg:rgba(247,245,242,0.82);
+  }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
   @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
@@ -34,11 +50,22 @@
   .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
   .mono{ font-family:var(--mono); }
 
-  nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px; padding:15px 28px; background:rgba(15,15,15,0.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px; padding:15px 28px; background:var(--nav-bg); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
   nav .brand{ font-family:var(--mono); font-size:13px; color:var(--ink); }
   nav .brand b{ color:var(--teal); font-weight:500; }
-  nav .back{ margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--dim); }
+  nav .nav-right{ margin-left:auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  nav .back{ font-family:var(--mono); font-size:12px; color:var(--dim); }
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--faint);
+       font-family:var(--sans); font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+  .theme-toggle button:last-child{ border-right:none; }
+  .theme-toggle button:hover{ color:var(--dim); }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
   nav .back:hover{ color:var(--teal); }
+  .lessons{ list-style:none; counter-reset:l; margin-top:28px; max-width:70ch; }
+  .lessons li{ counter-increment:l; position:relative; padding:0 0 0 42px; margin-bottom:22px; color:var(--dim); }
+  .lessons li::before{ content:counter(l,decimal-leading-zero); position:absolute; left:0; top:2px; font-family:var(--mono); font-size:12px; color:var(--teal); }
+  .lessons b{ color:var(--ink); font-weight:500; }
   #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
 
   .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
@@ -149,7 +176,14 @@
 <div id="progress"></div>
 <nav>
   <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
-  <a class="back" href="https://www.hamz.ai">← back to hamz.ai</a>
+  <div class="nav-right">
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">◐</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">☀</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">☾</button>
+    </div>
+    <a class="back" href="https://www.hamz.ai">← back to hamz.ai</a>
+  </div>
 </nav>
 
 <div class="wrap">
@@ -302,6 +336,18 @@
     </div>
   </section>
 
+  <!-- WHAT I TOOK AWAY -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">07</span>What I took away</div>
+    <h2>Four things I would carry into the next build</h2>
+    <ol class="lessons rv">
+      <li><b>Sit with the people before you design anything.</b> The dispatchers carried this whole checklist in their heads. Nobody had written it down, so there was nothing to read. The discovery interviews came before a line of production code, and that is the only reason the sixteen checks match the job instead of matching my idea of the job.</li>
+      <li><b>Put wireframes in front of them while the screens are still cheap.</b> Arguing with a picture costs an afternoon. Arguing with a built feature costs a sprint, and by then everyone is defending the thing rather than the job it was for.</li>
+      <li><b>You are building for a person, not a role.</b> An operations team is not a job title, it is a handful of people who each work the problem slightly differently. Design against the individual you watched, then check the shape holds for the others. It is a slower start and it saves the rebuild.</li>
+      <li><b>Decide out loud what the machine owns and what the person keeps.</b> The hard call was never which model to use. It was which of the checks a human keeps, and where the override sits when the system is confident and wrong. Naming that early is what let the system be handed over instead of babysat.</li>
+    </ol>
+  </section>
+
   <section class="final">
     <div class="fq">The judgment was in deciding which checks a machine should make, and which ones a person always signs.</div>
     <a class="cta" href="https://www.hamz.ai/designing-agentic-ai/">How I design these systems →</a>
@@ -367,6 +413,20 @@
     b.addEventListener('mouseenter', sel);
   });
   renderModule(0);
+})();
+(function(){
+  var root=document.documentElement;
+  var btns=Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+  function paint(v){btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.themeSet===v?'true':'false');});}
+  function apply(v){
+    if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+    else{root.removeAttribute('data-theme');}
+    try{localStorage.setItem('hamz-theme',v);}catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.themeSet);});});
+  paint(cur());
 })();
 </script>
 </body>
