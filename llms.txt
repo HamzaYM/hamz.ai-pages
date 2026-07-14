@@ -6,7 +6,7 @@ hamz.ai builds multi-model Claude architectures, eval harnesses, production reli
 
 ## Site
 
-- [hamz.ai root](https://www.hamz.ai/): The site root. Redirects to the living resume at /resume/.
+- [hamz.ai root](https://www.hamz.ai/): The studio's front page. Recent work, services, the assurance chain, and an FAQ.
 - [Builder](https://www.hamz.ai/builder/): What Hamza is building this month, the numbers he is free to publish, and what he has shipped. Updated monthly and dated. Available full-time June 2027.
 
 ## The lab

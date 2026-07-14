@@ -53,6 +53,7 @@ background:var(--c);margin-right:.4rem;vertical-align:baseline}
 table{border-collapse:collapse;font-size:.82rem;min-width:100%}
 th,td{padding:.5rem .6rem;text-align:left;vertical-align:top;
 border-bottom:1px solid var(--line)}
+.mx th,.mx td{border:1px solid var(--line)}
 td{font-family:var(--mono);font-weight:400}
 thead th{color:var(--mut);font-size:.74rem;font-weight:600;
 border-bottom:1px solid var(--line)}
@@ -64,16 +65,28 @@ td.hero{background:var(--hero)}
 .mx td.open{color:var(--mut);font-style:italic;font-size:.78rem}
 .mx td.empty{color:var(--mut);text-align:center}
 .mx tr.baseline th,.mx tr.baseline td{border-top:2px solid var(--line)}
-.v{display:block;white-space:nowrap}
-.v em{font-style:normal;color:var(--mut);font-size:.66rem;
-display:inline-block;width:3.9rem}
+.v{white-space:nowrap}
+.vals{display:block;white-space:nowrap}
+.v-cold,.v-loaded{display:inline}
+.v-delta{display:block}
+.v-arr{color:var(--mut);margin:0 .3rem;font-size:.8rem}
 .v b{font-weight:600}
+.v-delta .pp{color:var(--mut);font-size:.66rem;font-family:var(--mono)}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #mxtable[data-view="all"] .v-delta{margin-top:.3rem;padding-top:.3rem;
 border-top:1px solid var(--line)}
+#mxtable[data-view="cold"] .v-arr,#mxtable[data-view="loaded"] .v-arr,
+#mxtable[data-view="delta"] .v-arr{display:none}
 .v-delta b{color:var(--acc);font-size:.98rem}
 .badge{display:inline-block;color:var(--acc);border:1px solid var(--acc);
 border-radius:999px;font-size:.6rem;line-height:1.5;padding:0 .42rem;
 margin-bottom:.3rem;font-family:var(--mono);letter-spacing:.04em;opacity:.8}
+.badge.one{color:var(--mut);border-color:var(--line);border-style:dashed;opacity:1}
+.cellkey{font-family:var(--mono);font-size:.74rem;color:var(--mut);
+margin:.1rem 0 .4rem}
+.cellkey b{color:var(--ink);font-weight:600}
+.cellkey .k-delta{color:var(--acc)}
 .nlab{display:block;color:var(--mut);font-size:.66rem;margin-top:.2rem;
 font-family:var(--mono)}
 .codex-chip{display:none;margin-top:.35rem;border:1px dashed var(--sonnet);
@@ -228,9 +241,10 @@ basis that compares cleanly across boxes</div>
 </div>
 <p class="caption">Codex 5.6, one run, 50 sampled comparisons, exploratory: agreed 97.2%. A spot-check by a second vendor, not a re-run of the
 experiment. Turn it on to mark the boxes whose comparisons Codex re-scored.</p>
+<p class="cellkey">how to read each box: score <b>without the skill</b> &rarr; <b>with it</b>, then the <b class="k-delta">change</b> in points underneath</p>
 <div class="scroll"><table class="mx" id="mxtable">
 <thead><tr><th scope="col">model \ effort</th><th scope="col">low</th><th scope="col">medium</th><th scope="col">high</th><th scope="col">xhigh</th><th scope="col">max</th><th scope="col">no effort<span class="nlab">(reference)</span></th></tr></thead>
-<tbody><tr class=""><th scope="row"><span class="mdot" style="--c:#E8734A"></span>claude-fable-5</th><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>94.1%</b></span><span class="v v-loaded"><em>with</em> <b>99.0%</b></span><span class="v v-delta"><em>change</em> <b>+4.9</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 29/30 agree</span></td><td class="cell"><span class="v v-cold"><em>without</em> <b>92.6%</b></span><span class="v v-loaded"><em>with</em> <b>100.0%</b></span><span class="v v-delta"><em>change</em> <b>+7.4</b></span><span class="nlab">17 tasks, 1 run each</span><span class="codex-chip has-diff">Codex 24/26 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>97.6%</b></span><span class="v v-loaded"><em>with</em> <b>100.0%</b></span><span class="v v-delta"><em>change</em> <b>+2.4</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 56/58 agree</span></td><td class="cell"><span class="v v-cold"><em>without</em> <b>97.1%</b></span><span class="v v-loaded"><em>with</em> <b>100.0%</b></span><span class="v v-delta"><em>change</em> <b>+2.9</b></span><span class="nlab">17 tasks, 1 run each</span><span class="codex-chip">Codex 14/14 agree</span></td><td class="cell open">max run not finished<span class="nlab">it got too expensive to finish; one set of runs is still going, so this box may fill in later</span></td><td class="cell empty" aria-label="no such condition">-</td></tr><tr class=""><th scope="row"><span class="mdot" style="--c:#6C5CE0"></span>claude-sonnet-5</th><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>84.8%</b></span><span class="v v-loaded"><em>with</em> <b>96.1%</b></span><span class="v v-delta"><em>change</em> <b>+11.3</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 32/32 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>90.7%</b></span><span class="v v-loaded"><em>with</em> <b>99.0%</b></span><span class="v v-delta"><em>change</em> <b>+8.4</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 13/16 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>87.8%</b></span><span class="v v-loaded"><em>with</em> <b>99.0%</b></span><span class="v v-delta"><em>change</em> <b>+11.3</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip not-sampled">Codex: not in the sample</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>87.3%</b></span><span class="v v-loaded"><em>with</em> <b>98.5%</b></span><span class="v v-delta"><em>change</em> <b>+11.3</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 34/34 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>89.7%</b></span><span class="v v-loaded"><em>with</em> <b>99.5%</b></span><span class="v v-delta"><em>change</em> <b>+9.8</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 40/40 agree</span></td><td class="cell empty" aria-label="no such condition">-</td></tr><tr class=""><th scope="row"><span class="mdot" style="--c:#27A37A"></span>claude-opus-4-8</th><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>87.3%</b></span><span class="v v-loaded"><em>with</em> <b>95.6%</b></span><span class="v v-delta"><em>change</em> <b>+8.3</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 51/52 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>85.8%</b></span><span class="v v-loaded"><em>with</em> <b>97.6%</b></span><span class="v v-delta"><em>change</em> <b>+11.8</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 16/16 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>88.2%</b></span><span class="v v-loaded"><em>with</em> <b>98.0%</b></span><span class="v v-delta"><em>change</em> <b>+9.8</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 8/8 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>91.2%</b></span><span class="v v-loaded"><em>with</em> <b>99.0%</b></span><span class="v v-delta"><em>change</em> <b>+7.8</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 14/14 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="v v-cold"><em>without</em> <b>91.2%</b></span><span class="v v-loaded"><em>with</em> <b>100.0%</b></span><span class="v v-delta"><em>change</em> <b>+8.8</b></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 36/38 agree</span></td><td class="cell empty" aria-label="no such condition">-</td></tr><tr class="baseline"><th scope="row"><span class="mdot" style="--c:#8A94A0"></span>claude-haiku-4-5-20251001<span class="nlab">no effort setting, shown for reference</span></th><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell"><span class="v v-cold"><em>without</em> <b>64.7%</b></span><span class="v v-loaded"><em>with</em> <b>91.2%</b></span><span class="v v-delta"><em>change</em> <b>+26.5</b></span><span class="nlab">17 tasks, 1 run each</span><span class="codex-chip">Codex 16/16 agree</span></td></tr></tbody>
+<tbody><tr class=""><th scope="row"><span class="mdot" style="--c:#E8734A"></span>claude-fable-5</th><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>94.1%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>99.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+4.9</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 29/30 agree</span></td><td class="cell"><span class="badge one" title="one run, not a mean">single run</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>92.6%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>100.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+7.4</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 1 run each</span><span class="codex-chip has-diff">Codex 24/26 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>97.6%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>100.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+2.4</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 56/58 agree</span></td><td class="cell"><span class="badge one" title="one run, not a mean">single run</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>97.1%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>100.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+2.9</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 1 run each</span><span class="codex-chip">Codex 14/14 agree</span></td><td class="cell open">max run not finished<span class="nlab">it got too expensive to finish; one set of runs is still going, so this box may fill in later</span></td><td class="cell empty" aria-label="no such condition">-</td></tr><tr class=""><th scope="row"><span class="mdot" style="--c:#6C5CE0"></span>claude-sonnet-5</th><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>84.8%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>96.1%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+11.3</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 32/32 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>90.7%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>99.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+8.4</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 13/16 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>87.8%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>99.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+11.3</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip not-sampled">Codex: not in the sample</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>87.3%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>98.5%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+11.3</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 34/34 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>89.7%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>99.5%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+9.8</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 40/40 agree</span></td><td class="cell empty" aria-label="no such condition">-</td></tr><tr class=""><th scope="row"><span class="mdot" style="--c:#27A37A"></span>claude-opus-4-8</th><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>87.3%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>95.6%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+8.3</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 51/52 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>85.8%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>97.6%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+11.8</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 16/16 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>88.2%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>98.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+9.8</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 8/8 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>91.2%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>99.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+7.8</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip">Codex 14/14 agree</span></td><td class="cell rep"><span class="badge" title="mean of 3 runs">&times;3 runs</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>91.2%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>100.0%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+8.8</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 3 runs each</span><span class="codex-chip has-diff">Codex 36/38 agree</span></td><td class="cell empty" aria-label="no such condition">-</td></tr><tr class="baseline"><th scope="row"><span class="mdot" style="--c:#8A94A0"></span>claude-haiku-4-5-20251001<span class="nlab">no effort setting, shown for reference</span></th><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell empty" aria-label="no such condition">-</td><td class="cell"><span class="badge one" title="one run, not a mean">single run</span><span class="vals"><span class="v v-cold"><span class="sr">without skill </span><b>64.7%</b></span><span class="v-arr" aria-hidden="true">&rarr;</span><span class="v v-loaded"><span class="sr">with skill </span><b>91.2%</b></span></span><span class="v v-delta"><span class="sr">change </span><b>+26.5</b><span class="pp"> pts</span></span><span class="nlab">17 tasks, 1 run each</span><span class="codex-chip">Codex 16/16 agree</span></td></tr></tbody>
 </table></div>
 <div class="foot">Methodology: without = no skill installed; with = skill
 installed; change = with minus without, in percentage points, weighted by the
@@ -254,6 +268,7 @@ without. Low and max were run three times; the middle levels once.</p>
 <p class="lead">per-skill PASS/FAIL verdicts are deliberately suppressed in lattice outputs and subordinated to the per-cell run reports; skills appear here as rates only Each cell below shows checklist hits for that skill's one
 task within each condition. Every per-skill cell is a single task, so these are
 the roughest signals on the page.</p>
+<p class="note">For the full prompt, the must-hit checklist, and every individual run behind each skill, open the <a href="../tasks/">task explorer</a>.</p>
 <div class="card">
 <div class="toolbar">
   <label class="tlabel" for="skillsel">jump to skill:</label>
@@ -327,7 +342,3556 @@ verdict.</div>
 charts render without JavaScript; the show controls, the Codex toggle, and the
 skill selector enhance them when JavaScript is available.</p>
 </footer>
-<script id="lattice-data" type="application/json">{"baseline_models":["claude-haiku-4-5-20251001"],"cell_order":["claude-fable-5@low","claude-fable-5@medium","claude-fable-5@high","claude-fable-5@xhigh","claude-haiku-4-5-20251001@none","claude-opus-4-8@low","claude-opus-4-8@medium","claude-opus-4-8@high","claude-opus-4-8@xhigh","claude-opus-4-8@max","claude-sonnet-5@low","claude-sonnet-5@medium","claude-sonnet-5@high","claude-sonnet-5@xhigh","claude-sonnet-5@max"],"cells":{"claude-fable-5@high":{"cold":97.6,"delta":2.4,"effort":"high","excluded_tasks":[],"key":"claude-fable-5@high","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":100.0,"model":"claude-fable-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":97.1,"delta":2.9,"loaded":100.0},{"cold":97.1,"delta":2.9,"loaded":100.0},{"cold":98.5,"delta":1.5,"loaded":100.0}],"repeats":3,"replicated":true,"run_id":"lattice-fable-high"},"claude-fable-5@low":{"cold":94.1,"delta":4.9,"effort":"low","excluded_tasks":[],"key":"claude-fable-5@low","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":99.0,"model":"claude-fable-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":94.1,"delta":2.9,"loaded":97.1},{"cold":95.6,"delta":4.4,"loaded":100.0},{"cold":92.6,"delta":7.4,"loaded":100.0}],"repeats":3,"replicated":true,"run_id":"lattice-fable-low"},"claude-fable-5@medium":{"cold":92.6,"cold_hits":63,"delta":7.4,"effort":"medium","excluded_tasks":[],"key":"claude-fable-5@medium","label":"n=17 tasks, single run per arm: directional only","loaded":100.0,"loaded_hits":68,"model":"claude-fable-5","n_expectations":68,"n_tasks":17,"repeats":1,"replicated":false,"run_id":"lattice-fable-medium"},"claude-fable-5@xhigh":{"cold":97.1,"cold_hits":66,"delta":2.9,"effort":"xhigh","excluded_tasks":[],"key":"claude-fable-5@xhigh","label":"n=17 tasks, single run per arm: directional only","loaded":100.0,"loaded_hits":68,"model":"claude-fable-5","n_expectations":68,"n_tasks":17,"repeats":1,"replicated":false,"run_id":"lattice-fable-xhigh"},"claude-haiku-4-5-20251001@none":{"cold":64.7,"cold_hits":44,"delta":26.5,"effort":"none","excluded_tasks":[],"key":"claude-haiku-4-5-20251001@none","label":"n=17 tasks, single run per arm: directional only","loaded":91.2,"loaded_hits":62,"model":"claude-haiku-4-5-20251001","n_expectations":68,"n_tasks":17,"repeats":1,"replicated":false,"run_id":"lattice-haiku"},"claude-opus-4-8@high":{"cold":88.2,"delta":9.8,"effort":"high","excluded_tasks":[],"key":"claude-opus-4-8@high","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":98.0,"model":"claude-opus-4-8","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":86.8,"delta":11.8,"loaded":98.5},{"cold":88.2,"delta":8.8,"loaded":97.1},{"cold":89.7,"delta":8.8,"loaded":98.5}],"repeats":3,"replicated":true,"run_id":"lattice-opus-high-v2"},"claude-opus-4-8@low":{"cold":87.3,"delta":8.3,"effort":"low","excluded_tasks":[],"key":"claude-opus-4-8@low","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":95.6,"model":"claude-opus-4-8","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":88.2,"delta":8.8,"loaded":97.1},{"cold":82.4,"delta":13.2,"loaded":95.6},{"cold":91.2,"delta":2.9,"loaded":94.1}],"repeats":3,"replicated":true,"run_id":"lattice-opus-low"},"claude-opus-4-8@max":{"cold":91.2,"delta":8.8,"effort":"max","excluded_tasks":[],"key":"claude-opus-4-8@max","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":100.0,"model":"claude-opus-4-8","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":94.1,"delta":5.9,"loaded":100.0},{"cold":86.8,"delta":13.2,"loaded":100.0},{"cold":92.6,"delta":7.4,"loaded":100.0}],"repeats":3,"replicated":true,"run_id":"lattice-opus-max"},"claude-opus-4-8@medium":{"cold":85.8,"delta":11.8,"effort":"medium","excluded_tasks":[],"key":"claude-opus-4-8@medium","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":97.6,"model":"claude-opus-4-8","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":82.4,"delta":14.7,"loaded":97.1},{"cold":89.7,"delta":7.4,"loaded":97.1},{"cold":85.3,"delta":13.2,"loaded":98.5}],"repeats":3,"replicated":true,"run_id":"lattice-opus-medium-v2"},"claude-opus-4-8@xhigh":{"cold":91.2,"delta":7.8,"effort":"xhigh","excluded_tasks":[],"key":"claude-opus-4-8@xhigh","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":99.0,"model":"claude-opus-4-8","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":89.7,"delta":8.8,"loaded":98.5},{"cold":94.1,"delta":5.9,"loaded":100.0},{"cold":89.7,"delta":8.8,"loaded":98.5}],"repeats":3,"replicated":true,"run_id":"lattice-opus-xhigh-v2"},"claude-sonnet-5@high":{"cold":87.8,"delta":11.3,"effort":"high","excluded_tasks":[],"key":"claude-sonnet-5@high","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":99.0,"model":"claude-sonnet-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":89.7,"delta":10.3,"loaded":100.0},{"cold":86.8,"delta":13.2,"loaded":100.0},{"cold":86.8,"delta":10.3,"loaded":97.1}],"repeats":3,"replicated":true,"run_id":"lattice-sonnet-high-v2"},"claude-sonnet-5@low":{"cold":84.8,"delta":11.3,"effort":"low","excluded_tasks":[],"key":"claude-sonnet-5@low","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":96.1,"model":"claude-sonnet-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":85.3,"delta":11.8,"loaded":97.1},{"cold":86.8,"delta":10.3,"loaded":97.1},{"cold":82.4,"delta":11.8,"loaded":94.1}],"repeats":3,"replicated":true,"run_id":"lattice-sonnet-low"},"claude-sonnet-5@max":{"cold":89.7,"delta":9.8,"effort":"max","excluded_tasks":[],"key":"claude-sonnet-5@max","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":99.5,"model":"claude-sonnet-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":89.7,"delta":10.3,"loaded":100.0},{"cold":89.7,"delta":10.3,"loaded":100.0},{"cold":89.7,"delta":8.8,"loaded":98.5}],"repeats":3,"replicated":true,"run_id":"lattice-sonnet-max"},"claude-sonnet-5@medium":{"cold":90.7,"delta":8.4,"effort":"medium","excluded_tasks":[],"key":"claude-sonnet-5@medium","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":99.0,"model":"claude-sonnet-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":88.2,"delta":11.8,"loaded":100.0},{"cold":92.6,"delta":5.9,"loaded":98.5},{"cold":91.2,"delta":7.4,"loaded":98.5}],"repeats":3,"replicated":true,"run_id":"lattice-sonnet-medium-v2"},"claude-sonnet-5@xhigh":{"cold":87.3,"delta":11.3,"effort":"xhigh","excluded_tasks":[],"key":"claude-sonnet-5@xhigh","label":"n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)","loaded":98.5,"model":"claude-sonnet-5","n_expectations":68,"n_tasks":17,"per_repeat":[{"cold":86.8,"delta":10.3,"loaded":97.1},{"cold":86.8,"delta":13.2,"loaded":100.0},{"cold":88.2,"delta":10.3,"loaded":98.5}],"repeats":3,"replicated":true,"run_id":"lattice-sonnet-xhigh-v2"}},"complete_case_tasks":["aicg-t2","arch-contracts-t1","bama-t1","consent-t2","csh-t1","dora-t2","env-hazards-t1","eval-harness-t1","farch-t1","git-cc-t2","mabc-t2","mmar-t1","mt-auth-t1","pmvg-t2","s2p-cutover-t1","sysdbg-t2","tcr-t1"],"concordance":{"by_model":{"fable":{"concordance_pct":96.1,"n_agree":123,"n_marks":128},"haiku":{"concordance_pct":100.0,"n_agree":16,"n_marks":16},"opus":{"concordance_pct":97.7,"n_agree":125,"n_marks":128},"sonnet":{"concordance_pct":97.5,"n_agree":119,"n_marks":122}},"caption":"Codex 5.6, one run, 50 sampled comparisons, exploratory: agreed 97.2%","codex_model":"gpt-5.6-terra","dispute_overlap":{"concordance_pct":83.3,"definition":"of the marks the two Claude primary judges split on internally, how often Codex sides with the panel-final majority","n_agree":5,"n_marks":6},"n_agree":383,"n_comparisons":50,"n_marks":394,"overall_pct":97.2,"per_cell":{"claude-fable-5@high":{"n_agree":56,"n_comparisons":7,"n_disagree":2,"n_marks":58},"claude-fable-5@low":{"n_agree":29,"n_comparisons":4,"n_disagree":1,"n_marks":30},"claude-fable-5@medium":{"n_agree":24,"n_comparisons":3,"n_disagree":2,"n_marks":26},"claude-fable-5@xhigh":{"n_agree":14,"n_comparisons":2,"n_disagree":0,"n_marks":14},"claude-haiku-4-5-20251001@none":{"n_agree":16,"n_comparisons":2,"n_disagree":0,"n_marks":16},"claude-opus-4-8@low":{"n_agree":51,"n_comparisons":7,"n_disagree":1,"n_marks":52},"claude-opus-4-8@max":{"n_agree":36,"n_comparisons":5,"n_disagree":2,"n_marks":38},"claude-sonnet-5@low":{"n_agree":32,"n_comparisons":4,"n_disagree":0,"n_marks":32},"claude-sonnet-5@max":{"n_agree":40,"n_comparisons":5,"n_disagree":0,"n_marks":40}},"sample_size":50},"efforts":["low","medium","high","xhigh","max"],"generated_utc":"2026-07-13 22:33:34 UTC","judging":{"cells":{"claude-fable-5@high":{"adjudication":{"adjudication_rate_pct":2.5,"by_arm":{"cold":8,"loaded":2},"by_slot":{"report_1":6,"report_2":4},"floor_excluded_comparisons":[],"n_adjudicated":10,"n_disputed_slot_marks":10,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":9,"n_marks":204},"claude-fable-5@low":{"adjudication":{"adjudication_rate_pct":2.5,"by_arm":{"cold":7,"loaded":3},"by_slot":{"report_1":2,"report_2":8},"floor_excluded_comparisons":[],"n_adjudicated":10,"n_disputed_slot_marks":10,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":9,"n_marks":204},"claude-fable-5@medium":{"adjudication":{"adjudication_rate_pct":0.7,"by_arm":{"cold":0,"loaded":1},"by_slot":{"report_1":1,"report_2":0},"floor_excluded_comparisons":[],"n_adjudicated":1,"n_disputed_slot_marks":1,"n_slot_marks":136,"n_unresolved":0},"disagreement_rate_pct":1.5,"n_disagreed":1,"n_marks":68},"claude-fable-5@xhigh":{"adjudication":{"adjudication_rate_pct":2.2,"by_arm":{"cold":3,"loaded":0},"by_slot":{"report_1":1,"report_2":2},"floor_excluded_comparisons":[],"n_adjudicated":3,"n_disputed_slot_marks":3,"n_slot_marks":136,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":3,"n_marks":68},"claude-haiku-4-5-20251001@none":{"adjudication":{"adjudication_rate_pct":7.4,"by_arm":{"cold":6,"loaded":4},"by_slot":{"report_1":3,"report_2":7},"floor_excluded_comparisons":[],"n_adjudicated":10,"n_disputed_slot_marks":10,"n_slot_marks":136,"n_unresolved":0},"disagreement_rate_pct":13.2,"n_disagreed":9,"n_marks":68},"claude-opus-4-8@high":{"adjudication":{"adjudication_rate_pct":2.7,"by_arm":{"cold":7,"loaded":4},"by_slot":{"report_1":7,"report_2":4},"floor_excluded_comparisons":[],"n_adjudicated":11,"n_disputed_slot_marks":11,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":9,"n_marks":204},"claude-opus-4-8@low":{"adjudication":{"adjudication_rate_pct":3.7,"by_arm":{"cold":7,"loaded":8},"by_slot":{"report_1":10,"report_2":5},"floor_excluded_comparisons":[],"n_adjudicated":15,"n_disputed_slot_marks":15,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":6.9,"n_disagreed":14,"n_marks":204},"claude-opus-4-8@max":{"adjudication":{"adjudication_rate_pct":2.2,"by_arm":{"cold":8,"loaded":1},"by_slot":{"report_1":4,"report_2":5},"floor_excluded_comparisons":[],"n_adjudicated":9,"n_disputed_slot_marks":9,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":3.9,"n_disagreed":8,"n_marks":204},"claude-opus-4-8@medium":{"adjudication":{"adjudication_rate_pct":2.7,"by_arm":{"cold":8,"loaded":3},"by_slot":{"report_1":4,"report_2":7},"floor_excluded_comparisons":[],"n_adjudicated":11,"n_disputed_slot_marks":11,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":9,"n_marks":204},"claude-opus-4-8@xhigh":{"adjudication":{"adjudication_rate_pct":1.7,"by_arm":{"cold":4,"loaded":3},"by_slot":{"report_1":5,"report_2":2},"floor_excluded_comparisons":[],"n_adjudicated":7,"n_disputed_slot_marks":7,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":2.9,"n_disagreed":6,"n_marks":204},"claude-sonnet-5@high":{"adjudication":{"adjudication_rate_pct":2.2,"by_arm":{"cold":4,"loaded":5},"by_slot":{"report_1":4,"report_2":5},"floor_excluded_comparisons":[],"n_adjudicated":9,"n_disputed_slot_marks":9,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":9,"n_marks":204},"claude-sonnet-5@low":{"adjudication":{"adjudication_rate_pct":2.5,"by_arm":{"cold":7,"loaded":3},"by_slot":{"report_1":6,"report_2":4},"floor_excluded_comparisons":[],"n_adjudicated":10,"n_disputed_slot_marks":10,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":3.9,"n_disagreed":8,"n_marks":204},"claude-sonnet-5@max":{"adjudication":{"adjudication_rate_pct":3.7,"by_arm":{"cold":8,"loaded":7},"by_slot":{"report_1":7,"report_2":8},"floor_excluded_comparisons":[],"n_adjudicated":15,"n_disputed_slot_marks":15,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":6.9,"n_disagreed":14,"n_marks":204},"claude-sonnet-5@medium":{"adjudication":{"adjudication_rate_pct":2.2,"by_arm":{"cold":7,"loaded":2},"by_slot":{"report_1":5,"report_2":4},"floor_excluded_comparisons":[],"n_adjudicated":9,"n_disputed_slot_marks":9,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":4.4,"n_disagreed":9,"n_marks":204},"claude-sonnet-5@xhigh":{"adjudication":{"adjudication_rate_pct":1.2,"by_arm":{"cold":5,"loaded":0},"by_slot":{"report_1":4,"report_2":1},"floor_excluded_comparisons":[],"n_adjudicated":5,"n_disputed_slot_marks":5,"n_slot_marks":408,"n_unresolved":0},"disagreement_rate_pct":2.5,"n_disagreed":5,"n_marks":204}},"overall":{"adjudication":{"adjudication_rate_pct":2.5,"n_adjudicated":135,"n_disputed_slot_marks":135,"n_slot_marks":5304,"n_unresolved":0},"disagreement_rate_pct":4.6,"n_disagreed":122,"n_marks":2652}},"models":["claude-fable-5","claude-sonnet-5","claude-opus-4-8"],"open_cells":[{"effort":"max","model":"claude-fable-5","preregistered":true,"run_id":"lattice-fable-max"}],"per_skill_note":"per-skill PASS/FAIL verdicts are deliberately suppressed in lattice outputs and subordinated to the per-cell run reports; skills appear here as rates only","regen_command":"python3 eval/make_explorer.py --matrix results/matrix/matrix.json --cells 'results/lattice-*' --out results/matrix/explorer.html","skills":{"adversarial-review/multi-model-adversarial-review":{"claude-fable-5@high":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-fable-5@low":{"cold_hits":2,"cold_rate_pct":66.7,"delta_pp":33.3,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":1,"cold_rate_pct":33.3,"delta_pp":33.3,"label":"n=1 task, single run per arm: directional only","loaded_hits":2,"loaded_rate_pct":66.7,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":2,"cold_rate_pct":66.7,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":2,"loaded_rate_pct":66.7,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":2,"cold_rate_pct":66.7,"delta_pp":33.3,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":2,"cold_rate_pct":66.7,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":2,"loaded_rate_pct":66.7,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1}},"architecture-and-contracts/architecture-contracts-as-law":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":2,"cold_rate_pct":50.0,"delta_pp":50.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":2,"cold_rate_pct":50.0,"delta_pp":50.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":2,"cold_rate_pct":50.0,"delta_pp":50.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"auth-and-tenancy/multi-tenant-auth-reference":{"claude-fable-5@high":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-fable-5@low":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":80.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":60.0,"delta_pp":40.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1}},"campaign-execution/multi-agent-batch-campaigns":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":0,"cold_rate_pct":0.0,"delta_pp":50.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":2,"loaded_rate_pct":50.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":2,"cold_rate_pct":50.0,"delta_pp":50.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":75.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":75.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"change-control/git-change-control-for-agents":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":2,"cold_rate_pct":50.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":75.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":-25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":75.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"cost-and-safety-guardrails/ai-cost-tracking-and-guardrails":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"cost-and-safety-guardrails/budget-aware-model-allocation":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":75.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"cost-and-safety-guardrails/config-and-secrets-hygiene":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"debugging-playbooks/failure-archaeology":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"debugging-playbooks/systematic-debugging-playbook":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"deploy-and-infra/environment-and-build-hazards":{"claude-fable-5@high":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-fable-5@low":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":3,"loaded_rate_pct":100.0,"n_must_hits":3,"n_tasks":1}},"deploy-and-infra/staging-to-prod-cutover-campaign":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"docs-and-compliance/consent-and-regulated-data-reference":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":2,"cold_rate_pct":50.0,"delta_pp":50.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"docs-and-compliance/docs-of-record-and-arbitration":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":-25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":3,"loaded_rate_pct":75.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"evals-and-scoring/llm-eval-harness-and-scoring-pipeline":{"claude-fable-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}},"tiered-review/tiered-consultancy-review":{"claude-fable-5@high":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-fable-5@low":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":3,"cold_rate_pct":60.0,"delta_pp":20.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":80.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":4,"cold_rate_pct":80.0,"delta_pp":20.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":5,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":5,"loaded_rate_pct":100.0,"n_must_hits":5,"n_tasks":1}},"validation-gates/pre-merge-validation-gate":{"claude-fable-5@high":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@low":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-fable-5@xhigh":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-haiku-4-5-20251001@none":{"cold_hits":1,"cold_rate_pct":25.0,"delta_pp":75.0,"label":"n=1 task, single run per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@max":{"cold_hits":4,"cold_rate_pct":100.0,"delta_pp":0.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-opus-4-8@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@high":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@low":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@max":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@medium":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1},"claude-sonnet-5@xhigh":{"cold_hits":3,"cold_rate_pct":75.0,"delta_pp":25.0,"label":"n=1 task, 3 runs per arm: directional only","loaded_hits":4,"loaded_rate_pct":100.0,"n_must_hits":4,"n_tasks":1}}},"sources":{"cell_dirs_scanned":17,"cells_pattern":"results/lattice-*","concordance":"results/concordance/codex-concordance.json","matrix":"results/matrix/matrix.json"},"warnings":["lattice-opus-medium-batch1-adjudicate: scored data on disk but not a matrix cell; not displayed"]}</script>
+<script id="lattice-data" type="application/json">{
+  "baseline_models": [
+    "claude-haiku-4-5-20251001"
+  ],
+  "cell_order": [
+    "claude-fable-5@low",
+    "claude-fable-5@medium",
+    "claude-fable-5@high",
+    "claude-fable-5@xhigh",
+    "claude-haiku-4-5-20251001@none",
+    "claude-opus-4-8@low",
+    "claude-opus-4-8@medium",
+    "claude-opus-4-8@high",
+    "claude-opus-4-8@xhigh",
+    "claude-opus-4-8@max",
+    "claude-sonnet-5@low",
+    "claude-sonnet-5@medium",
+    "claude-sonnet-5@high",
+    "claude-sonnet-5@xhigh",
+    "claude-sonnet-5@max"
+  ],
+  "cells": {
+    "claude-fable-5@high": {
+      "cold": 97.6,
+      "delta": 2.4,
+      "effort": "high",
+      "excluded_tasks": [],
+      "key": "claude-fable-5@high",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 100.0,
+      "model": "claude-fable-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 97.1,
+          "delta": 2.9,
+          "loaded": 100.0
+        },
+        {
+          "cold": 97.1,
+          "delta": 2.9,
+          "loaded": 100.0
+        },
+        {
+          "cold": 98.5,
+          "delta": 1.5,
+          "loaded": 100.0
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-fable-high"
+    },
+    "claude-fable-5@low": {
+      "cold": 94.1,
+      "delta": 4.9,
+      "effort": "low",
+      "excluded_tasks": [],
+      "key": "claude-fable-5@low",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 99.0,
+      "model": "claude-fable-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 94.1,
+          "delta": 2.9,
+          "loaded": 97.1
+        },
+        {
+          "cold": 95.6,
+          "delta": 4.4,
+          "loaded": 100.0
+        },
+        {
+          "cold": 92.6,
+          "delta": 7.4,
+          "loaded": 100.0
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-fable-low"
+    },
+    "claude-fable-5@medium": {
+      "cold": 92.6,
+      "cold_hits": 63,
+      "delta": 7.4,
+      "effort": "medium",
+      "excluded_tasks": [],
+      "key": "claude-fable-5@medium",
+      "label": "n=17 tasks, single run per arm: directional only",
+      "loaded": 100.0,
+      "loaded_hits": 68,
+      "model": "claude-fable-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "repeats": 1,
+      "replicated": false,
+      "run_id": "lattice-fable-medium"
+    },
+    "claude-fable-5@xhigh": {
+      "cold": 97.1,
+      "cold_hits": 66,
+      "delta": 2.9,
+      "effort": "xhigh",
+      "excluded_tasks": [],
+      "key": "claude-fable-5@xhigh",
+      "label": "n=17 tasks, single run per arm: directional only",
+      "loaded": 100.0,
+      "loaded_hits": 68,
+      "model": "claude-fable-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "repeats": 1,
+      "replicated": false,
+      "run_id": "lattice-fable-xhigh"
+    },
+    "claude-haiku-4-5-20251001@none": {
+      "cold": 64.7,
+      "cold_hits": 44,
+      "delta": 26.5,
+      "effort": "none",
+      "excluded_tasks": [],
+      "key": "claude-haiku-4-5-20251001@none",
+      "label": "n=17 tasks, single run per arm: directional only",
+      "loaded": 91.2,
+      "loaded_hits": 62,
+      "model": "claude-haiku-4-5-20251001",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "repeats": 1,
+      "replicated": false,
+      "run_id": "lattice-haiku"
+    },
+    "claude-opus-4-8@high": {
+      "cold": 88.2,
+      "delta": 9.8,
+      "effort": "high",
+      "excluded_tasks": [],
+      "key": "claude-opus-4-8@high",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 98.0,
+      "model": "claude-opus-4-8",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 86.8,
+          "delta": 11.8,
+          "loaded": 98.5
+        },
+        {
+          "cold": 88.2,
+          "delta": 8.8,
+          "loaded": 97.1
+        },
+        {
+          "cold": 89.7,
+          "delta": 8.8,
+          "loaded": 98.5
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-opus-high-v2"
+    },
+    "claude-opus-4-8@low": {
+      "cold": 87.3,
+      "delta": 8.3,
+      "effort": "low",
+      "excluded_tasks": [],
+      "key": "claude-opus-4-8@low",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 95.6,
+      "model": "claude-opus-4-8",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 88.2,
+          "delta": 8.8,
+          "loaded": 97.1
+        },
+        {
+          "cold": 82.4,
+          "delta": 13.2,
+          "loaded": 95.6
+        },
+        {
+          "cold": 91.2,
+          "delta": 2.9,
+          "loaded": 94.1
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-opus-low"
+    },
+    "claude-opus-4-8@max": {
+      "cold": 91.2,
+      "delta": 8.8,
+      "effort": "max",
+      "excluded_tasks": [],
+      "key": "claude-opus-4-8@max",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 100.0,
+      "model": "claude-opus-4-8",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 94.1,
+          "delta": 5.9,
+          "loaded": 100.0
+        },
+        {
+          "cold": 86.8,
+          "delta": 13.2,
+          "loaded": 100.0
+        },
+        {
+          "cold": 92.6,
+          "delta": 7.4,
+          "loaded": 100.0
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-opus-max"
+    },
+    "claude-opus-4-8@medium": {
+      "cold": 85.8,
+      "delta": 11.8,
+      "effort": "medium",
+      "excluded_tasks": [],
+      "key": "claude-opus-4-8@medium",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 97.6,
+      "model": "claude-opus-4-8",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 82.4,
+          "delta": 14.7,
+          "loaded": 97.1
+        },
+        {
+          "cold": 89.7,
+          "delta": 7.4,
+          "loaded": 97.1
+        },
+        {
+          "cold": 85.3,
+          "delta": 13.2,
+          "loaded": 98.5
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-opus-medium-v2"
+    },
+    "claude-opus-4-8@xhigh": {
+      "cold": 91.2,
+      "delta": 7.8,
+      "effort": "xhigh",
+      "excluded_tasks": [],
+      "key": "claude-opus-4-8@xhigh",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 99.0,
+      "model": "claude-opus-4-8",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 89.7,
+          "delta": 8.8,
+          "loaded": 98.5
+        },
+        {
+          "cold": 94.1,
+          "delta": 5.9,
+          "loaded": 100.0
+        },
+        {
+          "cold": 89.7,
+          "delta": 8.8,
+          "loaded": 98.5
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-opus-xhigh-v2"
+    },
+    "claude-sonnet-5@high": {
+      "cold": 87.8,
+      "delta": 11.3,
+      "effort": "high",
+      "excluded_tasks": [],
+      "key": "claude-sonnet-5@high",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 99.0,
+      "model": "claude-sonnet-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 89.7,
+          "delta": 10.3,
+          "loaded": 100.0
+        },
+        {
+          "cold": 86.8,
+          "delta": 13.2,
+          "loaded": 100.0
+        },
+        {
+          "cold": 86.8,
+          "delta": 10.3,
+          "loaded": 97.1
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-sonnet-high-v2"
+    },
+    "claude-sonnet-5@low": {
+      "cold": 84.8,
+      "delta": 11.3,
+      "effort": "low",
+      "excluded_tasks": [],
+      "key": "claude-sonnet-5@low",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 96.1,
+      "model": "claude-sonnet-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 85.3,
+          "delta": 11.8,
+          "loaded": 97.1
+        },
+        {
+          "cold": 86.8,
+          "delta": 10.3,
+          "loaded": 97.1
+        },
+        {
+          "cold": 82.4,
+          "delta": 11.8,
+          "loaded": 94.1
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-sonnet-low"
+    },
+    "claude-sonnet-5@max": {
+      "cold": 89.7,
+      "delta": 9.8,
+      "effort": "max",
+      "excluded_tasks": [],
+      "key": "claude-sonnet-5@max",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 99.5,
+      "model": "claude-sonnet-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 89.7,
+          "delta": 10.3,
+          "loaded": 100.0
+        },
+        {
+          "cold": 89.7,
+          "delta": 10.3,
+          "loaded": 100.0
+        },
+        {
+          "cold": 89.7,
+          "delta": 8.8,
+          "loaded": 98.5
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-sonnet-max"
+    },
+    "claude-sonnet-5@medium": {
+      "cold": 90.7,
+      "delta": 8.4,
+      "effort": "medium",
+      "excluded_tasks": [],
+      "key": "claude-sonnet-5@medium",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 99.0,
+      "model": "claude-sonnet-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 88.2,
+          "delta": 11.8,
+          "loaded": 100.0
+        },
+        {
+          "cold": 92.6,
+          "delta": 5.9,
+          "loaded": 98.5
+        },
+        {
+          "cold": 91.2,
+          "delta": 7.4,
+          "loaded": 98.5
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-sonnet-medium-v2"
+    },
+    "claude-sonnet-5@xhigh": {
+      "cold": 87.3,
+      "delta": 11.3,
+      "effort": "xhigh",
+      "excluded_tasks": [],
+      "key": "claude-sonnet-5@xhigh",
+      "label": "n=17 tasks, 3 runs per arm: directional only (replicated endpoint mean over repeats)",
+      "loaded": 98.5,
+      "model": "claude-sonnet-5",
+      "n_expectations": 68,
+      "n_tasks": 17,
+      "per_repeat": [
+        {
+          "cold": 86.8,
+          "delta": 10.3,
+          "loaded": 97.1
+        },
+        {
+          "cold": 86.8,
+          "delta": 13.2,
+          "loaded": 100.0
+        },
+        {
+          "cold": 88.2,
+          "delta": 10.3,
+          "loaded": 98.5
+        }
+      ],
+      "repeats": 3,
+      "replicated": true,
+      "run_id": "lattice-sonnet-xhigh-v2"
+    }
+  },
+  "complete_case_tasks": [
+    "aicg-t2",
+    "arch-contracts-t1",
+    "bama-t1",
+    "consent-t2",
+    "csh-t1",
+    "dora-t2",
+    "env-hazards-t1",
+    "eval-harness-t1",
+    "farch-t1",
+    "git-cc-t2",
+    "mabc-t2",
+    "mmar-t1",
+    "mt-auth-t1",
+    "pmvg-t2",
+    "s2p-cutover-t1",
+    "sysdbg-t2",
+    "tcr-t1"
+  ],
+  "concordance": {
+    "by_model": {
+      "fable": {
+        "concordance_pct": 96.1,
+        "n_agree": 123,
+        "n_marks": 128
+      },
+      "haiku": {
+        "concordance_pct": 100.0,
+        "n_agree": 16,
+        "n_marks": 16
+      },
+      "opus": {
+        "concordance_pct": 97.7,
+        "n_agree": 125,
+        "n_marks": 128
+      },
+      "sonnet": {
+        "concordance_pct": 97.5,
+        "n_agree": 119,
+        "n_marks": 122
+      }
+    },
+    "caption": "Codex 5.6, one run, 50 sampled comparisons, exploratory: agreed 97.2%",
+    "codex_model": "gpt-5.6-terra",
+    "dispute_overlap": {
+      "concordance_pct": 83.3,
+      "definition": "of the marks the two Claude primary judges split on internally, how often Codex sides with the panel-final majority",
+      "n_agree": 5,
+      "n_marks": 6
+    },
+    "n_agree": 383,
+    "n_comparisons": 50,
+    "n_marks": 394,
+    "overall_pct": 97.2,
+    "per_cell": {
+      "claude-fable-5@high": {
+        "n_agree": 56,
+        "n_comparisons": 7,
+        "n_disagree": 2,
+        "n_marks": 58
+      },
+      "claude-fable-5@low": {
+        "n_agree": 29,
+        "n_comparisons": 4,
+        "n_disagree": 1,
+        "n_marks": 30
+      },
+      "claude-fable-5@medium": {
+        "n_agree": 24,
+        "n_comparisons": 3,
+        "n_disagree": 2,
+        "n_marks": 26
+      },
+      "claude-fable-5@xhigh": {
+        "n_agree": 14,
+        "n_comparisons": 2,
+        "n_disagree": 0,
+        "n_marks": 14
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "n_agree": 16,
+        "n_comparisons": 2,
+        "n_disagree": 0,
+        "n_marks": 16
+      },
+      "claude-opus-4-8@high": {
+        "n_agree": 8,
+        "n_comparisons": 1,
+        "n_disagree": 0,
+        "n_marks": 8
+      },
+      "claude-opus-4-8@low": {
+        "n_agree": 51,
+        "n_comparisons": 7,
+        "n_disagree": 1,
+        "n_marks": 52
+      },
+      "claude-opus-4-8@max": {
+        "n_agree": 36,
+        "n_comparisons": 5,
+        "n_disagree": 2,
+        "n_marks": 38
+      },
+      "claude-opus-4-8@medium": {
+        "n_agree": 16,
+        "n_comparisons": 2,
+        "n_disagree": 0,
+        "n_marks": 16
+      },
+      "claude-opus-4-8@xhigh": {
+        "n_agree": 14,
+        "n_comparisons": 2,
+        "n_disagree": 0,
+        "n_marks": 14
+      },
+      "claude-sonnet-5@low": {
+        "n_agree": 32,
+        "n_comparisons": 4,
+        "n_disagree": 0,
+        "n_marks": 32
+      },
+      "claude-sonnet-5@max": {
+        "n_agree": 40,
+        "n_comparisons": 5,
+        "n_disagree": 0,
+        "n_marks": 40
+      },
+      "claude-sonnet-5@medium": {
+        "n_agree": 13,
+        "n_comparisons": 2,
+        "n_disagree": 3,
+        "n_marks": 16
+      },
+      "claude-sonnet-5@xhigh": {
+        "n_agree": 34,
+        "n_comparisons": 4,
+        "n_disagree": 0,
+        "n_marks": 34
+      }
+    },
+    "sample_size": 50
+  },
+  "efforts": [
+    "low",
+    "medium",
+    "high",
+    "xhigh",
+    "max"
+  ],
+  "generated_utc": "2026-07-13 22:33:34 UTC",
+  "judging": {
+    "cells": {
+      "claude-fable-5@high": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.5,
+          "by_arm": {
+            "cold": 8,
+            "loaded": 2
+          },
+          "by_slot": {
+            "report_1": 6,
+            "report_2": 4
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 10,
+          "n_disputed_slot_marks": 10,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 9,
+        "n_marks": 204
+      },
+      "claude-fable-5@low": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.5,
+          "by_arm": {
+            "cold": 7,
+            "loaded": 3
+          },
+          "by_slot": {
+            "report_1": 2,
+            "report_2": 8
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 10,
+          "n_disputed_slot_marks": 10,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 9,
+        "n_marks": 204
+      },
+      "claude-fable-5@medium": {
+        "adjudication": {
+          "adjudication_rate_pct": 0.7,
+          "by_arm": {
+            "cold": 0,
+            "loaded": 1
+          },
+          "by_slot": {
+            "report_1": 1,
+            "report_2": 0
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 1,
+          "n_disputed_slot_marks": 1,
+          "n_slot_marks": 136,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 1.5,
+        "n_disagreed": 1,
+        "n_marks": 68
+      },
+      "claude-fable-5@xhigh": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.2,
+          "by_arm": {
+            "cold": 3,
+            "loaded": 0
+          },
+          "by_slot": {
+            "report_1": 1,
+            "report_2": 2
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 3,
+          "n_disputed_slot_marks": 3,
+          "n_slot_marks": 136,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 3,
+        "n_marks": 68
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "adjudication": {
+          "adjudication_rate_pct": 7.4,
+          "by_arm": {
+            "cold": 6,
+            "loaded": 4
+          },
+          "by_slot": {
+            "report_1": 3,
+            "report_2": 7
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 10,
+          "n_disputed_slot_marks": 10,
+          "n_slot_marks": 136,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 13.2,
+        "n_disagreed": 9,
+        "n_marks": 68
+      },
+      "claude-opus-4-8@high": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.7,
+          "by_arm": {
+            "cold": 7,
+            "loaded": 4
+          },
+          "by_slot": {
+            "report_1": 7,
+            "report_2": 4
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 11,
+          "n_disputed_slot_marks": 11,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 9,
+        "n_marks": 204
+      },
+      "claude-opus-4-8@low": {
+        "adjudication": {
+          "adjudication_rate_pct": 3.7,
+          "by_arm": {
+            "cold": 7,
+            "loaded": 8
+          },
+          "by_slot": {
+            "report_1": 10,
+            "report_2": 5
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 15,
+          "n_disputed_slot_marks": 15,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 6.9,
+        "n_disagreed": 14,
+        "n_marks": 204
+      },
+      "claude-opus-4-8@max": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.2,
+          "by_arm": {
+            "cold": 8,
+            "loaded": 1
+          },
+          "by_slot": {
+            "report_1": 4,
+            "report_2": 5
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 9,
+          "n_disputed_slot_marks": 9,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 3.9,
+        "n_disagreed": 8,
+        "n_marks": 204
+      },
+      "claude-opus-4-8@medium": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.7,
+          "by_arm": {
+            "cold": 8,
+            "loaded": 3
+          },
+          "by_slot": {
+            "report_1": 4,
+            "report_2": 7
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 11,
+          "n_disputed_slot_marks": 11,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 9,
+        "n_marks": 204
+      },
+      "claude-opus-4-8@xhigh": {
+        "adjudication": {
+          "adjudication_rate_pct": 1.7,
+          "by_arm": {
+            "cold": 4,
+            "loaded": 3
+          },
+          "by_slot": {
+            "report_1": 5,
+            "report_2": 2
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 7,
+          "n_disputed_slot_marks": 7,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 2.9,
+        "n_disagreed": 6,
+        "n_marks": 204
+      },
+      "claude-sonnet-5@high": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.2,
+          "by_arm": {
+            "cold": 4,
+            "loaded": 5
+          },
+          "by_slot": {
+            "report_1": 4,
+            "report_2": 5
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 9,
+          "n_disputed_slot_marks": 9,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 9,
+        "n_marks": 204
+      },
+      "claude-sonnet-5@low": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.5,
+          "by_arm": {
+            "cold": 7,
+            "loaded": 3
+          },
+          "by_slot": {
+            "report_1": 6,
+            "report_2": 4
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 10,
+          "n_disputed_slot_marks": 10,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 3.9,
+        "n_disagreed": 8,
+        "n_marks": 204
+      },
+      "claude-sonnet-5@max": {
+        "adjudication": {
+          "adjudication_rate_pct": 3.7,
+          "by_arm": {
+            "cold": 8,
+            "loaded": 7
+          },
+          "by_slot": {
+            "report_1": 7,
+            "report_2": 8
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 15,
+          "n_disputed_slot_marks": 15,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 6.9,
+        "n_disagreed": 14,
+        "n_marks": 204
+      },
+      "claude-sonnet-5@medium": {
+        "adjudication": {
+          "adjudication_rate_pct": 2.2,
+          "by_arm": {
+            "cold": 7,
+            "loaded": 2
+          },
+          "by_slot": {
+            "report_1": 5,
+            "report_2": 4
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 9,
+          "n_disputed_slot_marks": 9,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 4.4,
+        "n_disagreed": 9,
+        "n_marks": 204
+      },
+      "claude-sonnet-5@xhigh": {
+        "adjudication": {
+          "adjudication_rate_pct": 1.2,
+          "by_arm": {
+            "cold": 5,
+            "loaded": 0
+          },
+          "by_slot": {
+            "report_1": 4,
+            "report_2": 1
+          },
+          "floor_excluded_comparisons": [],
+          "n_adjudicated": 5,
+          "n_disputed_slot_marks": 5,
+          "n_slot_marks": 408,
+          "n_unresolved": 0
+        },
+        "disagreement_rate_pct": 2.5,
+        "n_disagreed": 5,
+        "n_marks": 204
+      }
+    },
+    "overall": {
+      "adjudication": {
+        "adjudication_rate_pct": 2.5,
+        "n_adjudicated": 135,
+        "n_disputed_slot_marks": 135,
+        "n_slot_marks": 5304,
+        "n_unresolved": 0
+      },
+      "disagreement_rate_pct": 4.6,
+      "n_disagreed": 122,
+      "n_marks": 2652
+    }
+  },
+  "models": [
+    "claude-fable-5",
+    "claude-sonnet-5",
+    "claude-opus-4-8"
+  ],
+  "open_cells": [
+    {
+      "effort": "max",
+      "model": "claude-fable-5",
+      "preregistered": true,
+      "run_id": "lattice-fable-max"
+    }
+  ],
+  "per_skill_note": "per-skill PASS/FAIL verdicts are deliberately suppressed in lattice outputs and subordinated to the per-cell run reports; skills appear here as rates only",
+  "regen_command": "python3 eval/make_explorer.py --matrix results/matrix/matrix.json --cells 'results/lattice-*' --out results/matrix/explorer.html",
+  "skills": {
+    "adversarial-review/multi-model-adversarial-review": {
+      "claude-fable-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 2,
+        "cold_rate_pct": 66.7,
+        "delta_pp": 33.3,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 1,
+        "cold_rate_pct": 33.3,
+        "delta_pp": 33.3,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 2,
+        "loaded_rate_pct": 66.7,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 2,
+        "cold_rate_pct": 66.7,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 2,
+        "loaded_rate_pct": 66.7,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 2,
+        "cold_rate_pct": 66.7,
+        "delta_pp": 33.3,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 2,
+        "cold_rate_pct": 66.7,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 2,
+        "loaded_rate_pct": 66.7,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      }
+    },
+    "architecture-and-contracts/architecture-contracts-as-law": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 2,
+        "cold_rate_pct": 50.0,
+        "delta_pp": 50.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 2,
+        "cold_rate_pct": 50.0,
+        "delta_pp": 50.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 2,
+        "cold_rate_pct": 50.0,
+        "delta_pp": 50.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "auth-and-tenancy/multi-tenant-auth-reference": {
+      "claude-fable-5@high": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 80.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 60.0,
+        "delta_pp": 40.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      }
+    },
+    "campaign-execution/multi-agent-batch-campaigns": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 0,
+        "cold_rate_pct": 0.0,
+        "delta_pp": 50.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 2,
+        "loaded_rate_pct": 50.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 2,
+        "cold_rate_pct": 50.0,
+        "delta_pp": 50.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 75.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 75.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "change-control/git-change-control-for-agents": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 2,
+        "cold_rate_pct": 50.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 75.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": -25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 75.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "cost-and-safety-guardrails/ai-cost-tracking-and-guardrails": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "cost-and-safety-guardrails/budget-aware-model-allocation": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 75.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "cost-and-safety-guardrails/config-and-secrets-hygiene": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "debugging-playbooks/failure-archaeology": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "debugging-playbooks/systematic-debugging-playbook": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "deploy-and-infra/environment-and-build-hazards": {
+      "claude-fable-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 3,
+        "n_tasks": 1
+      }
+    },
+    "deploy-and-infra/staging-to-prod-cutover-campaign": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "docs-and-compliance/consent-and-regulated-data-reference": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 2,
+        "cold_rate_pct": 50.0,
+        "delta_pp": 50.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "docs-and-compliance/docs-of-record-and-arbitration": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": -25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 3,
+        "loaded_rate_pct": 75.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "evals-and-scoring/llm-eval-harness-and-scoring-pipeline": {
+      "claude-fable-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    },
+    "tiered-review/tiered-consultancy-review": {
+      "claude-fable-5@high": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 3,
+        "cold_rate_pct": 60.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 80.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 80.0,
+        "delta_pp": 20.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 5,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 5,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 5,
+        "n_tasks": 1
+      }
+    },
+    "validation-gates/pre-merge-validation-gate": {
+      "claude-fable-5@high": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@low": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-fable-5@xhigh": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-haiku-4-5-20251001@none": {
+        "cold_hits": 1,
+        "cold_rate_pct": 25.0,
+        "delta_pp": 75.0,
+        "label": "n=1 task, single run per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@max": {
+        "cold_hits": 4,
+        "cold_rate_pct": 100.0,
+        "delta_pp": 0.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-opus-4-8@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@high": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@low": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@max": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@medium": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      },
+      "claude-sonnet-5@xhigh": {
+        "cold_hits": 3,
+        "cold_rate_pct": 75.0,
+        "delta_pp": 25.0,
+        "label": "n=1 task, 3 runs per arm: directional only",
+        "loaded_hits": 4,
+        "loaded_rate_pct": 100.0,
+        "n_must_hits": 4,
+        "n_tasks": 1
+      }
+    }
+  },
+  "sources": {
+    "cell_dirs_scanned": 17,
+    "cells_pattern": "results/lattice-*",
+    "concordance": "results/concordance/codex-concordance.json",
+    "matrix": "results/matrix/matrix.json"
+  },
+  "warnings": [
+    "lattice-opus-medium-batch1-adjudicate: scored data on disk but not a matrix cell; not displayed"
+  ]
+}</script>
 <script>
 (function () {
   var table = document.getElementById('mxtable');
