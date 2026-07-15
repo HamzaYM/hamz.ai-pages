@@ -128,11 +128,13 @@
   .fcard h3 a{ color:var(--ink); transition:color .15s; }
   .fcard h3 a:hover{ color:var(--teal); }
   .fcard p{ font-size:14.5px; color:var(--ink); max-width:66ch; margin-bottom:14px; }
+  .fcard.featured p{ max-width:80ch; }
   .fcard p:last-of-type{ margin-bottom:0; }
   .card-links{ margin-top:auto; padding-top:18px; display:flex; flex-wrap:wrap; gap:10px; }
   .card-links a{ font-family:var(--mono); font-size:12px; color:var(--dim); border:1px solid var(--line-strong);
                  padding:10px 14px; transition:color .15s, border-color .15s; }
   .card-links a:hover{ color:var(--teal); border-color:var(--teal); }
+  .fcard.featured{ border:1px solid var(--line); margin-top:36px; }
 
   /* now block, styled like the lab's field notes stack */
   .now{ margin-top:36px; border:1px solid var(--line); }
@@ -240,6 +242,18 @@
       <div class="sec-eyebrow"><span class="num">02</span>Built</div>
       <h2>Things I build</h2>
       <p class="sub">Open them, look around, feel free to reach out.</p>
+
+      <div class="fcard featured">
+        <div class="tag">field guide &rarr;</div>
+        <h3><a href="https://www.hamz.ai/designing-agentic-ai/">Designing agentic systems</a></h3>
+        <p>Most leaders meet agentic AI as something to bolt onto the workflow they already run, a faster version of today's process. The bigger move is to redesign the shape of the work around what agents are good at, and that is where the gains compound. What makes it doable is that the shapes you would redesign into are not exotic. They are the ones your organization already runs on, and the most interesting ones might be the shapes it never could.</p>
+        <p>Four questions, in order: How far do we go? How many agents? What blocks what? Who needs what context?</p>
+        <div class="card-links">
+          <a href="https://www.hamz.ai/designing-agentic-ai/">Read it &rarr;</a>
+          <a href="https://www.hamz.ai/designing-agentic-ai/visual/">The 3D version &rarr;</a>
+        </div>
+      </div>
+
       <div class="flag">
 
         <div class="fcard">
@@ -259,16 +273,6 @@
           <div class="card-links">
             <a href="../lab/">Open the lab &rarr;</a>
             <a href="../lab/lattice/">The effort lattice &rarr;</a>
-          </div>
-        </div>
-
-        <div class="fcard">
-          <div class="tag">field guide &rarr;</div>
-          <h3><a href="https://www.hamz.ai/designing-agentic-ai/">Designing agentic systems</a></h3>
-          <p>One agent or many, where a step should stay plain code instead of a model, and how context allocation, model routing, and orchestration map together.</p>
-          <div class="card-links">
-            <a href="https://www.hamz.ai/designing-agentic-ai/">Read it &rarr;</a>
-            <a href="https://www.hamz.ai/designing-agentic-ai/visual/">The 3D version &rarr;</a>
           </div>
         </div>
 
@@ -330,7 +334,7 @@
         <div class="stat"><b>26/50 &rarr; 46/50</b><span>An AI using my skills passed 46 of 50 pre-set checks, up from 26 without them. Order-blinded must-hit A/B across 16 tasks (2026-07-02).</span></div>
         <div class="stat"><b>17</b><span>open-source skills, consolidated from 26 repo-specific ones</span></div>
         <div class="stat"><b>$1,296.94</b><span>total cost of the effort-lattice study &middot; <a href="../lab/lattice/">full write-up &rarr;</a></span></div>
-        <div class="stat"><b>2</b><span>production repos Claude Code runs in</span></div>
+        <div class="stat"><b>2</b><span>production repos I built solo, end to end</span></div>
         <div class="stat"><b>14</b><span>agents behind the <a href="https://www.hamz.ai/work/aviation-operations/">business-aviation feasibility platform</a>, on Azure AI</span></div>
         <div class="stat"><b>~5</b><span>specialized agents in the <a href="https://www.hamz.ai/work/advisory-overnight/">overnight advisory pipeline</a></span></div>
       </div>
