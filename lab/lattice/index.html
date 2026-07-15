@@ -204,7 +204,7 @@
   .needs{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.02em; }
 
   /* tables */
-  .tbl-scroll{ overflow-x:auto; margin:28px 0 8px; max-width:900px; }
+  .tbl-scroll{ overflow-x:auto; margin:28px auto 8px; max-width:900px; }
   table.data{ border-collapse:collapse; width:100%; min-width:520px; border:1px solid var(--line); background:var(--raised); }
   table.data caption{ text-align:left; font-family:var(--mono); font-size:12px; color:var(--faint);
         padding:0 0 10px; letter-spacing:0.03em; caption-side:top; }
@@ -318,7 +318,7 @@
   }
 
   /* ===== tab architecture + hero strip (2026-07-11 restructure) ===== */
-  .stats{ display:flex; flex-wrap:wrap; border:1px solid var(--line); margin-top:36px; max-width:920px; background:var(--raised); }
+  .stats{ display:flex; flex-wrap:wrap; border:1px solid var(--line); margin:36px auto 0; max-width:920px; background:var(--raised); }
   .stats .st{ flex:1 1 auto; min-width:132px; padding:16px 20px; border-right:1px solid var(--line); }
   .stats .st:last-child{ border-right:none; }
   .stats .v{ font-family:var(--display); font-size:22px; color:var(--ink); font-weight:500; letter-spacing:-0.01em; }
@@ -344,7 +344,7 @@
     .tabs-bar{ display:none !important; }
   }
 
-  .cardrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; max-width:920px; margin:36px 0 8px; align-items:start; }
+  .cardrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; max-width:920px; margin:36px auto 8px; align-items:start; }
   .mini-card{ border:1px solid var(--line); background:var(--raised); padding:22px 24px; }
   .mini-card .ct{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--acc); margin-bottom:10px; }
   .mini-card p{ font-size:15px; margin-bottom:10px; max-width:none; }
@@ -358,7 +358,7 @@
   h4{ font-size:15.5px; margin:26px 0 8px; }
   ul.plain-list{ list-style:none; max-width:70ch; margin:0 0 16px; }
   ul.plain-list li{ padding:8px 0 8px 16px; border-left:2px solid var(--line-strong); margin-bottom:10px; font-size:15px; }
-  .skill-groups{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 32px; max-width:920px; }
+  .skill-groups{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 32px; max-width:920px; margin:0 auto; }
   .skill-groups ul{ list-style:none; margin:0 0 6px; }
   .skill-groups li{ font-size:14px; padding:7px 0; border-bottom:1px solid var(--line); }
   .skill-groups li:last-child{ border-bottom:none; }
@@ -426,12 +426,9 @@
   <div class="nav-right">
     <div class="lab-nav">
       <a href="./" aria-current="page">Lattice</a>
+      <a href="../../designing-agentic-ai/">Agent topologies</a>
       <a href="../skills/">Skills</a>
-      <a href="../evidence/">The skills study</a>
       <a href="../learn/">Learn</a>
-      <a href="../chain/">Chain</a>
-      <a href="../notes/">Notes</a>
-      <a href="../../builder/">Builder</a>
     </div>
     <div class="theme-toggle" role="group" aria-label="Colour theme">
       <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
@@ -457,6 +454,13 @@
     <h1>Skills or reasoning effort: which matters more?</h1>
     <p class="lede">Every Claude model now ships a reasoning dial. Turn it up and the model thinks longer and scores higher. So can more thinking replace expertise (the packaged <a href="../skills/">skills</a> an agent loads before it works)? I wanted the answer without fooling myself. So I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, ran the whole grid, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
     <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. Keep going to see if I was right.</p>
+    <div class="verdict-box">
+      <div class="ct">The answer:</div>
+      <p style="color:var(--ink);font-size:18px">Effort raises the floor, and the skills still add on top of it.</p>
+      <p>Lowest to highest effort, no skills: <strong>Fable +3.5</strong> &middot; <strong>Opus +3.9</strong> &middot; <strong>Sonnet +4.9</strong> percentage points.</p>
+      <p>Skills at each model's highest effort: still <strong>+2.4 to +9.8</strong> points on top.</p>
+      <p>Package recurring standards as skills. Turn up reasoning effort for harder cases, not to cover for missing expertise.</p>
+    </div>
     <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:100%">A skill here means a Claude Code skill, a written instruction file that changes how Claude behaves while it works, nothing to do with your own tools. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
     <div class="stats" aria-label="The study at a glance" data-fx-stagger>
       <div class="st fx"><div class="v">16</div><div class="l">model-effort conditions across 4 models</div></div>
@@ -499,6 +503,10 @@
       <div class="exhibit" id="matrix-table">
         <div class="ex-title" style="text-align:center">Scores with and without the skills, across the whole grid</div>
         <p class="ex-sub" style="text-align:center">Share of checklist items hit, on the 17 tasks every setup completed. The highlighted column is what installing the skills added, in percentage points.</p>
+        <div class="mini-card" style="max-width:620px;margin:0 auto 28px">
+          <div class="ct">What effort added on its own</div>
+          <p>Effort alone, low to high: <strong title="Fable's low-to-high range without skills. Its max-effort run never finished, so high is the top completed point.">Fable +3.5</strong>, <strong>Opus +3.9</strong>, <strong>Sonnet +4.9</strong> percentage points, straight down the table's without-skills column.</p>
+        </div>
         <div class="tbl-scroll">
           <table class="data fit" id="tbl-results">
             <thead><tr><th>Model</th><th>Effort</th><th>Without skills</th><th>With skills</th><th class="hero">What the skills added</th></tr></thead>
@@ -1349,6 +1357,23 @@
       <p class="pull">I predicted the skill advantage would shrink at higher effort. It held the entire way up.</p>
     </div>
   </div>
+
+  <section id="reflection" style="border-bottom:none">
+    <div class="wrap">
+      <h2>What I'd change</h2>
+      <p class="lead">The methodology tab already names these limitations, tersely, in one paragraph. Here's each one in full, and what I'd actually do about it.</p>
+
+      <ul class="plain-list">
+        <li>My judge panel is Claude judging Claude: two Claude models score every answer blind, in randomized order, and a third Claude model breaks any tie. A 50-comparison spot check already found a model from a different vendor, Codex, agreeing with the panel 97.2% of the time. What would close the self-preference question more fully is running a non-Claude judge across every mark, not a sample of them.</li>
+        <li>I wrote all 17 tasks myself, already knowing which failure modes the skills were built to catch. That's a real construct-validity question: the skills could be winning because they're good, or because I built the test to match them, and this design can't fully separate the two. Running the same skill library against a task suite someone else wrote, standardized and independent of my own authorship, would settle which one it is.</li>
+        <li>The n is small everywhere in this study: 17 tasks, most cells averaged over three runs, a few (Fable at medium and extra-high, and the Haiku baseline) resting on a single run each. More tasks would tighten the confidence behind every number on this page. Fable at max is still the one cell that never finished, for the same reason flagged above: the pool it ran on expired before the runs did.</li>
+        <li>Every loaded run here told the model exactly which skill to load before it started working. A real agent doesn't get that: it has to pick the right skill on its own, out of the full 17-skill library, before it can even read it. That step, whether a model reaches for the right skill unprompted, was never tested here.</li>
+        <li>The &ldquo;with skills&rdquo; arm is a bundle, not a clean isolation. Installing the library, the model choosing to actually read the file, and what the file says once read are all mixed into one number. I can't yet split how much of the lift is the words in the skill versus just having something there to read.</li>
+      </ul>
+
+      <p>The harness and the frozen task suite are both public. If you want to point a non-Claude judge at the full panel, run these seventeen skills against a task suite you wrote yourself, or test whether a model can pick the right skill without being told which one, I'd genuinely like to see what you find. Send it my way: <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>.</p>
+    </div>
+  </section>
 
 </main>
 
