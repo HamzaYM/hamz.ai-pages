@@ -108,8 +108,8 @@
   #progress{ position:fixed; top:0; left:0; height:2px; width:0; background:var(--teal); z-index:70; transition:width .1s linear; }
 
   /* nav (opaque flavor, page ships the theme toggle) */
-  nav.site-nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:20px;
-       padding:13px clamp(20px,4vw,28px); background:var(--bg); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  nav.site-nav{ position:sticky; top:0; z-index:60; background:var(--bg); border-bottom:1px solid var(--line); }
+  nav.site-nav .nav-inner{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; padding-top:13px; padding-bottom:13px; }
   nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
   nav.site-nav .brand b{ color:var(--teal); font-weight:500; }
   nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
@@ -127,7 +127,8 @@
   .theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
   @media(max-width:520px){ .lab-nav{ gap:10px; } }
   @media(max-width:640px){
-    nav.site-nav{ position:static; gap:8px 14px; padding-top:11px; padding-bottom:11px; }
+    nav.site-nav{ position:static; }
+    nav.site-nav .nav-inner{ gap:8px 14px; padding-top:11px; padding-bottom:11px; }
     nav.site-nav .nav-right{ gap:8px 12px; }
     .lab-nav{ gap:6px 12px; }
   }
@@ -232,6 +233,7 @@
 <div id="progress"></div>
 
 <nav class="site-nav" aria-label="Lab">
+  <div class="wrap nav-inner">
   <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
   <a class="brand-lab" href="../">/ lab</a>
   <div class="nav-right">
@@ -249,6 +251,7 @@
       <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
       <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
     </div>
+  </div>
   </div>
 </nav>
 
