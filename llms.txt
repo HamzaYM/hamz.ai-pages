@@ -2,7 +2,7 @@
 
 > hamz.ai is an AI implementation studio founded by Hamza Malik. We design, build, and ship production LLM systems, and we hold every deliverable to a public review standard called the Assurance Chain: adversarial review, tiered escalation, an evidence harness, and production security controls. Decisions are settled by evidence, not opinion.
 
-hamz.ai builds multi-model Claude architectures, eval harnesses, production reliability and cost controls, and interactive single-file tools. The founder, Hamza Malik, is an aerospace engineer, former KPMG senior technology consultant, and MIT Sloan MBA candidate (2027) who helped develop a new MIT Sloan course on leading agentic AI transformation in organizations.
+hamz.ai builds multi-model Claude architectures, eval harnesses, production reliability and cost controls, and interactive single-file tools. The founder, Hamza Malik, is an aerospace engineer, former KPMG senior technology consultant, and MIT Sloan MBA candidate (2027) who is co-developing a new MIT Sloan course on leading agentic AI transformation in organizations.
 
 ## Site
 
