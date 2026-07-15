@@ -155,8 +155,8 @@ a{color:var(--acc);}
 @media(max-width:700px){
   .nlabel{font-size:.6rem;}
   .nlabel.callout{max-width:150px;font-size:.58rem;}
-  .nlabel.ttl{max-width:110px;font-size:.52rem;}
-  .nlabel.ttlhi{font-size:.56rem;}
+  .nlabel.ttl{max-width:110px;font-size:.75rem;}
+  .nlabel.ttlhi{font-size:.75rem;}
   .nlabel.model{font-size:.64rem;}
   .nlabel.axis{font-size:.62rem;}
 }
@@ -217,6 +217,9 @@ a{color:var(--acc);}
 #legend i.kd{background:var(--amber);}
 #legend i.ke{background:transparent;border:1px dashed var(--faint);}
 
+#chapter-announcer{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;
+  overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;}
+
 /* ---------- chapter cards ---------- */
 .card{
   position:fixed;z-index:9;left:clamp(24px,6vw,88px);top:50%;
@@ -260,7 +263,7 @@ a{color:var(--acc);}
   font-size:clamp(2.3rem,5.8vw,4.2rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;max-width:17ch;}
 #card-0 .lede{font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.55;max-width:54ch;color:var(--dim);}
 #card-0 .lede b{color:var(--ink);font-weight:600;}
-#card-0 .byline{margin-top:24px;font-family:var(--mono);font-size:.62rem;
+#card-0 .byline{margin-top:24px;font-family:var(--mono);font-size:.75rem;
   letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
 #card-0 .byline b{color:var(--dim);font-weight:500;}
 .draft{margin-top:18px;max-width:54ch;border:1px dashed var(--amber);padding:10px 14px;
@@ -373,7 +376,7 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
 </head>
 <body>
 
-<div id="stage"><canvas id="gl"></canvas></div>
+<div id="stage"><canvas id="gl" role="img" aria-label="Interactive 3D visualization of the effort lattice study: as you scroll it builds the sixteen model-and-effort conditions, three Claude models at five effort levels each plus Haiku with no effort dial, into a lattice you can drag to rotate and click to inspect each cell's task pass rates with and without the skill library installed."></canvas></div>
 <div class="textshade"></div>
 <div class="vignette"></div>
 <div class="grain"></div>
@@ -400,6 +403,7 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
 </div>
 <nav id="rail" aria-label="Chapters"></nav>
 <div id="cue"><span>Scroll</span><span class="line"></span></div>
+<div id="chapter-announcer" aria-live="polite"></div>
 
 <!-- CHAPTER CARDS -->
 <section class="card" id="card-0">
@@ -677,19 +681,28 @@ MODEL_VIEW.forEach(function(m){
   b.className = 'chip'; b.textContent = m.name; b.dataset.m = m.id;
   b.setAttribute('aria-pressed','false');
   b.addEventListener('click', function(){
-    selModel = m.id;
+    var wasSel = selModel === m.id;
+    selModel = wasSel ? null : m.id;
     selEffort = null;   /* a model pick answers on its own; effort only narrows */
     modelChipsEl.querySelectorAll('.chip').forEach(function(c){
-      var on = c.dataset.m===m.id;
+      var on = !wasSel && c.dataset.m===m.id;
       c.classList.toggle('on', on);
       c.setAttribute('aria-pressed', String(on));
     });
     effortChipsEl.querySelectorAll('.chip').forEach(function(c){
-      c.disabled = (m.id==='haiku');
+      c.disabled = wasSel || (m.id==='haiku');
       c.classList.remove('on');
       c.setAttribute('aria-pressed','false');
     });
-    renderCellOut();
+    if (wasSel){
+      /* second click on an already-picked model: deselect back to the all-models default */
+      cellout.innerHTML = '<div class="head" style="color:var(--faint);font-size:.95rem;">Pick a model. An effort level is optional.</div>';
+      highlightRow('');
+      highlightCell('');
+      onExplorerChange();
+    } else {
+      renderCellOut();
+    }
   });
   modelChipsEl.appendChild(b);
 });
@@ -731,8 +744,8 @@ var THEMES = {
 var TH = THEMES.dark;
 
 var canvas = document.getElementById('gl');
-var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:false});
-var DPR = Math.min(window.devicePixelRatio || 1, isTouch ? 1.75 : 2);
+var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:!isTouch, alpha:false});
+var DPR = Math.min(window.devicePixelRatio || 1, isTouch ? 1 : 2);
 renderer.setPixelRatio(DPR);
 
 var scene = new THREE.Scene();
@@ -1810,6 +1823,7 @@ RAIL_NAMES.forEach(function(name, i){
 });
 var railBtns = rail.querySelectorAll('button');
 var legendEl = document.getElementById('legend');
+var announceEl = document.getElementById('chapter-announcer');
 var cards = [];
 for (var ci=0; ci<N; ci++) cards.push(document.getElementById('card-'+ci));
 
@@ -1819,7 +1833,14 @@ function enterChapter(i){
   activeChapter = i;
   cards.forEach(function(c, j){ c.classList.toggle('on', j===i); });
   activeCardEl = cards[i];
-  railBtns.forEach(function(b, j){ b.classList.toggle('on', j===i); });
+  railBtns.forEach(function(b, j){
+    b.classList.toggle('on', j===i);
+    if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+  });
+  var chapterHead = cards[i].querySelector('h1,h2');
+  var chapterSummary = cards[i].querySelector('p');
+  announceEl.textContent = RAIL_NAMES[i] + ': ' + (chapterHead ? chapterHead.textContent : '') +
+    (chapterSummary ? '. ' + chapterSummary.textContent : '');
   document.getElementById('cue').classList.toggle('gone', i!==0);
   legendEl.classList.toggle('on', i>=2 && i<=4);
   guideTarget = 0; rimTarget = 0; poolTarget = 0; ch1Phase = -1;
@@ -1945,9 +1966,17 @@ var camPos = new THREE.Vector3(0,2,36);
 var camLook = new THREE.Vector3(0,0,0);
 var pickLeaderEl = document.getElementById('pickleader');
 var clock = new THREE.Clock();
+var lastRenderMs = 0;
+var raOn = true;
 
 function frame(){
+  if (!raOn) return;
   requestAnimationFrame(frame);
+  if (isTouch){
+    var nowMs = performance.now();
+    if (nowMs - lastRenderMs < 33) return;
+    lastRenderMs = nowMs;
+  }
   var dt = Math.min(clock.getDelta(), 0.05);
   var T = clock.elapsedTime;
 
@@ -2175,6 +2204,10 @@ function frame(){
 
   renderer.render(scene, camera);
 }
+document.addEventListener('visibilitychange', function(){
+  if (document.hidden){ raOn = false; }
+  else if (!raOn){ raOn = true; frame(); }
+});
 
 /* ---------- boot ---------- */
 tasks.forEach(function(n, i){
