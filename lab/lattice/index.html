@@ -77,7 +77,7 @@
     --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
     /* layout */
     --max:1080px;
-    --measure:80ch;
+    --measure:1024px;
   }
   /* system prefers light, and the user hasn't explicitly chosen dark */
   @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
@@ -105,6 +105,10 @@
         -webkit-font-smoothing:antialiased; overflow-x:hidden; }
   h1,h2,h3,h4{ font-family:var(--display); color:var(--ink); font-weight:500; letter-spacing:-0.02em; line-height:1.08; }
   a{ color:var(--acc); text-decoration:none; }
+  /* prose links carry an underline so color is not the only cue;
+     nav, tabs, buttons, and table/chart chrome keep their look */
+  main p a, main li a, .hero p a{ text-decoration:underline; text-decoration-thickness:1px;
+        text-decoration-color:var(--acc-dim); text-underline-offset:3px; }
   strong{ color:var(--ink); font-weight:500; }
   ::selection{ background:var(--acc); color:#0F0F0F; }
   :focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
@@ -182,21 +186,22 @@
   .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
   h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; }
   h3{ font-size:20px; margin:40px 0 14px; }
-  section p{ max-width:var(--measure); margin-bottom:16px; }
+  section p{ max-width:var(--measure); margin-bottom:16px; color:var(--ink); }
+  section li{ color:var(--ink); }
   .lead{ font-size:20px; color:var(--ink); max-width:var(--measure); }
 
   /* callout (amber, honesty register) */
   .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--amber);
-            background:var(--raised); padding:24px 26px; max-width:760px; }
+            background:var(--raised); padding:24px 26px; }
   .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); margin-bottom:12px; }
   .callout p{ font-size:15px; margin-bottom:14px; }
   .callout p:last-child{ margin-bottom:0; }
 
   /* verdict box (green variant) */
   .verdict-box{ margin:32px 0 8px; border:1px solid var(--line); border-left:2px solid var(--acc);
-            background:var(--raised); padding:24px 26px; max-width:760px; }
+            background:var(--raised); padding:24px 26px; }
   .verdict-box .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--acc); margin-bottom:12px; }
-  .verdict-box p{ font-size:16px; margin-bottom:14px; color:var(--dim); }
+  .verdict-box p{ font-size:16px; margin-bottom:14px; color:var(--ink); }
   .verdict-box p:last-child{ margin-bottom:0; }
 
   /* pending / need markers */
@@ -204,7 +209,7 @@
   .needs{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:0.02em; }
 
   /* tables */
-  .tbl-scroll{ overflow-x:auto; margin:28px auto 8px; max-width:900px; }
+  .tbl-scroll{ overflow-x:auto; margin:28px 0 8px; }
   table.data{ border-collapse:collapse; width:100%; min-width:520px; border:1px solid var(--line); background:var(--raised); }
   table.data caption{ text-align:left; font-family:var(--mono); font-size:12px; color:var(--faint);
         padding:0 0 10px; letter-spacing:0.03em; caption-side:top; }
@@ -215,10 +220,10 @@
   table.data td b{ color:var(--ink); font-weight:500; }
   table.data td.v-yes{ color:var(--acc); }
   table.data td.v-no{ color:var(--amber); }
-  .tbl-note{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:12px; max-width:760px; letter-spacing:0.02em; }
+  .tbl-note{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:12px; letter-spacing:0.02em; }
 
   /* the interior-curve lattice figure */
-  .lattice-fig{ margin:32px 0 8px; max-width:900px; }
+  .lattice-fig{ margin:32px 0 8px; }
   .lattice-fig .fig-title{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
         color:var(--acc); margin-bottom:14px; }
   .lat-scroll{ overflow-x:auto; }
@@ -239,14 +244,14 @@
 
   /* explorer slot placeholder */
   .slot{ margin-top:36px; border:1px dashed var(--line-strong); background:var(--raised);
-         padding:34px 28px; max-width:760px; }
+         padding:34px 28px; }
   .slot .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
              color:var(--amber); margin-bottom:12px; }
   .slot p{ font-size:15px; margin-bottom:12px; }
   .slot p:last-child{ margin-bottom:0; }
 
   /* ===== exhibits E1-E6 (built to review/lattice-visuals-spec.md) ===== */
-  .exhibit{ margin:40px auto 8px; max-width:900px; }
+  .exhibit{ margin:40px 0 8px; }
   .exhibit .ex-title{ font-family:var(--display); font-size:23px; color:var(--ink); font-weight:500;
         letter-spacing:-0.02em; line-height:1.22; margin-bottom:10px; max-width:100%; }
   .exhibit .ex-sub{ font-family:var(--sans); font-size:14.5px; color:var(--dim); margin-bottom:16px; max-width:100%; }
@@ -275,7 +280,7 @@
   .eff-controls button:last-child{ border-right:none; }
   .eff-controls button:hover{ color:var(--dim); }
   .eff-controls button[aria-pressed="true"]{ background:var(--acc-loud); color:#0F0F0F; }
-  .eff-note{ font-family:var(--mono); font-size:11px; color:var(--faint); margin:8px 0 14px; max-width:72ch; }
+  .eff-note{ font-family:var(--mono); font-size:11px; color:var(--faint); margin:8px 0 14px; text-align:center; }
   #lattice3d{ display:none; }
   html.js #lattice3d{ display:block; }
   #lattice3d .fig-wrap{ touch-action:pan-y; cursor:grab; }
@@ -286,7 +291,7 @@
   .final{ padding:88px 0; border-bottom:none; }
   .pull{ margin:0; padding:4px 0 4px 28px; border-left:2px solid var(--acc);
          font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25;
-         color:var(--ink); font-weight:500; max-width:28ch; letter-spacing:-0.02em; }
+         color:var(--ink); font-weight:500; letter-spacing:-0.02em; }
 
   /* footer */
   footer{ border-top:1px solid var(--line); padding:30px 0 56px; }
@@ -318,7 +323,7 @@
   }
 
   /* ===== tab architecture + hero strip (2026-07-11 restructure) ===== */
-  .stats{ display:flex; flex-wrap:wrap; border:1px solid var(--line); margin:36px auto 0; max-width:920px; background:var(--raised); }
+  .stats{ display:flex; flex-wrap:wrap; border:1px solid var(--line); margin:36px 0 0; background:var(--raised); }
   .stats .st{ flex:1 1 auto; min-width:132px; padding:16px 20px; border-right:1px solid var(--line); }
   .stats .st:last-child{ border-right:none; }
   .stats .v{ font-family:var(--display); font-size:22px; color:var(--ink); font-weight:500; letter-spacing:-0.01em; }
@@ -356,7 +361,7 @@
   .takeaways .tk b{ color:var(--ink); font-weight:500; display:block; margin-bottom:4px; }
 
   h4{ font-size:15.5px; margin:26px 0 8px; }
-  ul.plain-list{ list-style:none; max-width:70ch; margin:0 0 16px; }
+  ul.plain-list{ list-style:none; max-width:var(--measure); margin:0 0 16px; }
   ul.plain-list li{ padding:8px 0 8px 16px; border-left:2px solid var(--line-strong); margin-bottom:10px; font-size:15px; }
   .skill-groups{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:0 32px; max-width:920px; margin:0 auto; }
   .skill-groups ul{ list-style:none; margin:0 0 6px; }
@@ -413,6 +418,38 @@
   #cost-fig[data-view] g[class*="ser-"]:hover .lbls text{ display:inline; }
   /* data-cell hovers */
   .cellhot{ cursor:help; }
+
+  /* ===== small screens: exhibits read in one column, no sideways swipe =====
+     Tables tighten and wrap until they fit the viewport; the line and cost
+     charts drop their fixed minimum width and scale to the screen, with type
+     and marks scaled up inside the svg so they survive the shrink. The
+     workflow diagram and the drag-to-rotate grid keep their own bounded
+     scroller: shrunk to phone width their text is unreadable. */
+  @media(max-width:640px){
+    table.data{ min-width:0; }
+    table.data th{ padding:9px 6px; font-size:9.5px; letter-spacing:0.03em; }
+    table.data td{ padding:9px 6px; font-size:11.5px; }
+    table.data td .q{ font-size:8.5px; }
+    /* the methodology tables carry long model ids and verdict prose;
+       a step smaller lets them wrap at their own hyphens and spaces */
+    #methodology table.data th{ padding:9px 5px; font-size:8.5px; }
+    #methodology table.data td{ padding:9px 5px; font-size:10.5px; }
+    table.lattice{ min-width:0; }
+    table.lattice th{ padding:9px 6px; font-size:9.5px; }
+    table.lattice td{ padding:9px 6px; font-size:11.5px; }
+    table.lattice td .m{ font-size:8.5px; }
+    .vz-card{ padding:14px 10px 8px; }
+    #fig-perf-full svg, #fig-perf-zoom svg, #cost-fig svg{ min-width:0; }
+    #fig-perf-full svg text, #fig-perf-zoom svg text, #cost-fig svg text{ font-size:20px; }
+    #cost-fig svg .lbls text, #cost-fig svg text.lbl{ font-size:14px; }
+    #fig-perf-full svg g[data-model="haiku"] text,
+    #fig-perf-full svg text[font-size="9.5"]{ font-size:14px; }
+    #fig-perf-full svg line, #fig-perf-zoom svg line, #cost-fig svg line{ stroke-width:2; }
+    #fig-perf-full svg polyline, #fig-perf-zoom svg polyline, #cost-fig svg polyline{ stroke-width:5; }
+    #fig-perf-full svg polyline[stroke-dasharray], #fig-perf-zoom svg polyline[stroke-dasharray],
+    #cost-fig svg polyline[stroke-dasharray]{ stroke-dasharray:14 10; }
+    #fig-perf-full svg circle, #fig-perf-zoom svg circle, #cost-fig svg circle{ r:9px; stroke-width:3.5; }
+  }
 </style>
 </head>
 <body>
@@ -457,9 +494,9 @@
     <div class="verdict-box">
       <div class="ct">The answer:</div>
       <p style="color:var(--ink);font-size:18px">Effort raises the floor, and the skills still add on top of it.</p>
-      <p>Lowest to highest effort, no skills: <strong>Fable +3.5</strong> &middot; <strong>Opus +3.9</strong> &middot; <strong>Sonnet +4.9</strong> percentage points.</p>
-      <p>Skills at each model's highest effort: still <strong>+2.4 to +9.8</strong> points on top.</p>
-      <p>Package recurring standards as skills. Turn up reasoning effort for harder cases, not to cover for missing expertise.</p>
+      <p>What effort added, no skills: <span class="hot" tabindex="0" data-tt="effort, per model" data-tip="Lowest to highest effort, no skills installed: Fable +3.5, Opus +3.9, Sonnet +4.9 percentage points."><strong>+3.5 to +4.9</strong> points per model</span>.</p>
+      <p>What the skills added: <span class="hot" tabindex="0" data-tt="skills, per model" data-tip="Averaged across each model's effort levels: Fable +4.4, Opus +9.3, Sonnet +10.4 percentage points. Haiku, the one model with no effort dial, gained +26.5 in a single run per side: read the direction, not the decimals."><strong>+4.4 to +10.4</strong> points per model</span>, and <strong>+26.5</strong> on Haiku (one run per side).</p>
+      <p style="color:var(--ink)">The verdict: the skills added more than effort did, and cost less to add. Loading them added at most 30 cents to a run; turning the dial from low to the top added 30 to 77 cents, every run, for about half the gain. Load the skills first because they're the cheaper lift, then turn up reasoning effort for the harder cases. Expertise and context bring you further than model effort alone.</p>
     </div>
     <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:100%">A skill here means a Claude Code skill, a written instruction file that changes how Claude behaves while it works, nothing to do with your own tools. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
     <div class="stats" aria-label="The study at a glance" data-fx-stagger>
@@ -603,12 +640,12 @@
               </tr>
               <tr class="ghost">
                 <td>max</td>
-                <td colspan="3">did not finish &middot; it got too expensive<span class="q">slot open &middot; one run is still quietly going</span></td>
+                <td colspan="3">did not finish &middot; it got too expensive<span class="q">slot open &middot; nothing running. The harness and tasks are public, so anyone can complete this cell; it stays exploratory either way.</span></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Rows marked avg of 3 runs average three runs per side; rows marked 1 run are single runs, so on those read the direction, not the decimals. Source: MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those read the direction, not the decimals. Source: MATRIX.md in the repo.</p>
       </div>
 
       <div id="perf-figs">
@@ -620,7 +657,7 @@
           <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
           <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
         </div>
-        <p class="eff-note">One control drives both charts on this page. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
+        <p class="eff-note">The toggles above both effort charts are the same control: switch either one and both charts follow. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -696,7 +733,7 @@
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: share of checklist items hit on the 17 tasks every setup completed, scored blind by two Claude judges, with a third to break ties. Most points average three runs per side; the single runs are Fable at medium and extra-high and the Haiku baseline. Fable stops at xhigh because its max runs got too expensive to finish. Source: MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: the vertical axis is the share of checklist items hit, per effort setting. Fable stops at xhigh; its max runs got too expensive to finish.</p>
       </div>
 
       <div class="exhibit fx fx-lg" id="fig-perf-zoom">
@@ -707,7 +744,7 @@
           <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
           <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
         </div>
-        <p class="eff-note">One control drives both charts on this page. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
+        <p class="eff-note">Same control as the chart above: switch either one and both charts follow.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -901,7 +938,7 @@
           </svg>
         </div>
         </div><!-- /cost-fig -->
-        <p class="tbl-note">Methodology: horizontal axis is each cell's average cost per run, log scale; vertical axis is the share of checklist items hit on the shared 17 tasks. Costs are API-price equivalents reported by the Claude CLI, not observed subscription spend. Sources: cost-per-run-dataset.json, published next to this page, and MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: horizontal axis is each cell's average cost per run, log scale; vertical axis is the share of checklist items hit. Costs are API-price equivalents reported by the Claude CLI, not observed subscription spend. Source: cost-per-run-dataset.json, published next to this page.</p>
       </div>
 
       <div class="cardrow" data-fx-stagger>
@@ -1078,7 +1115,7 @@
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: most cells ran three times per side; the single runs are Fable at medium and extra-high and the Haiku baseline. The two judges disagreed on 4.6% of marks; the deciding judge settled 2.5%, and none were left unresolved. The suite hash and every per-setup rate are in MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: the two judges disagreed on 4.6% of marks; the deciding judge settled 2.5%, and none were left unresolved. The suite hash and every per-setup rate are in MATRIX.md in the repo.</p>
       </div>
 
       <h3 id="scoring">How scoring works</h3>
@@ -1176,9 +1213,9 @@
               </tbody>
             </table>
           </div>
-          <p class="tbl-note">Haiku 4.5, the one model with no effort dial, gets a single cell: the skills added +26.5 points (1 run per side). Cells here average three runs per side, except Fable at medium and extra-high, which are single runs, so on those two read the direction, not the decimals.</p>
+          <p class="tbl-note">Haiku 4.5, the one model with no effort dial, gets a single cell: the skills added +26.5 points (1 run per side).</p>
         </div>
-        <p class="tbl-note">Methodology: all 15 completed setups plus the open Fable-max slot, scored on the 17 tasks every setup completed. The scores with and without the skills behind every bar are in the big table in <a href="#matrix-table">The result</a>. Source: MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: all 15 completed setups plus the open Fable-max slot. The scores with and without the skills behind every bar are in the big table in <a href="#matrix-table">The result</a>.</p>
       </div>
     </div>
   </section>

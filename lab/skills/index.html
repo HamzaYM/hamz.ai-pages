@@ -16,6 +16,9 @@
       verbatim content, frontmatter description shown as "when to reach for it"
     - Codex cross-check numbers (97.2%, 383 of 394 marks, one run) verified
       against the campaign records this session
+    - the measured-alone lineage boundary (intro paragraph, five card flags,
+      footer note) quotes the README.md "July 2026 evidence lineage" column;
+      pass numbers verbatim from that column
   Numbers follow the frozen canon: 26 distilled, 8 tested (all passed),
   consolidated to 17; July 2026 study 26/50 -> 46/50 (92%), denominator 50.
   NAV NOTE: updated 2026-07-13 per Hamza -- Chain and Proof were each
@@ -210,6 +213,9 @@
   body.js-on .card{ cursor:pointer; }
   .card .sk-tag{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
                  color:var(--faint); margin-bottom:10px; }
+  .card span.sk-flag{ position:relative; z-index:1; display:inline-block; font-family:var(--mono); font-size:10px;
+                 letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); margin-bottom:10px; }
+  .card span.sk-flag:hover{ color:var(--teal-dim); }
   .card .sk-name{ font-family:var(--mono); font-size:13.5px; color:var(--ink); font-weight:500; display:block; margin-bottom:12px; word-break:break-word; }
   .card .sk-name::after{ content:""; position:absolute; inset:0; }
   .card:hover .sk-name{ color:var(--teal); }
@@ -395,6 +401,7 @@
       <div class="sec-eyebrow"><span class="num">01</span>The library</div>
       <h2>The 17 skills</h2>
       <p>Each skill is a self-contained folder with one <strong>SKILL.md</strong>: a description that tells an agent when to reach for it, the failure mode it prevents, and the pattern as decision gates and checklists rather than prose. The groups below are the library&rsquo;s real category directories. Every card links its skill file and its folder in the <a href="https://github.com/HamzaYM/reliable-ai-skills">repo</a>, and every card&rsquo;s <strong>From the skill</strong> section quotes or closely paraphrases lines that are actually in that skill&rsquo;s file.</p>
+      <p>Every skill here was proven as part of the full 17-skill bundle in <a href="../lattice/">the lattice</a>. Five were also measured on their own before joining: just that skill installed, blind A/B, same judging. Hover any of the five for its pass data: <span class="hot" tabindex="0" data-tt="Measured alone" data-tip="Both sources passed. S2: must-hits 1/3 cold &rarr; 3/3 loaded, plus a 4/4 tie. S5: 0/3 &rarr; 3/3, plus a 2/3 tie.">pre-merge-validation-gate</span>, <span class="hot" tabindex="0" data-tt="Measured alone" data-tip="Both sources passed. S3: must-hits 1/3 cold &rarr; 3/3 loaded and 2/3 &rarr; 3/3. S7: 0/3 &rarr; 2/3, plus a 2/3 tie.">systematic-debugging-playbook</span>, <span class="hot" tabindex="0" data-tt="Measured alone" data-tip="Both sources passed. S1: must-hits 2/3 cold &rarr; 3/3 loaded, plus a 3/3 tie. S6: 1/3 &rarr; 3/3 on both of its tasks.">git-change-control-for-agents</span>, <span class="hot" tabindex="0" data-tt="Measured alone" data-tip="Its source passed. S4: must-hits 2/4 cold &rarr; 3/4 loaded and 2/3 &rarr; 3/3.">multi-agent-batch-campaigns</span>, and <span class="hot" tabindex="0" data-tt="Measured alone, partial" data-tip="One of its three sources passed. S8: must-hits 1/3 cold &rarr; 3/3 loaded and 2/3 &rarr; 3/3.">staging-to-prod-cutover-campaign</span> (1 of 3 sources passed).</p>
       <figure style="margin:30px 0 0;max-width:760px">
         <figcaption style="font-family:var(--mono);font-size:13px;color:var(--faint);letter-spacing:0.02em;margin-bottom:10px">where my 17 came from &middot; each tick is one skill &middot; outline: not tested &middot; dashed: from my own tooling</figcaption>
         <svg viewBox="0 0 420 240" style="display:block;width:100%;height:auto" role="img" aria-label="Three-stage tally of how the library reached 17 skills. Stage one: 26 source skills distilled in July 2026 from two production codebases. Stage two: 8 of those 26 were A/B tested against 50 pre-registered must-hits across 16 tasks, and all 8 passed. Stage three: 17 skills released, 15 of them consolidated from the 26 and 2 written from my own tooling, sorted into 12 category folders.">
@@ -584,6 +591,7 @@
         <div class="cards">
           <div class="card" data-group="review" title="Use before declaring any change &quot;done,&quot; before opening or updating a PR, after any UI-touching change, or whenever you&#x27;re about to report test results. Defines what &quot;done&quot; actually means and how to report it without overstating what was checked.">
             <span class="sk-tag">review and quality</span>
+            <span class="sk-flag hot" tabindex="0" data-tt="Measured alone" data-tip="Both sources passed. S2: must-hits 1/3 cold &rarr; 3/3 loaded, plus a 4/4 tie. S5: 0/3 &rarr; 3/3, plus a 2/3 tie.">measured alone</span>
             <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/validation-gates/pre-merge-validation-gate">pre-merge-validation-gate</a>
             <p class="sk-what">Defines what &ldquo;done&rdquo; actually means for a change and how to report test results without overstating what was checked.</p>
             <p class="sk-catch"><b>Catches</b>A change declared done on test results that overstate what was actually checked.</p>
@@ -740,6 +748,7 @@
         <div class="cards">
           <div class="card" data-group="deploy" title="Use when standing up a new deployment environment (first staging deploy, or a greenfield production environment), when infra work has been authored but not yet applied, or when deciding what staging config must never be inherited by production. Covers first-apply traps, ops-script deployment pitfalls, and the do-not-inherit scrub.">
             <span class="sk-tag">deploy and infrastructure</span>
+            <span class="sk-flag hot" tabindex="0" data-tt="Measured alone, partial" data-tip="One of its three sources passed. S8: must-hits 1/3 cold &rarr; 3/3 loaded and 2/3 &rarr; 3/3.">measured alone, partial</span>
             <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/deploy-and-infra/staging-to-prod-cutover-campaign">staging-to-prod-cutover-campaign</a>
             <p class="sk-what">First-apply traps, the do-not-inherit config scrub, and how to separate go-live gates from infra bring-up.</p>
             <p class="sk-catch"><b>Catches</b>Staging config inherited by production, and first applies that fail in ways a second apply never will.</p>
@@ -782,6 +791,7 @@
         <div class="cards">
           <div class="card" data-group="debugging" title="Use when debugging any bug, regression, or failing test, before proposing a fix, and especially before editing a file you know is a frequent source of regressions. Establishes ground truth before hypothesizing, and defines the discipline for multi-round fix loops after a review pass finds problems.">
             <span class="sk-tag">debugging</span>
+            <span class="sk-flag hot" tabindex="0" data-tt="Measured alone" data-tip="Both sources passed. S3: must-hits 1/3 cold &rarr; 3/3 loaded and 2/3 &rarr; 3/3. S7: 0/3 &rarr; 2/3, plus a 2/3 tie.">measured alone</span>
             <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/debugging-playbooks/systematic-debugging-playbook">systematic-debugging-playbook</a>
             <p class="sk-what">Establishes ground truth before hypothesizing, and the regression rule for multi-round fix loops after a review pass.</p>
             <p class="sk-catch"><b>Catches</b>Fixes proposed before ground truth is established, especially in files that are frequent sources of regressions.</p>
@@ -824,6 +834,7 @@
         <div class="cards">
           <div class="card" data-group="process" title="Use when doing any git work: cutting a branch, opening a PR, merging parallel work, or resuming work in a repo you didn&#x27;t just leave. Covers state verification before acting, the dead-base PR trap, migration-number collisions, working-tree discipline, and how to handle a product decision that surfaces mid-task.">
             <span class="sk-tag">process and change management</span>
+            <span class="sk-flag hot" tabindex="0" data-tt="Measured alone" data-tip="Both sources passed. S1: must-hits 2/3 cold &rarr; 3/3 loaded, plus a 3/3 tie. S6: 1/3 &rarr; 3/3 on both of its tasks.">measured alone</span>
             <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/change-control/git-change-control-for-agents">git-change-control-for-agents</a>
             <p class="sk-what">State verification before any git work, the dead-base PR trap, migration collisions, and working-tree discipline.</p>
             <p class="sk-catch"><b>Catches</b>Acting on a repo whose state was assumed rather than verified, and PRs cut against a dead base.</p>
@@ -848,6 +859,7 @@
         <div class="cards">
           <div class="card" data-group="process" title="Use when executing a large backlog of review findings or a multi-part feature as coordinated batches across parallel agents or sessions, planning waves, avoiding file-contention collisions, and resuming a campaign that a previous session left mid-way through.">
             <span class="sk-tag">process and change management</span>
+            <span class="sk-flag hot" tabindex="0" data-tt="Measured alone" data-tip="Its source passed. S4: must-hits 2/4 cold &rarr; 3/4 loaded and 2/3 &rarr; 3/3.">measured alone</span>
             <a class="sk-name" href="https://github.com/HamzaYM/reliable-ai-skills/tree/main/skills/campaign-execution/multi-agent-batch-campaigns">multi-agent-batch-campaigns</a>
             <p class="sk-what">Wave planning, file-contention mapping, and checkpoint-to-file discipline for executing a large backlog across parallel agents.</p>
             <p class="sk-catch"><b>Catches</b>Parallel agents colliding on the same files, and campaigns a previous session left mid-way with no way to resume.</p>
@@ -1621,6 +1633,9 @@ git worktree list</code></pre>
 </template>
 
 <footer>
+  <div class="wrap">
+    <p style="font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:0.02em;max-width:70ch;margin-bottom:28px;">The boundary, stated plainly: the bundle result proves the 17 work together, and it cannot say which individual skill did the work. Only the five measured alone carry per-skill evidence, and one of them, staging-to-prod-cutover-campaign, passed one of its three source tests, so its individual evidence is thinner than the other four.</p>
+  </div>
   <div class="wrap foot">
     <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
     <span>

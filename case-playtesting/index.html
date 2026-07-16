@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Case Playtesting - hamz.ai</title>
 <meta name="description" content="A method for pressure-testing decision materials against a simulated panel of AI personas before they meet a real audience.">
+<link rel="canonical" href="https://www.hamz.ai/case-playtesting/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -168,6 +169,36 @@
     white-space:nowrap;
   }
   .pill em{ font-style:normal; color:var(--accent); }
+
+  /* ---------------- one run ---------------- */
+  .run-sec{ padding:56px 0; }
+  .run-frame{ border:1px solid var(--line); background:var(--bg-alt); }
+  .run-case{
+    padding:16px 18px;
+    border-bottom:1px solid var(--line-soft);
+    font-size:14px; line-height:1.6; color:var(--ink-body);
+  }
+  .run-case b{ color:var(--ink); font-weight:500; }
+  .run-grid{ display:grid; grid-template-columns:1fr 1.6fr 1fr; }
+  .run-cell{ padding:20px 18px 24px; border-right:1px solid var(--line); }
+  .run-cell:last-child{ border-right:none; }
+  .run-tag{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.07em; color:var(--ink-dim);
+    display:block; margin-bottom:12px;
+  }
+  .run-tally{
+    font-family:var(--mono); font-size:clamp(26px,3.4vw,36px);
+    color:var(--accent); line-height:1;
+    display:block; margin-bottom:10px;
+  }
+  .run-note{ display:block; font-size:12.5px; color:var(--ink-dim); line-height:1.5; }
+  .run-reveal p{ font-size:13px; line-height:1.65; color:var(--ink-body); }
+  @media (max-width:820px){
+    .run-grid{ grid-template-columns:1fr; }
+    .run-cell{ border-right:none; border-bottom:1px solid var(--line); }
+    .run-cell:last-child{ border-bottom:none; }
+  }
 
   /* ---------------- sections ---------------- */
   section{ padding:100px 0; border-bottom:1px solid var(--line-soft); }
@@ -453,6 +484,47 @@
     <span class="pill">Pre-Mortems</span>
   </div>
 </div>
+
+<section class="run-sec" id="one-run">
+  <div class="wrap">
+    <div class="run-frame rv">
+      <div class="diagram-head">
+        <span>one run - a case I co-wrote for an MIT Sloan class</span>
+        <span class="dh-right">fictional bank · 17 seats</span>
+      </div>
+      <p class="run-case">
+        <b>The case:</b> a bank's card-servicing lead has one team and can
+        fund one build - a dispute-handling feature his own floor wants,
+        with a clean local payback, or a compliance-checking agent that no
+        single department owns.
+      </p>
+      <div class="run-grid">
+        <div class="run-cell">
+          <span class="run-tag">Blind vote</span>
+          <span class="run-tally">12–5</span>
+          <span class="run-note">for the dispute feature, on the cold read</span>
+        </div>
+        <div class="run-cell run-reveal">
+          <span class="run-tag">The reveal</span>
+          <p>The compliance agent's engine (read a document, check it against
+          a set of rules) is the same capability three other divisions each
+          need - only the rules change. Redeploying it costs a fraction of
+          the first build. The dispute feature redeploys nowhere.</p>
+        </div>
+        <div class="run-cell">
+          <span class="run-tag">Re-vote</span>
+          <span class="run-tally">17–0</span>
+          <span class="run-note">for the compliance agent, unanimous</span>
+        </div>
+      </div>
+      <div class="diagram-caption">
+        <b>The takeaway:</b> the draft leaned one way on a cold read and
+        flipped the whole room on a single withheld fact - measured before
+        the case faces a live class.
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="topologies">
   <div class="wrap">
@@ -764,8 +836,9 @@
     <div class="foot-note rv">
       Developed during research-assistant work on an
       <b>MIT Sloan course on agentic AI</b> (details forthcoming).
-      This page describes the method only - no course materials, case content,
-      or classroom data appear here.
+      This page describes the method, plus one simulated run on the course's
+      fictional bank case - no student data, live classroom results, or full
+      case materials appear here.
       <!-- PENDING PERMISSION: name the course (number + title) and the faculty
            collaborator here once explicit permission to credit is received. -->
     </div>
