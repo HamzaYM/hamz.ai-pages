@@ -552,7 +552,6 @@ nav.site-nav .back:hover{color:var(--teal);}
 .edge{stroke:var(--edge);}
 .edge-soft{stroke:var(--line-strong);}
 /* dark labels on the bright teal orchestrator/commit nodes */
-.diagram g:has(.fill-orch) .lbl{fill:#0F0F0F;}
 .diagram .fill-orch + text{fill:#0F0F0F;}
 /* flow + hot highlight -> teal */
 .topo.is-active .edge.flow,.topo:hover .edge.flow,
@@ -562,15 +561,15 @@ nav.site-nav .back:hover{color:var(--teal);}
 .hot:focus-visible :is(rect,circle){stroke:var(--teal);}
 
 /* flip the inline SVG literal colors, theme-aware */
-.diagram [fill="#8A8B8C"]{fill:var(--edge);} .diagram [stroke="#8A8B8C"]{stroke:var(--edge);}
-.diagram [fill="#C2C0BF"]{fill:var(--edge);}
-.diagram [fill="#6E1423"]{fill:var(--teal);} .diagram [stroke="#6E1423"]{stroke:var(--teal);}
-.diagram [fill="#A31F34"]{fill:var(--teal);} .diagram [stroke="#A31F34"]{stroke:var(--teal);}
-.diagram [fill="#2F6690"]{fill:var(--slate);} .diagram [stroke="#2F6690"]{stroke:var(--slate);}
-.diagram [fill="#F4F2ED"]{fill:var(--raised-2);}
-.diagram [fill="#F7ECEE"]{fill:var(--teal-tint);}
-.diagram [stroke="#DAD8D3"]{stroke:var(--line-strong);}
-.diagram [stroke="#E7CBD0"]{stroke:var(--teal-dim);}
+.diagram [fill="var(--edge)"]{fill:var(--edge);} .diagram [stroke="var(--edge)"]{stroke:var(--edge);}
+.diagram [fill="var(--edge)"]{fill:var(--edge);}
+.diagram [fill="var(--maroon)"]{fill:var(--teal);} .diagram [stroke="var(--maroon)"]{stroke:var(--teal);}
+.diagram [fill="var(--red)"]{fill:var(--teal);} .diagram [stroke="var(--red)"]{stroke:var(--teal);}
+.diagram [fill="var(--blue)"]{fill:var(--slate);} .diagram [stroke="var(--blue)"]{stroke:var(--slate);}
+.diagram [fill="var(--raised-2)"]{fill:var(--raised-2);}
+.diagram [fill="var(--maroon-deep)"]{fill:var(--teal-tint);}
+.diagram [stroke="var(--gray-line)"]{stroke:var(--line-strong);}
+.diagram [stroke="var(--maroon)"]{stroke:var(--teal-dim);}
 
 /* ---- tooltip ---- */
 #tip{background:var(--raised);color:var(--ink);border:1px solid var(--line-strong);box-shadow:none;
@@ -613,14 +612,14 @@ nav.site-nav .back:hover{color:var(--teal);}
 /* ---- escalation ---- */
 .escbox.is-active{box-shadow:inset 0 0 0 1px var(--teal);}
 .escbox.is-active .knowcard.m{box-shadow:inset 0 0 0 1px var(--teal-dim);}
-.knowcard{border-color:var(--line);} .knowcard.r .kt{color:var(--teal);} .knowcard.m .kt{color:var(--teal-dim);}
+.knowcard{border-color:var(--line);} .knowcard.r .kt{color:var(--teal);} .knowcard.m .kt{color:var(--teal);}
 .knowcard p{color:var(--dim);}
 
 /* ---- what-stays-human quad ---- */
 .qcell{background:var(--raised);border-color:var(--line);border-left-color:var(--line-strong);}
 .qpos{color:var(--faint);} .qrule{color:var(--ink);} .qshape{color:var(--teal);} .qeg{color:var(--dim);}
 .qc-agent{border-left-color:var(--line-strong);}
-.qc-signoff{border-left-color:var(--teal-dim);} .qc-signoff .qshape{color:var(--teal-dim);}
+.qc-signoff{border-left-color:var(--teal-dim);} .qc-signoff .qshape{color:var(--teal);}
 .qc-mid{border-left-color:var(--line-strong);}
 .qc-human{border-left-color:var(--human-fill);background:var(--raised-2);} .qc-human .qshape{color:var(--slate);}
 .quad-axis-y,.quad-axis-x{color:var(--faint);}
@@ -794,7 +793,7 @@ footer .fmeta a{color:#2BD7AF;border:none;}
     <div class="mapwrap reveal">
       <div class="scrollx">
       <svg class="diagram" viewBox="0 0 980 300" style="min-width:680px" role="img" aria-label="The inbound call workflow from intake through follow up, with an escalation branch.">
-        <defs><marker id="escArr" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8A8B8C"/></marker></defs>
+        <defs><marker id="escArr" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker></defs>
         <g font-family="'JetBrains Mono',monospace">
           <g class="hot" tabindex="0" role="img" aria-label="Intake. Recognizes who is calling. Holds almost no sensitive data yet." data-tip="Recognizes who is calling from the number or login. Touches the phone system and a CRM lookup. Holds almost no sensitive data yet." data-tt="Stage 1">
             <rect x="8" y="120" width="104" height="52" class="node-rect fill-worker"/>
@@ -851,8 +850,8 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           </g>
           <path class="edge edge-soft" d="M540,176 L540,230" stroke-dasharray="4 5" marker-end="url(#escArr)"/>
           <path class="edge edge-soft" d="M593,248 C648,244 640,192 630,176" stroke-dasharray="4 5" marker-end="url(#escArr)"/>
-          <text x="600" y="214" class="lbl-sub" fill="#8A8B8C" font-size="9">then execute</text>
-          <text x="530" y="205" text-anchor="end" class="lbl-sub" fill="#8A8B8C">angry or complex</text>
+          <text x="600" y="214" class="lbl-sub" fill="var(--gray)" font-size="9">then execute</text>
+          <text x="530" y="205" text-anchor="end" class="lbl-sub" fill="var(--gray)">angry or complex</text>
 
           
           
@@ -890,23 +889,23 @@ footer .fmeta a{color:#2BD7AF;border:none;}
       <div class="diagram-box" aria-label="The anatomy of one process step: input, output, knowledge, data">
         <svg class="diagram" viewBox="0 0 440 250">
           <defs>
-            <marker id="anG" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#8A8B8C"/></marker>
-            <marker id="anM" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#6E1423"/></marker>
+            <marker id="anG" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker>
+            <marker id="anM" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--maroon)"/></marker>
           </defs>
           <g font-family="'JetBrains Mono',monospace">
             <rect x="155" y="14" width="130" height="34" rx="8" class="fill-special"/>
             <text x="220" y="35" text-anchor="middle" class="lbl" font-size="10.5">CONTEXT</text>
-            <path d="M220,48 L220,98" class="edge" stroke="#6E1423" marker-end="url(#anM)"/>
-            <text x="312" y="76" text-anchor="middle" class="lbl-sub" font-size="9" fill="#8A8B8C">the context it needs</text>
-            <rect x="155" y="202" width="130" height="34" rx="8" fill="#8A8B8C"/>
+            <path d="M220,48 L220,98" class="edge" stroke="var(--maroon)" marker-end="url(#anM)"/>
+            <text x="312" y="76" text-anchor="middle" class="lbl-sub" font-size="9" fill="var(--gray)">the context it needs</text>
+            <rect x="155" y="202" width="130" height="34" rx="8" fill="var(--edge)"/>
             <text x="220" y="223" text-anchor="middle" class="lbl" font-size="10.5">DATA</text>
-            <path d="M220,202 L220,152" class="edge" stroke="#8A8B8C" marker-end="url(#anG)"/>
-            <text x="312" y="178" text-anchor="middle" class="lbl-sub" font-size="9" fill="#8A8B8C">what you touch</text>
+            <path d="M220,202 L220,152" class="edge" stroke="var(--edge)" marker-end="url(#anG)"/>
+            <text x="312" y="178" text-anchor="middle" class="lbl-sub" font-size="9" fill="var(--gray)">what you touch</text>
             <path d="M34,125 L156,125" class="edge" marker-end="url(#anG)"/>
-            <text x="92" y="116" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="#8A8B8C">INPUT</text>
+            <text x="92" y="116" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="var(--gray)">INPUT</text>
             <text x="92" y="142" text-anchor="middle" class="lbl-sub" font-size="9">what comes in</text>
             <path d="M284,125 L408,125" class="edge" marker-end="url(#anG)"/>
-            <text x="348" y="116" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="#8A8B8C">OUTPUT</text>
+            <text x="348" y="116" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="var(--gray)">OUTPUT</text>
             <text x="348" y="142" text-anchor="middle" class="lbl-sub" font-size="9">what goes out</text>
             <rect x="158" y="100" width="124" height="50" class="node-rect fill-orch"/>
             <text x="220" y="129" text-anchor="middle" class="lbl">A step</text>
@@ -969,7 +968,7 @@ footer .fmeta a{color:#2BD7AF;border:none;}
       <div class="scrollx">
       <svg class="diagram" viewBox="0 0 920 250" style="min-width:720px" role="img" aria-label="A voice call as a stack. Speech to text and text to speech are specialized models, lookups and actions are plain code, and only the reasoning in the middle is an LLM.">
         <defs>
-          <marker id="vlG" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#8A8B8C"/></marker>
+          <marker id="vlG" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker>
         </defs>
         <g font-family="'JetBrains Mono',monospace">
           <path d="M132,120 L176,120" class="edge" marker-end="url(#vlG)"/>
@@ -1097,10 +1096,10 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <div class="diagram-box" aria-label="Pyramid diagram">
             <svg class="diagram" viewBox="0 0 440 400">
               <defs>
-                <marker id="pyrUp" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#A31F34"/></marker>
+                <marker id="pyrUp" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--red)"/></marker>
               </defs>
               <g>
-                <path d="M220,60 L20,374 L420,374 Z" fill="none" stroke="#6E1423" stroke-width="1.2" opacity=".18"/>
+                <path d="M220,60 L20,374 L420,374 Z" fill="none" stroke="var(--maroon)" stroke-width="1.2" opacity=".18"/>
                 <path class="edge flow" d="M70,332 L116,266"/>
                 <path class="edge flow" d="M170,332 L210,266"/>
                 <path class="edge flow" d="M270,332 L226,266"/>
@@ -1112,12 +1111,12 @@ footer .fmeta a{color:#2BD7AF;border:none;}
                 <path class="edge flow" d="M160,160 L208,114"/>
                 <path class="edge flow" d="M280,160 L232,114"/>
                 <path class="edge flow" d="M220,74 L220,50" marker-end="url(#pyrUp)"/>
-                <path class="edge" d="M150,168 C104,200 98,232 116,252" stroke="#6E1423" stroke-dasharray="5 5"/>
-                <path class="edge" d="M246,118 C290,150 296,178 270,200" stroke="#6E1423" stroke-dasharray="5 5"/>
-                <path class="edge" d="M278,290 C236,314 230,336 254,356" stroke="#6E1423" stroke-dasharray="5 5"/>
-                <text x="332" y="230" class="lbl-sub" fill="#6E1423" font-size="9">sent back</text>
-                <text x="22" y="230" class="lbl-sub" fill="#6E1423" font-size="9">sent back</text>
-                <text x="274" y="66" class="lbl-sub" fill="#6E1423" font-size="9">decision out</text>
+                <path class="edge" d="M150,168 C104,200 98,232 116,252" stroke="var(--maroon)" stroke-dasharray="5 5"/>
+                <path class="edge" d="M246,118 C290,150 296,178 270,200" stroke="var(--maroon)" stroke-dasharray="5 5"/>
+                <path class="edge" d="M278,290 C236,314 230,336 254,356" stroke="var(--maroon)" stroke-dasharray="5 5"/>
+                <text x="332" y="230" class="lbl-sub" fill="var(--red)" font-size="9">sent back</text>
+                <text x="22" y="230" class="lbl-sub" fill="var(--red)" font-size="9">sent back</text>
+                <text x="274" y="66" class="lbl-sub" fill="var(--red)" font-size="9">decision out</text>
                 <g class="hot" tabindex="0" role="img" aria-label="Customer. Receives the decision." data-tip="The person who gets the decision. The whole chain exists to make sure what reaches them is right." data-tt="External"><rect x="173" y="12" width="94" height="36" class="node-rect fill-user"/><text x="220" y="34" text-anchor="middle" class="lbl lbl-dark" font-size="10">Customer</text></g>
                 <g class="hot" tabindex="0" role="img" aria-label="Partner. Final sign-off." data-tip="Final sign-off. Only this node can commit. It carries the authority." data-tt="Apex"><rect x="173" y="74" width="94" height="40" class="node-rect fill-orch"/><text x="220" y="98" text-anchor="middle" class="lbl">Partner</text></g>
                 <g class="hot" tabindex="0" role="img" aria-label="Manager. Reviews the senior associate's recommendation." data-tip="Reviews the senior associate's recommendation. Sends it back down if it does not hold up." data-tt="Review"><rect x="118" y="160" width="84" height="38" class="node-rect fill-special"/><text x="160" y="183" text-anchor="middle" class="lbl" font-size="9.5">Manager</text></g>
@@ -1335,18 +1334,18 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <div class="diagram-box" aria-label="Internal external boundary diagram with directional arrows">
             <svg class="diagram" viewBox="0 0 440 280">
               <defs>
-                <marker id="bArrG" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#8A8B8C"/></marker>
-                <marker id="bArrB" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#2F6690"/></marker>
-                <marker id="bArrR" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#6E1423"/></marker>
+                <marker id="bArrG" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker>
+                <marker id="bArrB" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--blue)"/></marker>
+                <marker id="bArrR" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--maroon)"/></marker>
               </defs>
               <g>
-                <rect x="12" y="46" width="196" height="196" rx="12" fill="#F4F2ED" stroke="#DAD8D3"/>
-                <rect x="232" y="46" width="196" height="196" rx="12" fill="#F7ECEE" stroke="#E7CBD0"/>
-                <text x="110" y="38" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="#8A8B8C">OUTSIDE THE WALL</text>
-                <text x="330" y="38" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="#A31F34">INSIDE THE WALL</text>
-                <line x1="220" y1="46" x2="220" y2="112" stroke="#2F6690" stroke-width="3"/>
-                <line x1="220" y1="172" x2="220" y2="242" stroke="#2F6690" stroke-width="3"/>
-                <text x="220" y="145" text-anchor="middle" class="lbl-sub" font-size="9" fill="#2F6690">gate</text>
+                <rect x="12" y="46" width="196" height="196" rx="12" fill="var(--raised-2)" stroke="var(--gray-line)"/>
+                <rect x="232" y="46" width="196" height="196" rx="12" fill="var(--maroon-deep)" stroke="var(--maroon)"/>
+                <text x="110" y="38" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="var(--gray)">OUTSIDE THE WALL</text>
+                <text x="330" y="38" text-anchor="middle" class="lbl-sub" font-size="9.5" fill="var(--red)">INSIDE THE WALL</text>
+                <line x1="220" y1="46" x2="220" y2="112" stroke="var(--blue)" stroke-width="3"/>
+                <line x1="220" y1="172" x2="220" y2="242" stroke="var(--blue)" stroke-width="3"/>
+                <text x="220" y="145" text-anchor="middle" class="lbl-sub" font-size="9" fill="var(--blue)">gate</text>
                 <g class="hot" tabindex="0" role="img" aria-label="Customer. Sees only what the external agent chooses to say." data-tip="The person on the line. Sees only what the external agent chooses to say." data-tt="Outside"><circle cx="62" cy="142" r="30" class="fill-user"/><text x="62" y="146" text-anchor="middle" class="lbl lbl-dark" font-size="9.5">Customer</text></g>
                 <g class="hot" tabindex="0" role="img" aria-label="External agent. The only one the customer talks to. Holds no secrets." data-tip="The only agent the customer ever talks to. Deliberately never given the full record, so it cannot leak what it does not hold." data-tt="Outside the wall"><rect x="124" y="119" width="72" height="46" class="node-rect fill-worker"/><text x="160" y="139" text-anchor="middle" class="lbl lbl-dark" font-size="9.5">External</text><text x="160" y="152" text-anchor="middle" class="lbl lbl-dark" font-size="9.5">agent</text></g>
                 <g class="hot" tabindex="0" role="img" aria-label="Internal agent. Holds the full picture, releases only cleared data." data-tip="Holds the full picture and does the sensitive lookups behind the wall. Passes outward only the one cleared line the external agent is allowed to use." data-tt="Inside the wall"><rect x="264" y="119" width="72" height="46" class="node-rect fill-orch"/><text x="300" y="139" text-anchor="middle" class="lbl" font-size="9.5">Internal</text><text x="300" y="152" text-anchor="middle" class="lbl" font-size="9.5">agent</text></g>
@@ -1355,11 +1354,11 @@ footer .fmeta a{color:#2BD7AF;border:none;}
                 <text x="108" y="132" text-anchor="middle" class="lbl-sub" font-size="8.5">talks</text>
                 <path d="M198,128 L262,128" class="edge" marker-end="url(#bArrG)"/>
                 <text x="230" y="121" text-anchor="middle" class="lbl-sub" font-size="8.5">request</text>
-                <path d="M262,158 L198,158" stroke="#2F6690" stroke-width="2.4" fill="none" marker-end="url(#bArrB)"/>
-                <text x="230" y="172" text-anchor="middle" class="lbl-sub" font-size="8.5" fill="#2F6690">cleared data only</text>
-                <path d="M300,165 L300,188" class="edge" stroke="#6E1423" marker-end="url(#bArrR)"/>
-                <text x="332" y="181" text-anchor="middle" class="lbl-sub" font-size="8.5" fill="#6E1423">lookup</text>
-                <text x="220" y="266" text-anchor="middle" class="lbl-sub" font-size="9" fill="#8A8B8C">requests cross in, only cleared answers cross out</text>
+                <path d="M262,158 L198,158" stroke="var(--blue)" stroke-width="2.4" fill="none" marker-end="url(#bArrB)"/>
+                <text x="230" y="172" text-anchor="middle" class="lbl-sub" font-size="8.5" fill="var(--blue)">cleared data only</text>
+                <path d="M300,165 L300,188" class="edge" stroke="var(--maroon)" marker-end="url(#bArrR)"/>
+                <text x="332" y="181" text-anchor="middle" class="lbl-sub" font-size="8.5" fill="var(--red)">lookup</text>
+                <text x="220" y="266" text-anchor="middle" class="lbl-sub" font-size="9" fill="var(--gray)">requests cross in, only cleared answers cross out</text>
               </g>
             </svg>
           </div>
@@ -1392,16 +1391,16 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <div class="diagram-box" aria-label="Adversarial review diagram. One agent does the work, a second agent checks it and either passes it on or sends it back to fix.">
             <svg class="diagram" viewBox="0 0 520 250" role="img" aria-label="Adversarial review diagram. One agent does the work, a second agent checks it and either passes it on or sends it back to fix.">
               <defs>
-                <marker id="rvA" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8A8B8C"/></marker>
-                <marker id="rvB" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6E1423"/></marker>
+                <marker id="rvA" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker>
+                <marker id="rvB" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--maroon)"/></marker>
               </defs>
               <g font-family="'JetBrains Mono',monospace">
                 <path d="M128,124 L204,124" class="edge" marker-end="url(#rvA)"/>
                 <text x="166" y="114" text-anchor="middle" class="lbl-sub" font-size="8.5">draft</text>
                 <path d="M334,124 L412,124" class="edge" marker-end="url(#rvA)"/>
                 <text x="373" y="114" text-anchor="middle" class="lbl-sub" font-size="8.5">approved</text>
-                <path d="M269,152 C269,214 68,214 68,152" class="edge" stroke="#6E1423" stroke-dasharray="5 5" marker-end="url(#rvB)"/>
-                <text x="168" y="206" text-anchor="middle" class="lbl-sub" font-size="8.5" fill="#6E1423">send back to fix</text>
+                <path d="M269,152 C269,214 68,214 68,152" class="edge" stroke="var(--maroon)" stroke-dasharray="5 5" marker-end="url(#rvB)"/>
+                <text x="168" y="206" text-anchor="middle" class="lbl-sub" font-size="8.5" fill="var(--red)">send back to fix</text>
                 <g class="hot" tabindex="0" role="img" aria-label="Worker agent. Does the task and hands over a draft." data-tip="Does the actual task and hands over a draft. It does not get the final say on whether the work is good." data-tt="Makes it"><rect x="8" y="96" width="120" height="56" class="node-rect fill-worker"/><text x="68" y="120" text-anchor="middle" class="lbl lbl-dark" font-size="11">Worker</text><text x="68" y="136" text-anchor="middle" class="lbl-sub" font-size="8">does the task</text></g>
                 <g class="hot" tabindex="0" role="img" aria-label="Checker agent. Reads the draft, looks for what is wrong, passes it or sends it back." data-tip="Reads the draft with one instruction, find what is wrong. Passes it on or sends it back with a reason. A fresh instance with nothing to defend." data-tt="Checks it"><rect x="204" y="96" width="130" height="56" class="node-rect fill-special"/><text x="269" y="120" text-anchor="middle" class="lbl" font-size="11">Checker</text><text x="269" y="136" text-anchor="middle" class="lbl" font-size="8" opacity=".82">finds the holes</text></g>
                 <g class="hot" tabindex="0" role="img" aria-label="Ships. The output goes out only after the checker passes it." data-tip="The output goes out only after the checker passes it. Nothing ships unchecked." data-tt="Out"><rect x="412" y="96" width="100" height="56" class="node-rect fill-orch"/><text x="462" y="128" text-anchor="middle" class="lbl" font-size="11">Ships</text></g>
@@ -1438,7 +1437,7 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <div class="diagram-box" aria-label="Human in the loop diagram. The agent posts routine writes on its own, but a high-stakes action pauses for a person to approve before it commits.">
             <svg class="diagram" viewBox="0 0 520 220" role="img" aria-label="Human in the loop diagram. The agent posts routine writes on its own, but a high-stakes action pauses for a person to approve before it commits.">
               <defs>
-                <marker id="hlA" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8A8B8C"/></marker>
+                <marker id="hlA" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker>
               </defs>
               <g font-family="'JetBrains Mono',monospace">
                 <path d="M120,110 L204,110" class="edge" marker-end="url(#hlA)"/>
@@ -1522,7 +1521,7 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <g>
             <path class="edge flow" d="M150,68 C120,100 110,120 100,150"/>
             <path class="edge flow" d="M210,68 C240,100 255,120 265,150"/>
-            <text x="246" y="116" class="lbl-sub" fill="#6E1423" font-size="9.5">going sideways</text>
+            <text x="246" y="116" class="lbl-sub" fill="var(--red)" font-size="9.5">going sideways</text>
             <g class="hot" tabindex="0" role="img" aria-label="Orchestrator. Knows that this is escalating and who owns it. Not how to handle it." data-tip="Holds only enough to spot the trigger. That this is escalating, and who to send it to. It does not carry the playbook." data-tt="Knows that and who"><rect x="110" y="20" width="140" height="48" class="node-rect fill-orch"/><text x="180" y="40" text-anchor="middle" class="lbl">Orchestrator</text><text x="180" y="56" text-anchor="middle" class="lbl" font-size="8.5" opacity=".82">knows that &amp; who</text></g>
             <g class="hot" tabindex="0" role="img" aria-label="Normal flow. The ordinary path for a routine call." data-tip="The ordinary path. Handles the routine call the orchestrator did not flag." data-tt="Routine"><rect x="40" y="150" width="120" height="48" class="node-rect fill-worker"/><text x="100" y="178" text-anchor="middle" class="lbl lbl-dark" font-size="10">Normal flow</text></g>
             <g class="hot" tabindex="0" role="img" aria-label="Escalation specialist. Holds the playbook and the authority." data-tip="Holds the de-escalation playbook, the softer tone, and the authority to offer a refund or a retention credit. Tuned for one job. The only node with that power." data-tt="Knows how"><rect x="200" y="150" width="130" height="48" class="node-rect fill-special"/><text x="265" y="170" text-anchor="middle" class="lbl">Escalation</text><text x="265" y="186" text-anchor="middle" class="lbl" font-size="9.5" opacity=".85">knows how</text></g>
@@ -1775,14 +1774,14 @@ footer .fmeta a{color:#2BD7AF;border:none;}
       <div class="scrollx">
         <svg class="diagram" viewBox="0 0 1080 600" style="min-width:940px" role="img" aria-label="A composite topology. A customer who was charged twice talks to an external agent outside a privacy wall. Inside the wall an internal orchestrator fans the call out in parallel to three branches: a hub and spoke that gathers the account details, a pyramid with sign off that returns the money because real funds are moving, and a pipeline that handles the after-call wrap up in order. Only a cleared answer crosses back out to the customer.">
           <defs>
-            <marker id="car" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#A31F34"/></marker>
-            <marker id="carS" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="#C2C0BF"/></marker>
-            <marker id="carM" markerWidth="8" markerHeight="8" refX="6" refY="2.8" orient="auto-start-reverse"><path d="M0,0 L6.5,2.8 L0,5.6 Z" fill="#6E1423"/></marker>
+            <marker id="car" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--red)"/></marker>
+            <marker id="carS" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse"><path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"/></marker>
+            <marker id="carM" markerWidth="8" markerHeight="8" refX="6" refY="2.8" orient="auto-start-reverse"><path d="M0,0 L6.5,2.8 L0,5.6 Z" fill="var(--maroon)"/></marker>
           </defs>
           <text x="170" y="32" text-anchor="middle" class="lbl-sub" font-size="9.5">OUTSIDE THE WALL</text>
           <text x="720" y="32" text-anchor="middle" class="lbl-sub" font-size="9.5">INSIDE THE WALL</text>
-          <line x1="335" y1="44" x2="335" y2="566" stroke="#6E1423" stroke-width="1.6" stroke-dasharray="6 6" opacity="0.5"/>
-          <text x="335" y="558" text-anchor="middle" class="lbl-sub" fill="#6E1423" font-size="9">the wall</text>
+          <line x1="335" y1="44" x2="335" y2="566" stroke="var(--maroon)" stroke-width="1.6" stroke-dasharray="6 6" opacity="0.5"/>
+          <text x="335" y="558" text-anchor="middle" class="lbl-sub" fill="var(--red)" font-size="9">the wall</text>
           <g class="hot" tabindex="0" role="img" aria-label="Customer who was charged twice and wants the money back." data-tt="The caller" data-tip="One hard call. The customer was billed twice and wants their money back. None of the machinery to the right is visible to them.">
             <rect x="28" y="271" width="120" height="58" class="node-rect fill-user"/>
             <text x="88" y="295" text-anchor="middle" class="lbl lbl-dark" font-size="11">Customer</text>
@@ -1803,13 +1802,13 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           </g>
           <path class="edge flow" d="M305,290 L366,290" marker-end="url(#car)"/>
           <path class="edge flow" d="M366,310 L305,310" marker-end="url(#car)"/>
-          <text x="335" y="330" text-anchor="middle" class="lbl-sub" fill="#6E1423" font-size="8.5">cleared only</text>
+          <text x="335" y="330" text-anchor="middle" class="lbl-sub" fill="var(--red)" font-size="8.5">cleared only</text>
           <path class="edge flow" d="M498,288 L558,126" marker-end="url(#car)" marker-start="url(#carS)"/>
           <path class="edge flow" d="M500,300 L558,330" marker-end="url(#car)" marker-start="url(#carS)"/>
           <path class="edge flow" d="M498,312 L558,514" marker-end="url(#car)" marker-start="url(#carS)"/>
           <text x="520" y="232" text-anchor="middle" class="lbl-sub" transform="rotate(-12 520 232)">fan out in parallel</text>
           <text x="526" y="392" text-anchor="middle" class="lbl-sub" transform="rotate(20 526 392)">results merge back</text>
-          <rect x="560" y="48" width="490" height="156" rx="11" fill="#F4F2ED" stroke="#DAD8D3" stroke-width="1.4"/>
+          <rect x="560" y="48" width="490" height="156" rx="11" fill="var(--raised-2)" stroke="var(--gray-line)" stroke-width="1.4"/>
           <text x="576" y="70" class="lbl-sub" font-size="10">GATHER THE ACCOUNT DETAILS &#183; HUB AND SPOKE</text>
           <rect x="598" y="110" width="64" height="40" class="node-rect fill-orch"/>
           <text x="630" y="135" text-anchor="middle" class="lbl" font-size="10">Hub</text>
@@ -1824,9 +1823,9 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <g class="hot" tabindex="0" role="img" aria-label="This branch is internally a hub and spoke. The lookups do not depend on each other." data-tt="Inside: hub and spoke" data-tip="The account lookups do not depend on each other, so this branch fans them out at once and the coordinator composes the results. Fast, and nothing here writes.">
             <rect x="560" y="48" width="490" height="156" rx="11" fill="transparent" stroke="none"/>
           </g>
-          <rect x="560" y="220" width="490" height="220" rx="11" fill="#F4F2ED" stroke="#DAD8D3" stroke-width="1.4"/>
+          <rect x="560" y="220" width="490" height="220" rx="11" fill="var(--raised-2)" stroke="var(--gray-line)" stroke-width="1.4"/>
           <text x="576" y="242" class="lbl-sub" font-size="10">GIVE THE MONEY BACK &#183; PYRAMID, WITH SIGN-OFF</text>
-          <path d="M806,266 L676,414 L936,414 Z" fill="none" stroke="#6E1423" stroke-width="1" opacity="0.14"/>
+          <path d="M806,266 L676,414 L936,414 Z" fill="none" stroke="var(--maroon)" stroke-width="1" opacity="0.14"/>
           <rect x="768" y="264" width="78" height="30" class="node-rect fill-orch"/><text x="807" y="284" text-anchor="middle" class="lbl" font-size="9.5">Partner</text>
           <rect x="706" y="320" width="78" height="28" class="node-rect fill-worker"/><text x="745" y="338" text-anchor="middle" class="lbl lbl-dark" font-size="8">Sr. Assoc.</text>
           <rect x="830" y="320" width="78" height="28" class="node-rect fill-worker"/><text x="869" y="338" text-anchor="middle" class="lbl lbl-dark" font-size="8">Sr. Assoc.</text>
@@ -1839,14 +1838,14 @@ footer .fmeta a{color:#2BD7AF;border:none;}
           <path class="edge flow" d="M926,376 L874,348"/>
           <path class="edge flow" d="M745,320 L795,294"/>
           <path class="edge flow" d="M869,320 L819,294"/>
-          <path d="M838,282 C880,304 884,326 858,344" fill="none" stroke="#6E1423" stroke-width="1.4" stroke-dasharray="5 5" marker-end="url(#carM)"/>
-          <path d="M778,334 C742,352 736,372 760,388" fill="none" stroke="#6E1423" stroke-width="1.4" stroke-dasharray="5 5" marker-end="url(#carM)"/>
-          <text x="894" y="314" class="lbl-sub" fill="#6E1423" font-size="8">sent back</text>
-          <text x="714" y="372" class="lbl-sub" fill="#6E1423" font-size="8">sent back</text>
+          <path d="M838,282 C880,304 884,326 858,344" fill="none" stroke="var(--maroon)" stroke-width="1.4" stroke-dasharray="5 5" marker-end="url(#carM)"/>
+          <path d="M778,334 C742,352 736,372 760,388" fill="none" stroke="var(--maroon)" stroke-width="1.4" stroke-dasharray="5 5" marker-end="url(#carM)"/>
+          <text x="894" y="314" class="lbl-sub" fill="var(--red)" font-size="8">sent back</text>
+          <text x="714" y="372" class="lbl-sub" fill="var(--red)" font-size="8">sent back</text>
           <g class="hot" tabindex="0" role="img" aria-label="This branch is internally a pyramid with sign off, because real money moves." data-tt="Inside: pyramid" data-tip="This is the branch that returns the money. Because real funds move, the refund is drafted, reviewed, and signed off before it commits, and any tier can send it back down. Slow on purpose, which is why it is safe.">
             <rect x="560" y="220" width="490" height="220" rx="11" fill="transparent" stroke="none"/>
           </g>
-          <rect x="560" y="462" width="490" height="104" rx="11" fill="#F4F2ED" stroke="#DAD8D3" stroke-width="1.4"/>
+          <rect x="560" y="462" width="490" height="104" rx="11" fill="var(--raised-2)" stroke="var(--gray-line)" stroke-width="1.4"/>
           <text x="576" y="484" class="lbl-sub" font-size="10">AFTER-CALL WRAP UP &#183; PIPELINE</text>
           <rect x="588" y="502" width="88" height="36" class="node-rect fill-worker"/><text x="632" y="524" text-anchor="middle" class="lbl lbl-dark" font-size="9.5">Summary</text>
           <rect x="706" y="502" width="78" height="36" class="node-rect fill-worker"/><text x="745" y="524" text-anchor="middle" class="lbl lbl-dark" font-size="9.5">Code</text>
