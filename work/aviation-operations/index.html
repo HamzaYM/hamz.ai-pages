@@ -62,7 +62,7 @@
   .theme-toggle button:hover{ color:var(--dim); }
   .theme-toggle button[aria-pressed="true"]{ background:var(--teal-loud); color:#0F0F0F; }
   nav .back:hover{ color:var(--teal); }
-  .lessons{ list-style:none; counter-reset:l; margin-top:28px; max-width:70ch; }
+  .lessons{ list-style:none; counter-reset:l; margin-top:28px; }
   .lessons li{ counter-increment:l; position:relative; padding:0 0 0 42px; margin-bottom:22px; color:var(--dim); }
   .lessons li::before{ content:counter(l,decimal-leading-zero); position:absolute; left:0; top:2px; font-family:var(--mono); font-size:12px; color:var(--teal); }
   .lessons b{ color:var(--ink); font-weight:500; }
@@ -71,7 +71,7 @@
   .hero{ padding:88px 0 60px; border-bottom:1px solid var(--line); }
   .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
   .hero h1{ font-size:clamp(34px,6vw,62px); line-height:1.02; margin-bottom:26px; font-weight:600; max-width:18ch; }
-  .hero .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:56ch; line-height:1.5; }
+  .hero .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); line-height:1.5; }
   .chips{ margin-top:38px; display:flex; flex-wrap:wrap; gap:10px; }
   .chip{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--dim); border:1px solid var(--line); padding:8px 12px; background:var(--raised); }
   .chip b{ color:var(--teal); font-weight:500; }
@@ -81,11 +81,11 @@
   .sec-eyebrow .num{ color:var(--faint); margin-right:10px; }
   section h2{ font-size:clamp(26px,4vw,40px); margin-bottom:24px; max-width:22ch; }
   section h3{ font-size:20px; margin:0 0 12px; }
-  section p{ max-width:66ch; margin-bottom:20px; color:var(--dim); }
+  section p{ margin-bottom:20px; color:var(--ink); }
   section p:last-child{ margin-bottom:0; }
-  .lead{ font-size:20px; color:var(--ink); max-width:60ch; }
+  .lead{ font-size:20px; color:var(--ink); }
 
-  .pull{ margin:40px 0; padding:4px 0 4px 28px; border-left:2px solid var(--teal); font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25; color:var(--ink); font-weight:500; max-width:26ch; letter-spacing:-0.02em; }
+  .pull{ margin:40px 0; padding:4px 0 4px 28px; border-left:2px solid var(--teal); font-family:var(--display); font-size:clamp(22px,3.2vw,30px); line-height:1.25; color:var(--ink); font-weight:500; letter-spacing:-0.02em; }
 
   /* problem: the manual pile-up */
   .pile{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
@@ -314,7 +314,7 @@
             <circle cx="45" cy="120" r="14"/><circle cx="155" cy="120" r="14"/>
           </g>
           <circle cx="100" cy="75" r="20" fill="#0D0D0D" stroke="#2BD7AF" stroke-width="1.5"/>
-          <text x="100" y="79" text-anchor="middle" fill="#2BD7AF" font-family="'JetBrains Mono',monospace" font-size="9">portal</text>
+          <text x="100" y="79" text-anchor="middle" fill="var(--teal)" font-family="'JetBrains Mono',monospace" font-size="9">portal</text>
           <g fill="#7C7C76" font-family="'JetBrains Mono',monospace" font-size="7" text-anchor="middle">
             <text x="45" y="33">M1</text><text x="155" y="33">M2</text>
             <text x="45" y="123">M3</text><text x="155" y="123">M4</text>
