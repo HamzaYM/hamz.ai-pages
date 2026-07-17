@@ -440,16 +440,24 @@ nav.site-nav .nav-inner{display:flex;align-items:center;gap:20px;
      padding-top:13px;padding-bottom:13px;}
 nav.site-nav .brand{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink);border:none;}
 nav.site-nav .brand b{color:var(--teal);font-weight:500;}
-nav.site-nav .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-nav.site-nav .back{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint);border:none;}
-nav.site-nav .back:hover{color:var(--teal);}
+nav.site-nav .brand-lab{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--faint);border:none;margin-left:-12px;}
+nav.site-nav .brand-lab:hover{color:var(--teal);}
+nav.site-nav .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.lab-nav{display:flex;gap:14px;flex-wrap:wrap;}
+.lab-nav a{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint);padding:4px 2px;border-bottom:1px solid transparent;}
+.lab-nav a:hover{color:var(--teal);}
+.lab-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--teal);}
 .theme-toggle{display:flex;border:1px solid var(--line);}
 .theme-toggle button{background:none;border:none;border-right:1px solid var(--line);color:var(--faint);
      font-size:13px;line-height:1;padding:7px 10px;cursor:pointer;transition:color .15s,background .15s;}
 .theme-toggle button:last-child{border-right:none;}
 .theme-toggle button:hover{color:var(--dim);}
 .theme-toggle button[aria-pressed="true"]{background:var(--teal);color:#0F0F0F;}
-@media(max-width:520px){nav.site-nav .back{display:none;}}
+@media(max-width:640px){
+  nav.site-nav .nav-inner{gap:8px 14px;flex-wrap:wrap;padding-top:11px;padding-bottom:11px;}
+  nav.site-nav .nav-right{gap:8px 12px;}
+  .lab-nav{gap:6px 12px;}
+}
 
 /* ---- progress ---- */
 .progress{background:var(--teal-loud) !important;height:2px;}
@@ -647,16 +655,22 @@ footer em, footer strong{color:inherit;}
 </style>
 </head>
 <body>
-<nav class="site-nav">
+<nav class="site-nav" aria-label="Lab">
   <div class="wrap nav-inner">
   <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../lab/">/ lab</a>
   <div class="nav-right">
+    <div class="lab-nav">
+      <a href="../lab/lattice/">Lattice</a>
+      <a href="./" aria-current="page">Agent topologies</a>
+      <a href="../lab/skills/">Skills</a>
+      <a href="../lab/learn/">Learn</a>
+    </div>
     <div class="theme-toggle" role="group" aria-label="Colour theme">
       <button type="button" data-theme-set="system" aria-pressed="true" title="Match system" aria-label="System theme">◐</button>
       <button type="button" data-theme-set="light" aria-pressed="false" title="Light" aria-label="Light theme">☀</button>
       <button type="button" data-theme-set="dark" aria-pressed="false" title="Dark" aria-label="Dark theme">☾</button>
     </div>
-    <a class="back" href="https://www.hamz.ai">back to hamz.ai →</a>
   </div>
   </div>
 </nav>

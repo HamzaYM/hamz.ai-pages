@@ -1,0 +1,5 @@
+# hamz.ai
+# LLM-readable site summary: https://www.hamz.ai/llms.txt
+
+User-agent: *
+Allow: /
