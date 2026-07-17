@@ -5,7 +5,7 @@
 <script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trip-feasibility engine for a business-aviation operator - hamz.ai</title>
-<meta name="description" content="An anonymized case study. A dispatcher spent hours per trip checking feasibility across a dozen systems. I built a 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.">
+<meta name="description" content="An anonymized case study. A dispatcher spent hours per trip checking feasibility across a dozen systems. I architected and led the delivery of a 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.">
 <meta property="og:title" content="Trip-feasibility engine for a business-aviation operator">
 <meta property="og:description" content="An anonymized case study. 16 automated feasibility checks over 10+ enterprise data sources, built into production with a small dedicated team.">
 <meta property="og:type" content="article">
@@ -194,7 +194,7 @@
       <span class="chip">Details generalized</span>
     </div>
     <h1>A trip-feasibility engine for a business-aviation operator</h1>
-    <p class="lede">A dispatcher used to spend hours per trip checking whether a flight was even possible, across a dozen disconnected systems. I built the engine that gathers that whole picture in one place, and kept a human in charge of every call it cannot make cleanly.</p>
+    <p class="lede">A dispatcher used to spend hours per trip checking whether a flight was even possible, across a dozen disconnected systems. I architected and led the delivery of the engine that gathers that whole picture in one place, personally building its AI reasoning layer, and kept a human in charge of every call it cannot make cleanly.</p>
     <div class="chips">
       <span class="chip"><b>16</b> automated checks</span>
       <span class="chip"><b>5</b> AI-assisted, confidence-scored</span>
@@ -230,7 +230,7 @@
   <section>
     <div class="sec-eyebrow"><span class="num">02</span>What I built</div>
     <h2>One engine that runs 16 feasibility checks per flight leg</h2>
-    <p>I designed and built an operations portal around a single idea: the team builds a trip, and the system runs the whole feasibility check for them, per leg, against a unified copy of every source that used to be checked by hand. Each check returns a clear status, and the ones that call for interpretation carry a confidence score so the operator knows how much to trust them.</p>
+    <p>I architected and led the delivery of an operations portal around a single idea: the team builds a trip, and the system runs the whole feasibility check for them, per leg, against a unified copy of every source that used to be checked by hand. Each check returns a clear status, and the ones that call for interpretation carry a confidence score so the operator knows how much to trust them.</p>
     <p>The checks are organized into four modules. Tap through them.</p>
 
     <div class="engine rv" id="engine">
@@ -285,7 +285,7 @@
   <section>
     <div class="sec-eyebrow"><span class="num">04</span>How it shipped</div>
     <h2>Architected, built, and delivered into production</h2>
-    <p>I architected the system and personally built it on a managed cloud, while hiring and leading a small delivery team. The engagement started with a round of discovery interviews, moved through an agile delivery cycle, and went live across multiple teams and users, handed over with a developer guide, a user manual, and an operations runbook.</p>
+    <p>Architected the system and led its delivery on Azure, personally building the AI layer (including the agents, LLM-powered reasoning workflows, AI-assisted feasibility checks, and confidence-scoring logic) while hiring and leading a five-person team through ten discovery interviews and a 15-week agile build into production. The broader system used a Next.js front end, an ASP.NET Core back end, and Azure OpenAI. It went live across multiple teams and users, handed over with a developer guide, a user manual, and an operations runbook.</p>
   </section>
 
   <!-- ARCHITECTURE -->
