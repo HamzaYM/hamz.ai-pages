@@ -275,7 +275,7 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">01</span>The design</div>
       <h2>The design</h2>
-      <p class="lead">A <span class="hot" tabindex="0" data-tt="Provenance" data-tip="Documented in the run log of the discovery workflow. Narrative record, not a public artifact.">14-agent discovery pipeline</span> pulled 26 candidate skills from two production codebases; 8 of them went through an order-blinded A/B across <span class="hot" tabindex="0" data-tt="Why 50" data-tip="The pre-registered plan carries 50 expectations. An early write-up said 51, which was a miscount, corrected here.">50 pre-registered must-hits</span> in 16 tasks. Eight skills, two tasks each.</p>
+      <p class="lead">A <span class="hot" tabindex="0" data-tt="Provenance" data-tip="Documented in the run log of the discovery workflow. Narrative record, not a public artifact.">14-agent discovery pipeline</span> identified 26 candidate skills across two production codebases. I selected eight for an order-blinded A/B across <span class="hot" tabindex="0" data-tt="Why 50" data-tip="The pre-registered plan carries 50 expectations. An early write-up said 51, which was a miscount, corrected here.">50 pre-registered must-hits</span> in 16 tasks: eight skills, two tasks each.</p>
       <p>A <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hit</span> is a pass/fail expectation written in advance. The output either meets it or it does not, and each task carried its own short list, 50 across the suite.</p>
       <p>Two words in that design carry the weight. <strong>Pre-registered</strong> means the pass rule and every expectation were written down before any skill file existed, so the test could not drift toward the result I wanted. <strong>Order-blinded</strong> means judges saw the two reports for a task in an alternating order and were not told which arm was which.</p>
       <p>Every task ran twice. In the cold arm, an agent worked the task with no skill loaded. In the loaded arm, an agent worked the same task with the skill loaded. A judge then graded each pair against the task's must-hits.</p>
@@ -291,9 +291,9 @@
       <p class="lead">Fifty must-hits, graded in both arms.</p>
       <div class="ab" id="ab">
         <div class="ab-row ab-base"><span class="lbl">baseline, no skills</span><div class="ab-track"><div class="ab-fill" data-w="52" style="width:52%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">26 / 50</span></div>
-        <div class="ab-row ab-skill"><span class="lbl">with the library</span><div class="ab-track"><div class="ab-fill" data-w="92" style="width:92%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">46 / 50</span></div>
+        <div class="ab-row ab-skill"><span class="lbl">with the tested skills</span><div class="ab-track"><div class="ab-fill" data-w="92" style="width:92%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">46 / 50</span></div>
       </div>
-      <p style="margin-top:24px">Task must-hits rose from 26/50 to 46/50, and all 8 tested skills cleared the pre-registered rule. The 26 sources were distilled into 17 portable skills, released as <a href="https://github.com/HamzaYM/reliable-ai-skills">Reliable AI Skills</a>, open source, with the harness included so you can grade your own.</p>
+      <p style="margin-top:24px">Task must-hits rose from 26/50 to 46/50, and all 8 tested skills cleared the pre-registered rule. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage. The 26 repository-specific skills were consolidated into 17 portable skills, released as <a href="https://github.com/HamzaYM/reliable-ai-skills">Reliable AI Skills</a>, open source, with the harness included so you can grade your own.</p>
       <p>The rule itself was fixed in the plan before the first run: a skill passes only if its loaded runs beat its cold runs and clear at least two thirds of their must-hits. Four tasks tied between arms; the gains came from the rest.</p>
       <div class="handoff">
         <div class="ct">This study has a sequel</div>
@@ -308,9 +308,9 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">03</span>The timeline</div>
       <h2>The timeline</h2>
-      <p class="lead">The whole study ran on 2026-07-02, and the order of the timestamps is the point: the plan came first, and no skill file existed when it was written.</p>
+      <p class="lead">The whole study ran on 2026-07-02, and the order of the timestamps is the point: the plan came first, and none of the extracted skill files existed when it was written.</p>
       <div class="timeline">
-        <div class="trow"><span class="tt-time hot" tabindex="0" data-tt="Recorded times" data-tip="All four timestamps are the recorded completion times of the runs. Same day, all UTC.">07:52</span><span class="tt-desc"><b>Plan written.</b> Every task, every must-hit, and the pass rule, down on paper. Before any skill file existed.</span></div>
+        <div class="trow"><span class="tt-time hot" tabindex="0" data-tt="Recorded times" data-tip="All four timestamps are the recorded completion times of the runs. Same day, all UTC.">07:52</span><span class="tt-desc"><b>Plan written.</b> Every task, every must-hit, and the pass rule, down on paper. Before any of the extracted skill files had been written.</span></div>
         <div class="trow"><span class="tt-time">17:37</span><span class="tt-desc"><b>Cold arm complete.</b> <span class="hot" tabindex="0" data-tt="Cold arm" data-tip="The cold arm ran every task with no skill loaded. Same tasks, same must-hits as the loaded arm.">Sixteen tasks, no skills loaded.</span></span></div>
         <div class="trow"><span class="tt-time">21:33</span><span class="tt-desc"><b>Loaded arm complete.</b> <span class="hot" tabindex="0" data-tt="Loaded arm" data-tip="The loaded arm ran the same 16 tasks with the skill under test loaded. The only difference between arms is the skill.">The same sixteen tasks, skills loaded.</span></span></div>
         <div class="trow"><span class="tt-time">21:36</span><span class="tt-desc"><b>Judges complete.</b> <span class="hot" tabindex="0" data-tt="LLM-as-judge" data-tip="A model grades each pair of reports against the task's written must-hits, one judge run per task, with the arm order withheld.">One order-blinded judge run per task.</span></span></div>
@@ -327,7 +327,8 @@
       <p class="lead">The study has limits. They are stated here, plainly, because a result you cannot bound is a result you cannot trust.</p>
       <div class="callout">
         <div class="ct">The stated limit</div>
-        <p>The judging was <span class="hot" tabindex="0" data-tt="Order-blinded" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span>, not content-blinded. The order key was withheld from the judges. The content was not scrubbed. Consumer reports included an actions section, and some judge verdicts noted that a report had consulted a skill. The next version of the harness judges outputs only, so that leak closes.</p>
+        <p>The judging was <span class="hot" tabindex="0" data-tt="Order-blinded" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span>, not content-blinded. The order key was withheld from the judges. The content was not scrubbed. Some outputs contained an actions section that revealed a skill may have been consulted, and some judge verdicts noticed it. The next version of the harness judges outputs only, so that leak closes.</p>
+      <p>Two more bounds worth stating. Each task used one cold run and one loaded run, with one judge pass per pair, so the result is directional for this suite; it does not estimate run-to-run variance. And the eight tested skills were a selected subset of the 26 candidates, so the result should not be read as evidence that every candidate would have passed.
       </div>
       <p style="margin-top:32px">The released library is also not a straight copy of what was tested. The honest accounting: 26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library, for 17 total.</p>
       <p>That has a consequence worth saying outright. 5 of the 17 released skills trace to A/B-measured sources. The measured deltas attach to the source skills as tested in their home repos, and the released rewrites carry the lineage, not a fresh measurement.</p>
@@ -337,9 +338,9 @@
   <!-- 05 · WHAT COMES NEXT -->
   <section id="next">
     <div class="wrap rv">
-      <div class="sec-eyebrow"><span class="num">05</span>What comes next</div>
-      <h2>What comes next</h2>
-      <p>That next run has since happened: the effort lattice, pre-registered the same way, judging outputs only, and measuring the released skills as shipped rather than their sources. Its numbers live on its own page.</p>
+      <div class="sec-eyebrow"><span class="num">05</span>What came next</div>
+      <h2>What came next</h2>
+      <p>That run has since happened: the effort lattice tested the released 17-skill library as shipped, judging outputs only, across three dialed Claude models and Haiku as a fixed baseline. It asked whether higher reasoning effort erases what the skills add, and its numbers live on its own page.</p>
       <!-- SLOT-RESULTS-EXPLORER: replace this paragraph's repo link with the explorer URL when it exists; do not invent the URL now -->
       <!-- SLOT-EFFORT-SWEEP-WORKBENCH: add the effort-sweep workbench link beside the results explorer when it exists; do not invent the URL now -->
       <p>The method and the harness are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>, so you can grade your own; the sequel ships with its own per-cell explorer.</p>
