@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A CRM that stopped being a database and started acting - hamz.ai</title>
-<meta name="description" content="An anonymized case study. A capital-markets advisory firm tracked roughly 7,000 companies in a Dynamics 365 environment that stored everything and acted on nothing. I built company-event automation where triggers cannot silently expire, and AI-drafted outreach behind explicit human approval.">
-<meta property="og:title" content="A CRM that stopped being a database and started acting">
-<meta property="og:description" content="An anonymized case study. Company events get owners and deadlines that cannot silently expire, and AI-drafted outreach waits behind explicit human approval.">
+<title>An overnight AI pipeline for a business-coaching company - hamz.ai</title>
+<meta name="description" content="An anonymized case study. Each coach carried a book of clients across scattered notes, tasks, transcripts, and a CRM. I built a coach cockpit, a client portal, and an overnight pipeline that turns every meeting into a review-and-approve step by morning.">
+<meta property="og:title" content="An overnight AI pipeline for a business-coaching company">
+<meta property="og:description" content="An anonymized case study. Meeting transcripts become drafted summaries, tasks, and client messages overnight, all behind a human approval gate.">
 <meta property="og:type" content="article">
+<link rel="canonical" href="https://www.hamz.ai/work/coaching-platform/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -185,155 +186,167 @@
 
   <header class="hero">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px;">
-      <div class="eyebrow" style="margin-bottom:0;">Anonymized case study / Capital markets</div>
+      <div class="eyebrow" style="margin-bottom:0;">Anonymized case study / Business coaching</div>
       <span class="chip">Details generalized</span>
     </div>
-    <h1>The CRM stopped being a database and started acting</h1>
-    <p class="lede">An independent capital-markets advisory firm helps public companies increase their market valuation. Its business-development team tracks roughly 7,000 companies in Dynamics 365, and the moments that matter, an acquisition, an earnings event, kept surfacing weeks after the best pitch window had closed. I made the CRM act on those moments: every event gets an owner and a deadline that cannot silently expire, and AI-drafted outreach waits behind explicit human approval.</p>
+    <h1>An overnight AI pipeline for a business-coaching company</h1>
+    <p class="lede">Every coach carried a book of clients across scattered notes, tasks, transcripts, and a CRM, and lost real time to the admin between meetings. I built the cockpit, the client portal, and the overnight pipeline that turns each meeting into a review-and-approve step by morning, without ever sending a word the coach did not approve.</p>
     <div class="chips">
-      <span class="chip"><b>~7,000</b> tracked companies</span>
-      <span class="chip"><b>3</b>-person BD team, plus the CEO and partners</span>
-      <span class="chip">events <b>cannot silently expire</b></span>
-      <span class="chip">AI drafts, <b>humans approve</b></span>
-      <span class="chip"><b>7</b> phases delivered</span>
+      <span class="chip">coach cockpit <b>+</b> client portal</span>
+      <span class="chip"><b>5</b> hard invariants</span>
+      <span class="chip"><b>81</b> logged product decisions</span>
+      <span class="chip">mock-first, <b>25</b>-client seeded demo</span>
     </div>
   </header>
 
   <!-- PROBLEM -->
   <section>
     <div class="sec-eyebrow"><span class="num">01</span>The problem</div>
-    <h2>A CRM that stored everything and acted on nothing</h2>
-    <p class="lead">Three full-time BD people, plus a CEO and partners who actively pitch, track roughly 7,000 companies in a Dynamics 365 Sales Hub environment. It had been heavily customized over several years by one person, with no formal documentation and zero automation. The data went in. Nothing ever came back out at the right moment.</p>
-    <p>The cost showed up as missed triggers. A prospect makes an acquisition or reports earnings, and the team hears about it weeks later, after the moment when a pitch would have landed. Around that sat manual everything: emails logged by hand, meeting notes typed up by hand, market data uploaded by hand with the columns matched one at a time. People ran consumer AI chatbots on the side and pasted the results into emails, where nothing was stored and nothing could be reused.</p>
+    <h2>The client relationship lived in six places, and the admin never ended</h2>
+    <p class="lead">At a business-coaching company, each coach runs a book of clients through a structured, multi-month program, meeting each of them on a recurring cadence. The record of every one of those relationships was spread across spreadsheets, a shared drive, call transcripts, email, and the CRM that is supposed to be the system of record.</p>
+    <p>The cost was the admin around each meeting. Before a call, a coach reloaded the client's whole situation by hand across those systems. After it, they wrote the notes, split out who owed what, and sent the follow-ups. Every week, the open tasks were copied by hand into the next week's tab, one of the biggest time sinks in the whole workflow. The company's own stated goal for the project was simple and specific: give the coaches their hours back.</p>
     <div class="pile rv">
-      <div class="p">Triggers heard about weeks late</div>
-      <div class="p">Emails logged by hand</div>
-      <div class="p">Meeting notes typed by hand</div>
-      <div class="p">Market data uploaded by hand</div>
-      <div class="p">Columns matched one at a time</div>
-      <div class="p">Chatbot output pasted into email</div>
+      <div class="p">Per-client spreadsheets</div>
+      <div class="p">Shared drive</div>
+      <div class="p">Call transcripts</div>
+      <div class="p">Email threads</div>
+      <div class="p">The CRM</div>
+      <div class="p">Manual task carry-forward</div>
     </div>
-    <p class="pile-note">One person's undocumented customizations, zero automation, and a team working around all of it.</p>
-  </section>
-
-  <!-- APPROACH + PRINCIPLES -->
-  <section>
-    <div class="sec-eyebrow"><span class="num">02</span>The approach</div>
-    <h2>Discovery first: know the environment before automating it</h2>
-    <p class="lead">You cannot safely automate a system nobody has mapped. Before building anything, I inventoried every custom table, field, workflow, Power Automate flow, plugin, and integration in the environment, and shadowed the BD team through their real day-to-day rather than the workflow as anyone described it from memory.</p>
-    <p>From that came the ground rules: data-freshness standards, clear ownership of each record type, and baseline follow-up metrics captured before any automation existed, so later improvement claims would have something real to stand on. The client and I also agreed on the design principles up front, and every later decision was checked against them.</p>
-    <div class="invariants rv">
-      <div class="inv"><div class="ii">01</div><div><div class="it">Automation reduces friction, never adds administrative burden</div><div class="id">If a change makes the team do more admin than before, it does not ship.</div></div></div>
-      <div class="inv"><div class="ii">02</div><div><div class="it">AI drafts and synthesizes, humans keep final judgment</div><div class="id">The AI assists with drafting and synthesis. Approval, and the decision to send, stays with a person.</div></div></div>
-      <div class="inv"><div class="ii">03</div><div><div class="it">Data freshness matters more than data completeness</div><div class="id">A current record the team trusts beats a full record nobody believes. Staleness is treated as a defect.</div></div></div>
-      <div class="inv"><div class="ii">04</div><div><div class="it">The right action, obvious at the right time</div><div class="id">The system's job is to put the next step in front of the right person while the moment is still open.</div></div></div>
-      <div class="inv"><div class="ii">05</div><div><div class="it">Incremental, with value early</div><div class="id">Each phase had to be useful on its own before the next one started.</div></div></div>
-    </div>
+    <p class="pile-note">Six systems, reconciled by hand, around every meeting.</p>
   </section>
 
   <!-- WHAT WAS BUILT: PIPELINE -->
   <section>
-    <div class="sec-eyebrow"><span class="num">03</span>What I built</div>
-    <h2>Events get owners, owners get drafts, nothing expires quietly</h2>
-    <p>The core of the build is a standardized Company Event table: earnings releases, investor days, and management changes, populated by FactSet imports and manual inputs. When an event lands, automation assigns an owner, sets a status, and notifies on upcoming and overdue events. An event cannot silently expire. It is either acted on or explicitly closed, and the record shows which.</p>
+    <div class="sec-eyebrow"><span class="num">02</span>What I built</div>
+    <h2>A coach cockpit and client portal over an overnight pipeline</h2>
+    <p>Two surfaces sit on top of one engine. The coach gets a cockpit that brings the whole book into one place. The client gets a clean portal. Between them runs an overnight pipeline: it takes each meeting's transcript and, by morning, has drafted everything the coach used to write by hand, queued behind a single approval gate.</p>
 
     <div class="pipe rv">
       <div class="pipe-flow">
         <div class="pipe-stage">
           <div class="pn">INPUT</div>
-          <div class="ph">A company event lands</div>
-          <div class="pd">Earnings release, investor day, or management change, from FactSet imports or manual entry.</div>
+          <div class="ph">Meeting transcript</div>
+          <div class="pd">Pulled from the recorded call after it ends.</div>
         </div>
         <div class="pipe-arrow">→</div>
         <div class="pipe-stage">
-          <div class="pn">AUTOMATION</div>
-          <div class="ph">The system acts</div>
+          <div class="pn">OVERNIGHT</div>
+          <div class="ph">The pipeline drafts</div>
           <div class="pipe-outs" style="margin-top:12px">
-            <div class="pipe-out"><span class="oi">A</span> Assigns an owner, sets a status</div>
-            <div class="pipe-out"><span class="oi">B</span> Notifies on upcoming and overdue events</div>
-            <div class="pipe-out"><span class="oi">C</span> Files documents in SharePoint, extracts usable text</div>
-            <div class="pipe-out"><span class="oi">D</span> Pulls the latest structured meeting insight</div>
-            <div class="pipe-out"><span class="oi">E</span> Drafts outreach for the trigger type</div>
+            <div class="pipe-out"><span class="oi">A</span> An internal coach summary</div>
+            <div class="pipe-out"><span class="oi">B</span> Tasks, split by owner</div>
+            <div class="pipe-out"><span class="oi">C</span> Client messages, in the coach's voice</div>
+            <div class="pipe-out"><span class="oi">D</span> Detected wins</div>
+            <div class="pipe-out"><span class="oi">E</span> SOP-based quality feedback</div>
           </div>
         </div>
         <div class="pipe-arrow">→</div>
         <div class="pipe-stage pipe-gate">
-          <div class="pn">THE GATE</div>
-          <div class="ph">Human review</div>
-          <div class="pd">Nothing sends without explicit approval. The event closes with an action or an explicit decision, never by timing out.</div>
+          <div class="pn">BY MORNING</div>
+          <div class="ph">Drafts queue</div>
+          <div class="pd">Nothing is sent, nothing is visible to a client, until the coach approves it.</div>
         </div>
       </div>
     </div>
 
-    <p style="margin-top:28px">Around the event flow sit the pieces that make the drafts worth reading. Meetings produce a structured Meeting Insight record, linked to the appointment and its tasks: a summary, key themes, personalization cues, and next steps, with automated prompts to refresh insights that have gone stale. Introductory meetings generate follow-up tasks automatically, with service-level expectations, escalation rules, and tracked completion and outcomes. The outreach drafts are assembled from those insights, the extracted document text, and selected marketing modules, with different templates and prompting logic per trigger type.</p>
+    <p style="margin-top:28px">The coach walks in, opens the queue, and reviews. Approve, edit, or reject. The work that used to take a block of admin after every call is now a few minutes of reviewing drafts that already exist.</p>
 
-    <div class="pull rv">The event gets an owner. The owner gets a draft. Nothing sends itself.</div>
+    <div class="pull rv">The pipeline does the drafting. The coach keeps the decision.</div>
   </section>
 
-  <!-- ROADMAP -->
+  <!-- INVARIANTS -->
   <section>
-    <div class="sec-eyebrow"><span class="num">04</span>The roadmap</div>
-    <h2>Seven phases, each useful before the next started</h2>
-    <p>The work was scoped as seven phases, ordered so that every phase delivered something the team used before the next one began. All seven shipped.</p>
-    <ol class="lessons rv">
-      <li><b>Discovery and foundation.</b> Full environment inventory, the BD workflow documented end to end from real examples, data-freshness standards, and baseline follow-up metrics.</li>
-      <li><b>Company-event and trigger automation.</b> The standardized Company Event table, fed by FactSet imports and manual inputs, with owners, statuses, notifications, and no silent expiry.</li>
-      <li><b>Document management and content automation.</b> Standardized SharePoint storage linked to accounts and events, required metadata at upload, and automated extraction of usable text from earnings releases for downstream AI and reporting.</li>
-      <li><b>Meeting-insight structuring.</b> A structured Meeting Insight record linked to appointments and tasks: summaries, key themes, personalization cues, next steps, with automated prompts to refresh stale insights.</li>
-      <li><b>Follow-up automation.</b> Automatic follow-up tasks after introductory meetings, service-level expectations, escalation rules, and tracked completion and outcomes.</li>
-      <li><b>AI-drafted outreach.</b> Follow-up emails drafted from structured meeting insights, extracted document content, and selected marketing modules, with different templates and prompting logic per trigger type, behind human review and approval.</li>
-      <li><b>Measurement and continuous improvement.</b> Automation adoption, follow-up timing, draft usage and edit rates, and conversion outcomes tracked, with rules, templates, and prompts refined against observed performance.</li>
-    </ol>
+    <div class="sec-eyebrow"><span class="num">03</span>The invariants</div>
+    <h2>Five rules the system is never allowed to break</h2>
+    <p>An AI that drafts client-facing messages in a paid, high-trust relationship has to be safe by construction, not by good intentions. Five invariants held across the entire build, and every design decision was checked against them.</p>
+    <div class="invariants rv">
+      <div class="inv"><div class="ii">01</div><div><div class="it">Nothing sends without explicit coach approval</div><div class="id">Every outbound message passes through the gate. There is no auto-send path anywhere in the system.</div></div></div>
+      <div class="inv"><div class="ii">02</div><div><div class="it">A client can never read an unsent message</div><div class="id">Drafts live entirely on the coach's side of the wall. The portal cannot surface anything that has not been approved and sent.</div></div></div>
+      <div class="inv"><div class="ii">03</div><div><div class="it">Every extracted claim carries a verified source quote</div><div class="id">The AI does not assert anything it cannot point to. Each extracted fact links back to the exact line in the transcript it came from.</div></div></div>
+      <div class="inv"><div class="ii">04</div><div><div class="it">Gaps are flagged, not filled</div><div class="id">When the transcript does not support a conclusion, the system says so. It never invents the missing piece to look complete.</div></div></div>
+      <div class="inv"><div class="ii">05</div><div><div class="it">Drafts are in the coach's voice, and visibly AI-assisted</div><div class="id">A standardized core, personalized per coach: their voice, their SOPs, their templates, their cadences, and always marked as a draft.</div></div></div>
+    </div>
   </section>
 
-  <!-- THE STACK -->
+  <!-- BUILD DISCIPLINE -->
   <section>
-    <div class="sec-eyebrow"><span class="num">05</span>The stack</div>
-    <h2>Built inside the client's own environment</h2>
-    <p>Nothing here is a separate app the team has to remember to open. The build lives where the work already happens: the tables, flows, and documents the BD team touches every day.</p>
+    <div class="sec-eyebrow"><span class="num">04</span>How it was built</div>
+    <h2>Demoable end to end without touching a single client system</h2>
+    <p>The integrations, Zoom, the CRM, the drive, calendar, and email, are all flagged adapters with mock implementations behind them. That let the whole product run on a deterministic seeded demo of twenty-five clients, so it could be shown and tested top to bottom without reaching into anyone's real data. The riskiest real-world join, matching a recorded meeting back to the right client, was named as the top build risk and designed around from the start.</p>
     <div class="stats rv">
-      <div class="stat"><div class="sv">~7,000</div><div class="sl">companies tracked in one Dynamics 365 environment</div></div>
-      <div class="stat"><div class="sv">3</div><div class="sl">full-time BD people, plus the CEO and partners who pitch</div></div>
-      <div class="stat"><div class="sv">7</div><div class="sl">phases scoped, seven delivered</div></div>
-      <div class="stat"><div class="sv">0</div><div class="sl">automation in the environment before the engagement</div></div>
+      <div class="stat"><div class="sv">81</div><div class="sl">logged product decisions, D1 through D81, tracing every call</div></div>
+      <div class="stat"><div class="sv">25</div><div class="sl">client deterministic seed, demoable end to end</div></div>
+      <div class="stat"><div class="sv">5</div><div class="sl">mock-first adapters: Zoom, CRM, drive, calendar, email</div></div>
+      <div class="stat"><div class="sv">373</div><div class="sl">automated tests across 40 files, all green</div></div>
     </div>
     <div class="layers rv">
-      <div class="layer"><span class="lk">Platform</span><span class="lv">Dynamics 365 Sales Hub, <span>custom tables, fields, workflows, plugins</span></span></div>
-      <div class="layer"><span class="lk">Automation</span><span class="lv">Power Automate, <span>ownership, statuses, notifications, escalation</span></span></div>
-      <div class="layer"><span class="lk">Market data</span><span class="lv">FactSet imports, <span>into the standardized Company Event table</span></span></div>
-      <div class="layer"><span class="lk">Documents</span><span class="lv">SharePoint, <span>linked to accounts and events, metadata required at upload</span></span></div>
-      <div class="layer"><span class="lk">AI drafting</span><span class="lv">per-trigger templates and prompts, <span>human approval before anything sends</span></span></div>
+      <div class="layer"><span class="lk">App</span><span class="lv">Next.js and TypeScript, <span>coach cockpit and client portal</span></span></div>
+      <div class="layer"><span class="lk">Data</span><span class="lv">Drizzle ORM and Postgres</span></div>
+      <div class="layer"><span class="lk">Testing</span><span class="lv">Vitest on an in-process Postgres, <span>373 tests across 40 files</span></span></div>
+      <div class="layer"><span class="lk">Integrations</span><span class="lv">flagged mock-first adapters <span>for Zoom, CRM, drive, calendar, email</span></span></div>
+      <div class="layer"><span class="lk">Demo</span><span class="lv">deterministic 25-client seed, <span>no real client data required</span></span></div>
     </div>
+    <p style="margin-top:28px">The discipline paid off when the design changed. Once the pipeline, the approval gate, and the quote verification were tested and validated, the entire UI was rebuilt to a new design in about two days, on that untouched core. The same rebuild added win detection, client file uploads, automated coaching-QA scoring, and a members-only community chat.</p>
   </section>
 
   <!-- OUTCOME -->
   <section>
-    <div class="sec-eyebrow"><span class="num">06</span>Outcome</div>
-    <h2>The roadmap shipped, and the measurement shipped with it</h2>
-    <p>Every phase on the roadmap was delivered, along with work beyond it. Triggers that used to surface weeks late now arrive with an owner and a deadline. Outreach that used to start from a blank page, or from a chatbot window nobody could audit, now starts from a reviewed draft built on stored, structured records.</p>
+    <div class="sec-eyebrow"><span class="num">05</span>Outcome</div>
+    <h2>Per-meeting admin becomes a review-and-approve step</h2>
+    <p>The notes, the tasks, and the client drafts that a coach used to produce by hand after every meeting are waiting for them in the morning, already drafted, gated on their approval.</p>
+    <figure class="tbar rv">
+      <figcaption>where the per-meeting admin went &middot; documented current state &middot; minutes</figcaption>
+      <svg viewBox="0 0 640 132" role="img" aria-label="Per-meeting admin in the documented current-state workflow: 5 to 15 minutes of prep before the meeting and 5 to 10 minutes of wrap-up after it, so 10 to 25 minutes per meeting in total. Roughly 15 minutes of that comes back when the admin collapses to reviewing pre-drafted work.">
+        <text x="0" y="12" font-family="var(--mono)" font-size="11" fill="var(--faint)">PREP, BEFORE THE MEETING</text>
+        <rect x="0" y="20" width="120" height="18" fill="var(--teal-dim)"/>
+        <rect x="120" y="20" width="240" height="18" fill="var(--teal)"/>
+        <text x="368" y="34" font-family="var(--mono)" font-size="11" fill="var(--dim)">5 to 15 min</text>
+        <text x="0" y="62" font-family="var(--mono)" font-size="11" fill="var(--faint)">WRAP-UP, AFTER IT</text>
+        <rect x="0" y="70" width="120" height="18" fill="var(--teal-dim)"/>
+        <rect x="120" y="70" width="120" height="18" fill="var(--teal)"/>
+        <text x="248" y="84" font-family="var(--mono)" font-size="11" fill="var(--dim)">5 to 10 min</text>
+        <line x1="0" y1="102" x2="600" y2="102" stroke="var(--line)"/>
+        <text x="0" y="122" font-family="var(--mono)" font-size="11" fill="var(--teal)">~15 MIN COMES BACK</text>
+        <text x="600" y="122" text-anchor="end" font-family="var(--mono)" font-size="11" fill="var(--faint)">10 to 25 min per meeting, all in</text>
+      </svg>
+    </figure>
     <div class="outcome-hero rv">
-      <div class="big">7 / 7</div>
+      <div class="big">11.5 hrs</div>
       <div class="oc-text">
-        <div class="l">phases on the roadmap, delivered</div>
-        <p>The last phase matters most: the system tracks automation adoption, follow-up timing, draft usage and edit rates, and conversion outcomes, so the rules, templates, and prompts get refined against observed performance rather than opinion.</p>
+        <div class="l">projected back per coach, every week</div>
+        <p>A task-by-task model of the coaching day to day, sized for a six-coach, 109-client operation, projects about 11.5 hours back per coach per week. Across the team that is roughly 69 hours a week, about CA$149,000 a year at the client's own loaded cost.</p>
       </div>
     </div>
-    <p class="mult rv">I am not quoting time-saved or conversion numbers here. Those are the client's numbers to watch, on the instrumentation this build put in place. The claim I can stand behind is the mechanism: an event cannot silently expire, and nothing sends without a human saying send.</p>
+    <div class="basis rv">
+      <b>Basis:</b> a task-by-task model of the documented current-state workflow; the chart above is its biggest slice (5&ndash;15 min of prep plus 5&ndash;10 min of wrap-up per meeting, collapsed to a review-and-approve step). The client's stated success metric is coach hours saved. These are projected figures with their basis stated, not measured client outcomes.
+    </div>
+    <p class="mult rv">The model is honest in both directions: two of its rows sit slightly <b>negative</b> on purpose, because chasing commitments and updating roadmaps are not happening today, and the portal takes those jobs on.</p>
   </section>
 
-  <!-- BOUNDARY -->
+  <!-- WHAT I'D DO DIFFERENTLY -->
   <section>
-    <div class="sec-eyebrow"><span class="num">07</span>The honest boundary</div>
-    <h2>Why there is no repo or demo link</h2>
-    <p class="lead">The build lives inside the client's Dynamics 365 environment, on their tenant, against their data. There is no public repo to point at and no demo to click through.</p>
-    <p>What I can show is the shape of the work: the discovery-first approach, the design principles, the event model, and the approval gate. The details on this page are generalized and the client is anonymized.</p>
-    <div class="basis rv">
-      <b>Basis:</b> the engagement facts on this page, with identifying details removed. Where a specific could not be stated without identifying the client, it was generalized rather than invented.
-    </div>
+    <div class="sec-eyebrow"><span class="num">06</span>What I'd do differently</div>
+    <h2>The hours are still projected numbers, not measured ones</h2>
+    <p class="lead">The mock-first build proved the pipeline works top to bottom. It did not prove the pipeline works on a real book of clients, over a real week, against a real email account.</p>
+    <p>The riskiest join in the whole system, matching a recorded meeting back to the right client, was designed around from the start. That was the right call for a 25-client seeded demo. It also means the hardest part of the system has not yet met the messiness of a live calendar, a live CRM, and a live Zoom account. I would want that join running against real data before I trusted the rest of the pipeline the way the demo does.</p>
+    <p>The invariants that keep the system safe, the approval gate, the sourced claims, the flagged gaps, also set a ceiling on how much time they save. A system that never fills a gap and never sends without sign-off is a system a coach still has to read closely every morning. That tradeoff was deliberate. But it means the 11.5 hours is a projection from a task-by-task model of the documented current-state workflow, not a number pulled from coaches actually using the queue week over week. The next thing to build is not a feature. It is the measurement that turns that estimate into a fact.</p>
+  </section>
+
+  <!-- WHAT I TOOK AWAY -->
+  <section>
+    <div class="sec-eyebrow"><span class="num">07</span>What I took away</div>
+    <h2>Four things I would carry into the next build</h2>
+    <ol class="lessons rv">
+      <li><b>The gate was the product.</b> The drafting was the part everyone expected to be hard, and it was not. Take the gate out and the drafting is a liability instead of a feature.</li>
+      <li><b>Name the riskiest join before you build around it.</b> Calling the meeting-to-client match the top risk early meant the architecture was designed around it instead of discovering it late. That one call is why the build did not stall.</li>
+      <li><b>Mock-first bought the demo and postponed the proof.</b> Building it demoable end to end without touching a client system meant it could be shown and argued with from the first week. The proof against live systems is still owed.</li>
+      <li><b>Safety caps the savings, and that is the trade I would make again.</b> The ceiling on time saved is the price of the guarantee, and the guarantee is the reason they trust it.</li>
+    </ol>
   </section>
 
   <section class="final">
-    <div class="fq">The CRM already knew about the event. The work was making it act: assign the owner, draft the outreach, and wait for a human to say send.</div>
+    <div class="fq">The hard part was not the drafting. It was the gate that guarantees nothing reaches a client the coach did not sign.</div>
     <a class="cta" href="https://www.hamz.ai/designing-agentic-ai/">How I design these systems →</a>
     <a class="cta ghost" href="https://www.hamz.ai">Back to hamz.ai</a>
   </section>

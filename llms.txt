@@ -29,7 +29,8 @@ hamz.ai builds multi-model Claude architectures, eval harnesses, production reli
 
 ## Work
 
-- [Overnight AI pipeline for a capital-markets advisory firm](https://www.hamz.ai/work/advisory-overnight/): An anonymized case study. An advisor cockpit, a client portal, and an overnight pipeline that turns every meeting into a review-and-approve step by morning.
+- [Overnight AI pipeline for a business-coaching company](https://www.hamz.ai/work/coaching-platform/): An anonymized case study. A coach cockpit, a client portal, and an overnight pipeline that turns every session into a review-and-approve step by morning, projected to give each coach 11.5 hours a week back.
+- [BD automation for a capital-markets advisory firm](https://www.hamz.ai/work/advisory-overnight/): An anonymized case study. Business development automation and AI enablement inside a customized Dynamics 365 environment: market events become tracked records that cannot silently expire, and AI-drafted outreach queues behind human review. Delivered across a seven-phase roadmap.
 - [Trip-feasibility engine for a business-aviation operator](https://www.hamz.ai/work/aviation-operations/): An anonymized case study. A 16-check trip-feasibility engine over 10+ enterprise data sources, with human override as a first-class citizen.
 - [Case playtesting](https://www.hamz.ai/case-playtesting/): A method for pressure-testing decision materials against a simulated panel of AI personas before they meet a real audience.
 - [Clara](https://www.hamz.ai/clara/): A prototype that reads hard mail, classifies it, and explains it back in plain language with audio and deadline reminders.

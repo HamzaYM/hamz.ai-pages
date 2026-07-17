@@ -510,6 +510,11 @@
       <p>Separately, Haiku improved by <strong>+26.5</strong> points <span class="hot" tabindex="0" data-tt="Haiku, one run" data-tip="Haiku has no effort dial and ran once per side, so the +26.5 is directionally accurate; the exact decimal may not be.">in its single available run per side</span>.</p>
       <p style="color:var(--ink)">The verdict: the skills added more than effort did, and cost less to add. Loading them added at most 30 cents to a run; turning the dial from low to the top added roughly 30 to 77 cents per run, while producing smaller score gains than the skills did on each dialed model. Load the skills first because they're the cheaper lift, then turn up reasoning effort for the harder cases. For these tasks, giving the model the right methods and context mattered more than turning up effort alone.</p>
     </div>
+    <div class="mini-card" style="margin-top:16px">
+      <div class="ct">Inspect the evidence</div>
+      <p>The study page summarizes the result. The Results Explorer exposes every populated condition, repeated run, task checklist, judge disagreement, second-vendor cross-check, and source file behind it.</p>
+      <p><a href="explorer/">Open the Results Explorer &#8599;</a></p>
+    </div>
     <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:100%">A skill here is a reusable instruction file Claude Code loads before it works: a method, checklist, or workflow the model can follow during a task. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
     <div class="stats" aria-label="The study at a glance" data-fx-stagger>
       <div class="st fx"><div class="v">16</div><div class="l">planned model-effort conditions across 4 models &middot; 15 completed</div></div>
@@ -658,6 +663,7 @@
           </table>
         </div>
         <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third (Fable) settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those read the direction, not the exact value. Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
+        <p style="margin-top:16px;text-align:center"><a href="#methodology">Read the methodology &rarr;</a> &nbsp;&middot;&nbsp; <a href="explorer/">Open the Results Explorer &#8599;</a></p>
       </div>
 
       <div id="perf-figs">
@@ -956,7 +962,7 @@
       <div class="cardrow" data-fx-stagger>
         <div class="mini-card fx" id="codex-card">
           <div class="ct">Cross-vendor spot check</div>
-          <p>Every judge in this study is a Claude model scoring Claude outputs, which is a fair thing to be skeptical of. As a check, Codex 5.6, a model from a different vendor, re-scored 50 sampled comparisons in a single run and agreed with the final marks 97.2% of the time. Full detail in <a href="#methodology">the full methodology</a>.</p>
+          <p>Every judge in this study is a Claude model scoring Claude outputs, which is a fair thing to be skeptical of. As a check, a second vendor's model (recorded in the harness as gpt-5.6-terra, run through the OpenAI Codex CLI) re-scored 50 sampled comparisons in a single run and agreed with the final marks 97.2% of the time. Full detail in <a href="#methodology">the full methodology</a>.</p>
         </div>
         <div class="mini-card fx" id="costs-card">
           <div class="ct">What it cost</div>
@@ -1385,7 +1391,7 @@
       </div>
 
       <h3>Reproduce it</h3>
-      <p>The repo carries the frozen pre-registration, the committed judge inputs, and matrix.json. Run the suite on your own keys. Re-judge my judge inputs on a model I do not control. Tell me where it breaks: <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>.</p>
+      <p>The repo carries the frozen pre-registration, the committed judge inputs, and matrix.json. Run the suite on your own keys. Re-judge my judge inputs on a model I do not control. Tell me where it breaks: <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>. <a href="explorer/">Open the Results Explorer &#8599;</a></p>
 
       <p>One more thing worth saying plainly. This entire experiment, the harness that ran it, the judging panel that scored it, and the orchestration across two machines that kept it moving, was built and run on Claude Code, by Claude models, with me directing. The judge inputs are public on purpose: anyone (and that includes anyone at Anthropic) can re-score them with a different model and check whether the results hold up. The instrument can also run against models I have not tested, to check whether the skills hold their effectiveness as effort scales past what I can measure. If you have ideas, reach out. If you want to extend the library or the task suite, pull requests are open. And if you run this against your own stack, send me your results and I will add them here.</p>
 
