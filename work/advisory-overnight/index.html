@@ -106,6 +106,12 @@
     .pipe-arrow{ padding:8px 0; transform:rotate(90deg); }
   }
 
+  /* business chain */
+  .chain-strip{ display:inline-block; margin:0 0 26px; padding:9px 14px; border:1px solid var(--line); background:var(--raised);
+    font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--dim); line-height:1.7; }
+  .chain-strip b{ color:var(--teal); font-weight:400; }
+  .step-kicker{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
+
   .callout{ margin-top:32px; border:1px solid var(--line); border-left:2px solid var(--teal); background:var(--raised); padding:24px 26px; }
   .callout .ct{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
   .callout p{ font-size:15px; margin-bottom:14px; }
@@ -235,6 +241,8 @@
   <section>
     <div class="sec-eyebrow"><span class="num">03</span>What I built</div>
     <h2>Events get owners, owners get drafts, nothing expires quietly</h2>
+    <div class="chain-strip">event <b>&rarr;</b> accountable owner <b>&rarr;</b> fresh context <b>&rarr;</b> drafted action <b>&rarr;</b> human approval</div>
+    <div class="step-kicker">accountable owner</div>
     <p>The core of the build is a standardized Company Event table: earnings releases, investor days, and management changes, populated by FactSet imports and manual inputs. When an event lands, automation assigns an owner, sets a status, and notifies on upcoming and overdue events. An event cannot silently expire. It is either acted on or explicitly closed, and the record shows which.</p>
 
     <div class="pipe rv">
@@ -265,7 +273,8 @@
       </div>
     </div>
 
-    <p style="margin-top:28px">Around the event flow sit the pieces that make the drafts worth reading. Meetings produce a structured Meeting Insight record, linked to the appointment and its tasks: a summary, key themes, personalization cues, and next steps, with automated prompts to refresh insights that have gone stale. Introductory meetings generate follow-up tasks automatically, with service-level expectations, escalation rules, and tracked completion and outcomes. The outreach drafts are assembled from those insights, the extracted document text, and selected marketing modules, with different templates and prompting logic per trigger type.</p>
+    <div class="step-kicker" style="margin-top:28px">fresh context &rarr; drafted action</div>
+    <p>Around the event flow sit the pieces that make the drafts worth reading. Meetings produce a structured Meeting Insight record, linked to the appointment and its tasks: a summary, key themes, personalization cues, and next steps, with automated prompts to refresh insights that have gone stale. Introductory meetings generate follow-up tasks automatically, with service-level expectations, escalation rules, and tracked completion and outcomes. The outreach drafts are assembled from those insights, the extracted document text, and selected marketing modules, with different templates and prompting logic per trigger type.</p>
 
     <div class="pull rv">The event gets an owner. The owner gets a draft. Nothing sends itself.</div>
   </section>

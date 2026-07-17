@@ -136,6 +136,8 @@
             text-transform:uppercase; color:var(--teal); margin-bottom:22px; }
   h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:24px; }
   .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
+  .start-here{ margin-top:26px; padding-top:16px; border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; gap:8px 24px; font-family:var(--mono); font-size:12px; color:var(--faint); line-height:1.7; }
 
   /* sections */
   section{ padding:76px 0; border-bottom:1px solid var(--line); }
@@ -311,12 +313,17 @@
     <div class="crumbs">
       <a href="https://www.hamz.ai">&larr; back to hamz.ai</a>
       <span>Updated July 2026</span>
-      <span>claims verified 2026-07-13</span>
     </div>
     <div class="eyebrow">The lab</div>
     <h1>Hamza's Lab</h1>
     <p class="lede">This is where I publish research on how AI systems behave, the methods I use to test them, and the standards my client work has to pass.</p>
     <p style="margin-top:20px;">The client work stays private. The experiments, evaluation methods, and evidence behind it do not.</p>
+    <div class="start-here" aria-label="Where to start">
+      <span>New to AI systems? Start with <a href="../designing-agentic-ai/">Agent Topologies</a>.</span>
+      <span>Technical builder? Start with <a href="skills/">the Skills Library</a>.</span>
+      <span>Interested in evidence? Start with <a href="lattice/">the Effort Lattice</a>.</span>
+      <span>Evaluating my client work? Start with <a href="chain/">the Assurance Chain</a>.</span>
+    </div>
   </div>
 </header>
 
@@ -325,7 +332,7 @@
   <section id="flagship">
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">01</span>Research</div>
-      <h2>Research I've done</h2>
+      <h2>Research and methods</h2>
       <p class="learn-pointer">If a term below is new, start with my <a href="learn/">Learn page</a>.</p>
       <div class="flag">
 
