@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clara - hamz.ai</title>
 <meta name="description" content="Clara: a prototype that reads hard mail, classifies it, and explains it back in plain language with audio and deadline reminders.">
@@ -12,8 +13,19 @@
 <style>
   :root{
     --bg:#0F0F0F; --bg-raised:#161616; --ink:#F2F2F0; --ink-body:rgba(242,242,240,0.92);
-    --ink-dim:rgba(242,242,240,0.40); --accent:#2BD7AF; --line:rgba(255,255,255,0.10);
+    --ink-dim:rgba(242,242,240,0.40); --accent:#2BD7AF; --accent-loud:#2BD7AF; --line:rgba(255,255,255,0.10);
+    --nav-bg:rgba(15,15,15,0.86);
     --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --sans:"Inter",system-ui,-apple-system,sans-serif; --max:1000px;
+  }
+  @media (prefers-color-scheme:light){ :root:not([data-theme="dark"]){
+    --bg:#F7F5F2; --bg-raised:#FFFFFF; --ink:#14140F; --ink-body:rgba(20,20,15,0.92);
+    --ink-dim:#555C58; --accent:#05705B; --accent-loud:#2BD7AF; --line:#E7E3DC;
+    --nav-bg:rgba(247,245,242,0.86);
+  } }
+  :root[data-theme="light"]{
+    --bg:#F7F5F2; --bg-raised:#FFFFFF; --ink:#14140F; --ink-body:rgba(20,20,15,0.92);
+    --ink-dim:#555C58; --accent:#05705B; --accent-loud:#2BD7AF; --line:#E7E3DC;
+    --nav-bg:rgba(247,245,242,0.86);
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
@@ -26,30 +38,37 @@
   h2{font-size:1.05rem;font-weight:600;}
   .label{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);}
   .label.dim{color:var(--ink-dim);}
-  nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,15,15,0.86);backdrop-filter:blur(10px);z-index:10;}
+  nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);z-index:10;}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;}
   nav .brand{font-family:var(--mono);color:var(--ink);font-size:14px;letter-spacing:0.02em;}
+  nav .nav-right{display:flex;align-items:center;gap:16px;}
   nav .back{font-family:var(--mono);font-size:13px;color:var(--ink-dim);}
   nav .back:hover{color:var(--accent);}
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; border-right:1px solid var(--line); color:var(--ink-dim);
+       font-family:var(--sans); font-size:13px; line-height:1; padding:7px 10px; cursor:pointer; transition:color .15s,background .15s; }
+  .theme-toggle button:last-child{ border-right:none; }
+  .theme-toggle button:hover{ color:var(--ink-body); }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--accent-loud); color:#0F0F0F; }
   header{padding:clamp(56px,10vw,110px) 0 clamp(32px,5vw,54px);}
   header .label{display:block;margin-bottom:22px;}
   header h1{max-width:16ch;margin-bottom:24px;}
-  .lede{font-size:clamp(1.05rem,2vw,1.28rem);color:var(--ink-body);max-width:64ch;line-height:1.55;}
+  .lede{font-size:clamp(1.05rem,2vw,1.28rem);color:var(--ink-body);line-height:1.55;}
   .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;}
   .pill{font-family:var(--mono);font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-dim);border:1px solid var(--line);border-radius:2px;padding:6px 11px;}
   section{padding:clamp(20px,4vw,40px) 0 clamp(48px,7vw,80px);}
   .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg-raised);margin-top:14px;}
   .shot img{display:block;width:100%;height:auto;}
   .caption{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:34px;}
-  .caption p{color:var(--ink-body);max-width:52ch;font-size:0.98rem;margin-top:6px;}
-  .note{border-top:1px solid var(--line);margin-top:20px;padding-top:26px;color:var(--ink-body);font-size:0.98rem;max-width:64ch;}
+  .caption p{color:var(--ink-body);font-size:0.98rem;margin-top:6px;}
+  .note{border-top:1px solid var(--line);margin-top:20px;padding-top:26px;color:var(--ink-body);font-size:0.98rem;}
   .note strong{color:var(--ink);font-weight:600;}
   .note p + p{margin-top:14px;}
   .who{margin-top:26px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
   .who div{border:1px solid var(--line);border-radius:6px;background:var(--bg-raised);padding:20px;}
   .who strong{display:block;color:var(--ink);font-weight:600;margin-bottom:8px;}
   .who p{font-size:0.95rem;color:var(--ink-body);}
-  .steps{list-style:none;margin-top:26px;border-top:1px solid var(--line);max-width:64ch;}
+  .steps{list-style:none;margin-top:26px;border-top:1px solid var(--line);}
   .steps li{display:flex;gap:18px;align-items:baseline;border-bottom:1px solid var(--line);padding:18px 0;}
   .steps .n{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;color:var(--accent);flex:0 0 auto;}
   .steps strong{display:block;color:var(--ink);font-weight:600;}
@@ -60,7 +79,16 @@
 </style>
 </head>
 <body>
-<nav><div class="wrap"><span class="brand">Clara</span><a class="back" href="https://www.hamz.ai/">← hamz.ai</a></div></nav>
+<nav><div class="wrap"><span class="brand">Clara</span>
+  <div class="nav-right">
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">◐</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">☀</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">☾</button>
+    </div>
+    <a class="back" href="https://www.hamz.ai/">← hamz.ai</a>
+  </div>
+</div></nav>
 
 <header><div class="wrap">
   <span class="label">Prototype / Document understanding</span>
@@ -142,5 +170,21 @@
 </div></section>
 
 <footer><div class="wrap"><span>Clara · a hamz.ai prototype</span><a href="https://www.hamz.ai/">www.hamz.ai →</a></div></footer>
+<script>
+(function(){
+  var root=document.documentElement;
+  var btns=Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){try{return localStorage.getItem('hamz-theme')||'system';}catch(e){return 'system';}}
+  function paint(v){btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.themeSet===v?'true':'false');});}
+  function apply(v){
+    if(v==='light'||v==='dark'){root.setAttribute('data-theme',v);}
+    else{root.removeAttribute('data-theme');}
+    try{localStorage.setItem('hamz-theme',v);}catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.themeSet);});});
+  paint(cur());
+})();
+</script>
 </body>
 </html>

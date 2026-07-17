@@ -237,6 +237,10 @@
   table.lattice td .m{ display:block; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); margin-top:4px; }
   table.lattice td.rep{ background:var(--acc-tint); }
   table.lattice td.na{ color:var(--faint); }
+  /* the 3D-grid side table: fixed layout so the long not-run note in the
+     Fable 5 column wraps instead of blowing that column wide open */
+  table.lattice#tbl-lattice-delta{ table-layout:fixed; }
+  table.lattice#tbl-lattice-delta thead th:first-child{ width:90px; }
 
   /* code-ish inline */
   code{ font-family:var(--mono); font-size:0.85em; color:var(--ink); background:var(--raised-2);
@@ -268,6 +272,7 @@
   .sv-sa{ stroke:var(--acc); } .sv-sam{ stroke:var(--amber); } .sv-sf{ stroke:var(--faint); }
   .sv-fr{ fill:var(--raised); } .sv-fr2{ fill:var(--raised-2); } .sv-fbg{ fill:var(--bg); }
   .sv-ftint{ fill:var(--acc-tint); } .sv-fnone{ fill:none; }
+  .sv-knock{ fill:var(--bg); font-weight:600; }
   /* E5 explorer: hidden until JS marks the document, table stays as fallback */
   /* #perf-figs holds a control shared by two exhibits below it, so it isn't
      itself an .exhibit; matching its width/centering keeps the toggle and its
@@ -283,7 +288,7 @@
   .eff-note{ font-family:var(--mono); font-size:11px; color:var(--faint); margin:8px 0 14px; text-align:center; }
   #lattice3d{ display:none; }
   html.js #lattice3d{ display:block; }
-  #lattice3d .fig-wrap{ touch-action:pan-y; cursor:grab; }
+  #lattice3d .fig-wrap{ touch-action:pan-y; cursor:grab; -webkit-user-select:none; user-select:none; }
   #lattice3d .fig-wrap.dragging{ cursor:grabbing; }
   @media print{ #lattice3d{ display:none !important; } .fig-wrap{ overflow:visible; } }
 
@@ -768,43 +773,43 @@
             </g>
             <text class="sv-t sv-faint" x="70" y="20" font-size="11">Share of checklist items hit, % &#183; zoomed, 80 to 100</text>
             <g class="sv-t sv-dim" font-size="11" text-anchor="middle">
-              <text x="290" y="507">low</text><text x="425" y="507">medium</text><text x="560" y="507">high</text><text x="695" y="507">xhigh</text><text x="830" y="507">max</text>
+              <text x="110" y="507">low</text><text x="290" y="507">medium</text><text x="470" y="507">high</text><text x="650" y="507">xhigh</text><text x="830" y="507">max</text>
             </g>
-            <text class="sv-t sv-faint" x="560" y="545" font-size="11" text-anchor="middle">Reasoning effort level</text>
+            <text class="sv-t sv-faint" x="470" y="545" font-size="11" text-anchor="middle">Reasoning effort level</text>
             <g class="ser-cold" data-model="fable" data-arm="cold" style="stroke:var(--c-fable)">
-              <polyline points="290,169.8 425,202.8 560,92.8 695,103.8" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <polyline points="110,169.8 290,202.8 470,92.8 650,103.8" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
               <g fill="var(--raised)" stroke-width="1.6">
-                <circle cx="290" cy="169.8" r="4"/><circle cx="425" cy="202.8" r="4"/><circle cx="560" cy="92.8" r="4"/><circle cx="695" cy="103.8" r="4"/>
+                <circle cx="110" cy="169.8" r="4"/><circle cx="290" cy="202.8" r="4"/><circle cx="470" cy="92.8" r="4"/><circle cx="650" cy="103.8" r="4"/>
               </g>
             </g>
             <g class="ser-cold" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
-              <polyline points="290,319.4 425,352.4 560,299.6 695,233.6 830,233.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <polyline points="110,319.4 290,352.4 470,299.6 650,233.6 830,233.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
               <g fill="var(--raised)" stroke-width="1.6">
-                <circle cx="290" cy="319.4" r="4"/><circle cx="425" cy="352.4" r="4"/><circle cx="560" cy="299.6" r="4"/><circle cx="695" cy="233.6" r="4"/><circle cx="830" cy="233.6" r="4"/>
+                <circle cx="110" cy="319.4" r="4"/><circle cx="290" cy="352.4" r="4"/><circle cx="470" cy="299.6" r="4"/><circle cx="650" cy="233.6" r="4"/><circle cx="830" cy="233.6" r="4"/>
               </g>
             </g>
             <g class="ser-cold" data-model="sonnet" data-arm="cold" style="stroke:var(--c-sonnet)">
-              <polyline points="290,374.4 425,244.6 560,308.4 695,319.4 830,266.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
+              <polyline points="110,374.4 290,244.6 470,308.4 650,319.4 830,266.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
               <g fill="var(--raised)" stroke-width="1.6">
-                <circle cx="290" cy="374.4" r="4"/><circle cx="425" cy="244.6" r="4"/><circle cx="560" cy="308.4" r="4"/><circle cx="695" cy="319.4" r="4"/><circle cx="830" cy="266.6" r="4"/>
+                <circle cx="110" cy="374.4" r="4"/><circle cx="290" cy="244.6" r="4"/><circle cx="470" cy="308.4" r="4"/><circle cx="650" cy="319.4" r="4"/><circle cx="830" cy="266.6" r="4"/>
               </g>
             </g>
             <g class="ser-loaded" data-model="fable" data-arm="loaded" style="stroke:var(--c-fable)">
-              <polyline points="290,62 425,40 560,40 695,40" fill="none" stroke-width="2.5"/>
+              <polyline points="110,62 290,40 470,40 650,40" fill="none" stroke-width="2.5"/>
               <g fill="var(--c-fable)" stroke="none">
-                <circle cx="290" cy="62" r="4.5"/><circle cx="425" cy="40" r="4.5"/><circle cx="560" cy="40" r="4.5"/><circle cx="695" cy="40" r="4.5"/>
+                <circle cx="110" cy="62" r="4.5"/><circle cx="290" cy="40" r="4.5"/><circle cx="470" cy="40" r="4.5"/><circle cx="650" cy="40" r="4.5"/>
               </g>
             </g>
             <g class="ser-loaded" data-model="opus" data-arm="loaded" style="stroke:var(--c-opus)">
-              <polyline points="290,136.8 425,92.8 560,84 695,62 830,40" fill="none" stroke-width="2.5"/>
+              <polyline points="110,136.8 290,92.8 470,84 650,62 830,40" fill="none" stroke-width="2.5"/>
               <g fill="var(--c-opus)" stroke="none">
-                <circle cx="290" cy="136.8" r="4.5"/><circle cx="425" cy="92.8" r="4.5"/><circle cx="560" cy="84" r="4.5"/><circle cx="695" cy="62" r="4.5"/><circle cx="830" cy="40" r="4.5"/>
+                <circle cx="110" cy="136.8" r="4.5"/><circle cx="290" cy="92.8" r="4.5"/><circle cx="470" cy="84" r="4.5"/><circle cx="650" cy="62" r="4.5"/><circle cx="830" cy="40" r="4.5"/>
               </g>
             </g>
             <g class="ser-loaded" data-model="sonnet" data-arm="loaded" style="stroke:var(--c-sonnet)">
-              <polyline points="290,125.8 425,62 560,62 695,73 830,51" fill="none" stroke-width="2.5"/>
+              <polyline points="110,125.8 290,62 470,62 650,73 830,51" fill="none" stroke-width="2.5"/>
               <g fill="var(--c-sonnet)" stroke="none">
-                <circle cx="290" cy="125.8" r="4.5"/><circle cx="425" cy="62" r="4.5"/><circle cx="560" cy="62" r="4.5"/><circle cx="695" cy="73" r="4.5"/><circle cx="830" cy="51" r="4.5"/>
+                <circle cx="110" cy="125.8" r="4.5"/><circle cx="290" cy="62" r="4.5"/><circle cx="470" cy="62" r="4.5"/><circle cx="650" cy="73" r="4.5"/><circle cx="830" cy="51" r="4.5"/>
               </g>
             </g>
           </svg>
@@ -1512,8 +1517,28 @@
     {m:'haiku',e:'none',c:64.7,l:91.2,d:'+26.5',r:0}
   ];
   var OPEN_TIP='Fable 5 at max never finished: it got too expensive. It is the pre-registered open/exploratory cell, permanently excluded from the confirmatory matrix by design, not something still being waited on.';
-  var CX=380,CY=400,U=95,TILT=0.42,YS=3.4;
-  var az=-0.62, vel=0, hovEff='', pairOn=false, deltaOn=false;
+  /* orientation is a full 3x3 rotation matrix (row-major, v = R·w with x
+     right, y up, z toward the viewer), so the drag can spin the scene about
+     all three axes. Seeded to reproduce the old fixed view exactly: yaw
+     -0.62 plus the classic 0.42 tilt, now a real pitch; K stretches the
+     height scale so the default view stays pixel-identical to the old
+     sheared projection. */
+  var TILT=0.42, PITCH=Math.asin(TILT), K=1/Math.cos(PITCH);
+  var CX=380,CY=332,U=95,YS=3.4*K,LIFT=68*K;
+  var hovEff='', pairOn=false, deltaOn=false;
+  function matMul(A,B){
+    var C=new Array(9);
+    for(var i=0;i<3;i++)for(var j=0;j<3;j++)
+      C[i*3+j]=A[i*3]*B[j]+A[i*3+1]*B[3+j]+A[i*3+2]*B[6+j];
+    return C;
+  }
+  function axisRot(x,y,z,a){
+    var c=Math.cos(a),s=Math.sin(a),t=1-c;
+    return [t*x*x+c,   t*x*y-s*z, t*x*z+s*y,
+            t*x*y+s*z, t*y*y+c,   t*y*z-s*x,
+            t*x*z-s*y, t*y*z+s*x, t*z*z+c];
+  }
+  var rot=matMul(axisRot(1,0,0,PITCH),axisRot(0,1,0,0.62));
   function wxy(cell){
     if(cell.e==='none') return {wx:-330,wz:0};
     return {wx:(EFF.indexOf(cell.e)-2)*U, wz:(MOD.indexOf(cell.m)-1)*U};
@@ -1543,6 +1568,8 @@
     c.gap=el('line','',g);
     c.cold=el('circle','',g); c.cold.setAttribute('style','fill:var(--bg);stroke:'+COL[c.m]); c.cold.setAttribute('stroke-width','1.6');
     c.load=el('circle','',g); c.load.setAttribute('style','fill:'+COL[c.m]);
+    c.stag=el('text','sv-t sv-knock',g); c.stag.setAttribute('text-anchor','middle');
+    c.stag.textContent=c.l.toFixed(1);
     c.dtag=el('text','sv-t sv-acc',g); c.dtag.setAttribute('font-size','10');
     c.dtag.textContent=c.d;
   });
@@ -1561,8 +1588,14 @@
   haikuLabel.setAttribute('font-size','10');haikuLabel.setAttribute('text-anchor','middle');
   haikuLabel.textContent='Haiku 4.5 · no effort dial';
   function render(){
-    var cos=Math.cos(az),sin=Math.sin(az);
-    function P(wx,wz,wy){var d=wx*sin+wz*cos;return {x:CX+wx*cos-wz*sin,y:CY-wy+d*TILT,d:d};}
+    var R=rot;
+    function P(wx,wz,wy){
+      var y=(wy||0)-LIFT;
+      var vx=R[0]*wx+R[1]*y+R[2]*wz,
+          vy=R[3]*wx+R[4]*y+R[5]*wz,
+          vz=R[6]*wx+R[7]*y+R[8]*wz;
+      return {x:CX+vx,y:CY-vy,d:vz};
+    }
     gridLines.forEach(function(gl){
       var a=P(gl.a.wx,gl.a.wz,0),b=P(gl.b.wx,gl.b.wz,0);
       gl.el.setAttribute('x1',a.x);gl.el.setAttribute('y1',a.y);gl.el.setAttribute('x2',b.x);gl.el.setAttribute('y2',b.y);});
@@ -1572,7 +1605,7 @@
     openTile.setAttribute('points',quad(openPos.wx,openPos.wz,26,0));
     if(hovEff && EFF.indexOf(hovEff)>=0){
       var wx=(EFF.indexOf(hovEff)-2)*U;
-      var c1=P(wx,-U-30,-4),c2=P(wx,U+30,-4),c3=P(wx,U+30,146),c4=P(wx,-U-30,146);
+      var c1=P(wx,-U-30,-4*K),c2=P(wx,U+30,-4*K),c3=P(wx,U+30,146*K),c4=P(wx,-U-30,146*K);
       plane.setAttribute('points',c1.x+','+c1.y+' '+c2.x+','+c2.y+' '+c3.x+','+c3.y+' '+c4.x+','+c4.y);
       plane.setAttribute('visibility','visible');
     } else { plane.setAttribute('visibility','hidden'); }
@@ -1597,10 +1630,12 @@
         c.gap.setAttribute('visibility','hidden');
         c.cold.setAttribute('visibility','hidden');
       }
-      c.load.setAttribute('cx',pl.x);c.load.setAttribute('cy',pl.y);c.load.setAttribute('r',4.5*rs);
+      c.load.setAttribute('cx',pl.x);c.load.setAttribute('cy',pl.y);c.load.setAttribute('r',12.5*rs);
+      c.stag.setAttribute('x',pl.x);c.stag.setAttribute('y',pl.y+2.6*rs);
+      c.stag.setAttribute('font-size',(7.5*rs).toFixed(2));
       if(deltaOn){
         c.dtag.setAttribute('visibility','visible');
-        c.dtag.setAttribute('x',pl.x+8*rs);c.dtag.setAttribute('y',pl.y-7*rs);
+        c.dtag.setAttribute('x',pl.x+15*rs);c.dtag.setAttribute('y',pl.y-11*rs);
       } else {
         c.dtag.setAttribute('visibility','hidden');
       }
@@ -1610,7 +1645,7 @@
     });
     order.sort(function(a,b){return a.d-b.d;}).forEach(function(o){gCells.appendChild(o.g);});
     openTile.setAttribute('opacity', (hovEff && hovEff!=='max')?0.18:1);
-    var a0=P(-235,-140,0),a1=P(-235,-140,136);
+    var a0=P(-235,-140,0),a1=P(-235,-140,136*K);
     axisLine.setAttribute('x1',a0.x);axisLine.setAttribute('y1',a0.y);
     axisLine.setAttribute('x2',a1.x);axisLine.setAttribute('y2',a1.y);
     axisTicks.forEach(function(t){var p=P(-235,-140,(t.v-60)*YS);t.el.setAttribute('x',p.x-6);t.el.setAttribute('y',p.y+3);});
@@ -1659,26 +1694,66 @@
       hovEff=''; render();
     }
   });
-  /* drag to rotate with velocity damping, mouse and touch */
+  /* drag to rotate about all three axes, an arcball with the same velocity
+     damping as before, mouse and touch: a horizontal drag through the middle
+     yaws exactly like the old code, a vertical drag pitches, and a drag
+     around the rim rolls */
   var stage=document.getElementById('lat3d-stage');
-  var dragging=false,lastX=0,raf=0;
+  var dragging=false,raf=0,lastBall=null,spinAxis=null,spinAng=0;
+  function ball(ev){
+    /* center the ball on the scene pivot (CX,CY in viewBox units), so a
+       horizontal drag through the middle of the grid stays a pure yaw */
+    var r=svg.getBoundingClientRect();
+    var rad=Math.min(r.width,r.height)/2;
+    var x=(ev.clientX-r.left-(CX/760)*r.width)/rad,
+        y=(r.top+(CY/520)*r.height-ev.clientY)/rad;
+    var d2=x*x+y*y, z=d2<0.5?Math.sqrt(1-d2):0.5/Math.sqrt(d2);
+    var n=Math.sqrt(x*x+y*y+z*z);
+    return {p:[x/n,y/n,z/n],rad:rad};
+  }
+  function turn(axis,ang){
+    var n=Math.sqrt(axis[0]*axis[0]+axis[1]*axis[1]+axis[2]*axis[2]);
+    if(n<1e-9||!ang)return;
+    rot=matMul(axisRot(axis[0]/n,axis[1]/n,axis[2]/n,ang),rot);
+    /* re-orthonormalize so repeated small turns never drift */
+    var m=rot,l0=Math.sqrt(m[0]*m[0]+m[1]*m[1]+m[2]*m[2]);
+    m[0]/=l0;m[1]/=l0;m[2]/=l0;
+    var d01=m[0]*m[3]+m[1]*m[4]+m[2]*m[5];
+    m[3]-=d01*m[0];m[4]-=d01*m[1];m[5]-=d01*m[2];
+    var l1=Math.sqrt(m[3]*m[3]+m[4]*m[4]+m[5]*m[5]);
+    m[3]/=l1;m[4]/=l1;m[5]/=l1;
+    m[6]=m[1]*m[5]-m[2]*m[4];m[7]=m[2]*m[3]-m[0]*m[5];m[8]=m[0]*m[4]-m[1]*m[3];
+  }
   svg.addEventListener('pointerdown',function(ev){
-    dragging=true;lastX=ev.clientX;vel=0;stage.classList.add('dragging');
+    dragging=true;lastBall=ball(ev).p;spinAng=0;stage.classList.add('dragging');
     if(svg.setPointerCapture)svg.setPointerCapture(ev.pointerId);
     if(raf){cancelAnimationFrame(raf);raf=0;}
   });
   svg.addEventListener('pointermove',function(ev){
     if(!dragging)return;
-    var d=(ev.clientX-lastX)*0.006;lastX=ev.clientX;az+=d;vel=d;render();
+    var b=ball(ev),p=b.p,q=lastBall;lastBall=p;
+    /* axis = new x old keeps the legacy drag direction: dragging right still
+       swings the front of the grid to the left */
+    var ax=[p[1]*q[2]-p[2]*q[1], p[2]*q[0]-p[0]*q[2], p[0]*q[1]-p[1]*q[0]];
+    var dot=Math.max(-1,Math.min(1,p[0]*q[0]+p[1]*q[1]+p[2]*q[2]));
+    var ang=Math.acos(dot)*(b.rad*0.006);
+    spinAxis=ax;spinAng=ang;turn(ax,ang);render();
   });
   function release(){
     if(!dragging)return; dragging=false; stage.classList.remove('dragging');
     if(reduced)return;
-    function spin(){ if(Math.abs(vel)<0.0004){raf=0;return;} az+=vel; vel*=0.92; render(); raf=requestAnimationFrame(spin); }
-    if(Math.abs(vel)>0.0004) raf=requestAnimationFrame(spin);
+    function spin(){ if(!spinAxis||Math.abs(spinAng)<0.0004){raf=0;return;} turn(spinAxis,spinAng); spinAng*=0.92; render(); raf=requestAnimationFrame(spin); }
+    if(spinAxis&&Math.abs(spinAng)>0.0004) raf=requestAnimationFrame(spin);
   }
   svg.addEventListener('pointerup',release);
   svg.addEventListener('pointercancel',release);
+  /* double-click (or double-tap) resets the view to the seeded angle */
+  var rot0=rot.slice();
+  svg.addEventListener('dblclick',function(){
+    rot=rot0.slice(); spinAxis=null; spinAng=0;
+    if(raf){cancelAnimationFrame(raf);raf=0;}
+    render();
+  });
   /* the two layer toggles */
   var bp=document.getElementById('l3d-pair'), bd=document.getElementById('l3d-delta');
   function paintBtns(){
