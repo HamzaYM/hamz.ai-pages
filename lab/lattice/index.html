@@ -493,9 +493,9 @@
     <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. Keep going to see if I was right.</p>
     <div class="verdict-box">
       <div class="ct">The answer:</div>
-      <p style="color:var(--ink);font-size:18px">Effort raises the floor, and the skills still add on top of it.</p>
-      <p>What effort added per model, lowest to highest, no skills: <strong>Fable +3.5</strong> &middot; <strong>Opus +3.9</strong> &middot; <strong>Sonnet +4.9</strong> percentage points.</p>
-      <p>What the skills added per model, averaged across its effort levels: <strong>Fable +4.4</strong> &middot; <strong>Opus +9.3</strong> &middot; <strong>Sonnet +10.4</strong> percentage points, and <strong>Haiku +26.5</strong> (no effort dial, one run per side: read the direction, not the decimals).</p>
+      <p style="color:var(--ink);font-size:18px">Effort raises the floor, but skills still add on top of it.</p>
+      <p>What effort added per model (delta with no skills): <strong>Fable +3.5</strong> &middot; <strong>Opus +3.9</strong> &middot; <strong>Sonnet +4.9</strong> percentage points.</p>
+      <p>What the skills added per model (averaged across its effort levels): <strong>Fable +4.4</strong> &middot; <strong>Opus +9.3</strong> &middot; <strong>Sonnet +10.4</strong> percentage points, and <strong>Haiku +26.5</strong> <span class="hot" tabindex="0" data-tt="Haiku, one run" data-tip="Haiku has no effort dial and ran once per side, so the +26.5 is directionally accurate; the exact decimal may not be.">(no effort dial, one run per side)</span>.</p>
       <p style="color:var(--ink)">The verdict: the skills added more than effort did, and cost less to add. Loading them added at most 30 cents to a run; turning the dial from low to the top added 30 to 77 cents, every run, for about half the gain. Load the skills first because they're the cheaper lift, then turn up reasoning effort for the harder cases. Expertise and context bring you further than model effort alone.</p>
     </div>
     <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:100%">A skill here means a Claude Code skill, a written instruction file that changes how Claude behaves while it works, nothing to do with your own tools. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
@@ -640,12 +640,12 @@
               </tr>
               <tr class="ghost">
                 <td>max</td>
-                <td colspan="3">did not finish &middot; it got too expensive<span class="q">slot open &middot; nothing running. The harness and tasks are public, so anyone can complete this cell; it stays exploratory either way.</span></td>
+                <td colspan="3">did not finish &middot; it got too expensive<span class="q">slot open &middot; nothing running. The harness and tasks are public, so anyone can complete this cell</span></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those read the direction, not the decimals. Source: MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third (Fable) settling disagreements. Every setup completed every task, so all 15 cells are scored on the same 17-task set. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those read the direction, not the exact value. Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
       </div>
 
       <div id="perf-figs">
@@ -733,7 +733,7 @@
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: the vertical axis is the share of checklist items hit, per effort setting. Fable stops at xhigh; its max runs got too expensive to finish.</p>
+        <p class="tbl-note">Methodology: the vertical axis is the share of checklist items hit, per effort setting. Fable stops at xhigh; Haiku has no effort level.</p>
       </div>
 
       <div class="exhibit fx fx-lg" id="fig-perf-zoom">
@@ -938,7 +938,7 @@
           </svg>
         </div>
         </div><!-- /cost-fig -->
-        <p class="tbl-note">Methodology: horizontal axis is each cell's average cost per run, on a linear dollar scale; vertical axis is the share of checklist items hit. Costs are API-price equivalents reported by the Claude CLI, not observed subscription spend. Source: cost-per-run-dataset.json, published next to this page.</p>
+        <p class="tbl-note">Methodology: horizontal axis is each cell's average cost per run; vertical axis is the share of checklist items hit. Costs are API-price equivalents reported by the Claude CLI, not observed subscription spend. Source: <a href="cost-per-run-dataset.json">cost-per-run-dataset.json</a>.</p>
       </div>
 
       <div class="cardrow" data-fx-stagger>
@@ -1115,7 +1115,7 @@
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: the two judges disagreed on 4.6% of marks; the deciding judge settled 2.5%, and none were left unresolved. The suite hash and every per-setup rate are in MATRIX.md in the repo.</p>
+        <p class="tbl-note">Methodology: the two judges disagreed on 4.6% of marks; the deciding judge settled 2.5%, and none were left unresolved. The suite hash and every per-setup rate are in <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
       </div>
 
       <h3 id="scoring">How scoring works</h3>
