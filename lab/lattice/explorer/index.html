@@ -221,15 +221,12 @@ align-items:center;color:var(--mut);font-family:var(--mono);font-size:.76rem}
 .primer .primer-h{font-family:var(--mono);font-size:.7rem;color:var(--mut);
   text-transform:uppercase;letter-spacing:.05em;margin:0 0 .45rem}
 .primer .intro{color:var(--ink);font-size:.9rem;margin:0 0 .75rem;max-width:64rem}
-.primer-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.7rem;margin:0}
-.pcard{background:var(--raised);border:1px solid var(--line);border-radius:12px;
-  padding:.75rem .85rem}
-.pcard .pcard-q{font-family:var(--mono);font-size:.7rem;color:var(--acc);
-  text-transform:uppercase;letter-spacing:.05em;margin:0 0 .3rem;font-weight:600}
-.pcard p{margin:0;color:var(--mut);font-size:.82rem;line-height:1.5}
-.pcard p b{color:var(--ink);font-weight:600}
+.primer dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.5rem .9rem}
+.primer dt{color:var(--ink);font-weight:600;font-size:.82rem;white-space:nowrap}
+.primer dd{margin:0;color:var(--mut);font-size:.82rem;line-height:1.5}
+.primer dd b{color:var(--ink);font-weight:600}
 @media(max-width:640px){
-  .primer-cards{grid-template-columns:1fr}
+  .primer dl{grid-template-columns:1fr;gap:.15rem .9rem}
 }
 
 /* pip strips */
@@ -424,28 +421,16 @@ table.cd .flat{color:var(--mut)}
 <section class="primer" aria-label="How to read this page">
 <div class="primer-h">How to read this page</div>
 <p class="intro">Every number comes directly from the committed result files. Treat the rates as directional rather than precise: the samples are small.</p>
-<div class="primer-cards">
-  <div class="pcard">
-    <div class="pcard-q">What is compared?</div>
-    <p>The same 17 complete-case tasks are used across every populated condition, effort curve, and task comparison. That shared set makes the results directly comparable.</p>
-  </div>
-  <div class="pcard">
-    <div class="pcard-q">How many conditions finished?</div>
-    <p>15 of 16 planned cells finished. Fable at max did not complete, so that cell remains empty and is excluded.</p>
-  </div>
-  <div class="pcard">
-    <div class="pcard-q">How many repeats?</div>
-    <p>Cells marked &times;3 show the mean of three runs. Fable at medium, Fable at extra-high, and the Haiku reference are single runs.</p>
-  </div>
-  <div class="pcard">
-    <div class="pcard-q">What does a score mean?</div>
-    <p>Each task has a fixed checklist. The score is the share of items passed; change is the with-skill score minus the without-skill score, in percentage points.</p>
-  </div>
-  <div class="pcard">
-    <div class="pcard-q">What did the second vendor check?</div>
-    <p>gpt-5.6-terra, run through the OpenAI Codex CLI, independently re-scored 50 sampled comparisons and agreed with the final marks 97.2% of the time. This was an exploratory spot-check and does not change the reported results. Section 5 has the breakdown; the toggle in section 1 marks the boxes it re-scored.</p>
-  </div>
-</div>
+<dl>
+  <dt>The 17 tasks</dt>
+  <dd>The same 17 complete-case tasks are used across every populated condition, effort curve, and task comparison. That shared set makes the results directly comparable.</dd>
+  <dt>15 of 16 conditions</dt>
+  <dd>Fable at max did not complete, so that cell remains empty and is excluded. Cells marked <b>&times;3</b> show the mean of three runs; Fable at medium, Fable at extra-high, and the Haiku reference are <b>single runs</b>.</dd>
+  <dt>What a score is</dt>
+  <dd>Each task has a fixed checklist. The score is the share of items passed; change is the with-skill score minus the without-skill score, in percentage points.</dd>
+  <dt>Second-vendor cross-check</dt>
+  <dd>gpt-5.6-terra, run through the OpenAI Codex CLI, independently re-scored 50 sampled comparisons and agreed with the final marks <b>97.2%</b> of the time. This was an exploratory spot-check and does not change the reported results. Section 5 has the breakdown; the toggle in section 1 marks the boxes it re-scored.</dd>
+</dl>
 </section>
 
 <details class="sec" id="matrix" open>
