@@ -119,6 +119,19 @@
   .stat a{ color:var(--teal); }
   .strip-note{ margin-top:20px; font-family:var(--mono); font-size:13px; color:var(--faint); max-width:none; line-height:1.7; }
 
+  /* tooltip */
+  #tip{position:fixed;z-index:300;max-width:260px;background:var(--ink);color:var(--bg);
+       font-family:var(--sans);font-size:.86rem;line-height:1.45;padding:12px 14px;
+       box-shadow:0 10px 30px rgba(0,0,0,.22);pointer-events:none;
+       opacity:0;transform:translateY(4px);transition:opacity .14s ease, transform .14s ease;}
+  #tip.show{opacity:1;transform:none;}
+  #tip .tt{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+       color:var(--teal);display:block;margin-bottom:5px;}
+  .hot{cursor:pointer;}
+  a.hot, span.hot{ color:var(--ink); text-decoration:underline dotted; text-decoration-color:var(--teal);
+       text-decoration-thickness:1px; text-underline-offset:3px; transition:color .15s; }
+  a.hot:hover, span.hot:hover{ color:var(--teal); }
+
   /* flagship cards (hairline pair), reused for "things I build" */
   .flag{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line);
          border:1px solid var(--line); margin-top:36px; }
@@ -342,13 +355,13 @@
       <p class="sub">No ROI slides. Each one comes from a repo you can clone, a dated count, or the pre-registered A/B behind the skills.</p>
       <div class="strip">
         <div class="stat"><b>26/50 &rarr; 46/50</b><span>An AI using my skills passed 46 of 50 pre-set checks, up from 26 without them. Order-blinded must-hit A/B across 16 tasks (2026-07-02).</span></div>
-        <div class="stat"><b>17</b><span>open-source skills, consolidated from 26 repo-specific ones</span></div>
+        <div class="stat"><b>17</b><span>open-source skills, <span class="hot" tabindex="0" data-tt="Provenance" data-tip="15 of the 17 are consolidated from the 26; 2 are promoted from a separate personal library, net-new.">consolidated from 26 repo-specific ones</span></span></div>
         <div class="stat"><b>$1,296.94</b><span>total cost of the effort-lattice study &middot; <a href="../lab/lattice/">full write-up &rarr;</a></span></div>
         <div class="stat"><b>2</b><span>production repos I built solo, end to end: <a href="https://lynahealth.ai">Lyna Health</a> and <a href="https://cubicleapp.com/">Cubicle</a></span></div>
         <div class="stat"><b>14</b><span>agents behind the <a href="https://www.hamz.ai/work/aviation-operations/">business-aviation feasibility platform</a>, on Azure AI</span></div>
         <div class="stat"><b>~5</b><span>specialized agents in the <a href="https://www.hamz.ai/work/coaching-platform/">overnight coaching pipeline</a></span></div>
       </div>
-      <p class="strip-note">Only 5 of the 17 skills carry measured behavioral lineage from the original A/B; the rest are unmeasured or net-new. More of this exists behind other clients' NDAs; these are the ones I can put a number on.</p>
+      <p class="strip-note">8 repository-specific skills were tested in the original A/B, 17 generalized skills shipped from that work, and only 5 of the 17 carry measured behavioral lineage back to it; the rest are unmeasured or net-new. More of this exists behind other clients' NDAs; these are the ones I can put a number on.</p>
     </div>
   </section>
   </section>
@@ -366,6 +379,8 @@
   </div>
 </footer>
 
+<div id="tip" role="status" aria-live="polite"></div>
+
 <script>
 (function(){
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -378,6 +393,36 @@
     }, {threshold:0});
     rvs.forEach(function(e){ io.observe(e); });
   } else { rvs.forEach(function(e){ e.classList.add('in'); }); }
+
+  /* tooltip engine */
+  var tip = document.getElementById('tip');
+  var pinned = false;
+  function showTip(el, x, y){
+    var txt = el.getAttribute('data-tip'); if(!txt) return;
+    var tt = el.getAttribute('data-tt') || '';
+    tip.innerHTML = (tt ? '<span class="tt">'+tt+'</span>' : '') + txt;
+    tip.classList.add('show');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var r = tip.getBoundingClientRect();
+    var left = x + 14, top = y + 16;
+    if(left + r.width + 10 > vw) left = x - r.width - 14;
+    if(left < 8) left = 8;
+    if(top + r.height + 10 > vh) top = y - r.height - 14;
+    if(top < 8) top = 8;
+    tip.style.left = left + 'px';
+    tip.style.top  = top + 'px';
+  }
+  function hideTip(){ tip.classList.remove('show'); pinned = false; }
+  document.querySelectorAll('.hot').forEach(function(el){
+    el.addEventListener('mouseenter', function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mousemove',  function(ev){ if(!pinned) showTip(el, ev.clientX, ev.clientY); });
+    el.addEventListener('mouseleave', function(){ if(!pinned) tip.classList.remove('show'); });
+    el.addEventListener('focus', function(){ var b=el.getBoundingClientRect(); showTip(el, b.left+b.width/2, b.top+b.height-8); });
+    el.addEventListener('blur',  function(){ tip.classList.remove('show'); });
+    el.addEventListener('click', function(ev){ ev.stopPropagation(); pinned=false; showTip(el, ev.clientX, ev.clientY); pinned=true; });
+  });
+  document.addEventListener('click',  function(ev){ if(!ev.target.closest('.hot')) hideTip(); });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') hideTip(); });
 
   /* theme toggle */
   var root=document.documentElement;

@@ -20,8 +20,9 @@ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matc
   or MATRIX.md, so it fails this page's single-source rule. No dollar
   figures appear here by design.
 
-  The Fable-5-at-max cell is shown as an honestly empty slot (it got too
-  expensive to finish), matching the lattice study's treatment.
+  The Fable-5-at-max cell was completed separately after publication and added
+  as a non-confirmatory addendum on 2026-07-12; it renders as a real cell,
+  marked "added later", matching the lattice study's treatment.
 
   Self-contained: three.min.js r128 is vendored next to this file; no CDN,
   no font requests, zero third-party calls. prefers-reduced-motion and no-JS
@@ -216,7 +217,10 @@ a{color:var(--acc);}
 #legend i.kl{background:var(--acc);}
 #legend i.kc{background:var(--faint);}
 #legend i.kd{background:var(--amber);}
-#legend i.ke{background:transparent;border:1px dashed var(--faint);}
+/* "added later" addendum marker for the Fable-max cell: accent-shifted chip,
+   matching the study page's .badge.later treatment */
+.badge{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:400;line-height:1.5;padding:1px 6px;color:var(--faint);border:1px solid var(--line);vertical-align:middle;white-space:nowrap;}
+.badge.later{color:var(--acc);background:var(--acc-tint);border-color:var(--acc-dim);cursor:help;}
 
 #chapter-announcer{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;
   overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;}
@@ -319,7 +323,6 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
 #static th{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
 #static td b{color:var(--ink);font-weight:500;}
 #static td i{font-style:normal;color:var(--acc);}
-#static td.na{color:var(--faint);font-style:italic;}
 #static .tblwrap{overflow-x:auto;}
 #static .hashline{margin-top:12px;}
 #static .chart{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap;margin:22px 0 6px;}
@@ -328,7 +331,6 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
 #static .sbar{display:flex;flex-direction:column;justify-content:flex-end;width:30px;height:170px;}
 #static .sbar .seg-skill{background:var(--acc);}
 #static .sbar .seg-cold{background:var(--line-strong);}
-#static .sbar.empty{border:1px dashed var(--faint);height:170px;}
 #static .sbar-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--faint);text-align:center;margin-top:4px;width:30px;overflow:visible;}
 #static .sbar-val{font-family:var(--mono);font-size:.56rem;color:var(--dim);text-align:center;width:30px;margin-bottom:3px;}
@@ -402,7 +404,6 @@ html.nojs .hud-top, html.reduced .hud-top{position:static;padding:22px 24px 0;}
   <span><i class="kl"></i>With skills</span>
   <span><i class="kc"></i>Without</span>
   <span><i class="kd"></i>Disputed</span>
-  <span><i class="ke"></i>Not run</span>
 </div>
 
 <div class="hud hud-top">
@@ -454,7 +455,7 @@ try{sessionStorage.setItem('lattice-laptop-note','1');}catch(e){}});})();</scrip
   <div class="eyebrow">Chapter 02 &middot; Sixteen conditions</div>
   <h2>Three models, five efforts, and Haiku</h2>
   <p>Three Claude models at five effort levels each, plus Haiku with no effort dial, make the sixteen conditions of the grid.</p>
-  <p class="smallnote">One corner stays empty: Fable 5 at max never finished, it got too expensive. The slot is drawn open rather than papered over.</p>
+  <p class="smallnote">Fable 5 at max was completed later, separately, and added as an addendum on 2026-07-12; it sits outside the confirmatory matrix and is marked as added later.</p>
 </section>
 
 <section class="card" id="card-3">
@@ -487,7 +488,7 @@ try{sessionStorage.setItem('lattice-laptop-note','1');}catch(e){}});})();</scrip
     <div class="dl">Skills at each model's highest effort: still <i>+2.4 to +9.8 points</i> on top</div>
     <div class="dl">Haiku, no dial: <i>+26.5 points</i>, the largest gap in the grid</div>
   </div>
-  <p class="smallnote">Bar heights are the real with-skills rates on the 17 tasks every condition completed, read from matrix.json. The three lines above quote the pre-registered low-versus-top figures from MATRIX.md; Fable's pair is low versus high, its amended confirmatory endpoint, since max never finished. Small cells are directional, not inferential.</p>
+  <p class="smallnote">Bar heights are the real with-skills rates on the 17 tasks the confirmatory conditions completed, read from matrix.json (the added-later Fable-max bar is its own 16-task addendum). The three lines above quote the pre-registered low-versus-top figures from MATRIX.md; Fable's pair is low versus high, its amended confirmatory endpoint; max was completed later as an addendum, outside this pair. Small cells are directional, not inferential.</p>
 </section>
 
 <section class="card" id="card-6">
@@ -550,9 +551,9 @@ try{sessionStorage.setItem('lattice-laptop-note','1');}catch(e){}});})();</scrip
   <section>
     <div class="eyebrow">Chapter 02 &middot; Sixteen conditions</div>
     <h2>Three models, five efforts, and Haiku</h2>
-    <p>Three Claude models at five effort levels each, plus Haiku with no effort dial, make the sixteen conditions of the grid. One corner stays empty: Fable 5 at max never finished, it got too expensive.</p>
+    <p>Three Claude models at five effort levels each, plus Haiku with no effort dial, make the sixteen conditions of the grid. Fable 5 at max was completed later, separately, and added as an addendum, outside the confirmatory matrix.</p>
     <div class="tblwrap">
-    <table><thead><tr><th>Model</th><th>low</th><th>medium</th><th>high</th><th>xhigh (extra high)</th><th>max</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td colspan="5">no effort dial &middot; one condition, ran</td></tr><tr><td><b>Sonnet 5</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran</td></tr><tr><td><b>Opus 4.8</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran</td></tr><tr><td><b>Fable 5</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td class="na">not run &middot; too expensive to finish</td></tr></tbody></table>
+    <table><thead><tr><th>Model</th><th>low</th><th>medium</th><th>high</th><th>xhigh (extra high)</th><th>max</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td colspan="5">no effort dial &middot; one condition, ran</td></tr><tr><td><b>Sonnet 5</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran</td></tr><tr><td><b>Opus 4.8</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran</td></tr><tr><td><b>Fable 5</b></td><td>ran</td><td>ran</td><td>ran</td><td>ran</td><td>ran <span class="badge later" title="Fable at max was run separately after publication and added 2026-07-12. It completed 16 of 17 tasks: mmar-t1 timed out on a second machine and was excluded, not a quality issue. Cold 97.4% · loaded 100.0% · change +2.6 pp. Cost $229.66. It does not join the confirmatory matrix: Fable's pre-registered pair stays low vs high.">added later</span></td></tr></tbody></table>
     </div>
   </section>
 
@@ -583,9 +584,9 @@ try{sessionStorage.setItem('lattice-laptop-note','1');}catch(e){}});})();</scrip
     <h2>The matrix crystallizes</h2>
     <p>Effort raises the floor, and the skills still add on top of it.</p>
     <div class="chart">
-      <div class="mgroup"><div class="bars"><div><div class="sbar-val">91.2</div><div class="sbar"><span class="seg-skill" style="height:45px"></span><span class="seg-cold" style="height:110px"></span></div><div class="sbar-label">no dial</div></div></div><div class="mname">Haiku 4.5</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">96.1</div><div class="sbar"><span class="seg-skill" style="height:19px"></span><span class="seg-cold" style="height:144px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:14px"></span><span class="seg-cold" style="height:154px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:19px"></span><span class="seg-cold" style="height:149px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">98.5</div><div class="sbar"><span class="seg-skill" style="height:19px"></span><span class="seg-cold" style="height:148px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">99.5</div><div class="sbar"><span class="seg-skill" style="height:17px"></span><span class="seg-cold" style="height:152px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Sonnet 5</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">95.6</div><div class="sbar"><span class="seg-skill" style="height:14px"></span><span class="seg-cold" style="height:148px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">97.6</div><div class="sbar"><span class="seg-skill" style="height:20px"></span><span class="seg-cold" style="height:146px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">98.0</div><div class="sbar"><span class="seg-skill" style="height:17px"></span><span class="seg-cold" style="height:150px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:13px"></span><span class="seg-cold" style="height:155px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:15px"></span><span class="seg-cold" style="height:155px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Opus 4.8</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:8px"></span><span class="seg-cold" style="height:160px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:13px"></span><span class="seg-cold" style="height:157px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:4px"></span><span class="seg-cold" style="height:166px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:5px"></span><span class="seg-cold" style="height:165px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">&nbsp;</div><div class="sbar empty"></div><div class="sbar-label">max &middot; not run</div></div></div><div class="mname">Fable 5</div></div>
+      <div class="mgroup"><div class="bars"><div><div class="sbar-val">91.2</div><div class="sbar"><span class="seg-skill" style="height:45px"></span><span class="seg-cold" style="height:110px"></span></div><div class="sbar-label">no dial</div></div></div><div class="mname">Haiku 4.5</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">96.1</div><div class="sbar"><span class="seg-skill" style="height:19px"></span><span class="seg-cold" style="height:144px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:14px"></span><span class="seg-cold" style="height:154px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:19px"></span><span class="seg-cold" style="height:149px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">98.5</div><div class="sbar"><span class="seg-skill" style="height:19px"></span><span class="seg-cold" style="height:148px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">99.5</div><div class="sbar"><span class="seg-skill" style="height:17px"></span><span class="seg-cold" style="height:152px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Sonnet 5</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">95.6</div><div class="sbar"><span class="seg-skill" style="height:14px"></span><span class="seg-cold" style="height:148px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">97.6</div><div class="sbar"><span class="seg-skill" style="height:20px"></span><span class="seg-cold" style="height:146px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">98.0</div><div class="sbar"><span class="seg-skill" style="height:17px"></span><span class="seg-cold" style="height:150px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:13px"></span><span class="seg-cold" style="height:155px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:15px"></span><span class="seg-cold" style="height:155px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Opus 4.8</div></div><div class="mgroup"><div class="bars"><div><div class="sbar-val">99.0</div><div class="sbar"><span class="seg-skill" style="height:8px"></span><span class="seg-cold" style="height:160px"></span></div><div class="sbar-label">low</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:13px"></span><span class="seg-cold" style="height:157px"></span></div><div class="sbar-label">medium</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:4px"></span><span class="seg-cold" style="height:166px"></span></div><div class="sbar-label">high</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:5px"></span><span class="seg-cold" style="height:165px"></span></div><div class="sbar-label">xhigh</div></div><div><div class="sbar-val">100.0</div><div class="sbar"><span class="seg-skill" style="height:4px"></span><span class="seg-cold" style="height:166px"></span></div><div class="sbar-label">max</div></div></div><div class="mname">Fable 5</div></div>
     </div>
-    <p class="chart-note">Each bar is one condition's with-skills rate; the gray base is that condition's cold rate and the green top is what the skills added. Rates use the 17 tasks every condition completed, read from matrix.json. The three lines below quote the pre-registered low-versus-top figures from MATRIX.md; Fable's pair is low versus high, its amended confirmatory endpoint, since max never finished. Small cells are directional, not inferential.</p>
+    <p class="chart-note">Each bar is one condition's with-skills rate; the gray base is that condition's cold rate and the green top is what the skills added. Rates use the 17 tasks the confirmatory conditions completed, read from matrix.json (the added-later Fable-max bar is its own 16-task addendum). The three lines below quote the pre-registered low-versus-top figures from MATRIX.md; Fable's pair is low versus high, its amended confirmatory endpoint; max was completed later as an addendum, outside this pair. Small cells are directional, not inferential.</p>
     <ul>
       <li>Lowest to highest effort, no skills: Fable +3.5, Opus +3.9, Sonnet +4.9 points, each past the pre-registered 3-point bar.</li>
       <li>Skills at each model's highest effort: still +2.4 to +9.8 points on top.</li>
@@ -598,7 +599,7 @@ try{sessionStorage.setItem('lattice-laptop-note','1');}catch(e){}});})();</scrip
     <h2>The cells, in full</h2>
     <p>Every cell's cold rate, loaded rate, and skill delta, on the 17 tasks every condition completed.</p>
     <div class="tblwrap">
-    <table><thead><tr><th>Model</th><th>Effort</th><th>Cold</th><th>Loaded</th><th>Skill delta</th><th>Runs</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td>no dial</td><td>64.7%</td><td>91.2%</td><td><i>+26.5 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>low</td><td>84.8%</td><td>96.1%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>medium</td><td>90.7%</td><td>99.0%</td><td><i>+8.4 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>high</td><td>87.8%</td><td>99.0%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>xhigh</td><td>87.3%</td><td>98.5%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>max</td><td>89.7%</td><td>99.5%</td><td><i>+9.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>low</td><td>87.3%</td><td>95.6%</td><td><i>+8.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>medium</td><td>85.8%</td><td>97.6%</td><td><i>+11.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>high</td><td>88.2%</td><td>98.0%</td><td><i>+9.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>xhigh</td><td>91.2%</td><td>99.0%</td><td><i>+7.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>max</td><td>91.2%</td><td>100.0%</td><td><i>+8.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>low</td><td>94.1%</td><td>99.0%</td><td><i>+4.9 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>medium</td><td>92.6%</td><td>100.0%</td><td><i>+7.4 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>high</td><td>97.6%</td><td>100.0%</td><td><i>+2.4 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>xhigh</td><td>97.1%</td><td>100.0%</td><td><i>+2.9 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>max</td><td colspan="4" class="na">not run &middot; it got too expensive to finish</td></tr></tbody></table>
+    <table><thead><tr><th>Model</th><th>Effort</th><th>Cold</th><th>Loaded</th><th>Skill delta</th><th>Runs</th></tr></thead><tbody><tr><td><b>Haiku 4.5</b></td><td>no dial</td><td>64.7%</td><td>91.2%</td><td><i>+26.5 points</i></td><td>single run per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>low</td><td>84.8%</td><td>96.1%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>medium</td><td>90.7%</td><td>99.0%</td><td><i>+8.4 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>high</td><td>87.8%</td><td>99.0%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>xhigh</td><td>87.3%</td><td>98.5%</td><td><i>+11.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Sonnet 5</b></td><td>max</td><td>89.7%</td><td>99.5%</td><td><i>+9.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>low</td><td>87.3%</td><td>95.6%</td><td><i>+8.3 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>medium</td><td>85.8%</td><td>97.6%</td><td><i>+11.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>high</td><td>88.2%</td><td>98.0%</td><td><i>+9.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>xhigh</td><td>91.2%</td><td>99.0%</td><td><i>+7.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Opus 4.8</b></td><td>max</td><td>91.2%</td><td>100.0%</td><td><i>+8.8 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>low</td><td>94.1%</td><td>99.0%</td><td><i>+4.9 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>medium</td><td>92.6%</td><td>100.0%</td><td><i>+7.4 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>high</td><td>97.6%</td><td>100.0%</td><td><i>+2.4 points</i></td><td>mean over 3 runs per arm</td></tr><tr><td><b>Fable 5</b></td><td>xhigh</td><td>97.1%</td><td>100.0%</td><td><i>+2.9 points</i></td><td>single run per arm</td></tr><tr><td><b>Fable 5</b></td><td>max <span class="badge later" title="Fable at max was run separately after publication and added 2026-07-12. It completed 16 of 17 tasks: mmar-t1 timed out on a second machine and was excluded, not a quality issue. Cold 97.4% · loaded 100.0% · change +2.6 pp. Cost $229.66. It does not join the confirmatory matrix: Fable's pre-registered pair stays low vs high.">added later</span></td><td>97.4%</td><td>100.0%</td><td><i>+2.6 points</i></td><td>mean over 3 runs per arm</td></tr></tbody></table>
     </div>
     <p style="margin-top:16px;"><a href="../">The lattice study</a> carries the full record. The harness, tasks, and judge inputs are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
   </section>
@@ -639,11 +640,13 @@ document.querySelectorAll('[data-theme-set]').forEach(function(b){
 });
 
 /* ---------- the data: generated at build time from matrix.json ---------- */
-var DATA = {"models":[{"id":"fable","name":"Fable 5"},{"id":"sonnet","name":"Sonnet 5"},{"id":"opus","name":"Opus 4.8"},{"id":"haiku","name":"Haiku 4.5"}],"efforts":["low","medium","high","xhigh","max"],"cells":{"fable@high":{"c":97.6,"l":100.0,"d":2.4,"rep":1},"fable@low":{"c":94.1,"l":99.0,"d":4.9,"rep":1},"fable@medium":{"c":92.6,"l":100.0,"d":7.4,"rep":0},"fable@xhigh":{"c":97.1,"l":100.0,"d":2.9,"rep":0},"haiku@none":{"c":64.7,"l":91.2,"d":26.5,"rep":0},"opus@high":{"c":88.2,"l":98.0,"d":9.8,"rep":1},"opus@low":{"c":87.3,"l":95.6,"d":8.3,"rep":1},"opus@max":{"c":91.2,"l":100.0,"d":8.8,"rep":1},"opus@medium":{"c":85.8,"l":97.6,"d":11.8,"rep":1},"opus@xhigh":{"c":91.2,"l":99.0,"d":7.8,"rep":1},"sonnet@high":{"c":87.8,"l":99.0,"d":11.3,"rep":1},"sonnet@low":{"c":84.8,"l":96.1,"d":11.3,"rep":1},"sonnet@max":{"c":89.7,"l":99.5,"d":9.8,"rep":1},"sonnet@medium":{"c":90.7,"l":99.0,"d":8.4,"rep":1},"sonnet@xhigh":{"c":87.3,"l":98.5,"d":11.3,"rep":1}}};
+var DATA = {"models":[{"id":"fable","name":"Fable 5"},{"id":"sonnet","name":"Sonnet 5"},{"id":"opus","name":"Opus 4.8"},{"id":"haiku","name":"Haiku 4.5"}],"efforts":["low","medium","high","xhigh","max"],"cells":{"fable@max":{"c":97.4,"l":100.0,"d":2.6,"rep":1},"fable@high":{"c":97.6,"l":100.0,"d":2.4,"rep":1},"fable@low":{"c":94.1,"l":99.0,"d":4.9,"rep":1},"fable@medium":{"c":92.6,"l":100.0,"d":7.4,"rep":0},"fable@xhigh":{"c":97.1,"l":100.0,"d":2.9,"rep":0},"haiku@none":{"c":64.7,"l":91.2,"d":26.5,"rep":0},"opus@high":{"c":88.2,"l":98.0,"d":9.8,"rep":1},"opus@low":{"c":87.3,"l":95.6,"d":8.3,"rep":1},"opus@max":{"c":91.2,"l":100.0,"d":8.8,"rep":1},"opus@medium":{"c":85.8,"l":97.6,"d":11.8,"rep":1},"opus@xhigh":{"c":91.2,"l":99.0,"d":7.8,"rep":1},"sonnet@high":{"c":87.8,"l":99.0,"d":11.3,"rep":1},"sonnet@low":{"c":84.8,"l":96.1,"d":11.3,"rep":1},"sonnet@max":{"c":89.7,"l":99.5,"d":9.8,"rep":1},"sonnet@medium":{"c":90.7,"l":99.0,"d":8.4,"rep":1},"sonnet@xhigh":{"c":87.3,"l":98.5,"d":11.3,"rep":1}}};
 
 /* ---------- explorer wiring (works in reduced mode too, but scene skipped) ---------- */
 var MODELS = DATA.models, EFFORTS = DATA.efforts;
 var selModel = null, selEffort = null;
+/* the added-later Fable-max addendum: full note, reused verbatim from the study page */
+var FABLE_MAX_NOTE = "Fable at max was run separately after publication and added 2026-07-12. It completed 16 of 17 tasks: mmar-t1 timed out on a second machine and was excluded, not a quality issue. Cold 97.4% · loaded 100.0% · change +2.6 pp. Cost $229.66. It does not join the confirmatory matrix: Fable's pre-registered pair stays low vs high.";
 var cellout = document.getElementById('cellout');
 function fmtPct(v){ return v.toFixed(1) + '%'; }
 function fmtPP(v){ return (v>=0?'+':'') + v.toFixed(1); }
@@ -670,7 +673,7 @@ function renderCellOut(){
     });
     cellout.innerHTML = '<div class="head">'+m.name+' &middot; the whole row</div>'
       +'<div class="nums">with skills '+fmtPct(lLo.l)+' to '+fmtPct(lHi.l)+' &middot; <i>skills added '+fmtPP(dLo.d)+' to '+fmtPP(dHi.d)+' points</i></div>'
-      +'<div class="basis">17 shared tasks &middot; '+(selModel==='fable' ? 'max not run &middot; ' : '')+'pick an effort to narrow to one cell</div>';
+      +'<div class="basis">17 shared tasks &middot; pick an effort to narrow to one cell</div>';
     highlightCell('');
     highlightRow(selModel);
     onExplorerChange();
@@ -678,18 +681,10 @@ function renderCellOut(){
   }
   var key = cellKey(selModel, selEffort);
   var c = DATA.cells[key];
-  if (!c){
-    cellout.innerHTML = '<div class="head">'+m.name+' at '+selEffort+'</div>'
-      +'<div class="nums">not run &middot; it got too expensive to finish</div>'
-      +'<div class="basis">the slot stays open on the lattice study too</div>';
-    highlightRow(selModel);
-    highlightCell(key);
-    onExplorerChange();
-    return;
-  }
-  cellout.innerHTML = '<div class="head">'+m.name+' at '+selEffort+'</div>'
+  var isFableMax = (key === 'fable@max');
+  cellout.innerHTML = '<div class="head">'+m.name+' at '+selEffort+(isFableMax?' <span class="badge later" title="'+FABLE_MAX_NOTE+'">added later</span>':'')+'</div>'
     +'<div class="nums">cold '+fmtPct(c.c)+' &rarr; loaded '+fmtPct(c.l)+' &middot; <i>'+fmtPP(c.d)+' points</i></div>'
-    +'<div class="basis">17 shared tasks &middot; '+(c.rep?'mean over 3 runs per arm':'single run per arm')+' &middot; directional only</div>';
+    +'<div class="basis">'+(isFableMax?'16 of 17 tasks &middot; mean over 3 runs per arm &middot; added-later addendum, outside the confirmatory matrix':'17 shared tasks &middot; '+(c.rep?'mean over 3 runs per arm':'single run per arm')+' &middot; directional only')+'</div>';
   highlightRow(selModel);
   highlightCell(key);
   onExplorerChange();
@@ -938,22 +933,6 @@ units.forEach(function(u){
   scene.add(u.rim);
 });
 var rimTarget = 0, rimCur = 0;
-
-/* the honestly-empty slot: dashed outline on the floor at fable@max */
-var emptySlot = (function(){
-  var pts = [];
-  var s = 1.15;
-  pts.push(new THREE.Vector3(-s,0.02,-s), new THREE.Vector3(s,0.02,-s),
-           new THREE.Vector3(s,0.02,s), new THREE.Vector3(-s,0.02,s), new THREE.Vector3(-s,0.02,-s));
-  var g = new THREE.BufferGeometry().setFromPoints(pts);
-  var m = new THREE.LineDashedMaterial({color:TH.faint, dashSize:0.32, gapSize:0.2, transparent:true, opacity:0});
-  var line = new THREE.Line(g, m);
-  line.computeLineDistances();
-  line.position.set(EFF_X.max, 0, ROW_Z.fable);
-  scene.add(line);
-  return line;
-})();
-var emptyTarget = 0, emptyPulse = false;
 
 /* effort-floor ribbons: a translucent strip through each row's cold tops */
 var ribbons = [];
@@ -1253,7 +1232,6 @@ function layoutLabels(){
     if (minRowTop < wantTop) rowShift = wantTop - minRowTop;
   }
   _rects.length = 0;
-  var emptyRectIdx = -1;
   for (var li=0; li<LABELS.length; li++){
     var L = LABELS[li];
     if (!L.on) continue;
@@ -1300,34 +1278,7 @@ function layoutLabels(){
       }
     }
     L.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px)';
-    if (L === emptyLabel) emptyRectIdx = _rects.length;
     _rects.push({x:tx, y:ty, w:w, h:h, cy:y});
-  }
-  /* the 'not run' marker is a fixed-anchor chip that can end up near value/gap
-     chips whose own position tracks a live, camera-dependent bar height -- a
-     3-way conflict (this marker plus two or more chips at once) can outrun the
-     2-pass resolution above. Re-settle it once more here, now that every other
-     visible label already has its FINAL rect in _rects, always pushing down
-     for a deterministic result. Width-independent: phones never populate
-     value/gap chips in the same frame as this marker (narrow ch6Labels()
-     swaps them out), so this is a no-op there. */
-  if (emptyRectIdx !== -1){
-    var EB = _rects[emptyRectIdx];
-    var ety = EB.y;
-    for (var epass=0; epass<3; epass++){
-      for (var erj=0; erj<_rects.length; erj++){
-        if (erj === emptyRectIdx) continue;
-        var ER = _rects[erj];
-        if (EB.x < ER.x + ER.w + 6 && EB.x + EB.w + 6 > ER.x && ety < ER.y + ER.h + 4 && ety + EB.h + 4 > ER.y){
-          ety = ER.y + ER.h + 5;
-        }
-      }
-    }
-    ety = Math.max(8, Math.min(H - 8 - EB.h, ety));
-    if (ety !== EB.y){
-      emptyLabel.el.style.transform = 'translate(' + EB.x.toFixed(1) + 'px,' + ety.toFixed(1) + 'px)';
-      EB.y = ety;
-    }
   }
 }
 function resetLabelSizes(){ LABELS.forEach(function(L){ L.w = 0; L.h = 0; }); }
@@ -1360,13 +1311,6 @@ var colLabels = DATA.efforts.map(function(e){
   return addLabel(e,'axis', fixed(EFF_X[e], 0, AXIS_Z), 'below');
 });
 var axisNote = addLabel('reasoning effort →','axisnote', fixed(7.2, 0, 7.4), 'below');
-var emptyLabel = addLabel('not run · too expensive','chipbox', function(){
-  /* the empty slot sits on the back row now: in the bar chapters the chip floats above the row tops */
-  if (window.innerWidth <= 700 && activeChapter === 6 && selKey === 'fable@max'){
-    return _tmp.set((EFF_X.max - 0.7)*0.38 - 2.0, 10.6, ROW_Z.fable);
-  }
-  return _tmp.set(EFF_X.max - 0.7, (activeChapter >= 5 ? 8.1 : 2.4), ROW_Z.fable);
-}, 'above');
 var judgeLabels = [
   addLabel('Judge A · blind','ink', above(judgeA, 1.1), 'right'),
   addLabel('Judge B · blind','ink', above(judgeB, 1.1)),
@@ -1490,14 +1434,14 @@ var gapsOn = false;
 var GAPS_AZ = 0.2;
 var gapsBtn = document.getElementById('gapsbtn');
 function ch6Labels(){
-  var base = [rowLabels.fable,rowLabels.sonnet,rowLabels.opus,emptyLabel,axisNote].concat(colLabels);
+  var base = [rowLabels.fable,rowLabels.sonnet,rowLabels.opus,axisNote].concat(colLabels);
   /* Haiku's cell sits front-center, right where a picked row's chips land: while a
      dial row is picked its label steps aside, and returns when the pick clears */
   if (!selRow || selRow === 'haiku') base.push(rowLabels.haiku);
   /* phones: with a row picked, only that row's label shares the thin scene strip,
      so the value chips have room to breathe */
   if (window.innerWidth <= 700 && selRow && rowLabels[selRow]){
-    base = [rowLabels[selRow], emptyLabel, axisNote].concat(colLabels);
+    base = [rowLabels[selRow], axisNote].concat(colLabels);
   }
   var sel = units.filter(function(u){
     if (!u.data) return false;
@@ -1686,8 +1630,7 @@ var CH = [
     flow = {speed:0.5, density:0.3};
     setWords(null);
     setLabelsOn([]);
-    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0; emptyPulse = false;
-  },
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0;  },
   /* 1 · the freeze: cluster → ring with indices → cluster + hash (frame-driven) */
   function(){
     units.forEach(function(u){
@@ -1698,8 +1641,7 @@ var CH = [
     [judgeA,judgeB,adjud].forEach(benchSphere);
     setEdges([]);
     setWords(null);
-    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0; emptyPulse = false;
-  },
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0;  },
   /* 2 · the 16-condition grid */
   function(){
     tasks.forEach(function(n,i){
@@ -1719,10 +1661,9 @@ var CH = [
     /* mid widths sit the label under the copy card so Haiku still gets introduced */
     var hlvW = window.innerWidth;
     HLV.set(HAIKU_POS.x, (hlvW <= 700 ? 2.2 : (hlvW <= 900 ? -0.6 : 1.0)), HAIKU_POS.z);
-    setLabelsOn([rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,emptyLabel,suiteLabel,axisNote].concat(colLabels));
+    setLabelsOn([rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,suiteLabel,axisNote].concat(colLabels));
     guideTarget = 1;
-    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0.85; emptyPulse = true;
-  },
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0;  },
   /* 3 · the split into 32 arms: one cell fissions first, then the grid follows */
   function(){
     tasks.forEach(function(n,i){
@@ -1748,8 +1689,7 @@ var CH = [
     flow = {speed:1.0, density:0.7};
     setWords(null);
     setLabelsOn([coldTwinLabel, skillTwinLabel]);
-    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0.4; emptyPulse = false;
-    var tok = ++ch3Token;
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0;    var tok = ++ch3Token;
     setTimeout(function(){
       if (activeChapter !== 3 || tok !== ch3Token) return;
       units.forEach(function(u, i){
@@ -1794,8 +1734,7 @@ var CH = [
     setWords(null);
     setLabelsOn(judgeLabels.concat([disputeLabel, marksLabel, poolLabel, adjCountLabel]));
     poolTarget = 1;
-    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0; emptyTarget = 0.15; emptyPulse = false;
-  },
+    hashOn = false; ribbonTarget = 0; ribbonOpTarget = 0;  },
   /* 5 · the verdict crystallizes */
   function(){
     tasks.forEach(function(n,i){ benchSphere(n, i*0.01); });
@@ -1804,10 +1743,9 @@ var CH = [
     setEdges([]);
     setWords(null);
     if (window.innerWidth <= 700) HLV.set(-3.2, 9.9, HAIKU_POS.z); else HLV.set(HAIKU_POS.x, 7.3, HAIKU_POS.z);
-    setLabelsOn([rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,emptyLabel,axisNote].concat(colLabels).concat(ch5ValLabels));
+    setLabelsOn([rowLabels.fable,rowLabels.sonnet,rowLabels.opus,rowLabels.haiku,axisNote].concat(colLabels).concat(ch5ValLabels));
     guideTarget = 1; rimTarget = 1;
-    hashOn = false; ribbonTarget = 1; ribbonOpTarget = TH.additive ? 0.1 : 0.14; emptyTarget = 0.85; emptyPulse = false;
-  },
+    hashOn = false; ribbonTarget = 1; ribbonOpTarget = TH.additive ? 0.1 : 0.14;  },
   /* 6 · finale */
   function(){
     tasks.forEach(function(n,i){ benchSphere(n, i*0.01); });
@@ -1818,8 +1756,7 @@ var CH = [
     if (window.innerWidth <= 700) HLV.set(-3.2, 11.2, HAIKU_POS.z); else HLV.set(HAIKU_POS.x, 7.3, HAIKU_POS.z);
     setLabelsOn(ch6Labels());
     guideTarget = 1; rimTarget = 0.8;
-    hashOn = false; ribbonTarget = 1; ribbonOpTarget = TH.additive ? 0.08 : 0.11; emptyTarget = 0.7; emptyPulse = false;
-  }
+    hashOn = false; ribbonTarget = 1; ribbonOpTarget = TH.additive ? 0.08 : 0.11;  }
 ];
 var N = CH.length;
 var RAIL_NAMES = ['Open','Freeze','Grid','Two arms','Judges','Verdict','Explore'];
@@ -1927,7 +1864,6 @@ function retint(){
     u.skill.mat.color.setHex(TH.acc); u.skill.emat.color.setHex(TH.accDim);
     u.rim.material.color.setHex(TH.acc);
   });
-  emptySlot.material.color.setHex(TH.faint);
   guideLines.material.color.setHex(TH.faint);
   pool.mesh.material.color.setHex(TH.acc);
   pool.halo.material.color.setHex(TH.acc);
@@ -2048,12 +1984,6 @@ function frame(){
     }
     u.rim.visible = u.rim.material.opacity > 0.02;
   });
-
-  /* empty slot dash: pulses in the grid chapter, and when fable at max is picked */
-  var ePul = emptyPulse || (activeChapter === 6 && selKey === 'fable@max');
-  var eTgt = emptyTarget * (ePul ? (0.65 + Math.sin(T*1.8)*0.35) : 1);
-  emptySlot.material.opacity += (eTgt - emptySlot.material.opacity)*Math.min(1, dt*3);
-  emptySlot.visible = emptySlot.material.opacity > 0.02;
 
   /* guide lines: effort axis + row leaders */
   guideCur += (guideTarget - guideCur)*Math.min(1, dt*2.5);

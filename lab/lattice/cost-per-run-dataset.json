@@ -103,5 +103,12 @@
   "n_loaded": 17,
   "avg_loaded_usd": 0.7999,
   "skill_marginal_usd": -0.0095
+ },
+ "lattice-fable-max": {
+  "n_cold": 48,
+  "avg_cold_usd": 1.9446,
+  "n_loaded": 48,
+  "avg_loaded_usd": 2.2744,
+  "skill_marginal_usd": 0.3298
  }
 }

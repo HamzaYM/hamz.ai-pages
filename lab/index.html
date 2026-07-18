@@ -137,7 +137,7 @@
   h1{ font-size:clamp(34px,6vw,62px); font-weight:600; line-height:1.02; max-width:20ch; margin-bottom:24px; }
   .lede{ font-size:clamp(18px,2.3vw,22px); color:var(--dim); max-width:62ch; line-height:1.5; }
   .start-here{ margin-top:26px; padding-top:16px; border-top:1px solid var(--line);
-    display:flex; flex-wrap:wrap; gap:8px 24px; font-family:var(--mono); font-size:12px; color:var(--faint); line-height:1.7; }
+    display:grid; grid-template-columns:repeat(2, max-content); column-gap:24px; row-gap:8px; font-family:var(--mono); font-size:12px; color:var(--faint); line-height:1.7; }
 
   /* sections */
   section{ padding:76px 0; border-bottom:1px solid var(--line); }
@@ -270,6 +270,7 @@
     .lab-nav{ gap:6px 12px; }
     .fnote{ grid-template-columns:1fr; gap:8px; }
     .fnote .date{ padding-top:0; }
+    .start-here{ grid-template-columns:1fr; }
   }
   @media (max-width:560px){
     .stages{ grid-template-columns:1fr; }
@@ -347,7 +348,7 @@
           <ul style="list-style:none;margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--line);">
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);margin-bottom:12px;">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
-              Skills improved every completed setup, raising the overall average from <strong>88.7%</strong> to <strong>98.2%</strong>.
+              Skills improved every completed setup, raising the overall average from <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across all 15 confirmatory conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 4, Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">88.7%</span></strong> to <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across all 15 confirmatory conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 4, Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">98.2%</span></strong>.
             </li>
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);margin-bottom:12px;">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
@@ -613,7 +614,7 @@
           <a class="card" href="https://github.com/HamzaYM/reliable-ai-skills">
             <span class="tag">Library + harness</span>
             <b>Reliable AI Skills</b>
-            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library, for 17 total.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the 26 source skills cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
+            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library, for 17 total. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the 26 source skills cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
             <i>View on GitHub &rarr;</i>
           </a>
           <a class="card-cross" href="lattice/">the effort lattice &rarr;</a>
