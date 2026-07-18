@@ -325,7 +325,7 @@
       <div class="sec-head"><span class="sec-no">03</span><h2>Evidence harness</h2></div>
       <div class="sec-sub">Decisions settled by evidence, not opinion</div>
       <p>Whether a change ships should never come down to whose judgment sounds most confident.</p>
-      <p>We settle it the way a serious engineering organization would: against fixed test cases, against what is already running in production, and against reviewers who do not know which answer they are grading. At Lyna Health this harness holds the line across <strong>689 automated test files</strong> and <strong>32 tracked AI call expressions across 20 modules</strong>, and every model swap is decided by a shadow-mode comparison, not a hunch.</p>
+      <p>We settle it the way a serious engineering organization would: against fixed test cases, against what is already running in production, and against reviewers who do not know which answer they are grading. At Lyna Health this harness holds the line on live production traffic, so a change that regresses even a single case is caught before it ships, and every model swap is decided by a shadow-mode comparison, not a hunch.</p>
       <div class="items">
         <div class="item"><i>01</i><div><b>Golden-fixture eval runners</b><p>A fixed, known-answer test suite that every model or prompt change is graded against before anything ships. A change that regresses even one case is caught here, not in production.</p></div></div>
         <div class="item"><i>02</i><div><b>Shadow-mode comparison</b><p>A candidate runs alongside the current production system on real, live traffic. Its outputs are compared before it ever reaches a user.</p></div></div>

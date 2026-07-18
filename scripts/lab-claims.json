@@ -357,14 +357,14 @@
     },
     {
       "id": "lattice-cost-on-builder",
-      "claim": "The builder page states the same cost, $1,296.94.",
+      "claim": "The builder page states the all-in lattice cost, $1,516.56.",
       "pages": [
         "builder/index.html"
       ],
       "source": {
         "kind": "page_literal",
         "file": "builder/index.html",
-        "needle": "$1,296.94"
+        "needle": "$1,516.56"
       },
       "expect": true
     },
@@ -422,14 +422,14 @@
     },
     {
       "id": "lattice-skills-average",
-      "claim": "The lab card states the skills moved the average from 88.7% to 98.2%.",
+      "claim": "The lab card states the skills moved the average from 89.2% to 98.3%.",
       "pages": [
         "lab/index.html"
       ],
       "source": {
         "kind": "page_literal",
         "file": "lab/index.html",
-        "needle": "<strong>88.7%</strong> to <strong>98.2%</strong>"
+        "needle": "89.2%</span></strong> to <strong><span class=\"hot\""
       },
       "expect": true
     },

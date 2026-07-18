@@ -348,7 +348,7 @@
           <ul style="list-style:none;margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--line);">
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);margin-bottom:12px;">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
-              Skills improved every completed setup, raising the overall average from <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across all 15 confirmatory conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 4, Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">88.7%</span></strong> to <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across all 15 confirmatory conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 4, Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">98.2%</span></strong>.
+              Skills improved every completed setup, raising the overall average from <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across 16 conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 5 (its 4 confirmatory levels plus the max-effort cell added after publication), Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">89.2%</span></strong> to <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across 16 conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 5 (its 4 confirmatory levels plus the max-effort cell added after publication), Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">98.3%</span></strong>.
             </li>
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);margin-bottom:12px;">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
@@ -360,8 +360,9 @@
             </li>
           </ul>
           <figure class="lat-fig">
-            <figcaption class="lat-conv">each model's average score across every effort level tested &middot; outline: without skills &middot; solid: with skills</figcaption>
-            <svg viewBox="0 0 620 380" role="img" aria-label="Bar chart of each model's average score, the share of checklist items hit, averaged across every effort level tested, without and with skills. Haiku 4.5, no effort dial: 64.7 percent without, 91.2 percent with. Sonnet 5: 88.1 percent without, 98.4 percent with. Opus 4.8: 88.7 percent without, 98.0 percent with. Fable 5: 95.3 percent without, 99.8 percent with.">
+            <figcaption class="lat-conv">each model's average score across every effort level tested &middot; outline: without skills &middot; solid: with skills &middot; Fable's average includes its max-effort cell, run separately after publication</figcaption>
+            <svg viewBox="0 0 620 380" role="img" aria-label="Bar chart of each model's average score, the share of checklist items hit, averaged across every effort level tested, without and with skills, arranged as a 2 by 2 grid. Haiku 4.5, no effort dial: 64.7 percent without, 91.2 percent with. Sonnet 5: 88.1 percent without, 98.4 percent with. Opus 4.8: 88.7 percent without, 98.0 percent with. Fable 5, average across low, medium, high, xhigh, and max effort (max was run separately after publication and added 2026-07-12): 95.8 percent without skills, 99.8 percent with.">
+
               <!-- 2x2 grid; each cell reuses the same y-scale: height = value/100 * 122, baseline row1 y=140 / row2 y=342 -->
 
               <!-- TOP-LEFT: Haiku 4.5 (no effort dial): cold 64.7, loaded 91.2 -->
@@ -398,16 +399,18 @@
               <line x1="44" y1="342" x2="296" y2="342" stroke="var(--line-strong)"/>
               <text x="170" y="360" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--faint)">Opus 4.8</text>
 
-              <!-- BOTTOM-RIGHT: Fable 5: cold 95.3 (avg across low/medium/high/xhigh), loaded 99.8 -->
+              <!-- BOTTOM-RIGHT: Fable 5: average across low/medium/high/xhigh/max, cold 95.8, loaded 99.8 (max folded into the average, same simple-mean method as Opus/Sonnet above) -->
               <line x1="354" y1="220" x2="606" y2="220" stroke="var(--line)" stroke-dasharray="2 3"/>
               <text x="348" y="223" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">100%</text>
               <text x="348" y="345" text-anchor="end" font-family="var(--mono)" font-size="12" fill="var(--faint)">0</text>
-              <rect x="419" y="225.7" width="56" height="116.3" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
-              <rect x="485" y="220.2" width="56" height="121.8" fill="var(--teal)"/>
-              <text x="447" y="219.7" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">95.3</text>
+              <rect x="419" y="225.12" width="56" height="116.88" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+              <rect x="485" y="220.24" width="56" height="121.76" fill="var(--teal)"/>
+              <text x="447" y="219.1" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">95.8</text>
               <text x="513" y="214.2" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--ink)">99.8</text>
+              <rect class="hot" tabindex="0" x="410" y="215" width="140" height="130" fill="transparent" pointer-events="all" aria-label="Fable 5, average across all five effort levels: cold 95.8 percent, loaded 99.8 percent" data-tt="Fable's average" data-tip="Averages low, medium, high, xhigh, and max the same way as Opus and Sonnet above. Max was run separately after publication and added 2026-07-12; the confirmatory matrix itself still pairs Fable's low vs high, per the posted amendment."/>
               <line x1="354" y1="342" x2="606" y2="342" stroke="var(--line-strong)"/>
               <text x="480" y="360" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--faint)">Fable 5</text>
+              <text x="480" y="376" text-anchor="middle" font-family="var(--mono)" font-size="11.5" fill="var(--faint)">low&ndash;max, incl. addendum</text>
             </svg>
           </figure>
           <p style="margin-top:14px">If you're on a desktop, <a href="lattice/visual/">click here to see the three-minute visual story in 3D</a>.</p>
@@ -614,7 +617,7 @@
           <a class="card" href="https://github.com/HamzaYM/reliable-ai-skills">
             <span class="tag">Library + harness</span>
             <b>Reliable AI Skills</b>
-            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, 6 carried 1:1, 1 dropped as product-specific, 2 largely absorbed into merges), plus 2 promoted from a separate personal library, for 17 total. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the 26 source skills cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
+            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, including 2 that were largely absorbed into other merges; 6 carried over 1:1; 1 dropped as product-specific), plus 2 promoted from a separate personal library, for 17 total. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the 26 source skills cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
             <i>View on GitHub &rarr;</i>
           </a>
           <a class="card-cross" href="lattice/">the effort lattice &rarr;</a>
