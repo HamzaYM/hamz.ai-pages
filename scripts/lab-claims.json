@@ -422,14 +422,14 @@
     },
     {
       "id": "lattice-skills-average",
-      "claim": "The lab card states the skills moved the average from 89.2% to 98.3%.",
+      "claim": "The lab card states the skills moved the average across all 16 setups from roughly 89% to 98%, with the exact 89.2/98.3 kept in the tooltip.",
       "pages": [
         "lab/index.html"
       ],
       "source": {
         "kind": "page_literal",
         "file": "lab/index.html",
-        "needle": "89.2%</span></strong> to <strong><span class=\"hot\""
+        "needle": "89%</span></strong> to <strong><span class=\"hot\""
       },
       "expect": true
     },

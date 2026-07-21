@@ -37,7 +37,7 @@
     { "@type": "WebPage", "name": "The skills library", "url": "https://www.hamz.ai/lab/skills/" },
     { "@type": "WebPage", "name": "The Assurance Chain", "url": "https://www.hamz.ai/lab/chain/" },
     { "@type": "WebPage", "name": "The skills study", "url": "https://www.hamz.ai/lab/evidence/" },
-    { "@type": "WebPage", "name": "Field notes", "url": "https://www.hamz.ai/lab/notes/" }
+    { "@type": "WebPage", "name": "Field notes", "url": "https://www.hamz.ai/lab/#notes" }
   ]
 }
 </script>
@@ -123,7 +123,7 @@
   #tip .tt{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
        color:var(--teal);display:block;margin-bottom:5px;}
   .hot{cursor:pointer;}
-  a.hot, span.hot{ color:var(--ink); text-decoration:underline dotted; text-decoration-color:var(--teal);
+  a.hot, span.hot{ color:var(--ink); text-decoration:underline dotted; text-decoration-color:var(--line-strong);
        text-decoration-thickness:1px; text-underline-offset:3px; transition:color .15s; }
   a.hot:hover, span.hot:hover{ color:var(--teal); }
 
@@ -212,17 +212,43 @@
   .sec-go{ display:inline-block; margin-top:22px; font-family:var(--mono); font-size:13px; color:var(--teal); }
   .sec-go:hover{ border-bottom:1px solid var(--teal); }
 
-  /* field notes (bordered stack) */
-  .fnotes{ margin-top:36px; border:1px solid var(--line); }
-  .fnote{ display:grid; grid-template-columns:96px 1fr; gap:20px; align-items:start;
-          padding:22px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .18s; }
-  .fnote:last-child{ border-bottom:none; }
-  .fnote:hover{ background:var(--hover); }
-  .fnote .date{ font-family:var(--mono); font-size:12px; color:var(--faint); padding-top:5px; white-space:nowrap; }
-  .fnote .nt{ display:block; font-family:var(--display); font-size:18px; font-weight:600; color:var(--ink);
-              line-height:1.25; margin-bottom:6px; transition:color .15s; }
-  .fnote a.nt:hover{ color:var(--teal); }
-  .fnote .nx{ font-size:14px; color:var(--dim); max-width:62ch; margin:0; }
+  /* field notes: the ledger, folded in from the former /lab/notes/ page */
+  .notes{ margin-top:36px; border:1px solid var(--line); }
+  .note{ display:grid; grid-template-columns:96px 1fr auto; gap:20px; align-items:start;
+         padding:22px; border-bottom:1px solid var(--line); background:var(--raised); transition:background .18s; }
+  .note:last-child{ border-bottom:none; }
+  .note:hover{ background:var(--hover); }
+  .note .date{ font-family:var(--mono); font-size:12px; color:var(--faint); padding-top:5px; white-space:nowrap; }
+  .note .nt{ display:block; font-family:var(--display); font-size:18px; font-weight:600; color:var(--ink);
+             line-height:1.25; margin-bottom:6px; transition:color .15s; }
+  .note a.nt:hover{ color:var(--teal); }
+  .note a.nt[aria-disabled="true"]{ cursor:default; }
+  .note a.nt[aria-disabled="true"]:hover{ color:var(--ink); }
+  .note .nbody p{ font-size:14px; color:var(--dim); max-width:60ch; margin:0; }
+  .note .nbody{ min-width:0; }
+  .mx-wrap{ overflow-x:auto; margin:0 0 12px; }
+  .nside{ display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+  .chip{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+         padding:6px 11px; border:1px solid var(--line); background:var(--raised); color:var(--dim); white-space:nowrap; }
+  .chip.shipped{ color:var(--teal); border-color:var(--teal-dim); }
+  .chip.published{ color:var(--teal); border-color:var(--teal-dim); }
+  .chip.review{ color:var(--amber,#D9A441); border-color:rgba(217,164,65,0.45); }
+  .chip.drafting{ color:var(--faint); border-color:var(--line-strong); }
+  .mini{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--teal); white-space:nowrap; }
+  .legend{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px; }
+  .nx > summary{ display:block; list-style:none; cursor:pointer; }
+  .nx > summary::-webkit-details-marker{ display:none; }
+  .nx > summary:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+  .nx > summary:hover .nt{ color:var(--teal); }
+  .nx-cue{ display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--teal); }
+  .nx-cue::after{ content:"Read the note \2192"; }
+  .nx[open] .nx-cue::after{ content:"Hide note \2191"; }
+  .nx-body{ margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+  .note .nx-body p{ font-size:14px; color:var(--dim); max-width:62ch; margin:0 0 12px; }
+  .note .nx-body p:last-child{ margin-bottom:0; }
+  table.mx{ border-collapse:collapse; margin:0 0 12px; font-size:13px; }
+  table.mx th, table.mx td{ border:1px solid var(--line); padding:6px 10px; text-align:left; color:var(--dim); font-weight:400; }
+  table.mx thead th, table.mx tbody th{ font-family:var(--mono); font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); white-space:nowrap; }
 
   /* artifacts grid (folded in from the former standalone Artifacts page) */
   .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);
@@ -268,8 +294,9 @@
     nav.site-nav .nav-inner{ gap:8px 14px; padding-top:11px; padding-bottom:11px; }
     nav.site-nav .nav-right{ gap:8px 12px; }
     .lab-nav{ gap:6px 12px; }
-    .fnote{ grid-template-columns:1fr; gap:8px; }
-    .fnote .date{ padding-top:0; }
+    .note{ grid-template-columns:1fr; gap:10px; }
+    .note .date{ padding-top:0; }
+    .nside{ flex-direction:row; align-items:center; gap:14px; }
     .start-here{ grid-template-columns:1fr; }
   }
   @media (max-width:560px){
@@ -320,10 +347,10 @@
     <p class="lede">This is where I publish research on how AI systems behave, the methods I use to test them, and the standards my client work has to pass.</p>
     <p style="margin-top:20px;">The client work stays private. The experiments, evaluation methods, and evidence behind it do not.</p>
     <div class="start-here" aria-label="Where to start">
-      <span>New to AI systems? Start with <a href="../designing-agentic-ai/">Agent Topologies</a>.</span>
-      <span>Technical builder? Start with <a href="skills/">the Skills Library</a>.</span>
-      <span>Interested in evidence? Start with <a href="lattice/">the Effort Lattice</a>.</span>
-      <span>Evaluating my client work? Start with <a href="chain/">the Assurance Chain</a>.</span>
+      <span>New to AI systems? I'd start with <a href="../designing-agentic-ai/">Agent Topologies</a>.</span>
+      <span>Technical builder? I'd start with <a href="skills/">the Skills Library</a>.</span>
+      <span>Interested in evidence? I'd start with <a href="lattice/">the Effort Lattice</a>.</span>
+      <span>Evaluating my client work? I'd start with <a href="chain/">the Assurance Chain</a>.</span>
     </div>
   </div>
 </header>
@@ -348,7 +375,7 @@
           <ul style="list-style:none;margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--line);">
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);margin-bottom:12px;">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
-              Skills improved every completed setup, raising the overall average from <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across 16 conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 5 (its 4 confirmatory levels plus the max-effort cell added after publication), Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">89.2%</span></strong> to <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Mean across 16 conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 5 (its 4 confirmatory levels plus the max-effort cell added after publication), Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">98.3%</span></strong>.
+              Skills improved every completed setup, raising the average across all 16 model-and-effort setups from roughly <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Exactly: 89.2% to 98.3%. Mean across 16 conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 5 (its 4 confirmatory levels plus the max-effort cell added after publication), Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">89%</span></strong> to <strong><span class="hot" tabindex="0" data-tt="Pooled average" data-tip="Exactly: 89.2% to 98.3%. Mean across 16 conditions, one per model-effort combination. Sonnet and Opus each ran 5, Fable 5 (its 4 confirmatory levels plus the max-effort cell added after publication), Haiku 1 (no effort dial). Haiku's lower score counts once here, not as a quarter of the average, so this sits above a plain average of the four model bars.">98%</span></strong>.
             </li>
             <li style="position:relative;padding:0 0 0 24px;font-size:14.5px;color:var(--dim);margin-bottom:12px;">
               <span aria-hidden="true" style="position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);">&rarr;</span>
@@ -480,7 +507,7 @@
             </div>
             <div class="hint">Every step is the same shape. Something in, something out, riding on the context it has and the data it touches</div>
           </div>
-          <p style="margin-top:14px">If you're on a desktop, <a href="../designing-agentic-ai/visual/">click here to see this in 3D</a>.</p>
+          <p style="margin-top:14px">If you're on a desktop, <a href="../designing-agentic-ai/visual/">click here to walk through this one in 3D</a>.</p>
           <div class="card-links">
             <a href="../designing-agentic-ai/">Read the field guide &rarr;</a>
           </div>
@@ -541,10 +568,15 @@
           <b>BD automation for a capital-markets advisory firm</b>
           <p>Inside a customized Dynamics 365 environment: market events become tracked records with owners that cannot silently expire, and AI-drafted outreach queues behind human review.</p>
         </a>
-        <a class="stage" href="https://www.hamz.ai/work/aviation-operations/">
+        <a class="stage" href="shadow-lane/">
           <i>03</i>
+          <b>A shadow lane for swapping models on a healthcare platform</b>
+          <p>The cheaper tier ran silently beside the default on real staging traffic, agreement was scored on every intake, and 48 of them settled which roles it could take.</p>
+        </a>
+        <a class="stage" href="https://www.hamz.ai/work/aviation-operations/">
+          <i>04</i>
           <b>Trip-feasibility engine for a business-aviation operator</b>
-          <p>A 16-check trip-feasibility engine over 10+ enterprise data sources, replacing hours of manual checking per trip, with human override as a first-class citizen.</p>
+          <p>A 16-check trip-feasibility engine over 10+ enterprise data sources, replacing hours of manual checking per trip, and a dispatcher can override any check.</p>
         </a>
       </div>
     </div>
@@ -587,24 +619,113 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">02</span>Field notes</div>
       <h2>Field notes</h2>
-      <p>Dated write-ups from the practice, newest first.</p>
-      <div class="fnotes">
-        <div class="fnote">
-          <span class="date">Jul 2026</span>
-          <div>
-            <a class="nt" href="notes/#note-shadow-model">Running the cheap model in the shadows before letting it drive</a>
-            <p class="nx">The cheap, fast tier costs a fraction as much, and the obvious question kept coming up: why not switch? I didn't switch. I built a shadow lane instead.</p>
+      <div class="notes">
+
+        <div class="note">
+          <span class="date">Aug 2026</span>
+          <div class="nbody">
+            <a class="nt" href="#notes" aria-disabled="true">Moving a production eval harness onto Outcomes</a>
+            <p>Rubric-graded agent loops just became a platform primitive. What the platform covers, what it does not, and what I kept custom when I moved my harness onto it.</p>
+          </div>
+          <div class="nside">
+            <span class="chip drafting hot" tabindex="0" data-tt="Drafting" data-tip="A first version exists and has not shipped.">Drafting</span>
           </div>
         </div>
-        <div class="fnote">
+
+        <div class="note">
           <span class="date">Jul 2026</span>
-          <div>
-            <a class="nt" href="notes/#note-feasibility-engine">A feasibility engine that answers the dispatcher's questions, not mine</a>
-            <p class="nx">At a business-aviation operator, every trip request has to clear the same gauntlet before anyone commits an aircraft. Dispatchers carry this checklist in their heads. We built it into software.</p>
+          <div class="nbody">
+            <a class="nt" href="lattice/">Does reasoning effort replace skills? A pre-registered 16-cell effort lattice</a>
+            <p>Across every dialed model, higher effort reliably raised what the models do on their own (the floor), so <span class="hot" tabindex="0" data-tt="H1" data-tip="H1: raising effort alone lifts a model's score without skills by at least 3 percentage points between its pre-registered endpoints.">H1</span> is supported. However, it did not reliably reduce what the skills add on top, so <span class="hot" tabindex="0" data-tt="H2" data-tip="H2: what the skills add (the loaded score minus the cold score) shrinks by at least 3 points from the low endpoint to the top one.">H2</span> is not supported under <span class="hot" tabindex="0" data-tt="The rule" data-tip="Verdicts are computed only on the cells at each model's lowest and top effort, each run three times, under a 3 percentage point minimum effect frozen before any run. No model's shrinkage cleared the bar.">my pre-registered rule</span>. In practical terms, skills remain significant regardless of the model or effort level. I added Fable max later and the verdicts remained the same.</p>
+          </div>
+          <div class="nside">
+            <span class="chip published hot" tabindex="0" data-tt="Published" data-tip="The write-up is public.">Published</span>
+            <a class="mini" href="lattice/">study &rarr;</a>
           </div>
         </div>
+
+        <div class="note">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <a class="nt" href="https://github.com/HamzaYM/reliable-ai-skills">Do Claude Code skills actually work? An order-blinded A/B across 16 tasks</a>
+            <p>26 candidate skills I built with Claude's help, and the harness that graded 8 of them <span class="hot" tabindex="0" data-tt="Definition" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span>. <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">Must-hits</span> went from <span class="hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">26/50 to 46/50</span>. The write-up ships with the library.</p>
+          </div>
+          <div class="nside">
+            <span class="chip published hot" tabindex="0" data-tt="Published" data-tip="The write-up is public.">Published</span>
+            <a class="mini" href="evidence/">the skills study &rarr;</a>
+          </div>
+        </div>
+
+        <div class="note" id="note-case-playtesting">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <details class="nx">
+              <summary>
+                <span class="nt">Case playtesting: a simulated classroom reads the case cold</span>
+                <span class="nx-cue"></span>
+              </summary>
+              <div class="nx-body">
+                <p>Before a case draft for a graduate course session went in front of real people, I ran it past a fake room first.</p>
+                <p>The setup: seventeen persona agents, each one seat. A risk officer, a CFO, a platform engineer, a policy staffer, and so on, each defined by a professional background, a temperament, and nothing else. Each seat knows exactly what I gave it, and nothing it happened to pick up along the way. The seats are spread across three model tiers. Seventeen copies of the same model give you seventeen flavors of the same read; mixing tiers gives you the skimming executive and the person who checks the exhibits twice, which is what a real room contains.</p>
+                <p>The protocol is the part I'd defend hardest. Every seat reads the draft blind and returns a structured vote. No cross-talk, no anchoring on the loudest agent. Then the votes are revealed and the room votes again. The gap between round one and round two shows whether the case actually changed minds or everyone just held their seat.</p>
+                <p>I ran the loop the way you'd playtest a board game: full run, read the transcript, revise the draft, run it again. The panel caught things I would have found out the hard way in class, like which exhibit the fast readers skipped and where the discussion stalled with nowhere to go.</p>
+                <p>The rule I took away: A room where people read something and then decide is a shape that you can rebuild with agents. You can cast the seats (give each one a person to be: a risk officer, a CFO, a policy staffer, and decide what each knows), wire the protocol, simulate the room before it exists, and revise before bringing anything forward. Upon gathering more data on how reality unfolded, you can incorporate that and revise.</p>
+              </div>
+            </details>
+          </div>
+          <div class="nside">
+            <span class="chip published hot" tabindex="0" data-tt="Published" data-tip="The write-up is public.">Published</span>
+            <a class="mini" href="https://www.hamz.ai/case-playtesting/">the case study &rarr;</a>
+          </div>
+        </div>
+
+        <div class="note" id="note-shadow-model">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <a class="nt" href="shadow-lane/">Running the cheap model in the shadows before letting it drive</a>
+            <p>The cheap, fast tier costs a fraction as much so I kept asking myself: would it be possible to switch and maintain this level of performance? Instead of just switching, I built a "shadow lane" and let 48 staging intakes settle the debate.</p>
+          </div>
+          <div class="nside">
+            <span class="chip published hot" tabindex="0" data-tt="Published" data-tip="The write-up is public.">Published</span>
+            <a class="mini" href="shadow-lane/">the note &rarr;</a>
+          </div>
+        </div>
+
+        <div class="note" id="note-feasibility-engine">
+          <span class="date">Jul 2026</span>
+          <div class="nbody">
+            <details class="nx">
+              <summary>
+                <span class="nt">A feasibility engine that answers the dispatcher's questions, not mine</span>
+                <span class="nx-cue"></span>
+              </summary>
+              <div class="nx-body">
+                <p>At a business-aviation operator, every trip request has to clear the same gauntlet before anyone commits an aircraft: can the passengers actually enter that country, is the airport open and staffed when they land, is the tail out for maintenance, does the crew have legal duty time left, will they arrive in daylight where that matters. Dispatchers carry this checklist in their heads. We built it into software.</p>
+                <p>The engine runs those checks in parallel against each trip, down to the details: domestic legs where customs and visas don't apply, aerodrome clearance hours, maintenance downtime that overlaps the trip dates, scheduling conflicts, and crew duty time computed across all legs, adjusted for the regulatory category the flight operates under. Each check comes back with a status and its reasoning, not just a red or green light.</p>
+                <p>Two design calls mattered more than any individual check. First, thresholds came from the operations floor, not from us; two legs of the same flight only count as a conflict when the gap is under 45 minutes, because above that the schedule absorbs it. Second, overrides are first-class. A dispatcher can wave a check through, and the engine reruns everything afterward so the override is a recorded decision on fresh data, not a silenced alarm.</p>
+                <p>A feasibility engine earns trust by encoding the questions experts already ask, showing its work, and keeping the final call with the human.</p>
+              </div>
+            </details>
+          </div>
+          <div class="nside">
+            <span class="chip published hot" tabindex="0" data-tt="Published" data-tip="The write-up is public.">Published</span>
+            <a class="mini" href="https://www.hamz.ai/work/aviation-operations/">the case study &rarr;</a>
+          </div>
+        </div>
+
+        <div class="note">
+          <span class="date">2026</span>
+          <div class="nbody">
+            <a class="nt" href="https://www.hamz.ai/designing-agentic-ai/">Designing agentic systems</a>
+            <p>The field guide on how we decide the shape of an agentic system: one agent or many, and where a step should stay plain code instead of a model. The same page carries the interactive agent-topologies primer built for a new MIT Sloan course.</p>
+          </div>
+          <div class="nside">
+            <span class="chip published hot" tabindex="0" data-tt="Published" data-tip="The write-up is public.">Published</span>
+          </div>
+        </div>
+
       </div>
-      <a class="sec-go" href="notes/">All field notes &rarr;</a>
+      <p class="legend">published &middot; the write-up is public &nbsp;/&nbsp; drafting &middot; not yet</p>
     </div>
   </section>
 
@@ -612,14 +733,14 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">03</span>Artifacts</div>
       <h2>Public artifacts you can inspect</h2>
-      <p>Every page here pairs its claims with receipts: a review that refused sign-off, a test count recorded at a merge gate, a pre-registered experiment with its numbers. Below are the artifacts behind them, each one you can clone, run, or break.</p>
+      <p>These are the artifacts behind the receipts: a repo you can clone, a study you can re-run, a prototype you can break, etc.</p>
       <div class="grid">
 
         <div class="cell featured">
           <a class="card" href="https://github.com/HamzaYM/reliable-ai-skills">
             <span class="tag">Library + harness</span>
             <b>Reliable AI Skills</b>
-            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, including 2 that were largely absorbed into other merges; 6 carried over 1:1; 1 dropped as product-specific), plus 2 promoted from a separate personal library, for 17 total. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the 26 source skills cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
+            <p><span class="hot" tabindex="0" data-tt="Provenance" data-tip="I consolidated the 26 repo-specific skills into 15 generalized skills (19 merged down to 9, including 2 that were largely absorbed into other merges; 6 carried over 1:1; 1 dropped as product-specific) and promoted 2 from a separate personal library, for 17 total. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage.">17 portable Claude Code skills distilled from two production codebases</span>. 8 of the 26 source skills cleared an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Order-blinded: judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 <span class="hot" tabindex="0" data-tt="Definition" data-tip="A must-hit is a pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. Ships with the eval harness, so the receipts are reproducible. MIT licensed.</p>
             <i>View on GitHub &rarr;</i>
           </a>
           <a class="card-cross" href="lattice/">the effort lattice &rarr;</a>
@@ -645,7 +766,7 @@
         </div>
 
       </div>
-      <p style="margin-top:36px">The lattice's rules and pass criteria were frozen before the first run: <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a> carries the frozen pre-registration and the committed judge inputs, and the pre-registration hash was <a href="https://gist.github.com/HamzaYM/3554b04c78b918d152cdaa8b3c705987">posted publicly</a>.</p>
+      <p style="margin-top:36px">I froze the lattice's rules and pass criteria before the first run: <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a> carries the frozen pre-registration and the committed judge inputs, and I <a href="https://gist.github.com/HamzaYM/3554b04c78b918d152cdaa8b3c705987">posted the pre-registration hash publicly</a>.</p>
     </div>
   </section>
 

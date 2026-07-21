@@ -18,12 +18,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The effort lattice &middot; hamz.ai / lab</title>
-<meta name="description" content="Skills or reasoning effort: which matters more? A pre-registered lattice across three Claude models at five effort levels each, plus Haiku, found the skill advantage held.">
+<meta name="description" content="Skills or reasoning effort: which matters more? A pre-registered lattice across three dialed Claude models at five effort levels each, plus Haiku at its fixed baseline, found the skill advantage held.">
 <link rel="canonical" href="https://www.hamz.ai/lab/lattice/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="hamz.ai">
 <meta property="og:title" content="The effort lattice · hamz.ai / lab">
-<meta property="og:description" content="Skills or reasoning effort: which matters more? A pre-registered lattice across three Claude models at five effort levels each, plus Haiku, found the skill advantage held.">
+<meta property="og:description" content="Skills or reasoning effort: which matters more? A pre-registered lattice across three dialed Claude models at five effort levels each, plus Haiku at its fixed baseline, found the skill advantage held.">
 <meta property="og:url" content="https://www.hamz.ai/lab/lattice/">
 <meta property="og:image" content="https://www.hamz.ai/lab/og/lattice.png">
 <script type="application/ld+json">
@@ -153,7 +153,7 @@
   #tip.show{ opacity:1; transform:none; }
   #tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
         color:var(--tt-accent); display:block; margin-bottom:5px; }
-  .hot{ cursor:pointer; border-bottom:1px dashed var(--line-strong); }
+  .hot{ cursor:pointer; border-bottom:1px dotted var(--line-strong); }
   .hot:hover, .hot:focus-visible{ border-bottom-color:var(--acc); }
   .hot:focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
 
@@ -360,7 +360,7 @@
   .prov a{ color:var(--dim); }
   .prov a:hover{ color:var(--acc); }
 
-  .tabs-bar{ border-bottom:1px solid var(--line); background:var(--bg); }
+  .tabs-bar{ border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:var(--navh,49px); z-index:50; }
   .tabs{ display:none; }
   html.js .tabs{ display:flex; flex-wrap:wrap; }
   .tabs button{ background:none; border:none; border-right:1px solid var(--line); color:var(--dim);
@@ -382,7 +382,7 @@
   .mini-card p{ font-size:15px; margin-bottom:10px; max-width:none; }
   .mini-card p:last-child{ margin-bottom:0; }
 
-  .takeaways{ margin-top:8px; max-width:760px; }
+  .takeaways{ margin-top:8px; }
   .takeaways .tk{ border:1px solid var(--line); border-left:2px solid var(--acc); background:var(--raised); padding:18px 22px; margin-bottom:14px; }
   .takeaways .tk p{ font-size:15.5px; margin:0; max-width:none; }
   .takeaways .tk b{ color:var(--ink); font-weight:500; display:block; margin-bottom:4px; }
@@ -399,6 +399,7 @@
   table.data.fit{ min-width:0; }
   table.data td .q{ display:block; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); margin-top:3px; font-weight:400; }
   table.data td.ghost, table.data tr.ghost td{ color:var(--faint); }
+  table.data td.single b{ color:var(--dim); }
   table.data tr.ghost td{ border-top:1px dashed var(--line-strong); }
   /* "added later" addendum marker for the Fable-max cell: an accent-shifted
      chip (same type scale as the .q run-count chips), distinct from the ghost/na
@@ -513,7 +514,14 @@
 
 <div id="tip" role="status" aria-live="polite"></div>
 
-<script>document.documentElement.classList.add('js');</script>
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var n=document.querySelector('nav.site-nav');
+  function s(){ document.documentElement.style.setProperty('--navh', n.offsetHeight+'px'); }
+  if(n){ s(); window.addEventListener('resize', s); }
+})();
+</script>
 
 <header class="hero">
   <div class="wrap">
@@ -524,19 +532,20 @@
     </div>
     <div class="eyebrow">The lab / the effort lattice</div>
     <h1>Skills or reasoning effort: which matters more?</h1>
-    <p class="lede">Three of Claude's current models expose a reasoning-effort dial. Turn it up and the model gets more time to reason. So can more thinking replace expertise (the packaged <a href="../skills/">skills</a> an agent loads before it works)? I wanted the answer without fooling myself. So I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, ran the whole grid, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
-    <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. Keep going to see if I was right.</p>
     <div class="verdict-box">
       <div class="ct">The answer:</div>
       <p style="color:var(--ink);font-size:18px">Effort raises the floor, but skills still add on top of it.</p>
       <p>What effort added per model (delta with no skills): <strong>Fable +3.5</strong> &middot; <strong>Opus +3.9</strong> &middot; <strong>Sonnet +4.9</strong> percentage points.</p>
       <p>What the skills added per model (averaged across its effort levels): <strong title="Averages Fable's four confirmatory levels plus its max-effort cell, added after publication.">Fable +4.0</strong> &middot; <strong>Opus +9.3</strong> &middot; <strong>Sonnet +10.4</strong> percentage points.</p>
-      <p>Separately, Haiku improved by <strong>+26.5</strong> points <span class="hot" tabindex="0" data-tt="Haiku, one run" data-tip="Haiku has no effort dial and ran once per side, so the +26.5 is directionally accurate; the exact decimal may not be.">in its single available run per side</span>.</p>
+      <p>Separately, Haiku improved by <strong>+26.5</strong> points <span class="hot" tabindex="0" data-tt="Haiku, one run" data-tip="Haiku has no effort dial and ran once per side, so take the +26.5 as roughly where Haiku lands, not a value I would defend to the decimal.">in its single available run per side</span>.</p>
       <p style="color:var(--ink)">The verdict: the skills added more than effort did, and cost less to add. Loading them added at most 30 cents to a run; turning the dial from low to the top added roughly 30 to 77 cents per run, while producing smaller score gains than the skills did on each dialed model. Load the skills first because they're the cheaper lift, then turn up reasoning effort for the harder cases. For these tasks, giving the model the right methods and context mattered more than turning up effort alone.</p>
     </div>
+    <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. I was wrong -- keep going to see by how much.</p>
+    <p class="lede" style="margin-top:16px">Three of Claude's current models expose a reasoning-effort dial. Turn it up and the model gets more time to reason. So can more thinking replace expertise (the packaged <a href="../skills/">skills</a> an agent loads before it works)? I wanted the answer without fooling myself. So I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, ran the whole grid, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
+    <p class="lede" style="font-size:15px;margin-top:16px">For the sake of transparency, here's one important caveat: I wrote these 17 tasks myself, already knowing which failure modes the skills were built to catch, because those are what I've been catching. You can find what that limits in <a href="#methodology">the full methodology</a>.</p>
     <div class="mini-card" style="margin-top:16px">
       <div class="ct">Inspect the evidence</div>
-      <p>The study page summarizes the result. The Results Explorer exposes every populated condition, repeated run, task checklist, judge disagreement, second-vendor cross-check, and source file behind it.</p>
+      <p>This page contains the summary, and every populated condition, repeated run, task checklist, judge disagreement, second-vendor cross-check, and source file behind it is in the Results Explorer.</p>
       <p><a href="explorer/">Open the Results Explorer &#8599;</a></p>
     </div>
     <p style="font-size:14px;color:var(--faint);margin-top:14px;max-width:100%">A skill here is a reusable instruction file Claude Code loads before it works: a method, checklist, or workflow the model can follow during a task. <a href="../learn/">If you don't know what this means, click here to first learn about it &rarr;</a></p>
@@ -570,13 +579,21 @@
       <div class="sec-eyebrow"><span class="num">01</span>The result</div>
       <h2>Both levers work. They do different jobs.</h2>
 
-      <p class="lead">At the pre-registered endpoints, higher effort improved every dialed model on its own. Comparing each model's pre-registered endpoints, low to max for Sonnet and Opus and low to high for Fable under the posted endpoint amendment (the pre-registered pair moved to low-vs-high when max could not finish on the expiring pool; max was later completed separately and added as an addendum on 2026-07-12, outside this confirmatory pair; xhigh stayed an interior, exploratory setting), scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.9 on Sonnet. Each cleared the 3-point bar fixed before the first run. Across these endpoint comparisons, more test-time compute produced better scores on all three dialed models.</p>
+      <p class="lead">At the pre-registered endpoints, higher effort improved every dialed model on its own. Each model's endpoint pair is its lowest and top tested effort: low to max for Sonnet and Opus, and low to high for Fable under <span class="hot" tabindex="0" data-tt="the posted amendment" data-tip="Fable's max run could not finish before my pool of usage credits, the spending cap I had set with Claude, expired, so I moved the pair to low vs high. I completed max later and added it as an addendum on 2026-07-12, outside this confirmatory pair.">the posted amendment</span>, with xhigh staying an interior, exploratory setting. Comparing those endpoints, scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.9 on Sonnet. Each cleared the 3-point bar I fixed before the first run. Across these endpoint comparisons, more <span class="hot" tabindex="0" data-tt="test-time compute" data-tip="Test-time compute (TTC) is the computational power, measured in hidden reasoning tokens or GPU usage, that the model consumes while it reasons before answering.">test-time compute</span> produced better scores on all three dialed models.</p>
 
       <p>It does not replace skills. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26.5 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
 
-      <p>There is a headroom story in the grid too. The skills helped every model, and they helped Fable the least, because Fable starts from the highest floor. With the library installed, Fable never scored below 99.0%. Opus reached 100.0% at max effort. Sonnet, which starts in the 80s without the skills, reached 99.5% at max. Less headroom means less to add, not nothing to add.</p>
+      <p>The skills helped every model, but they helped Fable the least in terms of percentage points, because Fable already starts from the highest floor. With the library installed, Fable never scored below 99%. Opus reached 100% at max effort. Sonnet, which starts in the 80s without the skills, reached 99.5% at max. Less headroom means less to add, not nothing to add.</p>
 
       <p>A score is just the share of checklist items an answer actually hits, nothing fancier. And blind means what it sounds like: the two Claude judges marking each item never knew which answer ran with the skills installed, and a fixed third judge broke any tie.</p>
+
+      <h3 id="takeaways">What this means for how you use AI</h3>
+      <div class="takeaways" data-fx-stagger>
+        <div class="tk fx"><p><b>Prioritize the skills before the effort dial.</b> Skills fixed failure modes for cents per run and kept paying at every effort level, on every model. Effort costs more on every run and bought smaller gains here. Get the skills right first, then buy as much effort as the job actually requires.</p></div>
+        <div class="tk fx"><p><b>You don't need the best model for every task.</b> The best models do have an insanely high floor: even with no skills installed, Fable never dropped below 92% here. However, the job decides how much floor you need, and before I hand a cheaper model a role, I run it in shadow against real traffic and score the agreement. <a href="../#note-shadow-model">The shadow-lane note</a> is how I do it.</p></div>
+        <div class="tk fx"><p><b>Measure both instead of guessing.</b> The two levers moved separately here, and nothing about your tasks is settled by someone else's benchmark. The whole instrument is open if you want to run it on your own work.</p></div>
+      </div>
+      <p>These takeaways are about configuring one agent. If your question is how to shape a whole agentic system, agents, tools, and orchestration, you can find that information in the <a href="../../designing-agentic-ai/">agent topologies field guide</a>.</p>
 
       <div class="exhibit" id="matrix-table">
         <div class="ex-title" style="text-align:center">Scores with and without the skills, across the whole grid</div>
@@ -597,8 +614,8 @@
               </tr>
               <tr>
                 <td>medium</td>
-                <td><b>92.6%</b><span class="q">1 run</span></td>
-                <td><b>100.0%</b><span class="q">1 run</span></td>
+                <td class="single"><b>92.6%</b><span class="q">1 run</span></td>
+                <td class="single"><b>100.0%</b><span class="q">1 run</span></td>
                 <td class="hero"><b>+7.4</b><span class="q">points</span></td>
               </tr>
               <tr>
@@ -609,8 +626,8 @@
               </tr>
               <tr>
                 <td>xhigh</td>
-                <td><b>97.1%</b><span class="q">1 run</span></td>
-                <td><b>100.0%</b><span class="q">1 run</span></td>
+                <td class="single"><b>97.1%</b><span class="q">1 run</span></td>
+                <td class="single"><b>100.0%</b><span class="q">1 run</span></td>
                 <td class="hero"><b>+2.9</b><span class="q">points</span></td>
               </tr>
               <tr>
@@ -681,14 +698,14 @@
               </tr>
               <tr class="grp">
                 <td><b>Haiku 4.5</b></td><td><span class="hot" tabindex="0" data-tt="no effort dial" data-tip="Haiku does not expose a reasoning-effort setting, so it runs one way; it is here as a baseline.">no effort dial</span><span class="q">runs one way</span></td>
-                <td><b>64.7%</b><span class="q">1 run</span></td>
-                <td><b>91.2%</b><span class="q">1 run</span></td>
+                <td class="single"><b>64.7%</b><span class="q">1 run</span></td>
+                <td class="single"><b>91.2%</b><span class="q">1 run</span></td>
                 <td class="hero"><b>+26.5</b><span class="q">points</span></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third (Fable) settling disagreements. The 15 confirmatory cells each completed every task, so all 15 are scored on the same 17-task set; the added-later Fable-max cell completed 16 of 17 (mmar-t1 excluded) and is scored on its own complete-case basis, outside the confirmatory matrix. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those read the direction, not the exact value. Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
+        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third (Fable) settling disagreements. The 15 confirmatory cells each completed every task, so all 15 are scored on the same 17-task set; the added-later Fable-max cell completed 16 of 17 (mmar-t1 excluded) and is scored on its own complete-case basis, outside the confirmatory matrix. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those, take the score as roughly where the model lands, not a value I would defend to the decimal. Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
         <p style="margin-top:16px;text-align:center"><a href="#methodology">Read the methodology &rarr;</a> &nbsp;&middot;&nbsp; <a href="explorer/">Open the Results Explorer &#8599;</a></p>
       </div>
 
@@ -1012,7 +1029,7 @@
       <div class="cardrow" data-fx-stagger>
         <div class="mini-card fx" id="codex-card">
           <div class="ct">Cross-vendor spot check</div>
-          <p>Every judge in this study is a Claude model scoring Claude outputs, which is a fair thing to be skeptical of. As a check, a second vendor's model (recorded in the harness as gpt-5.6-terra, run through the OpenAI Codex CLI) re-scored 50 sampled comparisons in a single run and agreed with the final marks 97.2% of the time. Full detail in <a href="#methodology">the full methodology</a>.</p>
+          <p>Every judge in this study is a Claude model scoring Claude outputs, which is a fair thing to be skeptical of. As a check, I had a second vendor's model, OpenAI's gpt-5.6-terra, run through the Codex CLI, re-score 50 sampled comparisons in a single run; it agreed with the final marks 97.2% of the time. Full detail in <a href="#methodology">the full methodology</a>.</p>
         </div>
         <div class="mini-card fx" id="costs-card">
           <div class="ct">What it cost</div>
@@ -1020,13 +1037,6 @@
           <p>Effort is the expensive dial. Going from low to max multiplied the cost of a run by up to 2.7x; a Sonnet run went from about $0.44 to about $1.20. Loading the skills cost between $0.01 and $0.30 per run.</p>
           <p>At Sonnet's two highest settings, runs with the skills installed actually averaged slightly cheaper than runs without. The exact per-cell numbers are in <a href="#cost-table-h">the cost table</a>.</p>
         </div>
-      </div>
-
-      <h3 id="takeaways">What this means for how you use AI</h3>
-      <div class="takeaways" data-fx-stagger>
-        <div class="tk fx"><p><b>Pick the model and effort for the floor you need.</b> Effort reliably raises the baseline, and you pay for it on every run. Buy as much of it as the job actually requires, and no more.</p></div>
-        <div class="tk fx"><p><b>Install skills for the failure modes that matter to you.</b> They kept paying at every effort level, on every model, for cents per run. A skill is built once and rides along on every run after that.</p></div>
-        <div class="tk fx"><p><b>Measure both instead of guessing.</b> The two levers moved separately here, and nothing about your tasks is settled by someone else's benchmark. The whole instrument is open if you want to run it on your own work.</p></div>
       </div>
 
       <p>How the grid, the judging, and the costs worked is in <a href="#how">How it worked</a>. Every rule, bug, and disclosure is in <a href="#methodology">The full methodology</a>.</p>
@@ -1042,9 +1052,9 @@
       <p class="lead">Seventeen engineering tasks, a library of seventeen skills, and sixteen model-and-effort setups (fifteen confirmatory, one a later addendum). Every setup answered every task twice, once with the skill library installed and once without, and <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which answer ran with the skills installed, and the answer order was randomized.">blinded judges</span> scored all of it.</p>
 
       <details class="sec" id="tasks" open>
-      <summary><h3 id="tasks-h">What was tested: the tasks</h3><span class="teaser"></span></summary>
+      <summary><h3 id="tasks-h">What I tested: the tasks</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>The tasks are realistic, hands-on engineering scenarios, each set in a small purpose-built codebase. The suite of 17 was frozen before the first run. Three examples, straight from the suite:</p>
+      <p>The tasks are realistic, hands-on engineering scenarios, each set in a small purpose-built codebase. I froze the suite of 17 before the first run. Three examples, straight from the suite:</p>
       <ul class="plain-list">
         <li>Review a teammate's pull request that adds appointment search to a multi-tenant clinic scheduler, and decide whether it is safe to merge.</li>
         <li>Work out why a nightly ticket-classifying job's accuracy fell from about 0.91 to zero and stayed there, even though individual predictions still look fine when spot-checked.</li>
@@ -1054,7 +1064,7 @@
       </div>
       </details>
       <details class="sec" id="skills-library" open>
-      <summary><h3 id="skills-library-h">What was tested: the skill library</h3><span class="teaser"></span></summary>
+      <summary><h3 id="skills-library-h">What I tested: the skill library</h3><span class="teaser"></span></summary>
       <div class="sec-body">
       <p>A skill is a short, packaged playbook the agent loads before it starts working: the traps to check, the order to work in, the things a finished answer must contain. All seventeen are open source in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>. The full library:</p>
       <div class="skill-groups">
@@ -1205,7 +1215,7 @@
       <details class="sec" id="scoring">
       <summary><h3 id="scoring-h">How scoring works</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>Each task carries a short checklist of things a correct answer must do; a score is the share of checklist items hit. The study calls these checklist items must-hits. There are no style points: an answer either did each thing or it did not.</p>
+      <p>Each task carries a short checklist of things a correct answer must do; a score is the share of checklist items hit. From here on, I'll call them must-hits. There are no style points: an answer either did each thing or it did not.</p>
       <p>Every answer was scored blind by two Claude judges, one Sonnet-class and one Opus-class. They saw the two answers to a task in a random order and were never told which one had the skills installed. When the two judges disagreed on a checklist item, a fixed third judge, Claude Fable 5, settled it. Across the study the two judges disagreed on 4.6% of marks, 2.5% of marks went to the third judge, and none were left unresolved.</p>
 
       </div>
@@ -1319,13 +1329,13 @@
       <div class="sec-eyebrow"><span class="num">03</span>The full methodology</div>
       <h2>The full methodology</h2>
 
-      <p class="lead">If you came to check my work, this section was written for you. The design in three sentences: three Claude models at five reasoning-effort levels each, plus an effort-invariant Haiku baseline, every configuration run cold and loaded (without the skill library installed, and with it) on the same frozen 17-task suite. Each model's endpoints, its lowest and top effort settings, ran three times per side; on Sonnet and Opus the interior levels did too, while Fable's two interior settings and the Haiku baseline stayed single runs. Two confirmatory hypotheses, frozen before any run, and one of them lost.</p>
+      <p class="lead">This tab is the full record that contains the pre-registration mechanics, every bug, and every disclosure, and it is written with auditors in mind, both human and machine. The raw artifacts live in the <a href="https://github.com/HamzaYM/reliable-ai-skills">GitHub repo</a> if you want to recompute anything. The design in three sentences: three Claude models at five reasoning-effort levels each, plus a Haiku baseline with no effort dial, every configuration run cold and loaded (without the skill library installed, and with it) on the same frozen 17-task suite. Each model's endpoints, its lowest and top effort settings, ran three times per side; on Sonnet and Opus the interior levels did too, while Fable's two interior settings and the Haiku baseline stayed single runs. Two confirmatory hypotheses, frozen before any run, and one of them lost.</p>
 
       <details class="sec" id="lattice-spec">
       <summary><h3 id="lattice-spec-h">The lattice, fully specified</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>3 models &times; 5 effort levels + Haiku = 16 model-effort conditions &times; {cold, loaded} = 32 arms. The suite is 17 frozen primary tasks, hash-pinned at freeze: <code>b378c79644280bb93fb8ac71d0cadcfe301fd15b226dfaec852b619a2aa1c890</code>. Endpoint cells ran at 3 consumer repeats (three full runs of the model under test, per side), every repeat persisted independently with no shared session state; Sonnet and Opus ran at 3 repeats across their interior levels too, leaving Fable's medium and extra-high cells and the Haiku baseline as the only single-run cells; the added-later Fable-max cell ran at 3 repeats per side as well. Plots and tables distinguish replicated means from single points, and the single-run cells get no uncertainty bars, on purpose: one run is one run, and an error bar around a single sample would read as precision the data does not have. Effort defaults were verified in smoke runs, never assumed; the values recorded in run-meta are authoritative.</p>
-      <p>Fable at max was run separately after publication, on a second machine, and added to this page on 2026-07-12. It completed 16 of 17 tasks (mmar-t1 timed out on the loaded arm across repeated attempts and was excluded as invalid, not a quality issue). On its own complete-case basis: cold 97.4%, loaded 100.0%, change +2.6 percentage points. Cost: $219.62, recomputed centrally from the same raw judge outputs as every other cell. It stays outside the confirmatory matrix: Fable's pre-registered endpoint pair remains low vs high, per the posted 2026-07-10 amendment, so nothing here changes H1, H2, or any other verdict on this page.</p>
+      <p>3 models &times; 5 effort levels + Haiku = 16 model-effort conditions &times; {cold, loaded} = 32 arms. The suite is 17 frozen primary tasks, hash-pinned at freeze: <code>b378c79644280bb93fb8ac71d0cadcfe301fd15b226dfaec852b619a2aa1c890</code>. Endpoint cells ran at 3 consumer repeats (three full runs of the model under test, per side), every repeat persisted independently with no shared session state; Sonnet and Opus ran at 3 repeats across their interior levels too, leaving Fable's medium and extra-high cells and the Haiku baseline as the only single-run cells; the added-later Fable-max cell ran at 3 repeats per side as well. Plots and tables distinguish replicated means from single points, and the single-run cells get no uncertainty bars, on purpose: one run is one run, and an error bar around a single sample would read as precision the data does not have. I verified the effort defaults in smoke runs instead of assuming them; the values recorded in run-meta are authoritative.</p>
+      <p>I ran Fable at max separately after publication, on a second machine, and added it to this page on 2026-07-12. It completed 16 of 17 tasks (mmar-t1 timed out on the loaded arm across repeated attempts and was excluded as invalid, not a quality issue). On its own complete-case basis: cold 97.4%, loaded 100.0%, change +2.6 percentage points. Cost: $219.62, recomputed centrally from the same raw judge outputs as every other cell. It stays outside the confirmatory matrix: Fable's pre-registered endpoint pair remains low vs high, per the posted 2026-07-10 amendment, so nothing here changes H1, H2, or any other verdict on this page.</p>
 
       </div>
       </details>
@@ -1333,7 +1343,7 @@
       <summary><h3 id="prereg-h">Pre-registration mechanics</h3><span class="teaser"></span></summary>
       <div class="sec-body">
       <p>The hypotheses first, since the shorthand recurs from here on. H1: raising effort alone lifts a model's cold score by at least 3 percentage points (pp) between its endpoints. H2: the skill delta, the loaded score minus the cold score, shrinks by at least 3 points from the low endpoint to the top one. H1 and H2 are the only confirmatory hypotheses; H3 (whether skill value varies across task visibility tags) and H4 (the cross-model shrinkage comparison) are explicitly exploratory.</p>
-      <p>Frozen before any official run: those hypotheses, the 3pp minimum effect, endpoint-only decision rules (interiors can never touch H1 or H2 under any circumstance), paired exclusion (either arm invalid kills the whole cold-loaded comparison), a common complete-case set per model column over endpoint cells only (each model's two endpoints are scored on exactly the tasks valid in both, so nothing else can shift the comparison), blocked randomization stratified within model column (run order shuffled in blocks, separately for each model), identical max_tokens across all 32 arms, truncation invalidates the run (one retry, then excluded), frontmatter preflight (the metadata headers of the task and skill files validated before any run), cold-arm isolation checks (the cold runs must not be able to see any skill file), and cross-model-fallback invalidation (a run that silently fell back to a different model is thrown out).</p>
+      <p>What I froze before any official run: those hypotheses, the 3pp minimum effect, endpoint-only decision rules (interiors can never touch H1 or H2 under any circumstance), paired exclusion (either arm invalid kills the whole cold-loaded comparison), a common complete-case set per model column over endpoint cells only (each model's two endpoints are scored on exactly the tasks valid in both, so nothing else can shift the comparison), blocked randomization stratified within model column (run order shuffled in blocks, separately for each model), identical max_tokens across all 32 arms, truncation invalidates the run (one retry, then excluded), frontmatter preflight (the metadata headers of the task and skill files validated before any run), cold-arm isolation checks (the cold runs must not be able to see any skill file), and cross-model-fallback invalidation (a run that silently fell back to a different model is thrown out).</p>
       <p>I declared my prior at freeze: H1 and H2 supported, H3 uncertain. H2 then failed everywhere. I could not have fit the rule to the result: the rule predates the result and says so in a public hash.</p>
 
       </div>
@@ -1343,40 +1353,40 @@
       <div class="sec-body">
       <p>Every mark is scored by a blinded, order-randomized two-judge panel: one Sonnet-class and one Opus-class model, IDs pinned, both at medium effort, never varying across cells. When the two judges disagree on a mark, it goes to a pinned third <span class="hot" tabindex="0" data-tt="adjudicator" data-tip="A fixed third judge that scores a mark only when the two primary judges disagree; the two-of-three majority is final.">adjudicator</span>, claude-fable-5 at medium, which sees only the disputed criterion and the two blinded report slots, a narrower input than a full judge gets. It scores the binary mark independently, the two-of-three majority is final, and disputed marks never leave denominators. Everything persists: both original marks, evidence quotes, the adjudicator's mark, the majority result.</p>
       <p>The rates, published: 122 of 2652 marks disagreed (4.6%); 135 of 5304 report-slot marks were adjudicated (2.5%); 0 unresolved. The per-cell breakdown is in the repo's MATRIX.md; Haiku's cell was the noisiest at 13.2% mark disagreement.</p>
-      <p>The residual limitation is that Claude models judge Claude outputs. The pre-registered mitigation: the committed judge inputs are public, plus an exploratory Codex cross-vendor concordance sample of 50 comparisons, which has now been run: Codex (gpt-5.6-terra at high reasoning effort) agreed with the panel-final marks on 97.2% of marks (383 of 394), 0 unscorable. It is exploratory only and moves no verdict.</p>
+      <p>The residual limitation is that Claude models judge Claude outputs. The pre-registered mitigation: the committed judge inputs are public, plus an exploratory cross-vendor concordance sample of 50 comparisons, which I have now run: OpenAI's gpt-5.6-terra, at high reasoning effort, agreed with the panel-final marks on 97.2% of marks (383 of 394), 0 unscorable. It is exploratory only and moves no verdict.</p>
 
       </div>
       </details>
       <details class="sec" id="disclosures">
       <summary><h3 id="disclosures-h">Disclosures</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>One blinding exception exists in the committed data, found by a post-run audit and disclosed rather than papered over. The scrubber banned every form of a task's own skill name but not the names of sibling skills, and skills sometimes cross-reference each other in their own text. Exactly one of the 456 committed judge inputs was affected: the Haiku cell, task aicg-t2, report 1, where the loaded answer quoted its skill's cross-reference to a sibling skill and the sibling's name survived the scrub. A judge reading that one input could infer which arm was loaded. The scrubber and its leak verifier now ban all seventeen skill names in every separator and concatenation variant, with a test covering the exact committed case. The impact is bounded: one judge input of 456, in the contextual Haiku cell, outside every confirmatory hypothesis. No H1 or H2 number moves.</p>
-      <p><strong>Concordance selection wording.</strong> The pre-registration named the Codex sample's selection only loosely as &ldquo;hash-parity&rdquo;, without a full construction. The implemented rule is deterministic and is disclosed in the repo's concordance report as the implemented interpretation rather than claimed as literal pre-registered wording: digest = SHA256(suite hash + cell + filename), sort all committed judge-input comparisons across the 15 scored cells by digest, take the first 50. Rerunning the selection reproduces the identical 50.</p>
-      <p><strong>Sanitization.</strong> Before the repository's first public release, nine committed results files had absolute local filesystem paths redacted by mechanical, byte-level string replacement; no mark, judgment, score, task content, or model output beyond those path strings was altered. One affected file is a blinded judge input that had already been scored before the redaction, so the recorded marks were produced against the pre-redaction text, which differs only in the redacted path bytes. The full record is <code>results/SANITIZATION.md</code> in the repo.</p>
+      <p>One blinding exception exists in the committed data. A post-run audit found it, and I am disclosing it rather than papering it over. The scrubber banned every form of a task's own skill name but not the names of sibling skills, and skills sometimes cross-reference each other in their own text. Exactly one of the 456 committed judge inputs was affected: the Haiku cell, task aicg-t2, report 1, where the loaded answer quoted its skill's cross-reference to a sibling skill and the sibling's name survived the scrub. A judge reading that one input could infer which arm was loaded. The scrubber and its leak verifier now ban all seventeen skill names in every separator and concatenation variant, with a test covering the exact committed case. The impact is bounded: one judge input of 456, in the contextual Haiku cell, outside every confirmatory hypothesis. No H1 or H2 number moves.</p>
+      <p><strong>Concordance selection wording.</strong> The pre-registration named the Codex sample's selection only loosely as &ldquo;hash-parity&rdquo;, without a full construction. The implemented rule is deterministic; I disclose it in the repo's concordance report as the implemented interpretation rather than claiming it as literal pre-registered wording: digest = SHA256(suite hash + cell + filename), sort all committed judge-input comparisons across the 15 scored cells by digest, take the first 50. Rerunning the selection reproduces the identical 50.</p>
+      <p><strong>Sanitization.</strong> Before the repository's first public release, I redacted absolute local filesystem paths from nine committed results files by mechanical, byte-level string replacement; no mark, judgment, score, task content, or model output beyond those path strings was altered. One affected file is a blinded judge input that had already been scored before the redaction, so the recorded marks were produced against the pre-redaction text, which differs only in the redacted path bytes. The full record is <code>results/SANITIZATION.md</code> in the repo.</p>
 
       </div>
       </details>
       <details class="sec" id="floor-exclusion">
       <summary><h3 id="floor-exclusion-h">The floor-exclusion rule</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>The rule, exactly: if more than one third of a comparison's marks are knocked out through the judge-failure path (after the adjudicator amendment made disagreement itself non-destructive), the entire paired cell is excluded and reported, so no verdict can rest on a task judged only on its easiest surviving marks. It exists as the failure backstop, not the disagreement path. It tripped zero times in the final data. There is also a pre-registered column-level degradation threshold: if more than 10% of a column's endpoint comparisons are excluded, the column reports degraded and issues no verdict. Honesty note: that threshold was never implemented in harness code; it was checked by hand on the final data, and the check came back clean. No column degraded: all three models came in at 0 of 102 endpoint comparisons excluded, well under the 10% rule. A second pre-registered hand check, flagging any endpoint task with fewer than 2 surviving repeats, was also performed: zero tasks tripped it on any endpoint cell.</p>
+      <p>The rule, exactly: if more than one third of a comparison's marks are knocked out through the judge-failure path (after the adjudicator amendment made disagreement itself non-destructive), the entire paired cell is excluded and reported, so no verdict can rest on a task judged only on its easiest surviving marks. It exists as the failure backstop, not the disagreement path. It tripped zero times in the final data. There is also a pre-registered column-level degradation threshold: if more than 10% of a column's endpoint comparisons are excluded, the column reports degraded and issues no verdict. Honesty note: I never implemented that threshold in harness code, so I ran the check by hand on the final data instead, and found nothing over the threshold. No column degraded: all three models came in at 0 of 102 endpoint comparisons excluded, well under the 10% rule. I also ran the second pre-registered hand check, flagging any endpoint task with fewer than 2 surviving repeats: zero tasks tripped it on any endpoint cell.</p>
 
       </div>
       </details>
       <details class="sec" id="harness-bugs">
       <summary><h3 id="harness-bugs-h">The two harness bugs</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>Both were found the night before the final sweep, by stacked adversarial review passes: a Sonnet recon pass, then an Opus-high verification pass, then an Opus-xhigh (extra high) completeness critic. Both were fixed and tested in commit <code>27d44f8</code>, with 255/255 tests green plus a live matrix-report smoke over the 10 then-complete cells before any real report was generated.</p>
-      <p><strong>Bug 1, the Fable endpoint override.</strong> The publicly posted amendment moved Fable's confirmatory endpoint from low-vs-max to low-vs-high, because fable-max could not finish on the expiring pool (2 of 102 consumers). But report.py's <code>_endpoint_cells()</code> hardcoded low-vs-max for every model. Here is the failure mode. The harness would never have crashed. It would have silently reported Fable's H1 and H2 as "not evaluable", or scored the wrong pair, forever, while every test stayed green. The fix is a per-model confirmatory-endpoint override plus disclosure notes wherever the amended pair renders, including the H4 table, where the first version of the fix itself introduced an undisclosed relabeling that the third review pass caught. A fix that quietly mislabels one table is exactly the kind of thing that ships when only one model looks at it.</p>
+      <p>I found both the night before the final sweep, with stacked adversarial review passes: a Sonnet recon pass, then an Opus-high verification pass, then an Opus-xhigh (extra high) completeness critic. I fixed and tested both in commit <code>27d44f8</code>, with 255/255 tests green plus a live matrix-report smoke over the 10 then-complete cells before any real report was generated.</p>
+      <p><strong>Bug 1, the Fable endpoint override.</strong> The publicly posted amendment moved Fable's confirmatory endpoint from low-vs-max to low-vs-high, because fable-max could not finish on the expiring pool (2 of 102 consumers). However, report.py's <code>_endpoint_cells()</code> hardcoded low-vs-max for every model. Here is the failure mode. The harness would never have crashed. It would have silently reported Fable's H1 and H2 as "not evaluable", or scored the wrong pair, forever, while every test stayed green. The fix is a per-model confirmatory-endpoint override plus disclosure notes wherever the amended pair renders, including the H4 table, where the first version of the fix itself introduced an undisclosed relabeling that the third review pass caught. A fix that quietly mislabels one table is exactly the kind of thing that ships when only one model looks at it.</p>
       <p><strong>Bug 2, complete-case scoping.</strong> The complete-case set feeding H1, H2, and retention was computed as one global intersection across every cell passed to <code>--matrix-report</code>, contradicting the frozen prereg text ("within that model column... endpoint cells only, interior cells never enter this set"). The consequence is worth spelling out: one model's task exclusion could silently shrink another model's confirmatory delta, and including the empty fable-max directory would have collapsed every model's H1 and H2 to "not evaluable". The fix is a per-model-column endpoint-only intersection (<code>_endpoint_complete_case</code>), with the global set retained where it is legitimately the right denominator, the cross-model descriptive views.</p>
-      <p>The process point: neither bug was found by tests. Both were found by paying a second and a third model to re-read the code against the frozen prose. Budget for that.</p>
+      <p>The process point: tests found neither bug. I found both by paying a second and a third model to re-read the code against the frozen prose. Budget for that.</p>
 
       </div>
       </details>
       <details class="sec" id="live-smoke-gate">
       <summary><h3 id="live-smoke-gate-h">The gate that already existed, and where it came from</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>Before every column, the harness required a live-smoke-green gate: a one-task end-to-end smoke run, judges included, green before the column could start. That gate is itself a process correction. It was born earlier in the campaign, when a judge-path bug slipped past testing and was caught late. Here it is, prominently, rather than buried. The bug: the judge invocation was broken on the live CLI path in two ways at once. judge.py handed the CLI a file path where it needed the JSON schema inline, and the schema file carried a <code>$schema</code> key the CLI rejected. Every unit test stayed green through both, because green unit tests say nothing about the CLI contract; a live run would have burned the full consumer spend and then died at judging. The verify stage of the harness review found both bugs, the fix stage was never given the verify stage's findings, and the breakage survived two consecutive "all fixed" reports before it was fixed, before the freeze, with the live smoke green after. Since then, every findings source feeds the fix stage, and no "all fixed" claim stands without a live one-task smoke, judges included.</p>
+      <p>Before every column, the harness required a live-smoke-green gate: a one-task end-to-end smoke run, judges included, green before the column could start. That gate is itself a process correction. I added it earlier in the campaign, after a judge-path bug slipped past testing and was caught late. The bug: the judge invocation was broken on the live CLI path in two ways at once. judge.py handed the CLI a file path where it needed the JSON schema inline, and the schema file carried a <code>$schema</code> key the CLI rejected. Every unit test stayed green through both, because green unit tests say nothing about the CLI contract; a live run would have burned the full consumer spend and then died at judging. The verify stage of the harness review found both bugs, the fix stage was never given the verify stage's findings, and the breakage survived two consecutive "all fixed" reports before it was fixed, before the freeze, with the live smoke green after. Since then, every findings source feeds the fix stage, and no "all fixed" claim stands without a live one-task smoke, judges included.</p>
 
       </div>
       </details>
@@ -1384,7 +1394,7 @@
       <summary><h3 id="execution-h">Execution engineering</h3><span class="teaser"></span></summary>
       <div class="sec-body">
       <p>Two machines, expiring weekly pools. Consumers, the model runs under test, raced first with <code>--defer-adjudication</code> (finish the runs now, settle judge disagreements later); judging lagged on committed inputs. Handoff discipline: raw artifacts only (consumer outputs, judge inputs and outputs, order keys, run-state, run-meta), never the second machine's own scores.json, always recomputed centrally, suite hash verified on every merge. Idempotent resume semantics (skip-if-persisted at the consumer, judge, and adjudication layers) meant account-wide usage-limit pauses cost wasted call attempts and nothing else.</p>
-      <p>One disclosure, the resume-identity trap: on the opus-medium merged directory, a same-config rerun against a directory whose run-state only knew 8 of 17 tasks would have silently rebuilt the summary down to 8 tasks. The workaround ran adjudication in scratch directories and copied only the new adjudication files in.</p>
+      <p>One disclosure, the resume-identity trap: on the opus-medium merged directory, a same-config rerun against a directory whose run-state only knew 8 of 17 tasks would have silently rebuilt the summary down to 8 tasks. I worked around it by running adjudication in scratch directories and copying only the new adjudication files in.</p>
       <p>Costs: all in, the confirmatory experiment cost $1,296.94, of which $1,034.05 went to running the arms and $262.89 to judging them ($207.72 for the two-judge panel, $55.17 for adjudication). Every figure is computed directly from the recorded cost of every API call on disk, not estimated. One cell's records exist in two overlapping ledgers (a handoff merged onto the primary disk for central scoring), so the total deduplicates per run before summing: $1,296.94 of gross ledger entries minus $0.00 of double-counted records lands on $1,296.94 exactly. The added-later Fable-max addendum, run separately after publication and outside the confirmatory matrix, cost $219.62 more (consumer $202.51 running, $15.00 two-judge panel, $2.11 adjudication), bringing total lattice spend to $1,516.56; Fable's five cells including it come to $593.61. Building the harness is not in that number. The per-cell penny math is in results/matrix/NUMBERS.md in the repo.</p>
 
       </div>
@@ -1426,7 +1436,7 @@
         </table>
       </div>
       <p class="tbl-note">Fable rows are low vs high per the posted endpoint amendment, everywhere they appear. All figures complete-case (the shared task set), must-hit weighted (every checklist item counts once, equally), small-n directional. Full cell tables, the per-skill matrix, invalidation rates, and the task-cluster bootstrap (a descriptive spread check that resamples whole tasks) live in MATRIX.md and matrix.json in the repo.</p>
-      <p class="tbl-note">Basis note: every table and chart on this page is scored on one task set, the 17 tasks valid in every cell, so the confirmatory tables and the grid-wide tables read the same numbers for a given model. An earlier version of this page split them across two slightly different task sets; that gap closed when a censored run was recovered, and the two now coincide.</p>
+      <p class="tbl-note">Basis note: every table and chart on this page is scored on one task set, the 17 tasks valid in every cell, so the confirmatory tables and the grid-wide tables read the same numbers for a given model. An earlier version of this page split them across two slightly different task sets; that gap closed when I recovered a censored run, and the two now coincide.</p>
       <p>H3 (visibility-tag heterogeneity) is exploratory prose only; no computed contrast exists in the harness. H4 is a directional-only cross-tier shrinkage comparison, carrying the same Fable low-vs-high disclosure. Haiku's +26.5pp is contextual, outside all effort-trend hypotheses. The interior levels on Sonnet and Opus are replicated means rather than the single runs they began as; by construction they cannot move H1 or H2 anyway, since both verdicts read only each model's two endpoints.</p>
 
       </div>
@@ -1434,14 +1444,14 @@
       <details class="sec" id="limitations">
       <summary><h3 id="limitations-h">Limitations, once each</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample described above. The suite was authored by the skill author, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. The loaded arm always names the skill to load; whether a model would find and load it unprompted, autonomous skill selection, was not tested here. Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
+      <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample described above. I wrote both the suite and the skills, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. The loaded arm always names the skill to load; I never tested whether a model would find and load it unprompted (autonomous skill selection). Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
 
       </div>
       </details>
       <details class="sec" id="what-did-not-run">
       <summary><h3 id="what-did-not-run-h">What did not run</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>The two parked items named in the limitations above did not run: out-of-distribution tasks authored skill-blind, and a placebo-document arm. Fable-max, once the pre-registered open cell, was completed separately after publication and added as a non-confirmatory addendum (documented above); by design it never joins the confirmatory 15-cell matrix, and Fable's confirmatory endpoint stays low vs high per the posted amendment.</p>
+      <p>The two parked items named in the limitations above did not run: out-of-distribution tasks authored skill-blind, and a placebo-document arm. I completed Fable-max, once the pre-registered open cell, separately after publication and added it as a non-confirmatory addendum (documented above); by design it never joins the confirmatory 15-cell matrix, and Fable's confirmatory endpoint stays low vs high per the posted amendment.</p>
 
       <!-- Lattice explorer: the built explorer (results/matrix/explorer.html,
            self-contained, data inlined) ships at explorer/, and the slot below
@@ -1503,7 +1513,7 @@
                              not surface per-skill verdicts. -->
       <div class="slot" id="slot-lattice-explorer">
         <div class="ct">The results explorer</div>
-        <p>A per-cell explorer for this study is built from the same machine-readable matrix file the report is generated from, with every cell browsable by model and by reasoning-effort level, including the max column.</p>
+        <p>I built the explorer from the same machine-readable matrix file the report is generated from, with every cell browsable by model and by reasoning-effort level, including the max column.</p>
         <p><a href="explorer/">Open the results explorer &rarr;</a></p>
         <p>The harness that emits the matrix is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>, so you can grade your own.</p>
       </div>
@@ -1515,7 +1525,7 @@
       <div class="sec-body">
       <p>The repo carries the frozen pre-registration, the committed judge inputs, and matrix.json. Run the suite on your own keys. Re-judge my judge inputs on a model I do not control. Tell me where it breaks: <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>. <a href="explorer/">Open the Results Explorer &#8599;</a></p>
 
-      <p>One more thing worth saying plainly. This entire experiment, the harness that ran it, the judging panel that scored it, and the orchestration across two machines that kept it moving, was built and run on Claude Code, by Claude models, with me directing. The judge inputs are public on purpose: anyone (and that includes anyone at Anthropic) can re-score them with a different model and check whether the results hold up. The instrument can also run against models I have not tested, to check whether the skills hold their effectiveness as effort scales past what I can measure. If you have ideas, reach out. If you want to extend the library or the task suite, pull requests are open. And if you run this against your own stack, send me your results and I will add them here.</p>
+      <p>One more thing worth saying plainly. This entire experiment, the harness that ran it, the judging panel that scored it, and the orchestration across two machines that kept it moving, was built and run on Claude Code, by Claude models, with me directing. The judge inputs are public on purpose: anyone (and that includes anyone at Anthropic) can re-score them with a different model and check whether the results hold up. The instrument can also run against models I have not tested, to check whether the skills keep helping as effort scales past what I can measure. If you have ideas, reach out. If you want to extend the library or the task suite, pull requests are open. And if you run this against your own stack, send me your results and I will add them here.</p>
 
       </div>
       </details>
@@ -1550,7 +1560,7 @@
         <li>My judge panel is Claude judging Claude: two Claude models score every answer blind, in randomized order, and a third Claude model breaks any tie. A 50-comparison spot check already found a model from a different vendor, Codex, agreeing with the panel 97.2% of the time. What would close the self-preference question more fully is running a non-Claude judge across every mark, not a sample of them.</li>
         <li>I wrote all 17 tasks myself, already knowing which failure modes the skills were built to catch. That's a real construct-validity question: the skills could be winning because they're good, or because I built the test to match them, and this design can't fully separate the two. Running the same skill library against a task suite someone else wrote, standardized and independent of my own authorship, would settle which one it is.</li>
         <li>The n is small everywhere in this study: 17 tasks, most cells averaged over three runs, a few (Fable at medium and extra-high, and the Haiku baseline) resting on a single run each. More tasks would tighten the confidence behind every number on this page. Fable at max, the one cell that could not finish on the pool that expired before its runs did, was later completed separately, on a second machine, and added as a non-confirmatory addendum; it stays outside the confirmatory matrix, so no verdict rests on it.</li>
-        <li>Every loaded run here told the model exactly which skill to load before it started working. A real agent doesn't get that: it has to pick the right skill on its own, out of the full 17-skill library, before it can even read it. That step, whether a model reaches for the right skill unprompted, was never tested here.</li>
+        <li>Every loaded run here told the model exactly which skill to load before it started working. A real agent doesn't get that: it has to pick the right skill on its own, out of the full 17-skill library, before it can even read it. That step, whether a model reaches for the right skill unprompted, is one I never tested here.</li>
         <li>The &ldquo;with skills&rdquo; arm is a bundle, not a clean isolation. Installing the library, the model choosing to actually read the file, and what the file says once read are all mixed into one number. I can't yet split how much of the lift is the words in the skill versus just having something there to read.</li>
       </ul>
 

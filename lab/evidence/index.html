@@ -141,7 +141,7 @@
   #tip.show{ opacity:1; transform:none; }
   #tip .tt{ font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
         color:var(--tt-accent); display:block; margin-bottom:5px; }
-  .hot{ cursor:pointer; border-bottom:1px dashed var(--line-strong); }
+  .hot{ cursor:pointer; border-bottom:1px dotted var(--line-strong); }
   .hot:hover, .hot:focus-visible{ border-bottom-color:var(--teal); }
   .hot:focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
 
@@ -264,6 +264,11 @@
     <div class="eyebrow">The lab / the skills study</div>
     <h1>Do Claude Code skills change agent behavior?</h1>
     <p class="lede">A <a href="../skills/">skill</a> is a written playbook an agent loads before it works. The question was whether loading one changes what the agent actually does. I did not want an opinion about that, so I measured it.</p>
+    <div class="handoff">
+      <div class="ct">Read the lattice first</div>
+      <p>One judge that was never told which output came from which run (order-blinded judge) graded each pair once. The effort lattice re-ran this question but added repeated runs, two blinded judges (with a third settling disagreements), and a second vendor re-scoring a sample of the calls. This time, it was on the 17-skill released library exactly as shipped. I would recommend prioritizing your read on that study, but I will keep this page up for transparency as it is where the released skills came from.</p>
+      <a class="go" href="../lattice/">Read the effort lattice &rarr;</a>
+    </div>
   </div>
 </header>
 
@@ -274,7 +279,7 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">01</span>The design</div>
       <h2>The design</h2>
-      <p class="lead">A <span class="hot" tabindex="0" data-tt="Provenance" data-tip="Documented in the run log of the discovery workflow. Narrative record, not a public artifact.">14-agent discovery pipeline</span> identified 26 candidate skills across two production codebases. I selected eight for an order-blinded A/B across <span class="hot" tabindex="0" data-tt="Why 50" data-tip="The pre-registered plan carries 50 expectations. An early write-up said 51, which was a miscount, corrected here.">50 pre-registered must-hits</span> in 16 tasks: eight skills, two tasks each.</p>
+      <p class="lead">I made these skills myself, with Claude helping: it went through what I keep asking my agents to do across two production codebases, helped me consolidate those repeated asks into 26 candidate skills, and has helped me refine them since. I selected eight for an order-blinded A/B across <span class="hot" tabindex="0" data-tt="Why 50" data-tip="The pre-registered plan carries 50 expectations. An early write-up said 51, which was a miscount, corrected here.">50 pre-registered must-hits</span> in 16 tasks: eight skills, two tasks each.</p>
       <p>A <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hit</span> is a pass/fail expectation written in advance. The output either meets it or it does not, and each task carried its own short list, 50 across the suite.</p>
       <p>Two words in that design carry the weight. <strong>Pre-registered</strong> means the pass rule and every expectation were written down before any skill file existed, so the test could not drift toward the result I wanted. <strong>Order-blinded</strong> means judges saw the two reports for a task in an alternating order and were not told which arm was which.</p>
       <p>Every task ran twice. In the cold arm, an agent worked the task with no skill loaded. In the loaded arm, an agent worked the same task with the skill loaded. A judge then graded each pair against the task's must-hits.</p>
@@ -292,7 +297,7 @@
         <div class="ab-row ab-base"><span class="lbl">baseline, no skills</span><div class="ab-track"><div class="ab-fill" data-w="52" style="width:52%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">26 / 50</span></div>
         <div class="ab-row ab-skill"><span class="lbl">with the tested skills</span><div class="ab-track"><div class="ab-fill" data-w="92" style="width:92%"></div></div><span class="val hot" tabindex="0" data-tt="Provenance" data-tip="Summed from the recovered per-task judge data: 14 tasks of 3 expectations plus 2 of 4. Verified independently during the inventory pass.">46 / 50</span></div>
       </div>
-      <p style="margin-top:24px">Task must-hits rose from 26/50 to 46/50, and all 8 tested skills cleared the pre-registered rule. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage. The 26 repository-specific skills were consolidated into 15 generalized skills, plus 2 promoted from a separate personal library, for 17 portable skills total, released as <a href="https://github.com/HamzaYM/reliable-ai-skills">Reliable AI Skills</a>, open source, with the harness included so you can grade your own.</p>
+      <p style="margin-top:24px">Task must-hits rose from 26/50 to 46/50, and all 8 tested skills cleared the pre-registered rule. The lineage, in one line: 8 repository-specific skills tested, 17 generalized skills released, 5 of the 17 carrying individual A/B lineage. The library ships as <a href="https://github.com/HamzaYM/reliable-ai-skills">Reliable AI Skills</a>, open source, with the harness included so you can grade your own.</p>
       <p>The rule itself was fixed in the plan before the first run: a skill passes only if its loaded runs beat its cold runs and clear at least two thirds of their must-hits. Four tasks tied between arms; the gains came from the rest.</p>
       <div class="handoff">
         <div class="ct">This study has a sequel</div>
@@ -323,13 +328,13 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">04</span>What this does not show</div>
       <h2>What this does not show</h2>
-      <p class="lead">The study has limits. They are stated here, plainly, because a result you cannot bound is a result you cannot trust.</p>
+      <p class="lead">This study has its limits and for the sake of transparency, I am stating them plainly. That way, you don't need to go looking for them yourself and the results stay clearly bounded.</p>
       <div class="callout">
         <div class="ct">The stated limit</div>
         <p>The judging was <span class="hot" tabindex="0" data-tt="Order-blinded" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span>, not content-blinded. The order key was withheld from the judges. The content was not scrubbed. Some outputs contained an actions section that revealed a skill may have been consulted, and some judge verdicts noticed it. The next version of the harness judges outputs only, so that leak closes.</p>
       <p>Two more bounds worth stating. Each task used one cold run and one loaded run, with one judge pass per pair, so the result is directional for this suite; it does not estimate run-to-run variance. And the eight tested skills were a selected subset of the 26 candidates, so the result should not be read as evidence that every candidate would have passed.
       </div>
-      <p style="margin-top:32px">The released library is also not a straight copy of what was tested. The honest accounting: 26 repo-specific skills were consolidated into 15 generalized skills (19 merged down to 9, including 2 that were largely absorbed into other merges; 6 carried over 1:1; 1 dropped as product-specific), plus 2 promoted from a separate personal library, for 17 total.</p>
+      <p style="margin-top:32px">The released library is also not a straight copy of what was tested. The honest accounting: I consolidated the 26 repo-specific skills into 15 generalized skills (19 merged down to 9, including 2 that were largely absorbed into other merges; 6 carried over 1:1; 1 dropped as product-specific), plus 2 promoted from a separate personal library, for 17 total.</p>
       <p>That has a consequence worth saying outright. 5 of the 17 released skills trace to A/B-measured sources. The measured deltas attach to the source skills as tested in their home repos, and the released rewrites carry the lineage, not a fresh measurement.</p>
     </div>
   </section>
@@ -342,7 +347,7 @@
       <p>That run has since happened: the effort lattice tested the released 17-skill library as shipped, judging outputs only, across three dialed Claude models and Haiku as a fixed baseline. It asked whether higher reasoning effort erases what the skills add, and its numbers live on its own page.</p>
       <!-- SLOT-RESULTS-EXPLORER: replace this paragraph's repo link with the explorer URL when it exists; do not invent the URL now -->
       <!-- SLOT-EFFORT-SWEEP-WORKBENCH: add the effort-sweep workbench link beside the results explorer when it exists; do not invent the URL now -->
-      <p>The method and the harness are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>, so you can grade your own; the sequel ships with its own per-cell explorer.</p>
+      <p>The method and the harness are in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>; the sequel ships with its own per-cell explorer.</p>
       <!-- HANDOFF-LATTICE: links ../lattice/ per instruction; that page carries the lattice results, now complete (all 15 cells adjudicated, opus-high and sonnet-xhigh landed). No numbers belong in this block. -->
       <div class="handoff">
         <div class="ct">The lattice</div>
@@ -355,7 +360,7 @@
 
   <div class="final">
     <div class="wrap rv">
-      <p class="pull">The question is never whether it looks right. It is what the evidence says.</p>
+      <p class="pull">I never ask if it looks right, I go and gather evidence that it is right.</p>
     </div>
   </div>
 

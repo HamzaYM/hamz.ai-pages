@@ -116,7 +116,7 @@
   #tip.show{opacity:1;transform:none}
   #tip .tt{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tip-accent);display:block;margin-bottom:5px}
   .hot{cursor:pointer}
-  .receipt .hot,.rnotes .hot,.handoff .hot{border-bottom:1px dashed var(--line-strong)}
+  .receipt .hot,.rnotes .hot,.handoff .hot{border-bottom:1px dotted var(--line-strong)}
   .receipt .hot:hover,.rnotes .hot:hover,.handoff .hot:hover{border-bottom-color:var(--teal);color:var(--ink)}
 
   /* ── hero ── */
@@ -254,7 +254,7 @@
     <h1>The Assurance Chain</h1>
     <p>This is the standard every consequential deliverable goes through before it reaches a client. An independent panel argues against the work. A tiered review process tests it against increasingly difficult questions. An evidence harness determines what ships based on results, not opinion. Production security controls make sure those standards still hold once the system is live.</p>
     <p>The process uses more than one model on purpose, and a human reviews every disagreement, not just the final verdict. I make the final call. The architecture is still evolving as I test, revise, and strengthen it.</p>
-    <p>What follows is how each stage works, along with the evidence behind it. Not a description of the proof. The proof.</p>
+    <p>Each stage below carries its receipt: the objections, the timestamps, the test counts, as they were recorded.</p>
     <nav class="chain" aria-label="The chain">
       <a href="#adversarial"><i>01</i>Adversarial review</a>
       <a href="#escalation"><i>02</i>Tiered escalation</a>
@@ -272,7 +272,7 @@
     <div class="wrap rv">
       <div class="sec-head"><span class="sec-no">01</span><h2>Adversarial review</h2></div>
       <div class="sec-sub">Attacked before it is trusted</div>
-      <p>Before a piece of consequential work moves forward, we do not proofread it. We attack it.</p>
+      <p>Before a piece of consequential work moves forward, I do not proofread it. I attack it.</p>
       <p>An independent review pass reads the work fresh and argues against it. Its only job is to find the failure mode a friendly read would miss, and to refuse sign-off until the strongest objection against the work has been answered. Once a fix lands, a second, independent pass checks that the objection is actually resolved, not just answered on paper.</p>
       <div class="items">
         <div class="item"><i>01</i><div><b>Correctness bugs hiding behind confident language</b><p>A conclusion can read as certain and still be wrong. The review pass checks the claim against the evidence, not against how sure it sounds.</p></div></div>
@@ -311,7 +311,7 @@
   <div class="receipt-bar"><span class="dot"></span><b>The receipt &middot; a real climb, sanitized</b></div>
   <div class="receipt-body">
     <div class="rline"><span class="no">&#10007;</span><span>Round 1, before merge: an independent second-model review (Codex) of the branch. Three findings fixed, two escalated as too large to patch quietly. Round 2 came back <em>&ldquo;needs-work&rdquo;</em> with four priority-one findings, one of them a migration that silently dropped user progress records. Reviewer repro: before 1, after 0.</span></div>
-    <div class="rline"><span class="no">&#10007;</span><span>Round 3 caught again, this time by our own adversarial pass: a real bug in one of the round-2 fixes. Two records collided on a constraint the original test never exercised, because it only ever tested one colliding record at a time.</span></div>
+    <div class="rline"><span class="no">&#10007;</span><span>Round 3 caught again, this time by my own adversarial pass: a real bug in one of the round-2 fixes. Two records collided on a constraint the original test never exercised, because it only ever tested one colliding record at a time.</span></div>
     <div class="rline"><span class="ok">&#10003;</span><span>Fixed test-first. End-to-end suite 25 of 25 green, merged that morning. Timestamps on the climb: 18:53, 00:25, 00:42, merged 07:28. Vague rejections issued: 0.</span></div>
   </div>
 </div>
@@ -325,7 +325,7 @@
       <div class="sec-head"><span class="sec-no">03</span><h2>Evidence harness</h2></div>
       <div class="sec-sub">Decisions settled by evidence, not opinion</div>
       <p>Whether a change ships should never come down to whose judgment sounds most confident.</p>
-      <p>We settle it the way a serious engineering organization would: against fixed test cases, against what is already running in production, and against reviewers who do not know which answer they are grading. At Lyna Health this harness holds the line on live production traffic, so a change that regresses even a single case is caught before it ships, and every model swap is decided by a shadow-mode comparison, not a hunch.</p>
+      <p>I settle it the way a serious engineering organization would: against fixed test cases, against what is already running in production, and against reviewers who do not know which answer they are grading. At Lyna Health this harness holds the line on live production traffic, so a change that regresses even a single case is caught before it ships, and every model swap is decided by a shadow-mode comparison, not a hunch.</p>
       <div class="items">
         <div class="item"><i>01</i><div><b>Golden-fixture eval runners</b><p>A fixed, known-answer test suite that every model or prompt change is graded against before anything ships. A change that regresses even one case is caught here, not in production.</p></div></div>
         <div class="item"><i>02</i><div><b>Shadow-mode comparison</b><p>A candidate runs alongside the current production system on real, live traffic. Its outputs are compared before it ever reaches a user.</p></div></div>
@@ -334,7 +334,7 @@
       </div>
       <div class="handoff">
         <div class="ct">The skills study</div>
-        <p>We ran this exact harness on our own tools, an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 pre-registered <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. The full study, with its design, its numbers, and its stated limits, has its own page.</p>
+        <p>I ran this exact harness on my own tools, an <span class="hot" tabindex="0" data-tt="Definition" data-tip="Judges saw the two reports for a task in an alternating order and were not told which arm was which.">order-blinded</span> A/B across 50 pre-registered <span class="hot" tabindex="0" data-tt="Definition" data-tip="A pre-registered pass/fail expectation a task output either meets or does not.">must-hits</span> in 16 tasks. The full study, with its design, its numbers, and its stated limits, has its own page.</p>
         <a class="go" href="../evidence/">Read the skills study &rarr;</a>
       </div>
     </div>

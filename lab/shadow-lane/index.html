@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var s=localStorage.getItem("hamz-theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s);}catch(e){}})();</script>
+<!--
+  hamz.ai/lab/shadow-lane · Field note as its own page.
+  The same note lives as a ledger entry on /lab/#notes; this page is its
+  permanent home. Serve statically so crawlers and AI fetchers read full text.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Running the cheap model in the shadows &middot; hamz.ai / lab</title>
+<meta name="description" content="A field note: before switching a production intake flow to a cheaper model, I ran it in a shadow lane against real staging traffic, scored the agreement, and let the results decide.">
+<link rel="canonical" href="https://www.hamz.ai/lab/shadow-lane/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Running the cheap model in the shadows before letting it drive">
+<meta property="og:description" content="Before switching a production intake flow to a cheaper model, I ran it in a shadow lane against real staging traffic, scored the agreement, and let the results decide.">
+<meta property="og:url" content="https://www.hamz.ai/lab/shadow-lane/">
+<meta property="og:site_name" content="hamz.ai">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAADU9GbKAAAAA1BMVEUq2K/E9YyxAAAACklEQVR4AWNgAAAAAgABc3UBGAAAAABJRU5ErkJggg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0F0F; --raised:#161616; --hover:#1C1C1C;
+    --line:#262626; --line-strong:#333333;
+    --ink:#F2F2F0; --dim:#9A9A94; --faint:#85857F;
+    --teal:#2BD7AF; --teal-dim:#1A6B58;
+    --display:"Space Grotesk",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:light){
+    :root{ --bg:#F7F5F2; --raised:#FFFFFF; --hover:#EFECE7;
+      --line:#E4E0D9; --line-strong:#D2CCC2;
+      --ink:#191C1B; --dim:#555C58; --faint:#757C77;
+      --teal:#05705B; --teal-dim:#9CCFC4; }
+  }
+  :root[data-theme="dark"]{ --bg:#0F0F0F; --raised:#161616; --hover:#1C1C1C;
+    --line:#262626; --line-strong:#333333; --ink:#F2F2F0; --dim:#9A9A94; --faint:#85857F;
+    --teal:#2BD7AF; --teal-dim:#1A6B58; }
+  :root[data-theme="light"]{ --bg:#F7F5F2; --raised:#FFFFFF; --hover:#EFECE7;
+    --line:#E4E0D9; --line-strong:#D2CCC2; --ink:#191C1B; --dim:#555C58; --faint:#757C77;
+    --teal:#05705B; --teal-dim:#9CCFC4; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--dim); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; font-size:16px; line-height:1.7;
+        -webkit-font-smoothing:antialiased; }
+  h1,h2{ font-family:var(--display); }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 24px; }
+  a{ color:var(--teal); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  nav.site-nav{ position:sticky; top:0; z-index:60; background:var(--bg); border-bottom:1px solid var(--line); }
+  nav.site-nav .nav-inner{ max-width:1080px; margin:0 auto; padding:13px 24px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+  nav.site-nav .brand{ font-family:var(--mono); font-size:14px; color:var(--ink); }
+  nav.site-nav .brand b{ color:var(--teal); font-weight:500; }
+  nav.site-nav .brand-lab{ font-family:var(--mono); font-size:14px; color:var(--faint); margin-left:-12px; }
+  .nav-right{ margin-left:auto; display:flex; align-items:center; gap:8px 16px; flex-wrap:wrap; }
+  .lab-nav{ display:flex; gap:6px 12px; flex-wrap:wrap; }
+  @media (max-width:640px){ nav.site-nav{ position:static; } }
+  .lab-nav a{ font-family:var(--mono); font-size:13px; color:var(--dim); }
+  .lab-nav a:hover{ color:var(--teal); text-decoration:none; }
+  .theme-toggle{ display:flex; border:1px solid var(--line); }
+  .theme-toggle button{ background:none; border:none; color:var(--faint); cursor:pointer; padding:4px 9px; font-size:13px; }
+  .theme-toggle button[aria-pressed="true"]{ background:var(--teal); color:#0F0F0F; }
+  header.hero{ padding:64px 0 8px; }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:14px; }
+  h1{ font-size:clamp(28px,5vw,44px); line-height:1.1; color:var(--ink); font-weight:600; letter-spacing:-0.02em; max-width:20ch; }
+  .meta{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px; }
+  main{ padding:36px 0 96px; }
+  main p{ margin-bottom:18px; color:var(--dim); }
+  table.mx{ border-collapse:collapse; margin:4px 0 18px; font-size:14px; }
+  table.mx th, table.mx td{ border:1px solid var(--line); padding:8px 12px; text-align:left; color:var(--dim); font-weight:400; }
+  table.mx thead th, table.mx tbody th{ font-family:var(--mono); font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--faint); white-space:nowrap; }
+  .mx-wrap{ overflow-x:auto; }
+  .back{ margin-top:40px; padding-top:24px; border-top:1px solid var(--line); font-family:var(--mono); font-size:13px; }
+  footer{ border-top:1px solid var(--line); padding:24px 0; }
+  .foot{ max-width:1080px; margin:0 auto; padding:0 24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+         font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .foot a{ color:var(--faint); margin-left:14px; }
+  .foot a:hover{ color:var(--teal); }
+</style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Lab">
+  <div class="nav-inner">
+  <a class="brand" href="https://www.hamz.ai"><b>hamz</b>.ai</a>
+  <a class="brand-lab" href="../">/ lab</a>
+  <div class="nav-right">
+    <div class="lab-nav">
+      <a href="../lattice/">Lattice</a>
+      <a href="../../designing-agentic-ai/">Agent topologies</a>
+      <a href="../skills/">Skills</a>
+      <a href="../learn/">Learn</a>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Colour theme">
+      <button type="button" data-theme-set="system" aria-pressed="true"  title="Match system" aria-label="System theme">&#9680;</button>
+      <button type="button" data-theme-set="light"  aria-pressed="false" title="Light"        aria-label="Light theme">&#9728;</button>
+      <button type="button" data-theme-set="dark"   aria-pressed="false" title="Dark"         aria-label="Dark theme">&#9790;</button>
+    </div>
+  </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">The lab / field note</div>
+    <h1>Running the cheap model in the shadows before letting it drive</h1>
+    <p class="meta">Field note &middot; July 2026</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p>The intake conversation on a healthcare platform I work on runs on a mid-tier model. I use this model for generation and for extraction. The cheap, fast tier costs a fraction as much so I kept asking myself: Would it be possible to switch and maintain this level of performance?</p>
+    <p>Instead of just switching, I built a "shadow lane". Every intake on staging kept its normal model and a second extractor ran silently alongside it on the cheap tier. I got both results to land in a durable log with agreement scoring so that I could see exactly where the small model matched the big one and where it drifted. This way, I could keep everything public-facing as is, while running a test on my own, at zero risk to anyone filling out an intake.</p>
+    <p>Once the shadow data for extraction looked promising, I ran a proper trial: I created a generation by extraction matrix (so four cells) and ran 48 fresh staging intakes across it.</p>
+    <div class="mx-wrap"><table class="mx"><thead><tr><th></th><th>extraction: mid-tier</th><th>extraction: cheap</th></tr></thead><tbody><tr><th>generation: mid-tier</th><td>the default today</td><td>held up</td></tr><tr><th>generation: cheap</th><td>held up</td><td>half the intakes got stuck or abandoned</td></tr></tbody></table></div>
+    <p>The mixed cells had decent results but the one with the cheaper model for both did not, because half of its intakes got stuck or were abandoned. That one afternoon of testing settled that debate for me and I was certain that the middle model was the right call. I kept the default where it was and documented it as an evidence-based decision rather than an assumption. After this experiment, I started optimizing for which models to use with this framework.</p>
+    <p>What I did end up shipping from all of this was a fast path on a cheap tier with an automatic cascade. If the small model repeats an identical question, the next turn escalates to the bigger model. That way the small model gets the quick and easy work, and the moment it shows a sign of trouble, the turn goes to the bigger model.</p>
+    <h2 style="font-size:20px;color:var(--ink);font-weight:600;margin:34px 0 12px">The numbers, as they were recorded</h2>
+    <p>These are real numbers from my own work, recovered from the commit record of the trial. I built the lane first, in one day: a durable log that keeps every shadow run, a runner that can repeat the same comparison exactly, a runbook so the trial would not depend on my memory, and an operator wrapper to kick it off. The trial itself ran the next afternoon, in May 2026.</p>
+    <p>The two models were Sonnet, the mid-tier default, and Haiku, the cheap tier I was testing. Four cells, generation by extraction, about 12 fresh staging intakes each. The all-Haiku cell finished with 5 clean intakes, 1 degraded, and 6 stuck or abandoned: half of them never made it through, and that tally was the whole argument. Sonnet stayed the default, written down as a decision with the data attached.</p>
+    <p>What shipped right after: per-clinic model selection for each of the platform's three model roles, the fast path on Haiku with the cascade back to Sonnet on a repeated question, and shadow-mode logging extended to more of the intake flow. This is how I settle a model decision: build the lane, score the agreement, read the tally, and write the decision down.</p>
+    <p>Key takeaway: never promote a cheaper model on benchmarks or price. Run it in shadow across production traffic, score the outputs, and let it earn its place in your system.</p>
+    <div class="back">
+      <a href="../#notes">&larr; all field notes</a> &nbsp;&middot;&nbsp; <a href="../lattice/#takeaways">the effort lattice's takeaways &rarr;</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>hamz.ai &middot; Hamza Malik &middot; The Lab</span>
+    <span>
+      <a href="https://github.com/HamzaYM">GitHub</a>
+      <a href="https://linkedin.com/in/hamzaymalik">LinkedIn</a>
+      <a href="https://www.hamz.ai">hamz.ai &rarr;</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.theme-toggle button'));
+  function cur(){ try{ return localStorage.getItem('hamz-theme') || 'system'; }catch(e){ return 'system'; } }
+  function paint(v){ btns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.themeSet===v ? 'true' : 'false'); }); }
+  function apply(v){
+    if(v==='light'||v==='dark'){ root.setAttribute('data-theme',v); }
+    else{ root.removeAttribute('data-theme'); }
+    try{ localStorage.setItem('hamz-theme',v); }catch(e){}
+    paint(v);
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ apply(b.dataset.themeSet); }); });
+  paint(cur());
+})();
+</script>
+
+</body>
+</html>

@@ -121,7 +121,7 @@
   #tip .tt{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
        color:var(--teal);display:block;margin-bottom:5px;}
   .hot{cursor:pointer;}
-  a.hot, span.hot{ color:var(--ink); text-decoration:underline dotted; text-decoration-color:var(--teal);
+  a.hot, span.hot{ color:var(--ink); text-decoration:underline dotted; text-decoration-color:var(--line-strong);
        text-decoration-thickness:1px; text-underline-offset:3px; transition:color .15s; }
   a.hot:hover, span.hot:hover{ color:var(--teal); }
 
@@ -228,7 +228,7 @@
     </div>
     <div class="eyebrow">The lab / how this works</div>
     <h1>How this works</h1>
-    <p class="lede">This page is for anyone who lands on the lab without a technical background and wants to actually understand what's going on, not just skim the numbers. No jargon left undefined. Start here, then go read the rest.</p>
+    <p class="lede">This page is for anyone who lands on the lab without a technical background and wants to actually understand what's going on, not just skim the numbers. No jargon left undefined. I would recommend starting here before the rest of the lab.</p>
   </div>
 </header>
 
@@ -244,7 +244,7 @@
       <p>Here's a real one, exactly as it's written. Every skill starts with two lines that matter more than anything below them:</p>
       <pre class="skel"><span class="k">name:</span> pre-merge-validation-gate
 <span class="k">description:</span> Use before declaring any change "done," before opening or updating a PR, after any UI-touching change, or whenever you're about to report test results. Defines what "done" actually means and how to report it without overstating what was checked.</pre>
-      <p>That <strong>description</strong> line is the whole mechanism for how a skill gets picked. Claude reads every skill's description before starting a task, decides which ones actually apply, and only then loads the full file. Nobody switches a skill on by hand: the agent reads a one- or two-sentence pitch and decides for itself whether this particular checklist is relevant to what it's about to do. That is normal use. In the studies on this site, the relevant skills were specified in advance so the experiments could isolate what happens once they load; whether a model picks the right skill on its own was not tested. Write the description too narrow and the skill never fires when it should; too broad and it fires on everything, which is its own kind of unreliable.</p>
+      <p>That <strong>description</strong> line is the whole mechanism for how a skill gets picked. Claude reads every skill's description before starting a task, decides which ones actually apply, and only then loads the full file. Nobody switches a skill on by hand: the agent reads a one- or two-sentence pitch and decides for itself whether this particular checklist is relevant to what it's about to do. That is normal use. In the studies on this site, I specified the relevant skills in advance, for the sake of consistency and to have one less variable, so the experiments could isolate what happens once they load; I did not test whether a model picks the right skill on its own. Write the description too narrow and the skill never fires when it should; too broad and it fires on everything, which is its own kind of unreliable.</p>
       <p>Below that is the body: the actual instructions, written the way you'd brief a very capable but very literal new hire. This one opens with the core rule in one sentence (build passing plus tests passing is necessary, never sufficient, for anything a user actually sees), then a table scaling how much checking a change needs to its size, then the specific traps: gate paid test suites behind an explicit switch, don't assume a stale baseline is still true, recapture a snapshot fixture only when the change is real. Nothing abstract. Every line is there because skipping it once caused a real problem.</p>
       <p>Writing one is just that: notice a mistake worth not repeating, write down the rule that would have caught it, and give it a description specific enough that the agent reaches for it at the right moment. The full file for this one, and the other 16, is at <a href="../skills/">/lab/skills/</a>.</p>
     </div>
@@ -254,7 +254,7 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">02</span>How a skill gets tested</div>
       <h2>How a skill gets tested</h2>
-      <p class="lead">A claim that a skill "helps" is cheap on its own, so the library is tested rather than merely described. Some skills were measured individually in the original study, and the full 17-skill bundle was later tested in the effort lattice. The method is an order-blinded A/B: every task ran twice, once with the skill loaded and once without. Judges graded both reports without being told which was which, and the two versions were shown in alternating order.</p>
+      <p class="lead">A claim that a skill "helps" is cheap on its own, so I put the library through the same harness that gates my client work. In the original study, that meant 16 tasks and 50 pre-registered must-hits: 26 of 50 hit without the skills, 46 of 50 with them. The full 17-skill bundle was later tested the same way in the effort lattice. The method is an order-blinded A/B: every task ran twice, once with the skill loaded and once without. Judges graded both reports without being told which was which, and the two versions were shown in alternating order.</p>
       <p>Each task carries its own short list of things a correct answer must do, called <strong>must-hits</strong>: pass/fail checks written before any run. A task's score is just the share of its must-hits the output actually hit. No style points.</p>
       <p>The grading is done by a model acting as judge, not by me reading the two answers and picking a favorite. In the original skills study, one judge graded each pair against the task's written must-hits, never told which answer came from the skill-loaded run. The effort lattice strengthened this: two blinded judges grade every mark, and a fixed third judge settles any disagreement.</p>
       <p>The full run of this method against the skills library is <a href="../evidence/">the skills study</a>, and the version of it that gates client work before it ships is <a href="../chain/#evidence">stage 03 of the Assurance Chain</a>.</p>
@@ -266,7 +266,7 @@
       <div class="sec-eyebrow"><span class="num">03</span>The effort lattice study</div>
       <h2>What the effort lattice study is</h2>
       <p class="lead">Newer Claude models expose a reasoning effort dial: a setting that controls how long the model thinks before it answers. Higher settings buy more thinking per run, at a higher cost. The obvious question is whether turning that dial up makes a packaged skill unnecessary, since the model might think its way to the same result on its own.</p>
-      <p>The effort lattice study ran three Claude models at five effort levels each, plus Haiku as a fixed baseline with no effort dial, once cold (no skills) and once with the full 17-skill library available, with the rules and pass criteria locked before any run. The short answer: at the pre-registered endpoint comparisons, higher effort improved every dialed model on its own, though the scores between endpoints did not rise smoothly, and it never closed the gap the skills added on top, at any effort level, on any model. The full study, with the numbers, is at <a href="../lattice/">/lab/lattice/</a>.</p>
+      <p>The effort lattice study ran three Claude models at five effort levels each, plus Haiku as a fixed baseline with no effort dial, once cold (no skills) and once with the full 17-skill library available, with the rules and pass criteria locked before any run. The short answer: at the pre-registered endpoint comparisons, higher effort improved every dialed model on its own, though the scores between endpoints did not rise smoothly, and it never closed the gap the skills added on top, at any effort level, on any model. The single largest gap belonged to Haiku, the smallest model here: the skills added 26.5 points in its one run per side. The full study, with the numbers, is at <a href="../lattice/">/lab/lattice/</a>.</p>
     </div>
   </section>
 
@@ -274,7 +274,6 @@
     <div class="wrap rv">
       <div class="sec-eyebrow"><span class="num">04</span>Glossary</div>
       <h2>The remaining terms</h2>
-      <p>A few more words show up across the lab. Here's what each one means.</p>
       <dl class="gloss">
         <div class="gterm">
           <dt>Eval harness</dt>
@@ -286,7 +285,15 @@
         </div>
         <div class="gterm">
           <dt>Pre-registered</dt>
-          <dd>The rules and pass criteria were written down and posted publicly before any run, so the test could not be changed after seeing the results.</dd>
+          <dd>The rules and pass criteria were written down and posted publicly before any run, so the test could not be changed after seeing the results. In the lattice that meant the 17 tasks frozen before the first run, and the 3-point bar I fixed as the threshold for a real effort gain.</dd>
+        </div>
+        <div class="gterm">
+          <dt>Test-time compute</dt>
+          <dd>The computational power, measured in hidden reasoning tokens or GPU usage, that a model consumes while it reasons before answering. The reasoning-effort dial buys more of it, and you pay for it on every run.</dd>
+        </div>
+        <div class="gterm">
+          <dt>Shadow lane</dt>
+          <dd>A way to test a cheaper model without risking anything: the normal model keeps serving, a second model runs silently beside it on the same traffic, both results land in a log, and the agreement between them gets scored. <a href="../shadow-lane/">The shadow-lane note</a> shows a real one.</dd>
         </div>
         <div class="gterm">
           <dt>Complete-case set</dt>
