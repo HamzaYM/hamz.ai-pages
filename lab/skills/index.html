@@ -327,9 +327,19 @@
   .ev .ev-go::after{ content:""; position:absolute; inset:0; }
 
   /* install */
-  pre.install{ margin-top:32px; border:1px solid var(--line); background:var(--raised); padding:22px 24px;
+  pre.install{ position:relative; margin-top:32px; border:1px solid var(--line); background:var(--raised); padding:22px 24px;
                font-family:var(--mono); font-size:13.5px; line-height:1.9; color:var(--ink);
                overflow-x:auto; max-width:760px; }
+  pre.install .copy-btn{ position:absolute; top:12px; right:12px; width:30px; height:30px; padding:0;
+       border-radius:6px; border:1px solid var(--line); background:var(--raised-2); color:var(--dim);
+       display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .12s,color .12s; }
+  pre.install .copy-btn:hover, pre.install .copy-btn:focus-visible{ background:var(--hover); color:var(--ink); }
+  pre.install .copy-btn svg{ width:15px; height:15px; }
+  pre.install .copy-btn .copy-tip{ position:absolute; bottom:calc(100% + 8px); right:0; background:var(--ink); color:var(--bg);
+       font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:5px; white-space:nowrap;
+       opacity:0; transform:translateY(2px); pointer-events:none; transition:opacity .12s, transform .12s;
+       box-shadow:0 6px 16px rgba(0,0,0,.2); }
+  pre.install .copy-btn:hover .copy-tip, pre.install .copy-btn:focus-visible .copy-tip{ opacity:1; transform:translateY(0); }
   .install-note{ font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:14px; max-width:760px; letter-spacing:0.02em; }
   .install-note a{ color:var(--dim); }
   .install-note a:hover{ color:var(--teal); }
@@ -984,8 +994,8 @@
       <div class="sec-eyebrow"><span class="num">03</span>Install</div>
       <h2>Two commands</h2>
       <p>The library installs as a Claude Code <span class="hot" tabindex="0" data-tt="Plugin" data-tip="A package Claude Code installs from inside the editor. Installing this one gives the agent all 17 skills at once.">plugin</span>, all 17 skills at once. Manual and single-skill install paths are in the repo.</p>
-      <pre class="install"><code>/plugin marketplace add HamzaYM/reliable-ai-skills
-/plugin install reliable-ai-skills@reliable-ai-skills</code></pre>
+      <pre class="install"><code id="install-cmd-skills">/plugin marketplace add HamzaYM/reliable-ai-skills
+/plugin install reliable-ai-skills@hamz-ai</code><button type="button" class="copy-btn" data-copy-target="install-cmd-skills" aria-label="Copy install commands"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"></rect><path d="M4.5 13H4a1.5 1.5 0 0 1-1.5-1.5V4A1.5 1.5 0 0 1 4 2.5h7.5A1.5 1.5 0 0 1 13 4v.5"></path></svg><span class="copy-tip">Copy</span></button></pre>
       <p class="install-note"><span class="hot" tabindex="0" data-tt="MIT licensed" data-tip="Free to use, copy, modify, and ship commercially. Just keep the license notice.">MIT licensed</span>. Browse the flat one-page index at <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/INDEX.md">INDEX.md</a>, or start from the <a href="https://github.com/HamzaYM/reliable-ai-skills">repo</a>.</p>
     </div>
   </section>
@@ -1827,6 +1837,24 @@ git worktree list</code></pre>
     });
   }
 })();
+
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  var targetId = btn.getAttribute('data-copy-target');
+  var target = targetId && document.getElementById(targetId);
+  var tip = btn.querySelector('.copy-tip');
+  if(!target || !tip) return;
+  var defaultLabel = tip.textContent;
+  btn.addEventListener('click', function(){
+    var text = target.textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function(){
+      tip.textContent = 'Copied!';
+      setTimeout(function(){ tip.textContent = defaultLabel; }, 1400);
+    }).catch(function(){
+      tip.textContent = 'Select + Cmd-C';
+      setTimeout(function(){ tip.textContent = defaultLabel; }, 1800);
+    });
+  });
+});
 </script>
 </body>
 </html>
