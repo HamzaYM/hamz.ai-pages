@@ -371,6 +371,7 @@
   .tabs button:first-child{ border-left:1px solid var(--line); }
   .tabs button:hover{ color:var(--ink); }
   .tabs button[aria-selected="true"]{ color:var(--ink); border-bottom-color:var(--acc); background:var(--raised); }
+  @media(max-width:640px){ .tabs-bar{ top:0; } .tabs-bar .wrap{ padding:0 6px; } .tabs button{ padding:11px 8px; font-size:11px; letter-spacing:0.02em; } }
   html.js .tab-panel{ display:none; }
   html.js .tab-panel.active{ display:block; }
   @media print{
@@ -583,7 +584,7 @@ document.documentElement.classList.add('js');
 
       <p class="lead">At the pre-registered endpoints, higher effort improved every dialed model on its own. Each model's endpoint pair is its lowest and top tested effort: low to max for Sonnet and Opus, and low to high for Fable under <span class="hot" tabindex="0" data-tt="the posted amendment" data-tip="Fable's max run could not finish before my pool of usage credits, the spending cap I had set with Claude, expired, so I moved the pair to low vs high. I completed max later and added it as an addendum on 2026-07-12, outside this confirmatory pair.">the posted amendment</span>, with xhigh staying an interior, exploratory setting. Comparing those endpoints, scores without any skills installed rose 3.5 percentage points on Fable, 3.9 on Opus, and 4.9 on Sonnet. Each cleared the 3-point bar I fixed before the first run. Across these endpoint comparisons, more <span class="hot" tabindex="0" data-tt="test-time compute" data-tip="Test-time compute (TTC) is the computational power, measured in hidden reasoning tokens or GPU usage, that the model consumes while it reasons before answering.">test-time compute</span> produced better scores on all three dialed models.</p>
 
-      <p>It does not replace skills. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26.5 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
+      <p>Higher effort does not replace the skills. Runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close. On Haiku, the smallest model here and the one with no effort dial at all, the skills added 26.5 points, the largest gap in the study. That Haiku figure is a single run per side and sits outside the effort trend, so read it as a separate result, not another point on the curve.</p>
 
       <p>The skills helped every model, but they helped Fable the least in terms of percentage points, because Fable already starts from the highest floor. With the library installed, Fable never scored below 99%. Opus reached 100% at max effort. Sonnet, which starts in the 80s without the skills, reached 99.5% at max. Less headroom means less to add, not nothing to add.</p>
 
@@ -592,17 +593,16 @@ document.documentElement.classList.add('js');
       <h3 id="takeaways">What this means for how you use AI</h3>
       <div class="takeaways" data-fx-stagger>
         <div class="tk fx"><p><b>Prioritize the skills before the effort dial.</b> Skills fixed failure modes for cents per run and kept paying at every effort level, on every model. Effort costs more on every run and bought smaller gains here. Get the skills right first, then buy as much effort as the job actually requires.</p></div>
-        <div class="tk fx"><p><b>You don't need the best model for every task.</b> The best models do have an insanely high floor: even with no skills installed, Fable never dropped below 92% here. However, the job decides how much floor you need, and before I hand a cheaper model a role, I run it in shadow against real traffic and score the agreement. <a href="../#note-shadow-model">The shadow-lane note</a> is how I do it.</p></div>
+        <div class="tk fx"><p><b>You don't need the best model for every task.</b> The best models do have an insanely high floor: even with no skills installed, Fable never dropped below 92% here. However, the job decides how much floor you need, and before I hand a cheaper model a role, I run it in shadow against real traffic and score the agreement. <a href="https://www.hamz.ai/lab/shadow-lane/">The shadow-lane note</a> is how I do it.</p></div>
         <div class="tk fx"><p><b>Measure both instead of guessing.</b> The two levers moved separately here, and nothing about your tasks is settled by someone else's benchmark. The whole instrument is open if you want to run it on your own work.</p></div>
       </div>
       <p>These takeaways are about configuring one agent. If your question is how to shape a whole agentic system, agents, tools, and orchestration, you can find that information in the <a href="../../designing-agentic-ai/">agent topologies field guide</a>.</p>
 
       <div class="exhibit" id="matrix-table">
         <div class="ex-title" style="text-align:center">Scores with and without the skills, across the whole grid</div>
-        <p class="ex-sub" style="text-align:center">Share of checklist items hit, on the 17 tasks the confirmatory setups completed (the added-later Fable-max addendum, on its own 16-task basis). The highlighted column is what installing the skills added, in percentage points.</p>
         <div class="mini-card" style="max-width:620px;margin:0 auto 28px">
           <div class="ct">What effort added on its own</div>
-          <p>Effort alone, low to high: <strong title="Fable's low-to-high range without skills, the pre-registered confirmatory pair. Its max cell was completed separately and added later as an addendum, and stays outside this pair.">Fable +3.5</strong>, <strong>Opus +3.9</strong>, <strong>Sonnet +4.9</strong> percentage points, straight down the table's without-skills column.</p>
+          <p>Effort alone, low to high: <strong title="Fable's low-to-high range without skills, the pre-registered confirmatory pair. Its max cell was completed separately and added later as an addendum, and stays outside this pair.">Fable +3.5</strong>, <strong>Opus +3.9</strong>, <strong>Sonnet +4.9</strong> percentage points.</p>
         </div>
         <div class="tbl-scroll">
           <table class="data fit" id="tbl-results">
@@ -707,7 +707,7 @@ document.documentElement.classList.add('js');
             </tbody>
           </table>
         </div>
-        <p class="tbl-note">Methodology: scores are from two blinded Claude judges, with a third (Fable) settling disagreements. The 15 confirmatory cells each completed every task, so all 15 are scored on the same 17-task set; the added-later Fable-max cell completed 16 of 17 (mmar-t1 excluded) and is scored on its own complete-case basis, outside the confirmatory matrix. Most cells average three runs per side; the single runs, marked 1 run above, are Fable at medium and extra-high and the Haiku baseline, so on those, take the score as roughly where the model lands, not a value I would defend to the decimal. Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
+        <p class="tbl-note">Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
         <p style="margin-top:16px;text-align:center"><a href="#methodology">Read the methodology &rarr;</a> &nbsp;&middot;&nbsp; <a href="explorer/">Open the Results Explorer &#8599;</a></p>
       </div>
 
@@ -720,7 +720,6 @@ document.documentElement.classList.add('js');
           <button type="button" data-pv="loaded" aria-pressed="false">With skills</button>
           <button type="button" data-pv="cold" aria-pressed="false">Effort effect</button>
         </div>
-        <p class="eff-note">The toggles above both effort charts are the same control: switch either one and both charts follow. &ldquo;With skills&rdquo; keeps the three solid lines. &ldquo;Effort effect&rdquo; keeps the three lines without skills, which is what the effort dial does on its own.</p>
         <div class="vz-card">
           <div class="vz-legend">
             <span><span class="dot" style="background:var(--c-fable)"></span>Fable 5</span>
@@ -804,7 +803,7 @@ document.documentElement.classList.add('js');
             </g>
             </svg>
         </div>
-        <p class="tbl-note">Methodology: the vertical axis is the share of checklist items hit, per effort setting. Fable's confirmatory line stops at xhigh, with its added-later max shown as a separate open marker; Haiku has no effort level.</p>
+        <p class="tbl-note">Methodology: the vertical axis is the share of checklist items hit, per effort setting.</p>
       </div>
 
       <div class="exhibit fx fx-lg" id="fig-perf-zoom">
@@ -888,7 +887,6 @@ document.documentElement.classList.add('js');
             </g>
             </svg>
         </div>
-        <p class="tbl-note">Methodology: identical data, sources, and run counts to the chart above, y-axis windowed to 80 to 100. Haiku is omitted here because its score without the skills, 64.7%, sits below the window.</p>
       </div>
       </div><!-- /perf-figs -->
 
@@ -901,7 +899,7 @@ document.documentElement.classList.add('js');
           <button type="button" data-cv="sonnet" aria-pressed="false">Claude Sonnet 5</button>
           <button type="button" data-cv="all" aria-pressed="false">All models</button>
         </div>
-        <p class="eff-note">One model at a time keeps the chart readable: solid is with the skills installed, dashed is without. &ldquo;All models&rdquo; shows every line at once, with the without-skills lines faded so the with-skills lines stay easy to follow; hover any point for its numbers.</p>
+        <p class="eff-note">One model at a time keeps the chart readable: solid is with the skills installed, dashed is without.</p>
         <div id="cost-fig">
         <div class="vz-card">
           <div class="vz-legend">
@@ -1025,7 +1023,7 @@ document.documentElement.classList.add('js');
           </svg>
         </div>
         </div><!-- /cost-fig -->
-        <p class="tbl-note">Methodology: horizontal axis is each cell's average cost per run; vertical axis is the share of checklist items hit. Costs are API-price equivalents reported by the Claude CLI, not observed subscription spend. Source: <a href="cost-per-run-dataset.json">cost-per-run-dataset.json</a>.</p>
+        <p class="tbl-note">Source: <a href="cost-per-run-dataset.json">cost-per-run-dataset.json</a>.</p>
       </div>
 
       <div class="cardrow" data-fx-stagger>
@@ -1549,7 +1547,7 @@ document.documentElement.classList.add('js');
 
   <div class="final">
     <div class="wrap">
-      <p class="pull">I predicted the skill advantage would shrink at higher effort. It held the entire way up.</p>
+      <p class="pull">I predicted the skill advantage would shrink at higher effort. I was wrong.</p>
     </div>
   </div>
 
