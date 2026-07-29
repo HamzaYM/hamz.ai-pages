@@ -357,7 +357,7 @@
     },
     {
       "id": "lattice-cost-on-builder",
-      "claim": "The builder page states the all-in lattice cost, $1,516.56.",
+      "claim": "The builder page states the total lattice spend, $1,516.56.",
       "pages": [
         "builder/index.html"
       ],

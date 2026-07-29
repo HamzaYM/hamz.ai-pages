@@ -560,9 +560,9 @@ document.documentElement.classList.add('js');
       <p>What effort added per model (delta with no skills): <strong>Fable +3.5</strong> &middot; <strong>Opus +3.9</strong> &middot; <strong>Sonnet +4.9</strong> percentage points.</p>
       <p>What the skills added per model (run-weighted across each model's pre-registered effort levels): <strong title="A run-weighted average across Fable's four pre-registered effort levels (low through xhigh), so settings that were run more times count proportionally more. Fable's later max cell sits outside the pre-registered matrix and is reported separately, not folded into this number.">Fable +4.0</strong> &middot; <strong>Opus +9.3</strong> &middot; <strong>Sonnet +10.4</strong> percentage points.</p>
       <p>Separately, Haiku improved by <strong>+26.5</strong> points <span class="hot" tabindex="0" data-tt="Haiku, one run" data-tip="Haiku has no effort dial and ran once per side, so take the +26.5 as roughly where Haiku lands, not a value I would defend to the decimal.">in its single available run per side</span>.</p>
-      <p style="color:var(--ink)">The verdict: the skills added more than effort did, and cost less to add. Loading them added at most 30 cents to a run, while turning the dial from low to the top cost 30 to 77 cents per run depending on the model, for smaller score gains than the skills produced. Load the skills first because they're the cheaper lift, then turn up reasoning effort for the harder cases.</p>
+      <p style="color:var(--ink)">The verdict: the skills added more than effort did, and cost less to add. Loading them added at most 30 cents to a run across the confirmatory cells; the added-later Fable-max addendum sits above that ceiling at 33 cents. Turning the dial from low to the top cost 30 to 77 cents per run depending on the model, for smaller score gains than the skills produced. Load the skills first because they're the cheaper lift, then turn up reasoning effort for the harder cases.</p>
     </div>
-    <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. I was wrong -- keep going to see by how much. I tested four Claude models (Fable 5, Opus 4.8, Sonnet 5, Haiku 4.5) across 17 tasks, with and without my <a href="../skills/">skills</a> library, at every reasoning-effort level each model exposes. I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
+    <p class="lede" style="margin-top:16px">My original hypothesis: as the models get better and reason for longer, skills should matter less and less. I was wrong -- I explain by exactly how much further down. I tested four Claude models (Fable 5, Opus 4.8, Sonnet 5, Haiku 4.5) across 17 tasks, with and without my <a href="../skills/">skills</a> library, at every reasoning-effort level each model exposes. I locked the rules and pass criteria in advance, <span class="hot" tabindex="0" data-tt="hash-stamped" data-tip="The frozen rules and tasks were fingerprinted with a SHA-256 hash and posted publicly before the first run, so they could not be quietly changed afterward.">hash-stamped them publicly</span>, and had every answer scored against a <span class="hot" tabindex="0" data-tt="checklist" data-tip="Each task ships a short list of things a correct answer must do. A score is the share of those items hit. No style points.">per-task checklist</span> by <span class="hot" tabindex="0" data-tt="blind scoring" data-tip="The judges were never told which of the two answers ran with the skills installed, and the answer order was randomized.">judges who never knew which answers had the skills installed</span>.</p>
     <p class="lede" style="font-size:15px;margin-top:16px">For the sake of transparency, one important caveat: I wrote these 17 tasks knowing which failure modes the skills catch. What that limits is in <a href="#methodology">the full methodology</a>.</p>
     <div class="mini-card" style="margin-top:16px">
       <div class="ct">Inspect the evidence</div>
@@ -653,7 +653,7 @@ document.documentElement.classList.add('js');
       <div class="st fx"><div class="v">5</div><div class="l">effort levels per dialed model, low to max</div></div>
       <div class="st fx"><div class="v" data-count="17">17</div><div class="l">tasks, frozen before any run</div></div>
       <div class="st fx"><div class="v" data-count="2652">2,652</div><div class="l">checklist marks judged blind</div></div>
-      <div class="st fx"><div class="v">$1,516.56</div><div class="l">spent on the lattice, all in &middot; confirmatory experiment $1,296.94 + the added-later Fable-max addendum $219.62</div></div>
+      <div class="st fx"><div class="v">$1,516.56</div><div class="l">of API-priced runs on the lattice &middot; confirmatory experiment $1,296.94 + the added-later Fable-max addendum $219.62</div></div>
     </div>
     <p class="prov">From <a href="https://www.hamz.ai">hamz.ai</a>, an AI implementation studio.</p>
     <p class="prov">Prefer to watch it happen? <a href="visual/">The three-minute visual story</a></p>
@@ -680,7 +680,9 @@ document.documentElement.classList.add('js');
 
       <p class="lead">At the pre-registered endpoints, higher effort improved every dialed model on its own, clearing the 3-point bar I fixed before the first run. Each model's endpoint pair is its lowest and top tested effort: low to max for Sonnet and Opus, and low to high for Fable under <span class="hot" tabindex="0" data-tt="the posted amendment" data-tip="Fable's max run could not finish before my pool of usage credits, the spending cap I had set with Claude, expired, so I moved the pair to low vs high. I completed max later and added it as an addendum on 2026-07-12, outside this confirmatory pair.">the posted amendment</span>, with xhigh staying an interior, exploratory setting. More <span class="hot" tabindex="0" data-tt="test-time compute" data-tip="Test-time compute (TTC) is the computational power, measured in hidden reasoning tokens or GPU usage, that the model consumes while it reasons before answering.">test-time compute</span> produced better scores on all three dialed models.</p>
 
-      <p>Higher effort does not replace the skills: runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and it never came close.</p>
+      <p>Higher effort does not replace the skills: runs with the skills installed beat runs without them at every effort level, on every model. At the highest effort settings the skills still added between 2.4 and 9.8 points, and on Opus the gap at max effort came out a touch wider than at low. If more thinking could substitute for packaged expertise, that advantage should have shrunk toward zero, and on none of the three models did it shrink by as much as the 3 points I had fixed as the bar.</p>
+
+      <p>On every model, the lowest-effort run with the skills scored higher than the top-effort run without them: Sonnet 96.1% against 89.7%, Opus 95.6% against 91.2%, and Fable 99.0% against 97.6%. Fable's margin is 1.4 points, less than the 1.47 points a single checklist mark is worth, so I would not lean on that pair. <span class="hot" tabindex="0" data-tt="Haiku, no effort dial" data-tip="Haiku scored 91.2% with the skills against 64.7% without, on one run per side. It exposes no effort setting, so there is no lowest-against-top pair to make.">Haiku sits outside this comparison</span> because it has no effort dial.</p>
 
       <p>The skills helped every model, but they helped Fable the least in terms of percentage points, because Fable already starts from the highest floor. With the library installed, Fable never scored below 99%. Opus reached 100% at max effort. Sonnet, which starts in the 80s without the skills, reached 99.5% at max. Less headroom means less to add, not nothing to add.</p>
 
@@ -802,6 +804,7 @@ document.documentElement.classList.add('js');
           </table>
         </div>
         <p class="tbl-note">Source: <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
+        <p class="tbl-note">Run-to-run spread sits underneath every cell marked as an average. Opus's three no-skills runs at low effort spanned 8.8 points and its three at max spanned 7.3 points, both wider than the +3.9 points effort bought Opus from one end to the other; one of its max-effort runs scored 86.8% while one of its low-effort runs scored 91.2%. The no-skills line also does not climb cleanly: Opus dips at medium and Sonnet dips at high and extra-high, all on three-run averages, and Fable dips at medium and extra-high, both single runs. So I would treat the shape of each line as directional, and I would not read a verdict into the gap between two adjacent effort levels.</p>
         <p style="margin-top:16px;text-align:center"><a href="#methodology">Read the methodology &rarr;</a> &nbsp;&middot;&nbsp; <a href="explorer/">Open the Results Explorer &#8599;</a></p>
       </div>
 
@@ -851,7 +854,7 @@ document.documentElement.classList.add('js');
             </g>
             <g class="ser-cold" style="stroke:var(--c-fable)">
               <polyline points="695,52.8 830,51.4" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
-              <circle cx="830" cy="51.4" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Cold 97.4% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
+              <circle cx="830" cy="51.4" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Without skills 97.4% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
             </g>
             <g class="ser-cold" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
               <polyline points="290,95.9 425,102.5 560,91.9 695,78.7 830,78.7" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
@@ -893,7 +896,7 @@ document.documentElement.classList.add('js');
             </g>
                       <g class="ser-loaded" style="stroke:var(--c-fable)">
               <polyline points="695,40 830,40" fill="none" stroke-width="2"/>
-              <circle cx="830" cy="40" r="5" fill="none" stroke-width="2"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Loaded 100.0% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
+              <circle cx="830" cy="40" r="5" fill="none" stroke-width="2"><title>Fable at max, added later. With skills 100.0% here; the full note is in the methodology tab.</title></circle>
             </g>
             </svg>
         </div>
@@ -943,7 +946,7 @@ document.documentElement.classList.add('js');
             </g>
             <g class="ser-cold" style="stroke:var(--c-fable)">
               <polyline points="650,103.8 830,97.2" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
-              <circle cx="830" cy="97.2" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Cold 97.4% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
+              <circle cx="830" cy="97.2" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max, added later. Without skills 97.4% here; the full note is in the methodology tab.</title></circle>
             </g>
             <g class="ser-cold" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
               <polyline points="110,319.4 290,352.4 470,299.6 650,233.6 830,233.6" fill="none" stroke-width="2" stroke-dasharray="6 5"/>
@@ -977,7 +980,7 @@ document.documentElement.classList.add('js');
             </g>
                       <g class="ser-loaded" style="stroke:var(--c-fable)">
               <polyline points="650,40 830,40" fill="none" stroke-width="2"/>
-              <circle cx="830" cy="40" r="5" fill="none" stroke-width="2"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Loaded 100.0% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
+              <circle cx="830" cy="40" r="5" fill="none" stroke-width="2"><title>Fable at max, added later. With skills 100.0% here; the full note is in the methodology tab.</title></circle>
             </g>
             </svg>
         </div>
@@ -1005,8 +1008,8 @@ document.documentElement.classList.add('js');
             <span><span class="ln dash"></span>without</span>
           </div>
           <svg viewBox="0 0 1170 560" role="img"
-               aria-label="Scatter chart of checklist score against average cost per run in dollars, on a linear cost scale from zero, with a switcher showing one model at a time or all models together, without-skills lines faded. With the skills installed the three model lines sit in the top band, 96.1 to 100 percent, between 43 cents and 1 dollar 62 per run. Without the skills the same runs cost about the same and score 84.8 to 97.6 percent. Haiku is a low-cost reference pair at about 21 cents per run.">
-            <desc>With skills, cost and score by effort: Sonnet 0.49 at 96.1, 0.43 at 99.0, 0.62 at 99.0, 0.80 at 98.5, 1.18 at 99.5. Opus 0.67 at 95.6, 0.70 at 97.6, 0.59 at 98.0, 0.75 at 99.0, 1.00 at 100.0. Fable 1.07 at 99.0, 1.22 at 100.0, 1.50 at 100.0, 1.62 at 100.0. Haiku 0.22 at 91.2. Without skills: Sonnet 0.44 at 84.8, 0.39 at 90.7, 0.49 at 87.8, 0.81 at 87.3, 1.20 at 89.7. Opus 0.59 at 87.3, 0.66 at 85.8, 0.53 at 88.2, 0.72 at 91.2, 0.89 at 91.2. Fable 0.89 at 94.1, 1.05 at 92.6, 1.21 at 97.6, 1.41 at 97.1. Haiku 0.21 at 64.7.</desc>
+               aria-label="Scatter chart of checklist score against average cost per run in dollars, on a linear cost scale from zero, with a switcher showing one model at a time or all models together, without-skills lines faded. With the skills installed the three model lines sit in the top band, 96.1 to 100 percent, between 43 cents and 1 dollar 62 per run. Without the skills the same runs cost about the same and score 84.8 to 97.6 percent. The added-later Fable-max addendum is plotted to the right of both ranges, at 2 dollars 27 per run scoring 100 percent with the skills and 1 dollar 94 per run scoring 97.4 percent without. Haiku is a low-cost reference pair at about 21 cents per run.">
+            <desc>With skills, cost and score by effort: Sonnet 0.49 at 96.1, 0.43 at 99.0, 0.58 at 99.0, 0.73 at 98.5, 1.22 at 99.5. Opus 0.67 at 95.6, 0.58 at 97.6, 0.57 at 98.0, 0.76 at 99.0, 1.00 at 100.0. Fable 1.07 at 99.0, 1.22 at 100.0, 1.50 at 100.0, 1.62 at 100.0, then the added-later max addendum 2.27 at 100.0. Haiku 0.22 at 91.2. Without skills: Sonnet 0.44 at 84.8, 0.41 at 90.7, 0.48 at 87.8, 0.67 at 87.3, 1.20 at 89.7. Opus 0.59 at 87.3, 0.52 at 85.8, 0.52 at 88.2, 0.73 at 91.2, 0.89 at 91.2. Fable 0.89 at 94.1, 1.05 at 92.6, 1.21 at 97.6, 1.41 at 97.1, then the max addendum 1.94 at 97.4. Haiku 0.21 at 64.7.</desc>
             <g class="sv-l">
               <line x1="110" y1="470" x2="1120" y2="470" stroke-width="1"/>
               <line x1="110" y1="362.5" x2="1120" y2="362.5" stroke-width="1"/>
@@ -1023,28 +1026,28 @@ document.documentElement.classList.add('js');
             </g>
             <text class="sv-t sv-faint" x="615" y="530" font-size="11" text-anchor="middle">Average cost of one run, USD</text>
             <g class="ser-cold cm-sonnet" data-model="sonnet" data-arm="cold" style="stroke:var(--c-sonnet)">
-              <polyline points="301.1,203.4 279.4,140 322.8,171.2 461.8,176.5 631.1,150.7" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
+              <polyline points="301.1,203.4 288.1,140 318.5,171.2 401.0,176.5 631.1,150.7" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
               <g fill="var(--raised)" stroke-width="1.6">
-                <circle cx="301.1" cy="203.4" r="4"/><circle cx="279.4" cy="140" r="4"/><circle cx="322.8" cy="171.2" r="4"/><circle cx="461.8" cy="176.5" r="4"/><circle cx="631.1" cy="150.7" r="4"/>
+                <circle cx="301.1" cy="203.4" r="4"/><circle cx="288.1" cy="140" r="4"/><circle cx="318.5" cy="171.2" r="4"/><circle cx="401.0" cy="176.5" r="4"/><circle cx="631.1" cy="150.7" r="4"/>
               </g>
               <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
                 <text class="lbl-end" x="301.1" y="221.2" text-anchor="middle">low</text>
-                <text x="279.4" y="127.6" text-anchor="middle">medium</text>
-                <text x="322.8" y="159.1" text-anchor="middle">high</text>
-                <text x="461.8" y="194.1" text-anchor="middle">xhigh</text>
+                <text x="288.1" y="127.6" text-anchor="middle">medium</text>
+                <text x="318.5" y="159.1" text-anchor="middle">high</text>
+                <text x="401.0" y="194.1" text-anchor="middle">xhigh</text>
                 <text class="lbl-end" x="631.1" y="168" text-anchor="middle">max</text>
               </g>
             </g>
             <g class="ser-cold cm-opus" data-model="opus" data-arm="cold" style="stroke:var(--c-opus)">
-              <polyline points="366.2,176.5 396.6,192.7 340.2,166.9 422.7,134.6 496.5,134.6" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
+              <polyline points="366.2,176.5 335.8,192.7 335.8,166.9 427.0,134.6 496.5,134.6" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
               <g fill="var(--raised)" stroke-width="1.6">
-                <circle cx="366.2" cy="176.5" r="4"/><circle cx="396.6" cy="192.7" r="4"/><circle cx="340.2" cy="166.9" r="4"/><circle cx="422.7" cy="134.6" r="4"/><circle cx="496.5" cy="134.6" r="4"/>
+                <circle cx="366.2" cy="176.5" r="4"/><circle cx="335.8" cy="192.7" r="4"/><circle cx="335.8" cy="166.9" r="4"/><circle cx="427.0" cy="134.6" r="4"/><circle cx="496.5" cy="134.6" r="4"/>
               </g>
               <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
                 <text class="lbl-end" x="356.1" y="180.6" text-anchor="end">low</text>
-                <text x="396.6" y="210" text-anchor="middle">medium</text>
-                <text x="340.2" y="184.7" text-anchor="middle">high</text>
-                <text x="422.7" y="122.5" text-anchor="middle">xhigh</text>
+                <text x="335.8" y="210" text-anchor="middle">medium</text>
+                <text x="335.8" y="184.7" text-anchor="middle">high</text>
+                <text x="427.0" y="122.5" text-anchor="middle">xhigh</text>
                 <text class="lbl-end" x="496.5" y="122.1" text-anchor="middle">max</text>
               </g>
             </g>
@@ -1062,35 +1065,35 @@ document.documentElement.classList.add('js');
             </g>
             <g class="ser-cold cm-fable" style="stroke:var(--c-fable)">
               <polyline points="722.3,71.2 952.5,68" fill="none" stroke-width="1.8" stroke-dasharray="6 5"/>
-              <circle cx="952.5" cy="68" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Cold 97.4% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
+              <circle cx="952.5" cy="68" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max, added later. Without skills 97.4% here; the full note is in the methodology tab.</title></circle>
             </g>
             <g class="ser-cold cm-haiku" data-model="haiku" data-arm="cold">
               <circle cx="201.2" cy="419.5" r="4" fill="var(--raised)" stroke="var(--c-haiku)" stroke-width="1.6"/>
               <text class="sv-t sv-faint lbl" x="201.2" y="437.1" font-size="10" text-anchor="middle">no effort dial</text>
             </g>
             <g class="ser-loaded cm-sonnet" data-model="sonnet" data-arm="loaded" style="stroke:var(--c-sonnet)">
-              <polyline points="322.8,81.9 296.7,50.8 379.3,50.8 457.4,56.1 622.5,45.4" fill="none" stroke-width="2.2"/>
+              <polyline points="322.8,81.9 296.7,50.8 361.9,50.8 427.0,56.1 639.8,45.4" fill="none" stroke-width="2.2"/>
               <g fill="var(--c-sonnet)" stroke="none">
-                <circle cx="322.8" cy="81.9" r="4.5"/><circle cx="296.7" cy="50.8" r="4.5"/><circle cx="379.3" cy="50.8" r="4.5"/><circle cx="457.4" cy="56.1" r="4.5"/><circle cx="622.5" cy="45.4" r="4.5"/>
+                <circle cx="322.8" cy="81.9" r="4.5"/><circle cx="296.7" cy="50.8" r="4.5"/><circle cx="361.9" cy="50.8" r="4.5"/><circle cx="427.0" cy="56.1" r="4.5"/><circle cx="639.8" cy="45.4" r="4.5"/>
               </g>
               <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
                 <text class="lbl-end" x="322.8" y="99.6" text-anchor="middle">low</text>
                 <text x="285.9" y="54.7" text-anchor="end">medium</text>
-                <text x="379.3" y="38.8" text-anchor="middle">high</text>
-                <text x="467.1" y="60" text-anchor="start">xhigh</text>
-                <text class="lbl-end" x="622.5" y="63" text-anchor="middle">max</text>
+                <text x="361.9" y="38.8" text-anchor="middle">high</text>
+                <text x="436.7" y="60" text-anchor="start">xhigh</text>
+                <text class="lbl-end" x="639.8" y="63" text-anchor="middle">max</text>
               </g>
             </g>
             <g class="ser-loaded cm-opus" data-model="opus" data-arm="loaded" style="stroke:var(--c-opus)">
-              <polyline points="401.0,87.3 414.0,65.8 366.2,61.5 435.7,50.8 544.3,40" fill="none" stroke-width="2.2"/>
+              <polyline points="401.0,87.3 361.9,65.8 357.5,61.5 440.1,50.8 544.3,40" fill="none" stroke-width="2.2"/>
               <g fill="var(--c-opus)" stroke="none">
-                <circle cx="401.0" cy="87.3" r="4.5"/><circle cx="414.0" cy="65.8" r="4.5"/><circle cx="366.2" cy="61.5" r="4.5"/><circle cx="435.7" cy="50.8" r="4.5"/><circle cx="544.3" cy="40" r="4.5"/>
+                <circle cx="401.0" cy="87.3" r="4.5"/><circle cx="361.9" cy="65.8" r="4.5"/><circle cx="357.5" cy="61.5" r="4.5"/><circle cx="440.1" cy="50.8" r="4.5"/><circle cx="544.3" cy="40" r="4.5"/>
               </g>
               <g class="sv-t sv-faint lbls" font-size="10" stroke="none">
                 <text class="lbl-end" x="390.6" y="100" text-anchor="end">low</text>
-                <text x="424.4" y="78.5" text-anchor="start">medium</text>
-                <text x="355.8" y="57.4" text-anchor="end">high</text>
-                <text x="427.2" y="68.7" text-anchor="end">xhigh</text>
+                <text x="372.3" y="78.5" text-anchor="start">medium</text>
+                <text x="347.1" y="57.4" text-anchor="end">high</text>
+                <text x="431.6" y="68.7" text-anchor="end">xhigh</text>
                 <text class="lbl-end" x="544.3" y="28" text-anchor="middle">max</text>
               </g>
             </g>
@@ -1108,7 +1111,7 @@ document.documentElement.classList.add('js');
             </g>
             <g class="ser-loaded cm-fable" style="stroke:var(--c-fable)">
               <polyline points="813.5,40 1095.8,40" fill="none" stroke-width="2.2"/>
-              <circle cx="1095.8" cy="40" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max ran separately after publication, added 2026-07-12 (16 of 17 tasks; mmar-t1 excluded, not a quality issue). Loaded 100.0% here; stays outside the confirmatory matrix, which pairs Fable's low vs high.</title></circle>
+              <circle cx="1095.8" cy="40" r="5" fill="none" stroke-width="2" pointer-events="all"><title>Fable at max, added later. With skills 100.0% here; the full note is in the methodology tab.</title></circle>
             </g>
             <g class="ser-loaded cm-haiku" data-model="haiku" data-arm="loaded">
               <circle cx="205.5" cy="134.6" r="4.5" fill="var(--c-haiku)"/>
@@ -1128,8 +1131,9 @@ document.documentElement.classList.add('js');
         <div class="mini-card fx" id="costs-card">
           <div class="ct">What it cost</div>
           <p>All in, the confirmatory experiment cost $1,296.94: $1,034.05 running the arms and $262.89 judging them, with the cost of building the harness excluded. The added-later Fable-max addendum cost $219.62 more, for $1,516.56 of total lattice spend. Every run recorded its own cost as it ran; these are API-price equivalents from the Claude CLI, summed directly, not modeled after the fact.</p>
-          <p>Effort is the expensive dial. Going from low to max multiplied the cost of a run by up to 2.7x; a Sonnet run went from about $0.44 to about $1.20. Loading the skills cost between $0.01 and $0.30 per run.</p>
-          <p>At Sonnet's two highest settings, runs with the skills installed actually averaged slightly cheaper than runs without. The exact per-cell numbers are in <a href="#cost-table-h">the cost table</a>.</p>
+          <p>Effort is the expensive dial. Going from low to max multiplied the cost of a run by up to 2.7x; a Sonnet run went from about $0.44 to about $1.20. Loading the skills cost between $0.01 and $0.30 per run across the confirmatory cells; the added-later Fable-max addendum sits above that ceiling at $0.33.</p>
+          <p>The surcharge did not track the size of the run: Sonnet at max added about 2 cents to a $1.20 run, while Fable at high added 30 cents to a $1.21 run. The exact per-cell numbers are in <a href="#cost-table-h">the cost table</a>.</p>
+          <p>The cheaper configuration also scored higher. Sonnet at low effort with the skills averaged $0.49 a run and hit 96.1% of the checklist; Sonnet at max effort without them averaged $1.20 a run and hit 89.7%. That is 40.6% of the cost for 6.4 points more.</p>
         </div>
       </div>
 
@@ -1154,6 +1158,12 @@ document.documentElement.classList.add('js');
         <li>Work out why a nightly ticket-classifying job's accuracy fell from about 0.91 to zero and stayed there, even though individual predictions still look fine when spot-checked.</li>
         <li>Audit a pipeline that grades customer-support replies on three axes and ranks agents by their combined score.</li>
       </ul>
+      <div class="mini-card" style="margin-top:20px">
+        <div class="ct">What a missed checklist item looks like</div>
+        <p>One task asks whether a scoring-weight change is ready to merge. One item on its checklist: the flaky-test count and the lint-warning count written in the project's testing doc are an old measurement, so they have to be counted again against the current code before they go into the pull request.</p>
+        <p>Without the skills, Haiku 4.5 took both numbers from the doc, reported &ldquo;Known flaky: 2 tests in tests/test_sampling.py&rdquo; and &ldquo;Lint warnings: 9&rdquo;, and called the doc &ldquo;the authoritative source for test health metrics in the project&rdquo;. With the library installed, the same model wrote &ldquo;Do NOT cite stale numbers from docs/testing.md. Measure yourself.&rdquo;, counted against the current code, and reported 1 flaky test and 4 lint warnings. Both judges scored that item a miss for the first answer and a hit for the second.</p>
+        <p>That is one pair on one model, illustrative rather than evidence: the numbers on this page come from all 2,652 judged marks.</p>
+      </div>
 
       </div>
       </details>
@@ -1237,7 +1247,7 @@ document.documentElement.classList.add('js');
         <p class="ex-sub" style="text-align:center">From the frozen task suite to the final scored grid. Every setup walks the same path.</p>
         <div class="vz-card">
           <svg viewBox="0 0 760 886" role="img" style="min-width:560px"
-               aria-label="Flow diagram. A frozen suite of 17 tasks with pass checklists, locked and hash-stamped, feeds 16 model-and-effort setups: Haiku with no effort dial, Sonnet five levels, Opus five levels, Fable four confirmatory levels plus a max level completed later and added as an addendum. Every setup ran twice, without the skills and with the 17-skill library installed, the library visibly loading into the with-skills arm. Both arms' answers are then scrubbed of which-arm tells, skill mentions and other loaded-context giveaways, before two blinded Claude judges score every checklist item without knowing which run had skills; when they disagree, Claude Fable 5 decides, 2.5 percent of marks. The output is the matrix of scores on this page.">
+               aria-label="Flow diagram. A frozen suite of 17 tasks with pass checklists, locked and hash-stamped, feeds 16 model-and-effort setups: Haiku with no effort dial, Sonnet five levels, Opus five levels, Fable four confirmatory levels plus a max level completed later and added as an addendum. Every setup ran twice, without the skills and with the 17-skill library installed, the library visibly loading into the with-skills arm. Both arms' answers are then scrubbed of which-arm tells, skill mentions and other loaded-context giveaways, before two blinded Claude judges score every checklist item without knowing which run had skills; when they disagree, Claude Fable 5 decides, 4.6 percent of marks. The output is the matrix of scores on this page.">
             <desc>Vertical pipeline with seven stages: frozen suite, setups table, the with and without skills split with the 17-skill library visibly loading into the with-skills arm, a scrubbing step that removes which-arm tells from both answers, the blinded two-judge panel, the disagreement branch to Claude Fable 5, and the final matrix.</desc>
             <defs>
               <marker id="wfa" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L8,4L0,8z" class="sv-dim"/></marker>
@@ -1290,7 +1300,7 @@ document.documentElement.classList.add('js');
               <rect class="sv-fr sv-sam" x="440" y="656" width="290" height="92" rx="10" stroke-width="1"/>
               <text class="sv-t sv-amber" x="585" y="686" font-size="10.5" text-anchor="middle">When the two judges disagree,</text>
               <text class="sv-t sv-amber" x="585" y="702" font-size="10.5" text-anchor="middle">Claude Fable 5 decides</text>
-              <text class="sv-t sv-faint" x="585" y="726" font-size="10" text-anchor="middle">2.5% of all marks</text>
+              <text class="sv-t sv-faint" x="585" y="726" font-size="10" text-anchor="middle">4.6% of marks, all settled</text>
             </g>
             <g class="wf-s">
               <line class="sv-sd" x1="330" y1="638" x2="330" y2="782" stroke-width="1" marker-end="url(#wfa)"/>
@@ -1301,7 +1311,7 @@ document.documentElement.classList.add('js');
             </g>
           </svg>
         </div>
-        <p class="tbl-note">Methodology: the two judges disagreed on 4.6% of marks; the deciding judge settled 2.5%, and none were left unresolved. The suite hash and every per-setup rate are in <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
+        <p class="tbl-note">Methodology: the two judges disagreed on 4.6% of marks and the third judge settled all of them, none left unresolved. The suite hash and every per-setup rate are in <a href="https://github.com/HamzaYM/reliable-ai-skills/blob/main/results/matrix/MATRIX.md">MATRIX.md in the repo</a>.</p>
       </div>
 
       </div>
@@ -1310,8 +1320,8 @@ document.documentElement.classList.add('js');
       <summary><h3 id="scoring-h">How scoring works</h3><span class="teaser"></span></summary>
       <div class="sec-body">
       <p>Each task carries a short checklist of things a correct answer must do; a score is the share of checklist items hit. From here on, I'll call them must-hits. There are no style points: an answer either did each thing or it did not.</p>
-      <p>Every answer was scored blind by two Claude judges, one Sonnet-class and one Opus-class. They saw the two answers to a task in a random order and were never told which one had the skills installed. When the two judges disagreed on a checklist item, a fixed third judge, Claude Fable 5, settled it. Across the study the two judges disagreed on 4.6% of marks, 2.5% of marks went to the third judge, and none were left unresolved.</p>
-      <p>Fable's +4.0 is run-weighted, not a simple average: its skill lift is the mean across Fable's four pre-registered effort levels (low through xhigh), each level weighted by how many times it was run, so a setting run four times counts more than one run once. Fable's max cell was added after the study was registered, so it sits outside this average and is reported separately as an addendum. Opus and Sonnet need no exclusion note: their max settings were pre-registered and every one of their cells carries equal run counts, so their simple and run-weighted averages are identical.</p>
+      <p>Every answer was scored blind by two Claude judges, one Sonnet-class and one Opus-class. They saw the two answers to a task in a random order and were never told which one had the skills installed. When the two judges disagreed on a checklist item, a fixed third judge, Claude Fable 5, settled it. Across the study the two judges disagreed on 4.6% of marks and the third judge settled all of them, none left unresolved.</p>
+      <p>Fable's +4.0 is run-weighted, not a simple average: its skill lift is the mean across Fable's four pre-registered effort levels (low through xhigh), each level weighted by how many times it was run, so a setting run three times counts more than one run once. Fable's max cell was added after the study was registered, so it sits outside this average and is reported separately as an addendum. Opus and Sonnet need no exclusion note: their max settings were pre-registered and every one of their cells carries equal run counts, so their simple and run-weighted averages are identical.</p>
 
       </div>
       </details>
@@ -1320,7 +1330,7 @@ document.documentElement.classList.add('js');
       <div class="sec-body">
       <p>Every run recorded its own cost as it ran; the confirmatory experiment came to $1,296.94, and counting the added-later Fable-max addendum, total lattice spend was $1,516.56. The table shows the average cost of one run, in dollars, for each model and effort setting: without the skills, with them, and the difference.</p>
       <script type="application/json" id="cost-per-run-dataset">
-{"lattice-fable-high":{"n_cold":51,"avg_cold_usd":1.2061,"n_loaded":51,"avg_loaded_usd":1.5022,"skill_marginal_usd":0.2961},"lattice-fable-low":{"n_cold":51,"avg_cold_usd":0.8901,"n_loaded":51,"avg_loaded_usd":1.0719,"skill_marginal_usd":0.1818},"lattice-fable-medium":{"n_cold":17,"avg_cold_usd":1.0487,"n_loaded":17,"avg_loaded_usd":1.2175,"skill_marginal_usd":0.1688},"lattice-fable-xhigh":{"n_cold":17,"avg_cold_usd":1.4109,"n_loaded":17,"avg_loaded_usd":1.6177,"skill_marginal_usd":0.2068},"lattice-haiku":{"n_cold":17,"avg_cold_usd":0.2052,"n_loaded":17,"avg_loaded_usd":0.2165,"skill_marginal_usd":0.0113},"lattice-opus-high":{"n_cold":51,"avg_cold_usd":0.5344,"n_loaded":51,"avg_loaded_usd":0.5928,"skill_marginal_usd":0.0585},"lattice-opus-low":{"n_cold":51,"avg_cold_usd":0.5924,"n_loaded":51,"avg_loaded_usd":0.6693,"skill_marginal_usd":0.077},"lattice-opus-max":{"n_cold":51,"avg_cold_usd":0.888,"n_loaded":51,"avg_loaded_usd":1.0045,"skill_marginal_usd":0.1164},"lattice-opus-medium":{"n_cold":51,"avg_cold_usd":0.6608,"n_loaded":51,"avg_loaded_usd":0.6986,"skill_marginal_usd":0.0378},"lattice-opus-xhigh":{"n_cold":51,"avg_cold_usd":0.7176,"n_loaded":51,"avg_loaded_usd":0.7489,"skill_marginal_usd":0.0313},"lattice-sonnet-high":{"n_cold":51,"avg_cold_usd":0.4904,"n_loaded":51,"avg_loaded_usd":0.6242,"skill_marginal_usd":0.1337},"lattice-sonnet-low":{"n_cold":51,"avg_cold_usd":0.4377,"n_loaded":51,"avg_loaded_usd":0.4885,"skill_marginal_usd":0.0508},"lattice-sonnet-max":{"n_cold":51,"avg_cold_usd":1.2029,"n_loaded":51,"avg_loaded_usd":1.1844,"skill_marginal_usd":-0.0185},"lattice-sonnet-medium":{"n_cold":51,"avg_cold_usd":0.3912,"n_loaded":51,"avg_loaded_usd":0.4331,"skill_marginal_usd":0.0419},"lattice-sonnet-xhigh":{"n_cold":51,"avg_cold_usd":0.8094,"n_loaded":51,"avg_loaded_usd":0.7999,"skill_marginal_usd":-0.0095},"lattice-fable-max":{"n_cold":48,"avg_cold_usd":1.9446,"n_loaded":48,"avg_loaded_usd":2.2744,"skill_marginal_usd":0.3298}}
+{"lattice-fable-high":{"n_cold":51,"avg_cold_usd":1.2061,"n_loaded":51,"avg_loaded_usd":1.5022,"skill_marginal_usd":0.2961},"lattice-fable-low":{"n_cold":51,"avg_cold_usd":0.8901,"n_loaded":51,"avg_loaded_usd":1.0719,"skill_marginal_usd":0.1818},"lattice-fable-medium":{"n_cold":17,"avg_cold_usd":1.0487,"n_loaded":17,"avg_loaded_usd":1.2175,"skill_marginal_usd":0.1688},"lattice-fable-xhigh":{"n_cold":17,"avg_cold_usd":1.4109,"n_loaded":17,"avg_loaded_usd":1.6177,"skill_marginal_usd":0.2068},"lattice-haiku":{"n_cold":17,"avg_cold_usd":0.2052,"n_loaded":17,"avg_loaded_usd":0.2165,"skill_marginal_usd":0.0113},"lattice-opus-high":{"n_cold":51,"avg_cold_usd":0.5176,"n_loaded":51,"avg_loaded_usd":0.574,"skill_marginal_usd":0.0564},"lattice-opus-low":{"n_cold":51,"avg_cold_usd":0.5924,"n_loaded":51,"avg_loaded_usd":0.6693,"skill_marginal_usd":0.077},"lattice-opus-max":{"n_cold":51,"avg_cold_usd":0.888,"n_loaded":51,"avg_loaded_usd":1.0045,"skill_marginal_usd":0.1164},"lattice-opus-medium":{"n_cold":51,"avg_cold_usd":0.5237,"n_loaded":51,"avg_loaded_usd":0.5772,"skill_marginal_usd":0.0535},"lattice-opus-xhigh":{"n_cold":51,"avg_cold_usd":0.7253,"n_loaded":51,"avg_loaded_usd":0.761,"skill_marginal_usd":0.0357},"lattice-sonnet-high":{"n_cold":51,"avg_cold_usd":0.4786,"n_loaded":51,"avg_loaded_usd":0.5802,"skill_marginal_usd":0.1016},"lattice-sonnet-low":{"n_cold":51,"avg_cold_usd":0.4377,"n_loaded":51,"avg_loaded_usd":0.4885,"skill_marginal_usd":0.0508},"lattice-sonnet-max":{"n_cold":51,"avg_cold_usd":1.2029,"n_loaded":51,"avg_loaded_usd":1.218,"skill_marginal_usd":0.0151},"lattice-sonnet-medium":{"n_cold":51,"avg_cold_usd":0.4114,"n_loaded":51,"avg_loaded_usd":0.4322,"skill_marginal_usd":0.0208},"lattice-sonnet-xhigh":{"n_cold":51,"avg_cold_usd":0.6663,"n_loaded":51,"avg_loaded_usd":0.7343,"skill_marginal_usd":0.0679},"lattice-fable-max":{"n_cold":48,"avg_cold_usd":1.9446,"n_loaded":48,"avg_loaded_usd":2.2744,"skill_marginal_usd":0.3298}}
       </script>
       <div class="tbl-scroll">
         <table class="data fit" id="tbl-costs">
@@ -1332,20 +1342,21 @@ document.documentElement.classList.add('js');
             <tr><td>xhigh<span class="q">17 runs per side</span></td><td><b>$1.41</b></td><td><b>$1.62</b></td><td class="hero"><b>+$0.21</b></td></tr>
             <tr><td>max <span class="badge later" title="Fable at max ran separately after publication, added 2026-07-12. It completed 16 of 17 tasks (mmar-t1 excluded, not a quality issue) and stays outside the confirmatory matrix: Fable's pre-registered pair is low vs high.">addendum</span><span class="q">48 runs per side</span></td><td><b>$1.94</b></td><td><b>$2.27</b></td><td class="hero"><b>+$0.33</b></td></tr>
             <tr class="grp"><td rowspan="5"><b>Opus 4.8</b></td><td>low<span class="q">51 runs per side</span></td><td><b>$0.59</b></td><td><b>$0.67</b></td><td class="hero"><b>+$0.08</b></td></tr>
-            <tr><td>medium<span class="q">51 runs per side</span></td><td><b>$0.66</b></td><td><b>$0.70</b></td><td class="hero"><b>+$0.04</b></td></tr>
-            <tr><td>high<span class="q">51 runs per side</span></td><td><b>$0.53</b></td><td><b>$0.59</b></td><td class="hero"><b>+$0.06</b></td></tr>
-            <tr><td>xhigh<span class="q">51 runs per side</span></td><td><b>$0.72</b></td><td><b>$0.75</b></td><td class="hero"><b>+$0.03</b></td></tr>
+            <tr><td>medium<span class="q">51 runs per side</span></td><td><b>$0.52</b></td><td><b>$0.58</b></td><td class="hero"><b>+$0.05</b></td></tr>
+            <tr><td>high<span class="q">51 runs per side</span></td><td><b>$0.52</b></td><td><b>$0.57</b></td><td class="hero"><b>+$0.06</b></td></tr>
+            <tr><td>xhigh<span class="q">51 runs per side</span></td><td><b>$0.73</b></td><td><b>$0.76</b></td><td class="hero"><b>+$0.04</b></td></tr>
             <tr><td>max<span class="q">51 runs per side</span></td><td><b>$0.89</b></td><td><b>$1.00</b></td><td class="hero"><b>+$0.12</b></td></tr>
             <tr class="grp"><td rowspan="5"><b>Sonnet 5</b></td><td>low<span class="q">51 runs per side</span></td><td><b>$0.44</b></td><td><b>$0.49</b></td><td class="hero"><b>+$0.05</b></td></tr>
-            <tr><td>medium<span class="q">51 runs per side</span></td><td><b>$0.39</b></td><td><b>$0.43</b></td><td class="hero"><b>+$0.04</b></td></tr>
-            <tr><td>high<span class="q">51 runs per side</span></td><td><b>$0.49</b></td><td><b>$0.62</b></td><td class="hero"><b>+$0.13</b></td></tr>
-            <tr><td>xhigh<span class="q">51 runs per side</span></td><td><b>$0.81</b></td><td><b>$0.80</b></td><td class="hero"><b>-$0.01</b><span class="q">cheaper with skills</span></td></tr>
-            <tr><td>max<span class="q">51 runs per side</span></td><td><b>$1.20</b></td><td><b>$1.18</b></td><td class="hero"><b>-$0.02</b><span class="q">cheaper with skills</span></td></tr>
+            <tr><td>medium<span class="q">51 runs per side</span></td><td><b>$0.41</b></td><td><b>$0.43</b></td><td class="hero"><b>+$0.02</b></td></tr>
+            <tr><td>high<span class="q">51 runs per side</span></td><td><b>$0.48</b></td><td><b>$0.58</b></td><td class="hero"><b>+$0.10</b></td></tr>
+            <tr><td>xhigh<span class="q">51 runs per side</span></td><td><b>$0.67</b></td><td><b>$0.73</b></td><td class="hero"><b>+$0.07</b></td></tr>
+            <tr><td>max<span class="q">51 runs per side</span></td><td><b>$1.20</b></td><td><b>$1.22</b></td><td class="hero"><b>+$0.02</b></td></tr>
             <tr class="grp"><td><b>Haiku 4.5</b></td><td><span class="hot" tabindex="0" data-tt="no effort dial" data-tip="Haiku does not expose a reasoning-effort setting, so it runs one way; it is here as a baseline.">no effort dial</span><span class="q">17 runs per side</span></td><td><b>$0.21</b></td><td><b>$0.22</b></td><td class="hero"><b>+$0.01</b></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="tbl-note">Methodology: on Sonnet's two highest settings the runs with skills installed came out slightly cheaper than the runs without, and because the machine mix varied between runs, treat these figures as directional, not exact. The full per-call ledger is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
+      <p class="tbl-note">Rounding: I compute the skill cost per run from the full-precision averages and round once at the end, so on six rows it lands a cent away from subtracting the two rounded columns above it.</p>
+      <p class="tbl-note">Methodology: the machine mix varied between runs, so treat these figures as directional, not exact. The full per-call ledger is in <a href="https://github.com/HamzaYM/reliable-ai-skills">the repo</a>.</p>
 
       </div>
       </details>
@@ -1430,7 +1441,7 @@ document.documentElement.classList.add('js');
       <summary><h3 id="lattice-spec-h">The lattice, fully specified</h3><span class="teaser"></span></summary>
       <div class="sec-body">
       <p>3 models &times; 5 effort levels + Haiku = 16 model-effort conditions &times; {cold, loaded} = 32 arms. The suite is 17 frozen primary tasks, hash-pinned at freeze: <code>b378c79644280bb93fb8ac71d0cadcfe301fd15b226dfaec852b619a2aa1c890</code>. Endpoint cells ran at 3 consumer repeats (three full runs of the model under test, per side), every repeat persisted independently with no shared session state; Sonnet and Opus ran at 3 repeats across their interior levels too, leaving Fable's medium and extra-high cells and the Haiku baseline as the only single-run cells; the added-later Fable-max cell ran at 3 repeats per side as well. Plots and tables distinguish replicated means from single points, and the single-run cells get no uncertainty bars, on purpose: one run is one run, and an error bar around a single sample would read as precision the data does not have. I verified the effort defaults in smoke runs instead of assuming them; the values recorded in run-meta are authoritative.</p>
-      <p>I ran Fable at max separately after publication, on a second machine, and added it to this page on 2026-07-12. It completed 16 of 17 tasks (mmar-t1 timed out on the loaded arm across repeated attempts and was excluded as invalid, not a quality issue). On its own complete-case basis: cold 97.4%, loaded 100.0%, change +2.6 percentage points. Cost: $219.62, recomputed centrally from the same raw judge outputs as every other cell. It stays outside the confirmatory matrix: Fable's pre-registered endpoint pair remains low vs high, per the posted 2026-07-10 amendment, so nothing here changes H1, H2, or any other verdict on this page.</p>
+      <p>I ran Fable at max separately after publication, on a second machine, and added it to this page on 2026-07-12. It completed 16 of 17 tasks (mmar-t1 timed out on the loaded arm across repeated attempts and was excluded as invalid, not a quality issue). On its own complete-case basis: cold 97.4%, loaded 100.0%, change +2.6 percentage points. Cost: $219.62, recomputed centrally from the same raw judge outputs as every other cell, and it leaves out the timed-out task's partial runs the same way the score leaves that task out, so it covers only the tasks that were scored. It stays outside the confirmatory matrix: Fable's pre-registered endpoint pair remains low vs high, per the posted 2026-07-10 amendment, so nothing here changes H1, H2, or any other verdict on this page.</p>
 
       </div>
       </details>
@@ -1447,7 +1458,7 @@ document.documentElement.classList.add('js');
       <summary><h3 id="judging-h">The judging stack, mechanism by mechanism</h3><span class="teaser"></span></summary>
       <div class="sec-body">
       <p>Every mark is scored by a blinded, order-randomized two-judge panel: one Sonnet-class and one Opus-class model, IDs pinned, both at medium effort, never varying across cells. When the two judges disagree on a mark, it goes to a pinned third <span class="hot" tabindex="0" data-tt="adjudicator" data-tip="A fixed third judge that scores a mark only when the two primary judges disagree; the two-of-three majority is final.">adjudicator</span>, claude-fable-5 at medium, which sees only the disputed criterion and the two blinded report slots, a narrower input than a full judge gets. It scores the binary mark independently, the two-of-three majority is final, and disputed marks never leave denominators. Everything persists: both original marks, evidence quotes, the adjudicator's mark, the majority result.</p>
-      <p>The rates, published: 122 of 2652 marks disagreed (4.6%); 135 of 5304 report-slot marks were adjudicated (2.5%); 0 unresolved. The per-cell breakdown is in the repo's MATRIX.md; Haiku's cell was the noisiest at 13.2% mark disagreement.</p>
+      <p>The rates, published: 122 of 2652 marks disagreed (4.6%); 135 of 5304 report-slot marks were adjudicated (2.5%); 0 unresolved. The two counts differ because a mark covers one checklist item on one comparison while each comparison carries two report slots: of the 122 disputed marks, 109 were disputed on one report and 13 on both, so the adjudicator scored 109 + 26 = 135 report-slot marks. The per-cell breakdown is in the repo's MATRIX.md; Haiku's cell was the noisiest at 13.2% mark disagreement.</p>
       <p>The residual limitation is that Claude models judge Claude outputs. The pre-registered mitigation: the committed judge inputs are public, plus an exploratory cross-vendor concordance sample of 50 comparisons, which I have now run: OpenAI's gpt-5.6-terra, at high reasoning effort, agreed with the panel-final marks on 97.2% of marks (383 of 394), 0 unscorable. It is exploratory only and moves no verdict.</p>
 
       </div>
@@ -1464,7 +1475,7 @@ document.documentElement.classList.add('js');
       <details class="sec" id="floor-exclusion">
       <summary><h3 id="floor-exclusion-h">The floor-exclusion rule</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>The rule, exactly: if more than one third of a comparison's marks are knocked out through the judge-failure path (after the adjudicator amendment made disagreement itself non-destructive), the entire paired cell is excluded and reported, so no verdict can rest on a task judged only on its easiest surviving marks. It exists as the failure backstop, not the disagreement path. It tripped zero times in the final data. There is also a pre-registered column-level degradation threshold: if more than 10% of a column's endpoint comparisons are excluded, the column reports degraded and issues no verdict. Honesty note: I never implemented that threshold in harness code, so I ran the check by hand on the final data instead, and found nothing over the threshold. No column degraded: all three models came in at 0 of 102 endpoint comparisons excluded, well under the 10% rule. I also ran the second pre-registered hand check, flagging any endpoint task with fewer than 2 surviving repeats: zero tasks tripped it on any endpoint cell.</p>
+      <p>The rule, exactly: if more than one third of a comparison's marks are knocked out through the judge-failure path (after the adjudicator amendment made disagreement itself non-destructive), the entire paired cell is excluded and reported, so no verdict can rest on a task judged only on its easiest surviving marks. It exists as the failure backstop, not the disagreement path. It tripped zero times in the final data. There is also a pre-registered column-level degradation threshold: if more than 10% of a column's endpoint comparisons are excluded, the column reports degraded and issues no verdict. Honesty note: the threshold was pre-registered, but I did not implement it in harness code for Study 1, so I ran the check by hand on the final data instead, and found nothing over the threshold. It ships as code now: the report step computes each column's exclusion rate, marks any column over the threshold degraded, withholds its verdict, and prints the rate for every column, covered by seven tests including the exactly-10% boundary. The Study 1 numbers below remain the hand check. No column degraded: all three models came in at 0 of 102 endpoint comparisons excluded, well under the 10% rule. I also ran the second pre-registered hand check, flagging any endpoint task with fewer than 2 surviving repeats: zero tasks tripped it on any endpoint cell.</p>
 
       </div>
       </details>
@@ -1490,7 +1501,7 @@ document.documentElement.classList.add('js');
       <div class="sec-body">
       <p>Two machines, expiring weekly pools. Consumers, the model runs under test, raced first with <code>--defer-adjudication</code> (finish the runs now, settle judge disagreements later); judging lagged on committed inputs. Handoff discipline: raw artifacts only (consumer outputs, judge inputs and outputs, order keys, run-state, run-meta), never the second machine's own scores.json, always recomputed centrally, suite hash verified on every merge. Idempotent resume semantics (skip-if-persisted at the consumer, judge, and adjudication layers) meant account-wide usage-limit pauses cost wasted call attempts and nothing else.</p>
       <p>One disclosure, the resume-identity trap: on the opus-medium merged directory, a same-config rerun against a directory whose run-state only knew 8 of 17 tasks would have silently rebuilt the summary down to 8 tasks. I worked around it by running adjudication in scratch directories and copying only the new adjudication files in.</p>
-      <p>Costs: all in, the confirmatory experiment cost $1,296.94, of which $1,034.05 went to running the arms and $262.89 to judging them ($207.72 for the two-judge panel, $55.17 for adjudication). Every figure is computed directly from the recorded cost of every API call on disk, not estimated. One cell's records exist in two overlapping ledgers (a handoff merged onto the primary disk for central scoring), so the total deduplicates per run before summing: $1,296.94 of gross ledger entries minus $0.00 of double-counted records lands on $1,296.94 exactly. The added-later Fable-max addendum, run separately after publication and outside the confirmatory matrix, cost $219.62 more (consumer $202.51 running, $15.00 two-judge panel, $2.11 adjudication), bringing total lattice spend to $1,516.56; Fable's five cells including it come to $593.61. Building the harness is not in that number. The per-cell penny math is in results/matrix/NUMBERS.md in the repo.</p>
+      <p>Costs: all in, the confirmatory experiment cost $1,296.94, of which $1,034.05 went to running the arms and $262.89 to judging them ($207.72 for the two-judge panel, $55.17 for adjudication). Every figure is computed directly from the recorded cost of every API call on disk, not estimated. One cell's records exist in two overlapping ledgers (a handoff merged onto the primary disk for central scoring), so the total deduplicates per run before summing: $1,296.94 of gross ledger entries minus $0.00 of double-counted records lands on $1,296.94 exactly. The added-later Fable-max addendum, run separately after publication and outside the confirmatory matrix, cost $219.62 more (consumer $202.51 running, $15.00 two-judge panel, $2.11 adjudication, excluding the timed-out task's partial runs the same way the score excludes that task), bringing total lattice spend to $1,516.56; Fable's five cells including it come to $593.61. Building the harness is not in that number. The per-cell penny math is in results/matrix/NUMBERS.md in the repo.</p>
 
       </div>
       </details>
@@ -1539,7 +1550,7 @@ document.documentElement.classList.add('js');
       <details class="sec" id="limitations">
       <summary><h3 id="limitations-h">Limitations, once each</h3><span class="teaser"></span></summary>
       <div class="sec-body">
-      <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample described above. I wrote both the suite and the skills, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. The loaded arm always names the skill to load; I never tested whether a model would find and load it unprompted (autonomous skill selection). Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
+      <p>Small n everywhere: 17 tasks, most cells three repeats per side, single runs only on Fable's medium and extra-high settings and the Haiku baseline; every rate is directional. Judging is same-vendor, mitigated but not eliminated by the two-judge panel, the pinned adjudicator, the public judge inputs, and the Codex cross-vendor concordance sample described above. I wrote both the suite and the skills, so the construct-validity claim is limited to "skills improve recognition and handling of the failure classes they were designed to address", never general software-engineering improvement. The loaded-arm estimand is the total product effect (install plus instruction plus content), not pure content. The loaded arm always names the skill to load; I never tested whether a model would find and load it unprompted (autonomous skill selection). Fable's with-skills arm runs into the top of the scale: 99.0% at low and 100.0% at each of its other three scored levels, which leaves almost no room for its skill delta to move. Clearing H2 on Fable needed the no-skills arm at 98.1%; it averaged 97.6% at high, and one of the three repeats did reach 98.5% and clear it. Parked for future runs: out-of-distribution tasks authored skill-blind, and a placebo-document arm.</p>
 
       </div>
       </details>
@@ -1657,6 +1668,7 @@ document.documentElement.classList.add('js');
         <li>The n is small everywhere in this study: 17 tasks, most cells averaged over three runs, a few (Fable at medium and extra-high, and the Haiku baseline) resting on a single run each. More tasks would tighten the confidence behind every number on this page. Fable at max, the one cell that could not finish on the pool that expired before its runs did, was later completed separately, on a second machine, and added as a non-confirmatory addendum; it stays outside the confirmatory matrix, so no verdict rests on it.</li>
         <li>Every loaded run here told the model exactly which skill to load before it started working. A real agent doesn't get that: it has to pick the right skill on its own, out of the full 17-skill library, before it can even read it. That step, whether a model reaches for the right skill unprompted, is one I never tested here.</li>
         <li>The &ldquo;with skills&rdquo; arm is a bundle, not a clean isolation. Installing the library, the model choosing to actually read the file, and what the file says once read are all mixed into one number. I can't yet split how much of the lift is the words in the skill versus just having something there to read.</li>
+        <li>Fable's with-skills arm sits against the top of the scale: 99.0% at low, then 100.0% at medium, high, and extra-high. A run that already hits every mark leaves almost no room for the skill delta to move, so Fable's shrinkage number says as much about the ceiling as it does about effort. Clearing H2 on Fable needed the no-skills arm to reach 98.1%; it averaged 97.6% at high, and one of the three repeats did reach 98.5% and clear it. A harder suite, one where the strongest model still misses marks with the skills installed, is what would make Fable's row readable.</li>
       </ul>
 
       <p>The harness and the frozen task suite are both public. If you want to point a non-Claude judge at the full panel, run these seventeen skills against a task suite you wrote yourself, or test whether a model can pick the right skill without being told which one, I'd genuinely like to see what you find. Send it my way: <a href="https://github.com/HamzaYM/reliable-ai-skills">github.com/HamzaYM/reliable-ai-skills</a>.</p>

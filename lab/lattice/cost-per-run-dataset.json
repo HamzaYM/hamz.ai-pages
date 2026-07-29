@@ -35,11 +35,11 @@
   "skill_marginal_usd": 0.0113
  },
  "lattice-opus-high": {
-  "n_cold": 17,
-  "avg_cold_usd": 0.5344,
-  "n_loaded": 17,
-  "avg_loaded_usd": 0.5928,
-  "skill_marginal_usd": 0.0585
+  "n_cold": 51,
+  "avg_cold_usd": 0.5176,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.574,
+  "skill_marginal_usd": 0.0564
  },
  "lattice-opus-low": {
   "n_cold": 51,
@@ -56,25 +56,25 @@
   "skill_marginal_usd": 0.1164
  },
  "lattice-opus-medium": {
-  "n_cold": 17,
-  "avg_cold_usd": 0.6608,
-  "n_loaded": 17,
-  "avg_loaded_usd": 0.6986,
-  "skill_marginal_usd": 0.0378
+  "n_cold": 51,
+  "avg_cold_usd": 0.5237,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.5772,
+  "skill_marginal_usd": 0.0535
  },
  "lattice-opus-xhigh": {
-  "n_cold": 17,
-  "avg_cold_usd": 0.7176,
-  "n_loaded": 17,
-  "avg_loaded_usd": 0.7489,
-  "skill_marginal_usd": 0.0313
+  "n_cold": 51,
+  "avg_cold_usd": 0.7253,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.761,
+  "skill_marginal_usd": 0.0357
  },
  "lattice-sonnet-high": {
-  "n_cold": 17,
-  "avg_cold_usd": 0.4904,
-  "n_loaded": 17,
-  "avg_loaded_usd": 0.6242,
-  "skill_marginal_usd": 0.1337
+  "n_cold": 51,
+  "avg_cold_usd": 0.4786,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.5802,
+  "skill_marginal_usd": 0.1016
  },
  "lattice-sonnet-low": {
   "n_cold": 51,
@@ -86,23 +86,23 @@
  "lattice-sonnet-max": {
   "n_cold": 51,
   "avg_cold_usd": 1.2029,
-  "n_loaded": 50,
-  "avg_loaded_usd": 1.1844,
-  "skill_marginal_usd": -0.0185
+  "n_loaded": 51,
+  "avg_loaded_usd": 1.218,
+  "skill_marginal_usd": 0.0151
  },
  "lattice-sonnet-medium": {
-  "n_cold": 17,
-  "avg_cold_usd": 0.3912,
-  "n_loaded": 17,
-  "avg_loaded_usd": 0.4331,
-  "skill_marginal_usd": 0.0419
+  "n_cold": 51,
+  "avg_cold_usd": 0.4114,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.4322,
+  "skill_marginal_usd": 0.0208
  },
  "lattice-sonnet-xhigh": {
-  "n_cold": 17,
-  "avg_cold_usd": 0.8094,
-  "n_loaded": 17,
-  "avg_loaded_usd": 0.7999,
-  "skill_marginal_usd": -0.0095
+  "n_cold": 51,
+  "avg_cold_usd": 0.6663,
+  "n_loaded": 51,
+  "avg_loaded_usd": 0.7343,
+  "skill_marginal_usd": 0.0679
  },
  "lattice-fable-max": {
   "n_cold": 48,
