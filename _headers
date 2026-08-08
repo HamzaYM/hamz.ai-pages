@@ -1,0 +1,12 @@
+# Cloudflare Pages headers.
+
+# The board is gated by Cloudflare Access, which already keeps crawlers out - they never
+# get past the login. These headers are the second layer, for the case where Access is
+# ever misconfigured, disabled, or bypassed: even then, a crawler that reaches the page is
+# told not to index it, not to follow out of it, and not to keep a cached copy.
+# noarchive matters most here. Without it a search engine can serve a cached snapshot of
+# the page long after the page itself is locked down again.
+/to-do-items/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+  Cache-Control: private, no-store, max-age=0, must-revalidate
+  Referrer-Policy: no-referrer

@@ -3,5 +3,6 @@
 
 User-agent: *
 Allow: /
+Disallow: /to-do-items/
 
 Sitemap: https://www.hamz.ai/sitemap.xml
