@@ -1,5 +1,12 @@
 # hamz.ai
 # LLM-readable site summary: https://www.hamz.ai/llms.txt
+#
+# NOTE: this file is NOT what serves at https://www.hamz.ai/robots.txt. That route is
+# owned by Framer (confirmed by its ssg-status / route=robots.txt response headers), which
+# serves the root of the domain; this repo only serves the sub-paths Pages handles, such as
+# /lab/ and /to-do-items/. Editing this file does not change the live robots.txt - that has
+# to be done in Framer's site settings. Kept in sync anyway so the two do not contradict
+# each other if the routing ever changes.
 
 User-agent: *
 Allow: /
